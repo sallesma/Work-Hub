@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
+	<classpathentry kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="gen"/>
+	<classpathentry kind="lib" path="lib/jade.jar" sourcepath="lib/JADE-src-4.3.0.zip">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:platform:/resource/WORK_HUB/lib/JADE-doc-4.3.0.zip!/jade"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/Work-Hub-MainLib/bin" sourcepath="/Work-Hub-MainLib/src"/>
+	<classpathentry kind="output" path="bin/classes"/>
+</classpath>

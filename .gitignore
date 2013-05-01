@@ -3,33 +3,27 @@
 #################
 
 *.pydevproject
-Work-Hub-MainLib/.project
-Work-Hub-MainLib/.metadata
+
 Work-Hub-MainLib/bin/
 Work-Hub-MainLib/tmp/
 Work-Hub-MainLib/.cproject
 Work-Hub-MainLib/local.properties
-Work-Hub-MainLib/.classpath
 Work-Hub-MainLib/.settings/
 Work-Hub-MainLib/.loadpath
 
-Work-Hub-MT4j/.project
-Work-Hub-MT4j/.metadata
+
 Work-Hub-MT4j/bin/
 Work-Hub-MT4j/tmp/
 Work-Hub-MT4j/.cproject
 Work-Hub-MT4j/local.properties
-Work-Hub-MT4j/.classpath
 Work-Hub-MT4j/.settings/
 Work-Hub-MT4j/.loadpath
 
-Work-Hub-Android/.project
-Work-Hub-Android/.metadata
+
 Work-Hub-Android/bin/
 Work-Hub-Android/tmp/
 Work-Hub-Android/.cproject
 Work-Hub-Android/local.properties
-Work-Hub-Android/.classpath
 Work-Hub-Android/.settings/
 Work-Hub-Android/.loadpath
 
