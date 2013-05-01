@@ -1,11 +1,9 @@
 package sandbox;
 
 import org.mt4j.MTApplication;
-import org.mt4j.components.interfaces.IMTComponent3D;
 import org.mt4j.components.visibleComponents.widgets.MTTextArea;
 import org.mt4j.input.IMTInputEventListener;
 import org.mt4j.input.inputData.AbstractCursorInputEvt;
-import org.mt4j.input.inputData.InputCursor;
 import org.mt4j.input.inputData.MTInputEvent;
 import org.mt4j.sceneManagement.AbstractScene;
 import org.mt4j.util.MTColor;
@@ -29,10 +27,8 @@ public class _TestButton extends AbstractScene {
 
 			@Override
 			public boolean processInputEvent(MTInputEvent inEvt) {
-				if (inEvt instanceof AbstractCursorInputEvt) { // Most input events in MT4j are an instance of AbstractCursorInputEvt (mouse, multi-touch..)
+				if (inEvt instanceof AbstractCursorInputEvt) {
 					AbstractCursorInputEvt cursorInputEvt = (AbstractCursorInputEvt) inEvt;
-					InputCursor cursor = cursorInputEvt.getCursor();
-					IMTComponent3D target = cursorInputEvt.getTargetComponent();
 					switch (cursorInputEvt.getId()) {
 					case AbstractCursorInputEvt.INPUT_DETECTED:
 						m_myButton.setFillColor(MTColor.RED);
