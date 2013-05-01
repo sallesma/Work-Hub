@@ -11,9 +11,9 @@ import org.mt4j.util.math.Vertex;
 
 import processing.core.PApplet;
 
-public abstract class WorkHubAbstractElement extends MTPolygon implements IclickableButton, IGestureEventListener, IMTInputEventListener{
+public abstract class AbstractElementView extends MTPolygon implements IclickableButton, IGestureEventListener, IMTInputEventListener{
 
-	public WorkHubAbstractElement(PApplet pApplet, Vertex[] vertices) {
+	public AbstractElementView(PApplet pApplet, Vertex[] vertices) {
 		super(pApplet, vertices);
 		MTLine ligne = new MTLine(getRenderer(), new Vertex(210, 240), new Vertex(390, 240));
 		ligne.setFillColor(new MTColor(0, 0, 0, 255));

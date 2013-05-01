@@ -2,7 +2,7 @@ package com.workhub.mt4j;
 
 import org.mt4j.MTApplication;
 
-public class WorkHub extends MTApplication {
+public class WorkHubLauncher extends MTApplication {
 	/**
 	 * 
 	 */

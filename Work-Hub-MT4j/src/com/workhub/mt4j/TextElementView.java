@@ -1,7 +1,6 @@
 package com.workhub.mt4j;
 
 import org.mt4j.components.visibleComponents.font.FontManager;
-import org.mt4j.components.visibleComponents.shapes.MTLine;
 import org.mt4j.components.visibleComponents.widgets.MTTextArea;
 import org.mt4j.util.MTColor;
 import org.mt4j.util.math.Vector3D;
@@ -9,13 +8,13 @@ import org.mt4j.util.math.Vertex;
 
 import processing.core.PApplet;
 
-public class WorkHubTextElement extends WorkHubAbstractElement {
+public class TextElementView extends AbstractElementView {
 	private MTTextArea title;
 	private MTTextArea content;
 /*
  * TODO : empêcher que le titre ou le contenu dépasse du post it
  */
-	public WorkHubTextElement(PApplet pApplet, Vertex[] vertices) {
+	public TextElementView(PApplet pApplet, Vertex[] vertices) {
 		super(pApplet, vertices);
 		title = new MTTextArea(pApplet, FontManager.getInstance().createFont(
 				pApplet, "arial.ttf", 20, new MTColor(0, 0, 0, 255),

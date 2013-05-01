@@ -32,7 +32,7 @@ public class WorkHubScene extends AbstractScene {
 		this.getCanvas().addChild(envoyerButton);
 		this.getCanvas().addChild(recevoirButton);
 		
-		WorkHubTextElement textElement = new WorkHubTextElement(getMTApplication(), new Vertex[]{
+		TextElementView textElement = new TextElementView(getMTApplication(), new Vertex[]{
 			new Vertex(200, 200),
 			new Vertex(200, 400),
 			new Vertex(400, 400),
