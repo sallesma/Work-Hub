@@ -45,19 +45,16 @@ public class WorkHubButton extends MTRoundRectangle implements IclickableButton,
 	@Override
 	public void fireActionPerformed(TapEvent ce) {
 		// TODO Auto-generated method stub
-		System.out.println("pou");
 	}
 
 	@Override
 	public void setSelected(boolean selected) {
 		// TODO Auto-generated method stub
-		System.out.println("pou");
 	}
 
 	@Override
 	public boolean isSelected() {
 		// TODO Auto-generated method stub
-		System.out.println("pou");
 		return false;
 	}
 	

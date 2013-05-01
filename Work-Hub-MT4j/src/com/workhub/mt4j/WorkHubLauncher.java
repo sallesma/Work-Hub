@@ -9,7 +9,6 @@ public class WorkHubLauncher extends MTApplication {
 	private static final long serialVersionUID = -3337824151386218881L;
 
 	public static void main(String[] args) {
-		System.out.println("pouet");
 		initialize();
 	}
  

@@ -9,23 +9,10 @@ import org.mt4j.util.math.Vertex;
 import processing.core.PApplet;
 
 public class TextElementView extends AbstractElementView {
-	private MTTextArea title;
 	private MTTextArea content;
-/*
- * TODO : empêcher que le titre ou le contenu dépasse du post it
- */
+
 	public TextElementView(PApplet pApplet, Vertex[] vertices) {
-		super(pApplet, vertices);
-		title = new MTTextArea(pApplet, FontManager.getInstance().createFont(
-				pApplet, "arial.ttf", 20, new MTColor(0, 0, 0, 255),
-				new MTColor(0, 0, 0, 255)));
-		title.setNoFill(true);
-		title.setText("Mon titre");
-		title.setPickable(false);
-		title.setNoStroke(true);
-		title.setPositionRelativeToParent(new Vector3D(250, 220));
-		addChild(title);
-		
+		super(pApplet, vertices);		
 		content = new MTTextArea(pApplet, FontManager.getInstance().createFont(
 				pApplet, "arial.ttf", 18, new MTColor(50, 50, 50, 255),
 				new MTColor(0, 0, 0, 255)));
@@ -35,16 +22,6 @@ public class TextElementView extends AbstractElementView {
 		content.setNoStroke(true);
 		content.setPositionRelativeToParent(new Vector3D(300, 260));
 		addChild(content);
-
-		setFillColor(new MTColor(250, 230, 100, 255));
-	}
-
-	public MTTextArea getTitle() {
-		return title;
-	}
-
-	public void setTitle(MTTextArea title) {
-		this.title = title;
 	}
 
 	public MTTextArea getContent() {

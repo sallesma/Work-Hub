@@ -38,8 +38,23 @@ public class WorkHubScene extends AbstractScene {
 			new Vertex(400, 400),
 			new Vertex(400, 200)
 		});
-		textElement.setPositionGlobal(new Vector3D(200, 200));
 		this.getCanvas().addChild(textElement);
+		LinkElementView linkElement = new LinkElementView(getMTApplication(), new Vertex[]{
+			new Vertex(200, 200),
+			new Vertex(200, 400),
+			new Vertex(400, 400),
+			new Vertex(400, 200)
+		});
+		this.getCanvas().addChild(linkElement);
+		
+		ImageElementView imageElement = new ImageElementView(getMTApplication(), new Vertex[]{
+			new Vertex(200, 200),
+			new Vertex(200, 400),
+			new Vertex(400, 400),
+			new Vertex(400, 200)
+		});
+		this.getCanvas().addChild(imageElement);
+
 	}
 
 	@Override
