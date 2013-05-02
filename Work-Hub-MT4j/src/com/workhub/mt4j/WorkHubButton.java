@@ -7,8 +7,6 @@ import org.mt4j.components.visibleComponents.font.FontManager;
 import org.mt4j.components.visibleComponents.shapes.MTRoundRectangle;
 import org.mt4j.components.visibleComponents.widgets.MTTextArea;
 import org.mt4j.input.IMTInputEventListener;
-import org.mt4j.input.inputData.AbstractCursorInputEvt;
-import org.mt4j.input.inputData.MTInputEvent;
 import org.mt4j.input.inputProcessors.IGestureEventListener;
 import org.mt4j.input.inputProcessors.componentProcessors.tapProcessor.TapEvent;
 import org.mt4j.util.MTColor;
@@ -31,57 +29,11 @@ public class WorkHubButton extends MTRoundRectangle implements IclickableButton,
 						new MTColor(255, 255, 255, 255),
 						new MTColor(255, 255, 255, 255)));
 		buttonText.setNoFill(true);
+		buttonText.setPickable(false);
 		buttonText.setText(texte);
 		buttonText.setNoStroke(true);
 		buttonText.setPositionRelativeToParent(new Vector3D(70, this.getHeightXY(TransformSpace.LOCAL)-20));
 		addChild(buttonText);
-		
-		// Empêche le bouton d'être déplacé
-		unregisterAllInputProcessors();
-		removeAllGestureEventListeners();
-		buttonText.unregisterAllInputProcessors();
-		buttonText.removeAllGestureEventListeners();
-
-		addInputListener(new IMTInputEventListener() {
-			@Override
-			public boolean processInputEvent(MTInputEvent inEvt) {
-				System.out.println("pouet");
-				if (inEvt instanceof AbstractCursorInputEvt) {
-					AbstractCursorInputEvt cursorInputEvt = (AbstractCursorInputEvt) inEvt;
-					switch (cursorInputEvt.getId()) {
-					case AbstractCursorInputEvt.INPUT_DETECTED:
-						buttonText.setFillColor(MTColor.RED);
-						break;
-					case AbstractCursorInputEvt.INPUT_ENDED:
-						buttonText.setFillColor(new MTColor(247, 179, 53, 255));
-						break;
-					default:
-						break;
-					}
-				}
-				return false;
-			}
-		});
-		buttonText.addInputListener(new IMTInputEventListener() {
-			@Override
-			public boolean processInputEvent(MTInputEvent inEvt) {
-				System.out.println("pouet");
-				if (inEvt instanceof AbstractCursorInputEvt) {
-					AbstractCursorInputEvt cursorInputEvt = (AbstractCursorInputEvt) inEvt;
-					switch (cursorInputEvt.getId()) {
-					case AbstractCursorInputEvt.INPUT_DETECTED:
-						buttonText.setFillColor(MTColor.RED);
-						break;
-					case AbstractCursorInputEvt.INPUT_ENDED:
-						buttonText.setFillColor(new MTColor(247, 179, 53, 255));
-						break;
-					default:
-						break;
-					}
-				}
-				return false;
-			}
-		});
 		
 		setFillColor(new MTColor(150, 150, 100, 255));
 		setNoStroke(true);

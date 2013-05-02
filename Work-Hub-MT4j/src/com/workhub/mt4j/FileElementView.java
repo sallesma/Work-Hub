@@ -2,19 +2,19 @@ package com.workhub.mt4j;
 
 import org.mt4j.components.visibleComponents.widgets.MTImage;
 import org.mt4j.util.math.Vector3D;
-import org.mt4j.util.math.Vertex;
 
 import processing.core.PApplet;
 
 public class FileElementView extends AbstractElementView {
+
 	private MTImage content;
 /*
  * TODO : Mettre le bon icone
  */
-
-	public FileElementView(PApplet pApplet, Vertex[] vertices) {
-		super(pApplet, vertices);
-		content = new MTImage(pApplet.loadImage("Image/iconeDefault.jpg"), pApplet);
+	public FileElementView(float x, float y, float z, float width,
+			float height, PApplet applet) {
+		super(x, y, z, width, height, applet);
+		content = new MTImage(applet.loadImage("Image/iconeDefault.jpg"), applet);
 		content.setName("Default Picture");
 		content.setNoFill(true);
 		content.setPickable(false);

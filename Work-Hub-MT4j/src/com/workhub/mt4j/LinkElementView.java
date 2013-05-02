@@ -4,17 +4,17 @@ import org.mt4j.components.visibleComponents.font.FontManager;
 import org.mt4j.components.visibleComponents.widgets.MTTextArea;
 import org.mt4j.util.MTColor;
 import org.mt4j.util.math.Vector3D;
-import org.mt4j.util.math.Vertex;
 
 import processing.core.PApplet;
 
 public class LinkElementView extends AbstractElementView{
 	private MTTextArea content;
 
-	public LinkElementView(PApplet pApplet, Vertex[] vertices) {
-		super(pApplet, vertices);
-		content = new MTTextArea(pApplet, FontManager.getInstance().createFont(
-				pApplet, "arial.ttf", 18, new MTColor(50, 50, 50, 255),
+	public LinkElementView(float x, float y, float z, float width,
+			float height, PApplet applet) {
+		super(x, y, z, width, height, applet);
+		content = new MTTextArea(applet, FontManager.getInstance().createFont(
+				applet, "arial.ttf", 18, new MTColor(50, 50, 50, 255),
 				new MTColor(0, 0, 0, 255)));
 		content.setNoFill(true);
 		content.setText("Inscrivez votre lien ici");
@@ -23,6 +23,7 @@ public class LinkElementView extends AbstractElementView{
 		content.setPositionRelativeToParent(new Vector3D(300, 260));
 		addChild(content);
 	}
+
 
 	public MTTextArea getContent() {
 		return content;

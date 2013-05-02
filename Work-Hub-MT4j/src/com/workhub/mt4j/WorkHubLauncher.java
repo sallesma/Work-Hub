@@ -14,6 +14,10 @@ public class WorkHubLauncher extends MTApplication {
  
 	@Override
 	public void startUp() {
-		addScene(new WorkHubScene(this, "WorkHub"));
+		try {
+			addScene(new WorkHubScene(this, "WorkHub"));
+		} catch (WorkHubException e) {
+			e.printStackTrace();
+		}
 	}
 }
