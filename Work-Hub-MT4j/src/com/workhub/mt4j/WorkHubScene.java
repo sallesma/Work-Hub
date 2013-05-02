@@ -2,9 +2,6 @@ package com.workhub.mt4j;
 
 import org.mt4j.MTApplication;
 import org.mt4j.components.TransformSpace;
-import org.mt4j.input.IMTInputEventListener;
-import org.mt4j.input.inputData.AbstractCursorInputEvt;
-import org.mt4j.input.inputData.MTInputEvent;
 import org.mt4j.input.inputProcessors.globalProcessors.CursorTracer;
 import org.mt4j.sceneManagement.AbstractScene;
 import org.mt4j.util.MTColor;
@@ -16,10 +13,10 @@ public class WorkHubScene extends AbstractScene {
 	private WorkHubButton recevoirButton = new WorkHubButton("Recevoir", 0, 0, 0, 200, 260, 30, 50, 1000, getMTApplication());
 	private WorkHubButton supprimerButton = new WorkHubButton("Supprimer", 0, 0, 0, 260, 200, 30, 50, 1000, getMTApplication());
 
-	public static final int TEXT_ELEMENT = 0;
-	public static final int LINK_ELEMENT = 1;
-	public static final int IMAGE_ELEMENT = 2;
-	public static final int FILE_ELEMENT = 3;
+	public static final int TEXT_ELEMENT 	= 0;
+	public static final int LINK_ELEMENT 	= 1;
+	public static final int IMAGE_ELEMENT 	= 2;
+	public static final int FILE_ELEMENT 	= 3;
 	
 	public WorkHubScene(MTApplication mtApplication, String name) throws WorkHubException{
 		super(mtApplication, name);
@@ -39,36 +36,34 @@ public class WorkHubScene extends AbstractScene {
 		this.getCanvas().addChild(envoyerButton);
 		this.getCanvas().addChild(recevoirButton);
 		
-		// Empêche le bouton d'être déplacé
-		supprimerButton.unregisterAllInputProcessors();
-		supprimerButton.removeAllGestureEventListeners();
-
-		supprimerButton.addInputListener(new IMTInputEventListener() {
-			@Override
-			public boolean processInputEvent(MTInputEvent inEvt) {
-				System.out.println("pouet");
-				if (inEvt instanceof AbstractCursorInputEvt) {
-					AbstractCursorInputEvt cursorInputEvt = (AbstractCursorInputEvt) inEvt;
-					switch (cursorInputEvt.getId()) {
-					case AbstractCursorInputEvt.INPUT_DETECTED:
-//						buttonText.setFillColor(MTColor.RED);
-						break;
-					case AbstractCursorInputEvt.INPUT_ENDED:
-//						buttonText.setFillColor(new MTColor(247, 179, 53, 255));
-						break;
-					case AbstractCursorInputEvt.INPUT_UPDATED:
-						System.out.println("pouet");
-//						buttonText.setFillColor(new MTColor(247, 179, 53, 255));
-						break;
-					default:
-						break;
-					}
-				}
-				return false;
-			}
-		});
-		
-		
+//		// Empêche le bouton d'être déplacé
+//		supprimerButton.unregisterAllInputProcessors();
+//		supprimerButton.removeAllGestureEventListeners();
+//
+//		supprimerButton.addInputListener(new IMTInputEventListener() {
+//			@Override
+//			public boolean processInputEvent(MTInputEvent inEvt) {
+//				System.out.println("pouet");
+//				if (inEvt instanceof AbstractCursorInputEvt) {
+//					AbstractCursorInputEvt cursorInputEvt = (AbstractCursorInputEvt) inEvt;
+//					switch (cursorInputEvt.getId()) {
+//					case AbstractCursorInputEvt.INPUT_DETECTED:
+////						buttonText.setFillColor(MTColor.RED);
+//						break;
+//					case AbstractCursorInputEvt.INPUT_ENDED:
+////						buttonText.setFillColor(new MTColor(247, 179, 53, 255));
+//						break;
+//					case AbstractCursorInputEvt.INPUT_UPDATED:
+//						System.out.println("pouet");
+////						buttonText.setFillColor(new MTColor(247, 179, 53, 255));
+//						break;
+//					default:
+//						break;
+//					}
+//				}
+//				return false;
+//			}
+//		});
 		
 		addElementView(TEXT_ELEMENT);
 		addElementView(IMAGE_ELEMENT);
@@ -78,12 +73,10 @@ public class WorkHubScene extends AbstractScene {
 
 	@Override
 	public void init() {
-		
 	}
 
 	@Override
 	public void shutDown() {
-		
 	}
 
 	public AbstractElementView addElementView(Integer elementId)

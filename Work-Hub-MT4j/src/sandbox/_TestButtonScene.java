@@ -43,7 +43,6 @@ public class _TestButtonScene extends AbstractScene {
 				return false;
 			}
 		});
-
 		getCanvas().addChild(m_myButton);
 	}
 
