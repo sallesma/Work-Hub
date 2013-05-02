@@ -37,7 +37,6 @@ public class WorkHubButton extends MTRoundRectangle implements IclickableButton,
 		buttonText.setPositionRelativeToParent(new Vector3D(70, this.getHeightXY(TransformSpace.LOCAL)-20));
 		addChild(buttonText);
 		
-		
 		setTextPosition(new Vector3D(70, this.getHeightXY(TransformSpace.LOCAL)-20));
 		setPositionGlobal(new Vector3D(mtApplication.getWidth(), -60));
 		setFillColor(new MTColor(150, 150, 100, 255));

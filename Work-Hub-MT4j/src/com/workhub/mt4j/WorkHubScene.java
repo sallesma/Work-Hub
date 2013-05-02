@@ -8,10 +8,10 @@ import org.mt4j.util.MTColor;
 import org.mt4j.util.math.Vector3D;
 
 public class WorkHubScene extends AbstractScene {
-	private WorkHubButton menuButton = new WorkHubButton("Menu", 0, 0, 0, 260, 200, 30, 50, 1000, getMTApplication());
-	private WorkHubButton envoyerButton = new WorkHubButton("Envoyer", 0, 0, 0, 200, 260, 30, 50, 1000, getMTApplication());
-	private WorkHubButton recevoirButton = new WorkHubButton("Recevoir", 0, 0, 0, 200, 260, 30, 50, 1000, getMTApplication());
-	private WorkHubButton supprimerButton = new WorkHubButton("Supprimer", 0, 0, 0, 260, 200, 30, 50, 1000, getMTApplication());
+	private WorkHubButton menuButton = new WorkHubButton("Menu", 0, 0, 0, 260, 260, 130, 130, 1000, getMTApplication());
+	private WorkHubButton envoyerButton = new WorkHubButton("Envoyer", 0, 0, 0, 260, 260, 130, 130, 1000, getMTApplication());
+	private WorkHubButton recevoirButton = new WorkHubButton("Recevoir", 0, 0, 0, 260, 260, 130, 130, 1000, getMTApplication());
+	private WorkHubButton supprimerButton = new WorkHubButton("Supprimer", 0, 0, 0, 260, 260, 130, 130, 1000, getMTApplication());
 
 	public static final int TEXT_ELEMENT 	= 0;
 	public static final int LINK_ELEMENT 	= 1;
@@ -23,47 +23,19 @@ public class WorkHubScene extends AbstractScene {
 		this.setClearColor(new MTColor(146, 150, 188, 255));
 		this.registerGlobalInputProcessor(new CursorTracer(mtApplication, this));
 
-		menuButton.setTextPosition(new Vector3D(menuButton.getHeightXY(TransformSpace.LOCAL)-20, menuButton.getHeightXY(TransformSpace.LOCAL)-20));
-		menuButton.setPositionGlobal(new Vector3D(-10, -60));
-		envoyerButton.setTextPosition(new Vector3D(60, 20));
-		envoyerButton.setPositionGlobal(new Vector3D(mtApplication.getWidth(), mtApplication.getHeight()+60));
-		recevoirButton.setTextPosition(new Vector3D(recevoirButton.getHeightXY(TransformSpace.LOCAL)-110, 20));
-		recevoirButton.setPositionGlobal(new Vector3D(0, mtApplication.getHeight()+60));
-		supprimerButton.setTextPosition(new Vector3D(70, supprimerButton.getHeightXY(TransformSpace.LOCAL)-20));
-		supprimerButton.setPositionGlobal(new Vector3D(mtApplication.getWidth(), -60));
+		
+		menuButton.setTextPosition(new Vector3D(menuButton.getHeightXY(TransformSpace.LOCAL)-70, menuButton.getHeightXY(TransformSpace.LOCAL)-80));
+		menuButton.setPositionGlobal(new Vector3D(-20, -20));
+		envoyerButton.setTextPosition(new Vector3D(80, 70));
+		envoyerButton.setPositionGlobal(new Vector3D(mtApplication.getWidth(), mtApplication.getHeight()-20));
+		recevoirButton.setTextPosition(new Vector3D(recevoirButton.getHeightXY(TransformSpace.LOCAL)-70, 70));
+		recevoirButton.setPositionGlobal(new Vector3D(0, mtApplication.getHeight()-20));
+		supprimerButton.setTextPosition(new Vector3D(90, supprimerButton.getHeightXY(TransformSpace.LOCAL)-80));
+		supprimerButton.setPositionGlobal(new Vector3D(mtApplication.getWidth()-20, -20));
 		this.getCanvas().addChild(menuButton);
 		this.getCanvas().addChild(supprimerButton);
 		this.getCanvas().addChild(envoyerButton);
 		this.getCanvas().addChild(recevoirButton);
-		
-//		// Empêche le bouton d'être déplacé
-//		supprimerButton.unregisterAllInputProcessors();
-//		supprimerButton.removeAllGestureEventListeners();
-//
-//		supprimerButton.addInputListener(new IMTInputEventListener() {
-//			@Override
-//			public boolean processInputEvent(MTInputEvent inEvt) {
-//				System.out.println("pouet");
-//				if (inEvt instanceof AbstractCursorInputEvt) {
-//					AbstractCursorInputEvt cursorInputEvt = (AbstractCursorInputEvt) inEvt;
-//					switch (cursorInputEvt.getId()) {
-//					case AbstractCursorInputEvt.INPUT_DETECTED:
-////						buttonText.setFillColor(MTColor.RED);
-//						break;
-//					case AbstractCursorInputEvt.INPUT_ENDED:
-////						buttonText.setFillColor(new MTColor(247, 179, 53, 255));
-//						break;
-//					case AbstractCursorInputEvt.INPUT_UPDATED:
-//						System.out.println("pouet");
-////						buttonText.setFillColor(new MTColor(247, 179, 53, 255));
-//						break;
-//					default:
-//						break;
-//					}
-//				}
-//				return false;
-//			}
-//		});
 		
 		addElementView(TEXT_ELEMENT);
 		addElementView(IMAGE_ELEMENT);
