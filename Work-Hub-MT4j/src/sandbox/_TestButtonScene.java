@@ -8,10 +8,10 @@ import org.mt4j.input.inputData.MTInputEvent;
 import org.mt4j.sceneManagement.AbstractScene;
 import org.mt4j.util.MTColor;
 
-public class _TestButton extends AbstractScene {
+public class _TestButtonScene extends AbstractScene {
 	private MTTextArea m_myButton;
 
-	public _TestButton(MTApplication app, String name) {
+	public _TestButtonScene(MTApplication app, String name) {
 		super(app, name);
 
 		this.setClearColor(new MTColor(213, 187, 255, 255));
@@ -44,7 +44,6 @@ public class _TestButton extends AbstractScene {
 			}
 		});
 
-		m_myButton.setVisible(true);
 		getCanvas().addChild(m_myButton);
 	}
 

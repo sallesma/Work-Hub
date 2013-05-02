@@ -7,6 +7,8 @@ import org.mt4j.components.visibleComponents.font.FontManager;
 import org.mt4j.components.visibleComponents.shapes.MTRoundRectangle;
 import org.mt4j.components.visibleComponents.widgets.MTTextArea;
 import org.mt4j.input.IMTInputEventListener;
+import org.mt4j.input.inputData.AbstractCursorInputEvt;
+import org.mt4j.input.inputData.MTInputEvent;
 import org.mt4j.input.inputProcessors.IGestureEventListener;
 import org.mt4j.input.inputProcessors.componentProcessors.tapProcessor.TapEvent;
 import org.mt4j.util.MTColor;
@@ -16,14 +18,12 @@ import processing.core.PApplet;
 
 public class WorkHubButton extends MTRoundRectangle implements IclickableButton, IGestureEventListener, IMTInputEventListener {
 	private MTApplication mtApplication;
-	private String text = "";
 	private MTTextArea buttonText;
 
 	public WorkHubButton(String texte, float x, float y, float z, float width,
 			float height, float arcWidth, float arcHeight, int segments,
 			PApplet pApplet) {
 		super(x, y, z, width, height, arcWidth, arcHeight, segments, pApplet);
-		text = texte;
 		mtApplication = (MTApplication) pApplet;
 		
 		buttonText = new MTTextArea(getMtApplication(), FontManager
@@ -32,12 +32,57 @@ public class WorkHubButton extends MTRoundRectangle implements IclickableButton,
 						new MTColor(255, 255, 255, 255)));
 		buttonText.setNoFill(true);
 		buttonText.setText(texte);
-		buttonText.setPickable(false);
 		buttonText.setNoStroke(true);
 		buttonText.setPositionRelativeToParent(new Vector3D(70, this.getHeightXY(TransformSpace.LOCAL)-20));
 		addChild(buttonText);
 		
-//		setPickable(false);
+		// Empêche le bouton d'être déplacé
+		unregisterAllInputProcessors();
+		removeAllGestureEventListeners();
+		buttonText.unregisterAllInputProcessors();
+		buttonText.removeAllGestureEventListeners();
+
+		addInputListener(new IMTInputEventListener() {
+			@Override
+			public boolean processInputEvent(MTInputEvent inEvt) {
+				System.out.println("pouet");
+				if (inEvt instanceof AbstractCursorInputEvt) {
+					AbstractCursorInputEvt cursorInputEvt = (AbstractCursorInputEvt) inEvt;
+					switch (cursorInputEvt.getId()) {
+					case AbstractCursorInputEvt.INPUT_DETECTED:
+						buttonText.setFillColor(MTColor.RED);
+						break;
+					case AbstractCursorInputEvt.INPUT_ENDED:
+						buttonText.setFillColor(new MTColor(247, 179, 53, 255));
+						break;
+					default:
+						break;
+					}
+				}
+				return false;
+			}
+		});
+		buttonText.addInputListener(new IMTInputEventListener() {
+			@Override
+			public boolean processInputEvent(MTInputEvent inEvt) {
+				System.out.println("pouet");
+				if (inEvt instanceof AbstractCursorInputEvt) {
+					AbstractCursorInputEvt cursorInputEvt = (AbstractCursorInputEvt) inEvt;
+					switch (cursorInputEvt.getId()) {
+					case AbstractCursorInputEvt.INPUT_DETECTED:
+						buttonText.setFillColor(MTColor.RED);
+						break;
+					case AbstractCursorInputEvt.INPUT_ENDED:
+						buttonText.setFillColor(new MTColor(247, 179, 53, 255));
+						break;
+					default:
+						break;
+					}
+				}
+				return false;
+			}
+		});
+		
 		setFillColor(new MTColor(150, 150, 100, 255));
 		setNoStroke(true);
 	}
@@ -60,16 +105,6 @@ public class WorkHubButton extends MTRoundRectangle implements IclickableButton,
 	
 	public void setTextPosition (Vector3D position) {
 		buttonText.setPositionRelativeToParent(position);
-	}
-
-	
-	
-	public String getText() {
-		return text;
-	}
-	
-	public void setText(String text) {
-		this.text = text;
 	}
 
 	public MTApplication getMtApplication() {

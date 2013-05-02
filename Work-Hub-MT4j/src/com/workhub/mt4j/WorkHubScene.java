@@ -14,6 +14,11 @@ public class WorkHubScene extends AbstractScene {
 	private WorkHubButton recevoirButton = new WorkHubButton("Recevoir", 0, 0, 0, 200, 260, 30, 50, 1000, getMTApplication());
 	private WorkHubButton supprimerButton = new WorkHubButton("Supprimer", 0, 0, 0, 260, 200, 30, 50, 1000, getMTApplication());
 	
+	public static final int TEXT_ELEMENT = 0;
+	public static final int LINK_ELEMENT = 1;
+	public static final int IMAGE_ELEMENT = 2;
+	public static final int FILE_ELEMENT = 3;
+	
 	public WorkHubScene(MTApplication mtApplication, String name) {
 		super(mtApplication, name);
 		this.setClearColor(new MTColor(146, 150, 188, 255));
@@ -32,29 +37,7 @@ public class WorkHubScene extends AbstractScene {
 		this.getCanvas().addChild(envoyerButton);
 		this.getCanvas().addChild(recevoirButton);
 		
-		TextElementView textElement = new TextElementView(getMTApplication(), new Vertex[]{
-			new Vertex(200, 200),
-			new Vertex(200, 400),
-			new Vertex(400, 400),
-			new Vertex(400, 200)
-		});
-		this.getCanvas().addChild(textElement);
-//		LinkElementView linkElement = new LinkElementView(getMTApplication(), new Vertex[]{
-//			new Vertex(200, 200),
-//			new Vertex(200, 400),
-//			new Vertex(400, 400),
-//			new Vertex(400, 200)
-//		});
-//		this.getCanvas().addChild(linkElement);
-//		
-//		ImageElementView imageElement = new ImageElementView(getMTApplication(), new Vertex[]{
-//			new Vertex(200, 200),
-//			new Vertex(200, 400),
-//			new Vertex(400, 400),
-//			new Vertex(400, 200)
-//		});
-//		this.getCanvas().addChild(imageElement);
-
+		addElementView(IMAGE_ELEMENT);
 	}
 
 	@Override
@@ -67,4 +50,49 @@ public class WorkHubScene extends AbstractScene {
 		
 	}
 
+	public AbstractElementView addElementView(Integer elementId){
+		switch (elementId) {
+		case TEXT_ELEMENT:
+			TextElementView textElement = new TextElementView(getMTApplication(), new Vertex[]{
+				new Vertex(200, 200),
+				new Vertex(200, 400),
+				new Vertex(400, 400),
+				new Vertex(400, 200)
+			});
+			this.getCanvas().addChild(textElement);
+			break;
+		case LINK_ELEMENT:
+			LinkElementView linkElement = new LinkElementView(getMTApplication(), new Vertex[]{
+				new Vertex(200, 200),
+				new Vertex(200, 400),
+				new Vertex(400, 400),
+				new Vertex(400, 200)
+			});
+			this.getCanvas().addChild(linkElement);
+			break;
+		case IMAGE_ELEMENT:
+			ImageElementView imageElement = new ImageElementView(getMTApplication(), new Vertex[]{
+				new Vertex(200, 200),
+				new Vertex(200, 400),
+				new Vertex(400, 400),
+				new Vertex(400, 200)
+			});
+			this.getCanvas().addChild(imageElement);
+			break;
+		case FILE_ELEMENT:
+			FileElementView fileElement = new FileElementView(getMTApplication(), new Vertex[]{
+				new Vertex(200, 200),
+				new Vertex(200, 400),
+				new Vertex(400, 400),
+				new Vertex(400, 200)
+			});
+			this.getCanvas().addChild(fileElement);
+			break;
+		default:
+			System.out.println("ID invalide");
+			break;
+		}
+		return null;
+		
+	}
 }

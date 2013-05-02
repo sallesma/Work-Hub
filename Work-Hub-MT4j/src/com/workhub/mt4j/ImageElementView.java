@@ -14,6 +14,7 @@ public class ImageElementView extends AbstractElementView {
 
 	public ImageElementView(PApplet pApplet, Vertex[] vertices) {
 		super(pApplet, vertices);
+		
 		content = new MTImage(pApplet.loadImage("Image/defaultImage.jpg"), pApplet);
 		content.setName("Default Picture");
 		content.setNoFill(true);
