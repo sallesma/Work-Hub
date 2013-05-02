@@ -1,7 +1,6 @@
 package com.workhub.mt4j;
 
 import org.mt4j.MTApplication;
-import org.mt4j.components.TransformSpace;
 import org.mt4j.components.interfaces.IclickableButton;
 import org.mt4j.components.visibleComponents.font.FontManager;
 import org.mt4j.components.visibleComponents.shapes.MTRoundRectangle;
@@ -34,11 +33,8 @@ public class WorkHubButton extends MTRoundRectangle implements IclickableButton,
 		buttonText.setPickable(false);
 		buttonText.setText(texte);
 		buttonText.setNoStroke(true);
-		buttonText.setPositionRelativeToParent(new Vector3D(70, this.getHeightXY(TransformSpace.LOCAL)-20));
 		addChild(buttonText);
 		
-		setTextPosition(new Vector3D(70, this.getHeightXY(TransformSpace.LOCAL)-20));
-		setPositionGlobal(new Vector3D(mtApplication.getWidth(), -60));
 		setFillColor(new MTColor(150, 150, 100, 255));
 		setNoStroke(true);
 		// Empêche le bouton d'être déplacé
