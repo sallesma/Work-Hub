@@ -11,4 +11,9 @@ public class ClientAgent extends Agent{
 	private ArrayList<ElementModel> ElementAgents;
 
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7558931526629274049L;
+
 }
