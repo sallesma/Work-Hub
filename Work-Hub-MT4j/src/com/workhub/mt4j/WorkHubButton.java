@@ -12,18 +12,20 @@ import org.mt4j.input.inputProcessors.IGestureEventListener;
 import org.mt4j.input.inputProcessors.componentProcessors.tapProcessor.TapEvent;
 import org.mt4j.util.MTColor;
 import org.mt4j.util.math.Vector3D;
-
-import processing.core.PApplet;
-
+/**
+ * This class represents the buttons displayed in the corners
+ * We use a MTRoundRectangle which has its width = height and arcHeight = arcWidth = width /2
+ * This is necessary in order to have a round button
+ *
+ */
 public class WorkHubButton extends MTRoundRectangle implements IclickableButton, IGestureEventListener, IMTInputEventListener {
 	private MTApplication mtApplication;
 	private MTTextArea buttonText;
 
-	public WorkHubButton(String texte, float x, float y, float z, float width,
-			float height, float arcWidth, float arcHeight, int segments,
-			PApplet pApplet) {
-		super(x, y, z, width, height, arcWidth, arcHeight, segments, pApplet);
-		mtApplication = (MTApplication) pApplet;
+	public WorkHubButton(String texte, int corner, float z, int rayon, int segments,
+			MTApplication mtApplication) {
+		super(getXPositionFromCorner(corner, mtApplication, rayon), getYPositionFromCorner(corner, mtApplication, rayon), z, rayon*2, rayon*2, rayon, rayon, segments, mtApplication);
+		this.mtApplication = mtApplication;
 		
 		buttonText = new MTTextArea(getMtApplication(), FontManager
 				.getInstance().createFont(getMtApplication(), "arial.ttf", 20,
@@ -43,7 +45,7 @@ public class WorkHubButton extends MTRoundRectangle implements IclickableButton,
 		addInputListener(new IMTInputEventListener() {
 			@Override
 			public boolean processInputEvent(MTInputEvent inEvt) {
-				System.out.println("pouet");
+				System.out.println(buttonText.getText());
 				if (inEvt instanceof AbstractCursorInputEvt) {
 					AbstractCursorInputEvt cursorInputEvt = (AbstractCursorInputEvt) inEvt;
 					switch (cursorInputEvt.getId()) {
@@ -60,6 +62,15 @@ public class WorkHubButton extends MTRoundRectangle implements IclickableButton,
 				return false;
 			}
 		});
+	}
+
+	public static int getXPositionFromCorner(int corner, MTApplication mtApplication, int rayon) {
+		int x = ((corner & 0x01) == 0) ? -rayon : mtApplication.getWidth()-rayon;
+		return x;
+	}
+	public static int getYPositionFromCorner(int corner, MTApplication mtApplication, int rayon) {
+		int y = ((corner & 0x10) == 0) ? -rayon : mtApplication.getHeight()-rayon;
+		return y;
 	}
 
 	@Override
@@ -81,6 +92,7 @@ public class WorkHubButton extends MTRoundRectangle implements IclickableButton,
 	public void setTextPosition (Vector3D position) {
 		buttonText.setPositionRelativeToParent(position);
 	}
+	
 
 	public MTApplication getMtApplication() {
 		return mtApplication;
