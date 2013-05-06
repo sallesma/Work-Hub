@@ -16,14 +16,10 @@ public class WorkHubScene extends AbstractScene {
 		super(mtApplication, name);
 		this.setClearColor(new MTColor(146, 150, 188, 255));
 		this.registerGlobalInputProcessor(new CursorTracer(mtApplication, this));
-		menuButton = new WorkHubButton("Menu", Constants.CORNER_TOP_LEFT, 0, 130, 1000, getMTApplication());
-		menuButton.setTextPosition(new Vector3D(40, 40));
-		envoyerButton = new WorkHubButton("Envoyer", Constants.CORNER_BOTTOM_RIGHT, 0, 130, 1000, getMTApplication());
-		envoyerButton.setTextPosition(new Vector3D(980,700));
-		recevoirButton = new WorkHubButton("Recevoir", Constants.CORNER_BOTTOM_LEFT, 0, 130, 1000, getMTApplication());
-		recevoirButton.setTextPosition(new Vector3D(50, 700));
-		supprimerButton = new WorkHubButton("Supprimer", Constants.CORNER_TOP_RIGHT, 0, 130, 1000, getMTApplication());
-		supprimerButton.setTextPosition(new Vector3D(980, 40));
+		menuButton = new WorkHubButton("Menu", Constants.CORNER_TOP_LEFT, 130, 1000, 40, 40, getMTApplication());
+		envoyerButton = new WorkHubButton("Envoyer", Constants.CORNER_BOTTOM_RIGHT, 130, 1000, 980, 700, getMTApplication());
+		recevoirButton = new WorkHubButton("Recevoir", Constants.CORNER_BOTTOM_LEFT, 130, 1000, 50, 700, getMTApplication());
+		supprimerButton = new WorkHubButton("Supprimer", Constants.CORNER_TOP_RIGHT, 130, 1000, 980, 40, getMTApplication());
 		supprimerButton.setPositionGlobal(new Vector3D(mtApplication.getWidth()-20, -20));
 		this.getCanvas().addChild(menuButton);
 		this.getCanvas().addChild(supprimerButton);
@@ -56,11 +52,11 @@ public class WorkHubScene extends AbstractScene {
 			this.getCanvas().addChild(linkElement);
 			break;
 		case Constants.ELEMENT_IMAGE:
-			ImageElementView imageElement = new ImageElementView(200, 200, 0,200, 200, getMTApplication());
+			ImageElementView imageElement = new ImageElementView(200, 200, 0, 200, 200, getMTApplication());
 			this.getCanvas().addChild(imageElement);
 			break;
 		case Constants.ELEMENT_FILE:
-			FileElementView fileElement = new FileElementView(200, 200, 0, 200,200, getMTApplication());
+			FileElementView fileElement = new FileElementView(200, 200, 0, 200, 200, getMTApplication());
 			this.getCanvas().addChild(fileElement);
 			break;
 		default:

@@ -14,4 +14,9 @@ public class Constants {
 	public static final int CORNER_TOP_RIGHT	= 0x01;
 	public static final int CORNER_BOTTOM_LEFT	= 0x10;
 	public static final int CORNER_BOTTOM_RIGHT	= 0x11;
+
+	public static final int BUTTON_DEFAULT_Z_POSITION = 0;
+	public static final int ELEMENT_DEFAULT_Z_POSITION = 1;
+	
+	
 }

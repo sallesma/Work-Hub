@@ -14,7 +14,7 @@ import org.mt4j.util.MTColor;
 import org.mt4j.util.math.Vector3D;
 /**
  * This class represents the buttons displayed in the corners
- * We use a MTRoundRectangle which has its width = height and arcHeight = arcWidth = width /2
+ * We use a MTRoundRectangle which has its width = height and arcHeight = arcWidth = width /2 to build a circle
  * This is necessary in order to have a round button
  *
  */
@@ -22,19 +22,22 @@ public class WorkHubButton extends MTRoundRectangle implements IclickableButton,
 	private MTApplication mtApplication;
 	private MTTextArea buttonText;
 
-	public WorkHubButton(String texte, int corner, float z, int rayon, int segments,
-			MTApplication mtApplication) {
-		super(getXPositionFromCorner(corner, mtApplication, rayon), getYPositionFromCorner(corner, mtApplication, rayon), z, rayon*2, rayon*2, rayon, rayon, segments, mtApplication);
+	public WorkHubButton(String text, int corner, int rayon, int segments,
+			int textXPos, int textYPos, MTApplication mtApplication) {
+		super(getXPositionFromCorner(corner, mtApplication, rayon),
+				getYPositionFromCorner(corner, mtApplication, rayon), Constants.BUTTON_DEFAULT_Z_POSITION,
+				rayon * 2, rayon * 2, rayon, rayon, segments, mtApplication);
 		this.mtApplication = mtApplication;
-		
+
 		buttonText = new MTTextArea(getMtApplication(), FontManager
 				.getInstance().createFont(getMtApplication(), "arial.ttf", 20,
 						new MTColor(255, 255, 255, 255),
 						new MTColor(255, 255, 255, 255)));
 		buttonText.setNoFill(true);
 		buttonText.setPickable(false);
-		buttonText.setText(texte);
+		buttonText.setText(text);
 		buttonText.setNoStroke(true);
+		buttonText.setPositionRelativeToParent(new Vector3D(textXPos, textYPos));
 		addChild(buttonText);
 		
 		setFillColor(new MTColor(150, 150, 100, 255));
@@ -88,11 +91,6 @@ public class WorkHubButton extends MTRoundRectangle implements IclickableButton,
 		// TODO Auto-generated method stub
 		return false;
 	}
-	
-	public void setTextPosition (Vector3D position) {
-		buttonText.setPositionRelativeToParent(position);
-	}
-	
 
 	public MTApplication getMtApplication() {
 		return mtApplication;
