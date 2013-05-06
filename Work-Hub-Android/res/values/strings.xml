@@ -1,5 +1,10 @@
 <resources>
 
     <string name="app_name">Work Hub</string>
-
+	<string name="supprimer">Supprimer</string>
+	<string name="masquer">Masquer</string>
+	<string name="envoyer_a">Envoyer à ...</string>
+	<string name="nouveau">Nouveau</string>
+	<string name="importer">Importer</string>
+	<string name="exporter">Exporter</string>
 </resources>
