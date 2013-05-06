@@ -25,7 +25,7 @@ public class WorkHubButton extends MTRoundRectangle implements IclickableButton,
 	public WorkHubButton(String text, int corner, int rayon, int segments,
 			int textXPos, int textYPos, MTApplication mtApplication) {
 		super(getXPositionFromCorner(corner, mtApplication, rayon),
-				getYPositionFromCorner(corner, mtApplication, rayon), Constants.BUTTON_DEFAULT_Z_POSITION,
+				getYPositionFromCorner(corner, mtApplication, rayon), Constants.Z_POSITION_DEFAULT_BUTTON,
 				rayon * 2, rayon * 2, rayon, rayon, segments, mtApplication);
 		this.mtApplication = mtApplication;
 

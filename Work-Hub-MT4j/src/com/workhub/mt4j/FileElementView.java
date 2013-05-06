@@ -11,9 +11,9 @@ public class FileElementView extends AbstractElementView {
 /*
  * TODO : Mettre le bon icone
  */
-	public FileElementView(float x, float y, float z, float width,
+	public FileElementView(float x, float y, float width,
 			float height, PApplet applet) {
-		super(x, y, z, width, height, applet);
+		super(x, y, Constants.Z_POSITION_DEFAULT_ELEMENT, width, height, applet);
 		content = new MTImage(applet.loadImage("Image/iconeDefault.jpg"), applet);
 		content.setName("Default Picture");
 		content.setNoFill(true);

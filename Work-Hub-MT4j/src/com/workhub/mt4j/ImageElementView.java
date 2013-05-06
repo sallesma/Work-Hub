@@ -11,9 +11,9 @@ public class ImageElementView extends AbstractElementView {
 /*
  * TODO : Mettre une image
  */
-	public ImageElementView(float x, float y, float z, float width,
+	public ImageElementView(float x, float y, float width,
 			float height, PApplet applet) {
-		super(x, y, z, width, height, applet);
+		super(x, y, Constants.Z_POSITION_DEFAULT_ELEMENT, width, height, applet);
 		content = new MTImage(applet.loadImage("Image/defaultImage.jpg"), applet);
 		content.setName("Default Picture");
 		content.setNoFill(true);

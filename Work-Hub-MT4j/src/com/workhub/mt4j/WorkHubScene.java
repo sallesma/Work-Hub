@@ -44,19 +44,19 @@ public class WorkHubScene extends AbstractScene {
 			throws WorkHubException {
 		switch (elementId) {
 		case Constants.ELEMENT_TEXT:
-			TextElementView textElement = new TextElementView(200, 200, 0, 200,200, getMTApplication());
+			TextElementView textElement = new TextElementView(200, 200, 200,200, getMTApplication());
 			this.getCanvas().addChild(textElement);
 			break;
 		case Constants.ELEMENT_LINK:
-			LinkElementView linkElement = new LinkElementView(200, 200, 0, 200,200, getMTApplication());
+			LinkElementView linkElement = new LinkElementView(200, 200, 200,200, getMTApplication());
 			this.getCanvas().addChild(linkElement);
 			break;
 		case Constants.ELEMENT_IMAGE:
-			ImageElementView imageElement = new ImageElementView(200, 200, 0, 200, 200, getMTApplication());
+			ImageElementView imageElement = new ImageElementView(200, 200, 200, 200, getMTApplication());
 			this.getCanvas().addChild(imageElement);
 			break;
 		case Constants.ELEMENT_FILE:
-			FileElementView fileElement = new FileElementView(200, 200, 0, 200, 200, getMTApplication());
+			FileElementView fileElement = new FileElementView(200, 200, 200, 200, getMTApplication());
 			this.getCanvas().addChild(fileElement);
 			break;
 		default:

@@ -10,9 +10,9 @@ import processing.core.PApplet;
 public class LinkElementView extends AbstractElementView{
 	private MTTextArea content;
 
-	public LinkElementView(float x, float y, float z, float width,
+	public LinkElementView(float x, float y, float width,
 			float height, PApplet applet) {
-		super(x, y, z, width, height, applet);
+		super(x, y, Constants.Z_POSITION_DEFAULT_ELEMENT, width, height, applet);
 		content = new MTTextArea(applet, FontManager.getInstance().createFont(
 				applet, "arial.ttf", 18, new MTColor(50, 50, 50, 255),
 				new MTColor(0, 0, 0, 255)));
