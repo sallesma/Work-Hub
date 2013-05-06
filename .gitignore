@@ -27,10 +27,14 @@ Work-Hub-Android/local.properties
 Work-Hub-Android/.settings/
 Work-Hub-Android/.loadpath
 
+.metadata/
+
 *.tmp
 *.bak
 *.swp
 *~.nib
+*.lock
+*.prefs
 
 
 # External tool builders
