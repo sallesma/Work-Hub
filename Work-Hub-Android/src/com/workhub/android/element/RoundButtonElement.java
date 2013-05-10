@@ -21,12 +21,12 @@ public class RoundButtonElement extends AbstractElement{
 	public final static int TYPE_ENVOYER = 0;
 	public final static int TYPE_SUPPRIMER = 1;
 	public final static int TYPE_RECEVOIR = 2;
-	
+
 	public final static int RAYON = Constants.SCREEN_WIDTH/4;
-	
+
 	private final static String[] TITRE = {"Envoyer", "Supprimer", "Recevoir"};
-	
-	
+
+
 	private int type;
 	private Text centerText;
 	private GPoint centerScene;
@@ -37,7 +37,7 @@ public class RoundButtonElement extends AbstractElement{
 		this.centerScene = res.getScreenCenter();
 		initShape(res);
 		rotateToCenter();
-		
+
 	}
 
 	protected void initShape(Ressources res){
@@ -46,8 +46,8 @@ public class RoundButtonElement extends AbstractElement{
 				res.getTR_Rond(), res.getContext().getVertexBufferObjectManager());
 		s.setColor(0, 0, 0.8f);
 		this.attachChild(s);
-		
-		
+
+
 		centerText = new Text(0, 0, res.getFont(), TITRE[type], new TextOptions(HorizontalAlign.CENTER), res.getContext().getVertexBufferObjectManager());
 		centerText.setPosition(-centerText.getWidth()/2, RAYON/3);
 		centerText.setColor(Color.WHITE);
@@ -59,17 +59,17 @@ public class RoundButtonElement extends AbstractElement{
 		super.onScroll(pScollDetector, pPointerID, pDistanceX, pDistanceY);
 		rotateToCenter();
 	};
-	
+
 	@Override
 	public void onPinchZoom(PinchZoomDetector pPinchZoomDetector, TouchEvent pTouchEvent, float pZoomFactor) {}
-	
+
 	private void rotateToCenter(){
 		GPoint pos = new GPoint(this.getX(),  this.getY());
-		
-		
+
+
 		this.setRotation(GPoint.AngleBetween(pos, centerScene)+90);
 		centerText.setRotation(-this.getRotation());
-		
+
 	}
 
 	@Override
@@ -79,8 +79,25 @@ public class RoundButtonElement extends AbstractElement{
 		return (distance<rayon);
 	}
 
-	
-	
+	public void setActionOn(AbstractElement abstractElement) {
+		switch (type) {
+		case TYPE_ENVOYER:
+			//TODO
+			break;
+		case TYPE_RECEVOIR:
+			//TODO
+			break;
+		case TYPE_SUPPRIMER:
+		abstractElement.remove();
+		break;
+
+
+		}
+
+	}
+
+
+
 
 
 

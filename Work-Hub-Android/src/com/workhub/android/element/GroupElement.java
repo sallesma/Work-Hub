@@ -80,7 +80,7 @@ public class GroupElement extends AbstractElement  {
 
 	}
 	@Override
-	protected void remove() {
+	public void remove() { 
 		for (int i = 0; i < baseElements.size(); i++) {
 			baseElements.get(i).remove();
 		}

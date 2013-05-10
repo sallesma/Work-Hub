@@ -102,6 +102,10 @@ public static GPoint getBaryCentre(GPoint pt1, GPoint pt2, float val1) {
 	return new GPoint(pt1.x*val1+pt2.x*(1.0f-val1), pt1.y*val1+pt2.y*(1.0f-val1));
 }
 
+public float[] toArray() {
+	return new float[] {x, y};
+}
+
 
 
 

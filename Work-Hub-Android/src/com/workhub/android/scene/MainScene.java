@@ -3,7 +3,6 @@ package com.workhub.android.scene;
 import java.util.ArrayList;
 
 import org.andengine.engine.camera.Camera;
-import org.andengine.entity.primitive.Mesh;
 import org.andengine.entity.scene.IOnSceneTouchListener;
 import org.andengine.entity.scene.ITouchArea;
 import org.andengine.entity.scene.Scene;
@@ -16,30 +15,38 @@ import org.andengine.input.touch.detector.ScrollDetector.IScrollDetectorListener
 import org.andengine.opengl.util.GLState;
 import org.andengine.util.adt.list.SmartList;
 
+import android.app.Dialog;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+
+import com.workhub.android.R;
 import com.workhub.android.element.AbstractElement;
 import com.workhub.android.element.BaseElement;
 import com.workhub.android.element.GroupElement;
 import com.workhub.android.element.RoundButtonElement;
 import com.workhub.android.element.TextElement;
 import com.workhub.android.utils.Constants;
+import com.workhub.android.utils.GPoint;
 import com.workhub.android.utils.Ressources;
+import com.workhub.model.TextElementModel;
 
-public class MainScene extends Scene implements IOnSceneTouchListener, IHoldDetectorListener, IScrollDetectorListener{
+public class MainScene extends Scene implements IOnSceneTouchListener, IHoldDetectorListener, IScrollDetectorListener, OnClickListener{
 
 	private ContinuousHoldDetector mHoldDetector;
 	private ScrollDetector mScrollDetector;
-	private float[] mMeshVertices ;
-	private int mMeshVertexCount = 0;
-	private float[] mHullVertices;
-	private int mHullVertexCount;
 	private Ressources res;
-	private Mesh mHull;
 	private GroupElement groupElement;
 	private Runnable groupRunnable;
+	
+	private Dialog currentDialog;
+	
+	
 	public MainScene(Ressources res) {
 		this.res = res;
 		mHoldDetector = new ContinuousHoldDetector(this);
 		mHoldDetector.setTriggerHoldMinimumMilliseconds(600);
+		this.registerUpdateHandler(mHoldDetector);
 		mScrollDetector = new ScrollDetector(this);
 
 		groupRunnable = new Runnable() {
@@ -61,7 +68,7 @@ public class MainScene extends Scene implements IOnSceneTouchListener, IHoldDete
 						}
 
 
-						if(list.size()>0){
+						if(list.size()>1){
 							groupElement.initialize(list);
 							groupElement.setZIndex(Constants.ZINDEX++);
 							registerTouchArea(groupElement);
@@ -106,7 +113,6 @@ public class MainScene extends Scene implements IOnSceneTouchListener, IHoldDete
 	public void populate() {
 
 
-
 		this.setTouchAreaBindingOnActionDownEnabled(true);
 		this.setOnSceneTouchListenerBindingOnActionDownEnabled(true);
 		this.setOnSceneTouchListener(this);
@@ -121,13 +127,16 @@ public class MainScene extends Scene implements IOnSceneTouchListener, IHoldDete
 		this.registerTouchArea(rb);
 		rb = new RoundButtonElement(0+width/12, height+width/20, RoundButtonElement.TYPE_RECEVOIR, res );
 		this.attachChild(rb);
-		this.registerTouchArea(rb);
+		this.registerTouchArea(rb);  
 
-		TextElement txt = new TextElement(100, 100, res);
+		TextElementModel txtM = new TextElementModel();
+		txtM.setContent("tQu'est-ce que qsdf.org ? QSDF.ORG est un domaine à usage initialement personnel. Les services ou sites webs liés à qsdf.");
+		txtM.setTitle("titre de l'element txt");
+		TextElement txt = new TextElement(txtM, 200, 200, res);
 		this.registerTouchArea(txt);
 		this.attachChild(txt);
 
-		TextElement txt1 = new TextElement(100, 200, res);
+		TextElement txt1 = new TextElement(txtM, 100, 200, res);
 		this.registerTouchArea(txt1);
 		this.attachChild(txt1);
 
@@ -204,7 +213,21 @@ public class MainScene extends Scene implements IOnSceneTouchListener, IHoldDete
 	public void onHoldFinished(HoldDetector pHoldDetector,
 			long pHoldTimeMilliseconds, int pPointerID, float pHoldX,
 			float pHoldY) {
-		// TODO Auto-generated method stub
+		res.getContext().runOnUiThread(new Runnable() {
+
+			
+
+			@Override
+			public void run() {
+				currentDialog = new Dialog(res.getContext(), R.style.dialog_app_theme);
+				currentDialog.setContentView(R.layout.dialog_scene_main);
+				((Button)currentDialog.findViewById(R.id.bt_clear_all)).setOnClickListener(MainScene.this);
+				((Button)currentDialog.findViewById(R.id.bt_nouveau)).setOnClickListener(MainScene.this);
+				((Button)currentDialog.findViewById(R.id.bt_importer)).setOnClickListener(MainScene.this);
+				currentDialog.show();
+
+			}
+		});
 
 	}
 
@@ -228,6 +251,75 @@ public class MainScene extends Scene implements IOnSceneTouchListener, IHoldDete
 
 
 
+	}
+
+	public void verifyRoundButton(AbstractElement abstractElement) {
+		if(abstractElement instanceof RoundButtonElement)
+			return;
+		
+		for (int i = 0; i < getChildCount(); i++) {
+			
+			if(getChildByIndex(i) instanceof RoundButtonElement){
+				RoundButtonElement rb = (RoundButtonElement) getChildByIndex(i);
+				if(rb.contains(abstractElement.getX(), abstractElement.getY())){
+					rb.setActionOn(abstractElement);
+				}
+			}
+			
+		}
+	}
+
+	@Override
+	public void onClick(View v) {
+		currentDialog.dismiss();
+		switch (v.getId()) {
+		case R.id.bt_clear_all:
+			res.getContext().runOnUpdateThread(new Runnable() {
+				@Override
+				public void run() {
+					MainScene.this.detachChildren();					
+				}
+			});
+			break;
+
+		case R.id.bt_nouveau:
+			currentDialog = new Dialog(res.getContext(), R.style.dialog_app_theme);
+			currentDialog.setContentView(R.layout.dialog_scene_new);
+			((Button)currentDialog.findViewById(R.id.bt_element_texte)).setOnClickListener(MainScene.this);
+			((Button)currentDialog.findViewById(R.id.bt_element_lien)).setOnClickListener(MainScene.this);
+			((Button)currentDialog.findViewById(R.id.bt_element_fichier)).setOnClickListener(MainScene.this);
+			((Button)currentDialog.findViewById(R.id.bt_element_image)).setOnClickListener(MainScene.this);
+			
+			currentDialog.show();
+			
+			break;
+			
+		case R.id.bt_importer:
+			//TODO
+			break;
+		case R.id.bt_element_fichier:
+			//TODO
+			break;
+		case R.id.bt_element_lien:
+			//TODO
+			break;
+		case R.id.bt_element_image:
+			//TODO
+			break;
+		case R.id.bt_element_texte:
+			//TODO la création doit creer un agent;
+			TextElementModel model = new TextElementModel();
+			model.setTitle("");
+			model.setContent("");
+			GPoint centre = res.getScreenCenter();
+			TextElement tx = new TextElement(model, centre.x, centre.y, res);
+			attachChild(tx);
+			registerTouchArea(tx);
+			tx.edit();
+			
+			break;
+		}
+		
 	}
 
 }

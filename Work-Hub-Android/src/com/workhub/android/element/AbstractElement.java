@@ -11,6 +11,7 @@ import org.andengine.input.touch.detector.PinchZoomDetector;
 import org.andengine.input.touch.detector.PinchZoomDetector.IPinchZoomDetectorListener;
 import org.andengine.input.touch.detector.ScrollDetector;
 import org.andengine.input.touch.detector.ScrollDetector.IScrollDetectorListener;
+import org.andengine.util.math.MathUtils;
 
 import android.app.Dialog;
 import android.view.View;
@@ -18,6 +19,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 import com.workhub.android.R;
+import com.workhub.android.scene.MainScene;
 import com.workhub.android.utils.Constants;
 import com.workhub.android.utils.GPoint;
 import com.workhub.android.utils.Ressources;
@@ -30,51 +32,39 @@ public abstract class AbstractElement extends Entity  implements ITouchArea, IHo
 	private ContinuousHoldDetector mHoldDetector;
 	protected Dialog menuDialog;
 	protected Ressources res;
+	
 
-	protected AbstractElement(float centerX, float centerY, final Ressources res){
+	protected AbstractElement(float centerX, float centerY, final Ressources res, boolean isResizable){
 		super(centerX, centerY);
+		this.isResizable = isResizable;
 		this.res=res;
 		mPinchZoomDetector = new PinchZoomDetector(this);
 		mScrollDetector = new ScrollDetector(this);
 		mHoldDetector = new ContinuousHoldDetector(this);
 		mHoldDetector.setTriggerHoldMinimumMilliseconds(600);
 		res.getContext().runOnUiThread(new Runnable() {
-			
 			@Override
 			public void run() {
-				menuDialog = new Dialog(res.getContext());//,android.R.style.Theme_Dialog);
-				//choiceDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-				menuDialog.setContentView(R.layout.dialog);
-				
 				
 				iniDialogView();
-				
 			}
-
-			
 		});
-		
-		
 		this.registerUpdateHandler(mHoldDetector);
-//		this.registerUpdateHandler(new IUpdateHandler() {
-//
-//			@Override
-//			public void reset() {				
-//			}
-//
-//			@Override
-//			public void onUpdate(float pSecondsElapsed) {
-//				onEntityGroupUpdate(pSecondsElapsed);
-//
-//			}
-//
-//
-//		});
+		
+		setZIndex(Constants.ZINDEX++);
+		getParent().sortChildren(false);
+		
+	}
 
+
+	protected AbstractElement(float centerX, float centerY, Ressources res2) {
+		this(centerX, centerY, res2, false);
 	}
 
 
 	protected void iniDialogView(){
+		menuDialog = new Dialog(res.getContext(), R.style.dialog_app_theme);
+		menuDialog.setContentView(R.layout.dialog);
 		Button bt_supprimer = (Button) menuDialog.findViewById(R.id.bt_supprimer);
 		bt_supprimer.setVisibility(View.VISIBLE);
 		bt_supprimer.setOnClickListener(AbstractElement.this);
@@ -86,7 +76,7 @@ public abstract class AbstractElement extends Entity  implements ITouchArea, IHo
 	public void onClick(View v) {
 		menuDialog.dismiss();
 		switch (v.getId()) {
-		
+
 		case R.id.bt_supprimer:
 			remove();
 			break;
@@ -94,178 +84,218 @@ public abstract class AbstractElement extends Entity  implements ITouchArea, IHo
 	}
 
 
-	protected void remove() {
+	public void remove() {
 		res.getContext().runOnUpdateThread(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				((Scene) getParent()).unregisterTouchArea(AbstractElement.this);
 				detachSelf();
-				
+
 			}
 		});
-		
+
 	}
 
 
-		@Override
-		public boolean onAreaTouched(TouchEvent event,
-				float pTouchAreaLocalX, float pTouchAreaLocalY) {
+	@Override
+	public boolean onAreaTouched(TouchEvent event,
+			float pTouchAreaLocalX, float pTouchAreaLocalY) {
 
 
-			int myEventAction = event.getAction(); 
+		int myEventAction = event.getAction(); 
 
-			//	float X = event.getX();
-			//	float Y = event.getY();
+		//	float X = event.getX();
+		//	float Y = event.getY();
 
-			switch (myEventAction) {
-			case TouchEvent.ACTION_DOWN:
-				pointerCount=Math.min(pointerCount+1, 2);
-				setZIndex(Constants.ZINDEX++);
-				getParent().sortChildren(false);
-				break;
-			case TouchEvent.ACTION_MOVE: {
-
-
-				break;}
-			case TouchEvent.ACTION_UP:
-			case TouchEvent.ACTION_CANCEL:
-			case TouchEvent.ACTION_OUTSIDE:
-				pointerCount=Math.max(pointerCount-1, 0);
-				break;
-			}
-
-
-
-
-			this.mPinchZoomDetector.onTouchEvent(event);
-			if(pointerCount>1) {
-				mHoldDetector.reset();
-				//this.mHoldDetector.setEnabled(false);
-				this.mScrollDetector.setEnabled(false);
-				if(event.getAction()== TouchEvent.ACTION_DOWN) {
-					this.mScrollDetector.setEnabled(true);
-					//this.mHoldDetector.setEnabled(true);
-				}
-
-				this.mScrollDetector.onTouchEvent(event);
-				//this.mHoldDetector.onTouchEvent(event);
-
-			} else {
-				if(event.getAction()== TouchEvent.ACTION_DOWN) {
-					this.mScrollDetector.setEnabled(true);
-					this.mHoldDetector.setEnabled(true);
-				}
-
-				this.mScrollDetector.onTouchEvent(event);
-				this.mHoldDetector.onTouchEvent(event);
-			}
-
-
-
-			return true;
-
-		}
-
-
-
-		@Override
-		public void onHoldStarted(HoldDetector pHoldDetector, int pPointerID,
-				float pHoldX, float pHoldY) {
-			mHoldDetector.reset();
-
-		}
-
-
-		@Override
-		public void onHold(HoldDetector pHoldDetector, long pHoldTimeMilliseconds,
-				int pPointerID, float pHoldX, float pHoldY) {
-		}
-
-
-		@Override
-		public void onHoldFinished(HoldDetector pHoldDetector,
-				long pHoldTimeMilliseconds, int pPointerID, float pHoldX,
-				float pHoldY) {
-		}
-
-		protected float iniScaleX, iniScaleY;
-		private GPoint pt1 = new GPoint(-1, -1), pt2=new GPoint(-1, -1);
-		private int iniFingerID = -1;
-		private float iniAngle;
-		private boolean isRot = false;
-
-
-
-		@Override
-		public void onPinchZoomStarted(PinchZoomDetector pPinchZoomDetector,
-				TouchEvent pSceneTouchEvent) {
 			
-			iniScaleX = this.getScaleX();
-			iniScaleY = this.getScaleY();
-			iniAngle = this.getRotation();
-			iniFingerID = pSceneTouchEvent.getPointerID();
-			pt1.update(pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
+		switch (myEventAction) {
+		case TouchEvent.ACTION_DOWN:
+			pointerCount=Math.min(pointerCount+1, 2);
+			setZIndex(Constants.ZINDEX++);
+			getParent().sortChildren(false);
+			break;
+		case TouchEvent.ACTION_MOVE: {
+
+
+			break;}
+		case TouchEvent.ACTION_UP:
+		case TouchEvent.ACTION_CANCEL:
+		case TouchEvent.ACTION_OUTSIDE:
+			pointerCount=Math.max(pointerCount-1, 0);
+			break;
 		}
 
 
-		@Override
-		public void onPinchZoom(PinchZoomDetector pPinchZoomDetector,
-				TouchEvent pTouchEvent, float pZoomFactor) {
-			if(pointerCount>1){
-				this.setScale(iniScaleX*pZoomFactor, iniScaleY*pZoomFactor);
-				if(pTouchEvent.getPointerID()==iniFingerID){
-					pt1.x = (int) pTouchEvent.getX();
-					pt1.y = (int) pTouchEvent.getY();
 
+
+		this.mPinchZoomDetector.onTouchEvent(event);
+		if(pointerCount>1) {
+			mHoldDetector.reset();
+			//this.mHoldDetector.setEnabled(false);
+			this.mScrollDetector.setEnabled(false);
+			if(event.getAction()== TouchEvent.ACTION_DOWN) {
+				this.mScrollDetector.setEnabled(true);
+				//this.mHoldDetector.setEnabled(true);
+			}
+
+			this.mScrollDetector.onTouchEvent(event);
+			//this.mHoldDetector.onTouchEvent(event);
+
+		} else {
+			if(event.getAction()== TouchEvent.ACTION_DOWN) {
+				this.mScrollDetector.setEnabled(true);
+				this.mHoldDetector.setEnabled(true);
+			}
+
+			this.mScrollDetector.onTouchEvent(event);
+			this.mHoldDetector.onTouchEvent(event);
+		}
+
+
+
+		return true;
+
+	}
+
+
+
+	@Override
+	public void onHoldStarted(HoldDetector pHoldDetector, int pPointerID,
+			float pHoldX, float pHoldY) {
+		mHoldDetector.reset();
+
+	}
+
+
+	@Override
+	public void onHold(HoldDetector pHoldDetector, long pHoldTimeMilliseconds,
+			int pPointerID, float pHoldX, float pHoldY) {
+	}
+
+
+	@Override
+	public void onHoldFinished(HoldDetector pHoldDetector,
+			long pHoldTimeMilliseconds, int pPointerID, float pHoldX,
+			float pHoldY) {
+	}
+
+	protected float iniScaleX, iniScaleY;
+	private GPoint pt1 = new GPoint(-1, -1), pt2=new GPoint(-1, -1);
+	private int iniFingerID = -1;
+	private float iniAngle;
+	private boolean isRot = false;
+	private float[] iniScaleLocalCoord1;
+	private float[] iniScaleLocalCoord2;
+	private float iniDistX;
+	private float iniDistY;
+	protected boolean isResizable = false;
+
+
+
+	@Override
+	public void onPinchZoomStarted(PinchZoomDetector pPinchZoomDetector,
+			TouchEvent pSceneTouchEvent) {
+
+		iniScaleX = this.getScaleX();
+		iniScaleY = this.getScaleY();
+		iniAngle = this.getRotation();
+		iniFingerID = pSceneTouchEvent.getPointerID();
+		pt1.update(pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
+		iniScaleLocalCoord1 = MathUtils.revertRotateAroundCenter(pt1.toArray(), this.getRotation(), 
+				getX(), getY());
+	}
+
+
+	@Override
+	public void onPinchZoom(PinchZoomDetector pPinchZoomDetector,
+			TouchEvent pTouchEvent, float pZoomFactor) {
+
+
+
+		if(pointerCount>1){
+			//this.setScale(iniScaleX*pZoomFactor, iniScaleY*pZoomFactor);
+			if(pTouchEvent.getPointerID()==iniFingerID){
+				pt1.x = (int) pTouchEvent.getX();
+				pt1.y = (int) pTouchEvent.getY();
+
+			}else{
+				pt2.x = (int) pTouchEvent.getX();
+				pt2.y = (int) pTouchEvent.getY();
+				if(!isRot ){
+					iniAngle = getRotation()-GPoint.AngleBetween(pt1, pt2);
+					isRot=true;
+					iniScaleLocalCoord2 = MathUtils.revertRotateAroundCenter(new float[]{pt2.x, pt2.y}, this.getRotation(), 
+							getX(), getY());
+					iniDistX=Math.abs(iniScaleLocalCoord1[0]-iniScaleLocalCoord2[0]);
+					iniDistY=Math.abs(iniScaleLocalCoord1[1]-iniScaleLocalCoord2[1]);
+				} 		
+			}
+			if(isRot){
+				setRotation(iniAngle + GPoint.AngleBetween(pt1, pt2));
+				
+				if(isResizable ){
+				float[] scaleLocalCoord1 = MathUtils.revertRotateAroundCenter(new float[]{pt1.x, pt1.y}, this.getRotation(), 
+						getX(), getY());
+				float[] scaleLocalCoord2 = MathUtils.revertRotateAroundCenter(new float[]{pt2.x, pt2.y}, this.getRotation(), 
+						getX(), getY());
+						
+						//this.convertSceneToLocalCoordinates(pt1.x, pt1.y).clone();
+				//float[] scaleLocalCoord2 = this.convertSceneToLocalCoordinates(pt2.x, pt2.y).clone();
+				float distX=Math.abs(scaleLocalCoord1[0]-scaleLocalCoord2[0]);
+				float distY=Math.abs(scaleLocalCoord1[1]-scaleLocalCoord2[1]);
+				if(iniDistY<50)
+					distY=iniDistY;
+				else if(iniDistX<50)
+					distX=iniDistX;
+					this.setScale(iniScaleX*Math.abs(distX/iniDistX),
+						iniScaleY*Math.abs(distY/iniDistY)); 
 				}else{
-					pt2.x = (int) pTouchEvent.getX();
-					pt2.y = (int) pTouchEvent.getY();
-					if(!isRot ){
-						iniAngle = getRotation()-GPoint.AngleBetween(pt1, pt2);
-						isRot=true;
-					} 
-				}
-				if(isRot){
-					setRotation(iniAngle + GPoint.AngleBetween(pt1, pt2));
+					this.setScale(iniScaleX*pZoomFactor,
+							iniScaleY*pZoomFactor); 
 				}
 			}
 		}
-
-
-		@Override
-		public void onPinchZoomFinished(PinchZoomDetector pPinchZoomDetector,
-				TouchEvent pTouchEvent, float pZoomFactor) {
-			isRot=false;
-		}
-
-
-
-		
-
-
-
-		@Override
-		public void onScrollStarted(ScrollDetector pScollDetector, int pPointerID,
-				float pDistanceX, float pDistanceY) {
-			onScroll(pScollDetector, pPointerID, pDistanceX, pDistanceY);
-		}
-
-
-		@Override
-		public void onScroll(ScrollDetector pScollDetector, int pPointerID,
-				float pDistanceX, float pDistanceY) {
-
-			this.setPosition(this.getX()+pDistanceX, this.getY()+pDistanceY);
-		}
-
-
-		@Override
-		public void onScrollFinished(ScrollDetector pScollDetector, int pPointerID,
-				float pDistanceX, float pDistanceY) {
-			onScroll(pScollDetector, pPointerID, pDistanceX, pDistanceY);
-		}
-
-
-
 	}
+
+
+	@Override
+	public void onPinchZoomFinished(PinchZoomDetector pPinchZoomDetector,
+			TouchEvent pTouchEvent, float pZoomFactor) {
+		isRot=false;
+	}
+
+
+
+
+
+
+
+	@Override
+	public void onScrollStarted(ScrollDetector pScollDetector, int pPointerID,
+			float pDistanceX, float pDistanceY) {
+		onScroll(pScollDetector, pPointerID, pDistanceX, pDistanceY);
+	}
+
+
+	@Override
+	public void onScroll(ScrollDetector pScollDetector, int pPointerID,
+			float pDistanceX, float pDistanceY) {
+
+		this.setPosition(this.getX()+pDistanceX, this.getY()+pDistanceY);
+	}
+
+
+	@Override
+	public void onScrollFinished(ScrollDetector pScollDetector, int pPointerID,
+			float pDistanceX, float pDistanceY) {
+		onScroll(pScollDetector, pPointerID, pDistanceX, pDistanceY);
+		
+		if(pointerCount==0){
+			((MainScene) getParent()).verifyRoundButton(this);
+		}
+	}
+
+
+
+}

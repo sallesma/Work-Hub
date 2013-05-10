@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
+	android:gravity="center_horizontal" android:layout_width="fill_parent"
+	android:layout_height="wrap_content" 
+	android:background="@color/bleuFonce"
+	android:orientation="vertical">
+
+    <Button 
+    android:id="@+id/bt_element_texte"
+    android:text="@string/element_texte"
+    style="@style/bt_list"
+    />
+    
+    <Button 
+    android:id="@+id/bt_element_image"
+    android:text="@string/element_image"
+    style="@style/bt_list"
+    />
+    
+    <Button 
+    android:id="@+id/bt_element_lien"
+    android:text="@string/element_lien"
+    style="@style/bt_list"
+    />
+    
+    <Button 
+    android:id="@+id/bt_element_fichier"
+    android:text="@string/element_fichier"
+    style="@style/bt_list"
+    />
+    
+ 
+	
+
+</LinearLayout>

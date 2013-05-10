@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
+	android:gravity="center_horizontal" android:layout_width="fill_parent"
+	android:layout_height="wrap_content" 
+	android:background="@color/bleuFonce"
+	android:orientation="vertical">
+
+    <Button 
+    android:id="@+id/bt_nouveau"
+    android:text="@string/nouveau"
+    style="@style/bt_list"
+    />
+    
+  <Button 
+    android:id="@+id/bt_importer"
+    android:text="@string/importer"
+    style="@style/bt_list"
+    />
+
+<Button 
+    android:id="@+id/bt_clear_all"
+    android:text="@string/clear_all"
+    style="@style/bt_list"
+    />
+
+	
+	
+
+</LinearLayout>

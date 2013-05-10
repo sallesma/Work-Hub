@@ -1,10 +1,6 @@
 package com.workhub.android.element;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.andengine.entity.primitive.Rectangle;
-import org.andengine.entity.shape.RectangularShape;
 import org.andengine.entity.text.AutoWrap;
 import org.andengine.entity.text.Text;
 import org.andengine.entity.text.TextOptions;
@@ -12,30 +8,47 @@ import org.andengine.input.touch.detector.HoldDetector;
 import org.andengine.util.HorizontalAlign;
 import org.andengine.util.algorithm.collision.RectangularShapeCollisionChecker;
 
+import android.app.Dialog;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 import com.workhub.android.R;
 import com.workhub.android.utils.Constants;
 import com.workhub.android.utils.Ressources;
+import com.workhub.model.ElementModel;
 
 public abstract class BaseElement extends AbstractElement  {
-	private static final int WIDTH = Constants.SCREEN_WIDTH*2/3;
-	private static final int MARGIN = WIDTH/20;
-	protected static final int AUTOWRAP_WIDTH = WIDTH - MARGIN*2;
+	protected static final int WIDTH = Constants.SCREEN_WIDTH*2/3;
+	protected static final int HEIGHT = Constants.SCREEN_WIDTH*4/5;
+	protected static final float MARGIN = 25;
 
 	private Text mTextTitre;
-	private Rectangle body;
+	protected Rectangle body;
+	protected ElementModel model;
+	protected Dialog editDialog;
 
-	private List<RectangularShape> componentList = new ArrayList<RectangularShape>();
-
-	public BaseElement(float centerX, float centerY, Ressources res) {
-		super(centerX, centerY, res);
-		initShape(res);
-
-		
-
+	public BaseElement(ElementModel model, float centerX, float centerY, Ressources res) {
+		this(model, centerX, centerY, res, false);
 	}
+	public BaseElement(ElementModel model, float centerX, float centerY, Ressources res, boolean isResizable) {
+		super(centerX, centerY, res, isResizable);
+		this.model = model;
+		initShape(res);
+	}
+
+
+	protected abstract void iniEditDialog();
+	protected abstract void saveModel();
+
+	@Override
+	public void setScale(float pScaleX, float pScaleY) {
+		super.setScale(pScaleX, pScaleY);
+		if (isResizable) {
+			this.updateView();
+		}
+	}
+
 	@Override
 	protected void iniDialogView() {
 		super.iniDialogView();
@@ -46,33 +59,53 @@ public abstract class BaseElement extends AbstractElement  {
 		Button bt_envoyer_a = (Button) menuDialog.findViewById(R.id.bt_envoyer_a);
 		bt_envoyer_a.setVisibility(View.VISIBLE);
 		bt_envoyer_a.setOnClickListener(this);
+
+		Button bt_editer = (Button) menuDialog.findViewById(R.id.bt_editer);
+		bt_editer.setVisibility(View.VISIBLE);
+		bt_editer.setOnClickListener(this);
 	}
 
+	protected float getScaledAutoWrapMargin(){
+		return WIDTH*getScaleX()-getMarginX()*2;
+	}
+	protected float getMarginX(){
+		return MARGIN/getScaleX();
+	}
 	protected void initShape(Ressources res){
 
-		body = new Rectangle(0, 0, WIDTH, 0, res.getContext().getVertexBufferObjectManager());
+		body = new Rectangle(0, 0, WIDTH, HEIGHT, res.getContext().getVertexBufferObjectManager());
 		body.setColor(0.5f, 0.5f, 0);//TODO
+		body.setPosition(-WIDTH/2, -HEIGHT/2);
 
-		updateElementPosition();
 		this.attachChild(body);
-		this.mTextTitre = new Text(0, 0, res.getFont(), "Titre test", 1000, new TextOptions(AutoWrap.WORDS, AUTOWRAP_WIDTH,  HorizontalAlign.CENTER),
+		this.mTextTitre = new Text(0, 0, res.getFont(), model.getTitle(), 1000, new TextOptions(AutoWrap.WORDS, getScaledAutoWrapMargin(),  HorizontalAlign.CENTER),
 				res.getContext().getVertexBufferObjectManager());
-		addComponent(mTextTitre);
+		body.attachChild(mTextTitre);
+
 	}
 
-	protected void addComponent(RectangularShape component){
-		this.componentList.add(component);
-		body.attachChild(component);
-	}
+	//	protected void addComponent(RectangularShape component){
+	//		this.componentList.add(component);
+	//		body.attachChild(component);
+	//	}
 
-	public void updateElementPosition(){
-		float posY=MARGIN;
-		for (int i = 0; i < componentList.size(); i++) {
-			componentList.get(i).setPosition(MARGIN, posY);
-			posY = posY+ componentList.get(i).getHeight()+MARGIN;
-		}
-		body.setPosition(-WIDTH/2, -posY/2);
-		body.setHeight(posY+MARGIN);
+	public float updateView(){
+
+
+
+
+		float posY=MARGIN/getScaleY();
+		mTextTitre.getTextOptions().setAutoWrapWidth(getScaledAutoWrapMargin());
+		mTextTitre.setText(model.getTitle());
+		mTextTitre.setScaleCenter(0, 0);
+		mTextTitre.setScale(1/getScaleX(), 1/getScaleY());
+		mTextTitre.setPosition(getMarginX(), posY);
+
+		return posY+ mTextTitre.getHeightScaled();
+
+
+
+
 	}
 
 
@@ -83,33 +116,69 @@ public abstract class BaseElement extends AbstractElement  {
 
 
 	@Override
-	public void onHoldStarted(HoldDetector pHoldDetector, int pPointerID,
-			float pHoldX, float pHoldY) {
-		super.onHoldStarted(pHoldDetector, pPointerID, pHoldX, pHoldY);
+	public void onHoldFinished(HoldDetector pHoldDetector, long pHoldTimeMilliseconds, int pPointerID, float pHoldX, float pHoldY) {
 		res.getContext().runOnUiThread(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				menuDialog.show();
-				
+
 			}
 		});
-		
-	}
+	};
+	
 
 
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.bt_envoyer_a:
-//TODO
+			//TODO
+			break;
+		case R.id.bt_editer:
+			edit();
 			break;
 		case R.id.bt_masquer:
 			super.remove();
 			break;
+		case R.id.bt_ok:
+			model.setTitle(((EditText)editDialog.findViewById(R.id.title)).getText().toString());
+			saveModel();
+			editDialog.dismiss();
+			editDialog=null;
+			updateView();
+			break;	
+		case R.id.bt_cancel:
+			editDialog.dismiss();
+			break;	
 		}
 		super.onClick(v);
 	}
+
+	public void edit() {
+		res.getContext().runOnUiThread(new Runnable() {
+
+
+
+
+
+			@Override
+			public void run() {
+
+				editDialog = new Dialog(res.getContext(), R.style.dialog_app_theme);
+				editDialog.setContentView(R.layout.text_element);
+				((EditText)editDialog.findViewById(R.id.title)).setText(model.getTitle());
+				((Button)editDialog.findViewById(R.id.bt_ok)).setOnClickListener(BaseElement.this);
+				((Button)editDialog.findViewById(R.id.bt_cancel)).setOnClickListener(BaseElement.this);
+				iniEditDialog();
+				editDialog.show();
+			}
+		});
+
+	}
+
+
+
 	public float[] getVerticles() {
 		float[] v = new float[4*2];
 		RectangularShapeCollisionChecker.fillVertices(body, v);
