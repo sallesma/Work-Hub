@@ -1,40 +1,63 @@
 package com.workhub.jade.agent;
-import com.workhub.jade.behaviour.ContentBehaviour;
-import com.workhub.model.ElementModel;
-
 import jade.core.AID;
 import jade.core.Agent;
-import jade.wrapper.AgentController;
-import jade.wrapper.ContainerController;
+import jade.domain.DFService;
+import jade.domain.FIPAException;
+import jade.domain.FIPAAgentManagement.DFAgentDescription;
+import jade.domain.FIPAAgentManagement.ServiceDescription;
+
+import com.workhub.jade.behaviour.ContentElementBehaviour;
+import com.workhub.model.ElementModel;
+import com.workhub.utils.Constants;
 
 public class ElementAgent extends Agent {
 	
-	 private int color;
-	 private String title;
-	 private AID editor;
+	
+	 private AID editor = null;
 	 private ElementModel contentModel;
 
 
-	public ElementAgent(int color, String title) {
-		 this.color = color;
-		 this.title = title;
-		 this.editor = null;
-		 
-		//this.contentModel = ElementModelFactory.createDefaultModel();
-		this.addBehaviour(new ContentBehaviour());
+	private void subscribeDFAgent(){
+		DFAgentDescription dfd = new DFAgentDescription();
+		dfd.setName(getAID());
+		ServiceDescription sd = new ServiceDescription();
+		sd.setType(Constants.ELEMENT_AGENT);
+		sd.setName(this.getAID().toString());
+		dfd.addServices(sd);
+		try {
+			DFService.register(this, dfd);
 		}
+		catch (FIPAException fe) {
+			fe.printStackTrace();
+		}
+	}
+	
+	
+	private boolean findClientAgent(AID agent){
+		DFAgentDescription template = new DFAgentDescription();
+		ServiceDescription sd = new ServiceDescription();
+		sd.setType(Constants.ELEMENT_AGENT);
+		sd.setName(agent.toString());
+		template.addServices(sd);
+		try {
+			DFAgentDescription[] result = DFService.search(this, template);
+			if (result.length > 0) {
+				return true;
+			}
+		}
+		catch(FIPAException fe) {}
+		return false;
+	}
+	
+	@Override
+	protected void setup() {
+		subscribeDFAgent();
+		this.addBehaviour(new ContentElementBehaviour());
+	}
 	 
-	public int getColor() {
-		return color;
-	}
-	public void setColor(int color) {
-		this.color = color;
-	}
-	public String getTitle() {
-		return title;
-	}
-	public void setTitle(String title) {
-		this.title = title;
+	public void fireModelUpdate(){
+		//TODO 
+		//message a tous les clients informant la mise a jour du modele.
 	}
 	public AID getEditor() {
 		return editor;
@@ -50,21 +73,26 @@ public class ElementAgent extends Agent {
 			this.contentModel = contentModel;
 		}
 	
-	public boolean lockEdit(ClientAgent agent){
-		 // si editor n'est pas null et est encore connecté retourner false (ne peut pas modifier)
+	public boolean lockEdit(AID agent){
+		 // si editor n'est pas null et est encore connect√© retourner false (ne peut pas modifier)
 		if(this.editor != null){
-			int state = agent.getState(); // etat 6 : agent deleted, etat 4 : suspended 
-			if(state == 6 || state == 4){
-				setEditor(agent.getAID());
+			if(!findClientAgent(editor)){
+				setEditor(agent);
 				return true;
+			}else{
+				//TODO
+				//envoyer une requete a l'agent √©diteur pour confirmer qu'il √©dite tjrs
+				return false;
 			}
-			else{
-				return false; //tu ne peux pas éditer
-			}
+			
+			
 		}
 		else{
-			setEditor(agent.getAID());
-			return true; // tu peux éditer
+			setEditor(agent);
+			return true; // tu peux √©diter
 		}		 
 	 }
+	
+
+	
 }

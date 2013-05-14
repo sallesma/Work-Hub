@@ -1,19 +1,52 @@
 package com.workhub.jade.agent;
 
-import java.util.ArrayList;
+import jade.gui.GuiAgent;
+import jade.gui.GuiEvent;
 
-import com.workhub.model.ElementModel;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 
-import jade.core.Agent;
+public class ClientAgent extends GuiAgent implements ClientAgentInterface{
 
-public class ClientAgent extends Agent{
-	private int color;
-	private ArrayList<ElementModel> ElementAgents;
+	
+	PropertyChangeSupport changes = new PropertyChangeSupport(this);
+	
+	@Override
+	protected void setup() {
+		Object[] args = getArguments();
+		if (args != null && args.length > 0) {
+			if (args[0] instanceof PropertyChangeListener) {
+				changes.addPropertyChangeListener((PropertyChangeListener) args[0]);
+			}
+		}
+	}
 
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -7558931526629274049L;
+
+
+	@Override
+	protected void onGuiEvent(GuiEvent ev) {
+		switch (ev.getType()) {
+		case 1://TODO
+			
+			
+			break;
+
+		default:
+			break;
+		}
+		
+	}
+
+
+
+
+	@Override
+	public void fireOnGuiEvent(GuiEvent ev) {
+		onGuiEvent(ev);		
+	}
+
+
+
 
 }
