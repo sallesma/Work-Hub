@@ -44,9 +44,7 @@ public abstract class BaseElement extends AbstractElement  {
 	@Override
 	public void setScale(float pScaleX, float pScaleY) {
 		super.setScale(pScaleX, pScaleY);
-		if (isResizable) {
 			this.updateView();
-		}
 	}
 
 	@Override
@@ -166,7 +164,7 @@ public abstract class BaseElement extends AbstractElement  {
 			public void run() {
 
 				editDialog = new Dialog(res.getContext(), R.style.dialog_app_theme);
-				editDialog.setContentView(R.layout.text_element);
+				editDialog.setContentView(R.layout.element_dialog);
 				((EditText)editDialog.findViewById(R.id.title)).setText(model.getTitle());
 				((Button)editDialog.findViewById(R.id.bt_ok)).setOnClickListener(BaseElement.this);
 				((Button)editDialog.findViewById(R.id.bt_cancel)).setOnClickListener(BaseElement.this);

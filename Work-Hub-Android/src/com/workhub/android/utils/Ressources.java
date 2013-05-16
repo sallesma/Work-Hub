@@ -13,6 +13,7 @@ import org.andengine.opengl.texture.atlas.buildable.builder.ITextureAtlasBuilder
 import org.andengine.opengl.texture.region.TextureRegion;
 import org.andengine.util.debug.Debug;
 
+import android.graphics.Bitmap;
 import android.graphics.Typeface;
 
 import com.workhub.android.activity.HomeActivity;
@@ -27,6 +28,7 @@ public class Ressources {
 	private GPoint screenCenter;
 	private float sceneWidth;
 	private float sceneHeight;
+	private TextureRegion TR_No_Image;
 
 	public Ressources(HomeActivity context, Camera mCamera) {
 		this.context = context;
@@ -42,6 +44,7 @@ public class Ressources {
 		BuildableBitmapTextureAtlas mBuildableTexture = new BuildableBitmapTextureAtlas(context.getTextureManager(), 1024, 2048, TextureOptions.BILINEAR);
 
 		TR_Rond=BitmapTextureAtlasTextureRegionFactory.createFromAsset(mBuildableTexture, context, "rond.png");
+		TR_No_Image=BitmapTextureAtlasTextureRegionFactory.createFromAsset(mBuildableTexture, context, "default.png");
 
 		try {
 			mBuildableTexture.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(2, 2, 2));
@@ -51,6 +54,14 @@ public class Ressources {
 		mBuildableTexture.load();
 	}
 
+	
+	
+	
+	 
+	public TextureRegion getTR_No_Image() {
+		return TR_No_Image;
+	}
+	
 	public TextureRegion getTR_Rond() {
 		return TR_Rond;
 	}
@@ -74,4 +85,6 @@ public class Ressources {
 	public float getSceneHeight() {
 		return sceneHeight;
 	}
+
+	
 }

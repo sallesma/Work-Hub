@@ -25,11 +25,13 @@ import com.workhub.android.R;
 import com.workhub.android.element.AbstractElement;
 import com.workhub.android.element.BaseElement;
 import com.workhub.android.element.GroupElement;
+import com.workhub.android.element.PictureElement;
 import com.workhub.android.element.RoundButtonElement;
 import com.workhub.android.element.TextElement;
 import com.workhub.android.utils.Constants;
 import com.workhub.android.utils.GPoint;
 import com.workhub.android.utils.Ressources;
+import com.workhub.model.PictureElementModel;
 import com.workhub.model.TextElementModel;
 
 public class MainScene extends Scene implements IOnSceneTouchListener, IHoldDetectorListener, IScrollDetectorListener, OnClickListener{
@@ -39,10 +41,10 @@ public class MainScene extends Scene implements IOnSceneTouchListener, IHoldDete
 	private Ressources res;
 	private GroupElement groupElement;
 	private Runnable groupRunnable;
-	
+
 	private Dialog currentDialog;
-	
-	
+
+
 	public MainScene(Ressources res) {
 		this.res = res;
 		mHoldDetector = new ContinuousHoldDetector(this);
@@ -138,7 +140,9 @@ public class MainScene extends Scene implements IOnSceneTouchListener, IHoldDete
 		this.registerTouchArea(txt);
 		this.attachChild(txt);
 
-		TextElement txt1 = new TextElement(txtM, 100, 200, res);
+		PictureElementModel pm = new PictureElementModel(0,"Image Element", null, null);
+
+		PictureElement txt1 = new PictureElement(pm, 100, 200, res);
 		this.registerTouchArea(txt1);
 		this.attachChild(txt1);
 
@@ -217,7 +221,7 @@ public class MainScene extends Scene implements IOnSceneTouchListener, IHoldDete
 			float pHoldY) {
 		res.getContext().runOnUiThread(new Runnable() {
 
-			
+
 
 			@Override
 			public void run() {
@@ -258,16 +262,16 @@ public class MainScene extends Scene implements IOnSceneTouchListener, IHoldDete
 	public void verifyRoundButton(AbstractElement abstractElement) {
 		if(abstractElement instanceof RoundButtonElement)
 			return;
-		
+
 		for (int i = 0; i < getChildCount(); i++) {
-			
+
 			if(getChildByIndex(i) instanceof RoundButtonElement){
 				RoundButtonElement rb = (RoundButtonElement) getChildByIndex(i);
 				if(rb.contains(abstractElement.getX(), abstractElement.getY())){
 					rb.setActionOn(abstractElement);
 				}
 			}
-			
+
 		}
 	}
 
@@ -291,11 +295,11 @@ public class MainScene extends Scene implements IOnSceneTouchListener, IHoldDete
 			((Button)currentDialog.findViewById(R.id.bt_element_lien)).setOnClickListener(MainScene.this);
 			((Button)currentDialog.findViewById(R.id.bt_element_fichier)).setOnClickListener(MainScene.this);
 			((Button)currentDialog.findViewById(R.id.bt_element_image)).setOnClickListener(MainScene.this);
-			
+
 			currentDialog.show();
-			
+
 			break;
-			
+
 		case R.id.bt_importer:
 			//TODO
 			break;
@@ -307,7 +311,16 @@ public class MainScene extends Scene implements IOnSceneTouchListener, IHoldDete
 			break;
 		case R.id.bt_element_image:
 			//TODO
-			break;
+		{
+			PictureElementModel model = new PictureElementModel(0,"", null, null );
+
+			GPoint centre = res.getScreenCenter();
+			PictureElement tx = new PictureElement(model, centre.x, centre.y, res);
+			attachChild(tx);
+			registerTouchArea(tx);
+			tx.edit();
+		}
+		break;
 		case R.id.bt_element_texte:
 			//TODO la cr�ation doit creer un agent;
 			TextElementModel model = new TextElementModel(0,"", null, "" );
@@ -318,10 +331,10 @@ public class MainScene extends Scene implements IOnSceneTouchListener, IHoldDete
 			attachChild(tx);
 			registerTouchArea(tx);
 			tx.edit();
-			
+
 			break;
 		}
-		
+
 	}
 
 }

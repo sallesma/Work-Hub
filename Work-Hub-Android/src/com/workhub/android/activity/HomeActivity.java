@@ -8,7 +8,6 @@ import jade.android.RuntimeCallback;
 import jade.android.RuntimeService;
 import jade.core.MicroRuntime;
 import jade.core.Profile;
-import jade.gui.GuiAgent;
 import jade.util.Logger;
 import jade.util.leap.Properties;
 import jade.wrapper.AgentController;
@@ -25,10 +24,15 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.provider.MediaStore;
 
 import com.workhub.android.R;
+import com.workhub.android.element.AbstractElement;
+import com.workhub.android.element.PictureElement;
 import com.workhub.android.scene.MainScene;
 import com.workhub.android.utils.Constants;
 import com.workhub.android.utils.Ressources;
@@ -65,6 +69,8 @@ public class HomeActivity extends SimpleLayoutGameActivity {
 			System.out.println("Nickname already in use!");
 		}
 	};
+	private Object as;
+	private AbstractElement askElement;
 
 	public void startJade(final String nickname, final String host,
 			final String port,
@@ -222,5 +228,44 @@ public class HomeActivity extends SimpleLayoutGameActivity {
 		return R.id.layout_rendersurfaceview;
 	}
 
+	public void loadImage(AbstractElement e, int requestCode) {
+		this.askElement = e;
+		Intent intent = new Intent();
+		intent.setType("image/*");
+		intent.setAction(Intent.ACTION_GET_CONTENT);
+		startActivityForResult(intent, requestCode);
+		
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		
+		if (resultCode == RESULT_OK) {
+			if (requestCode == PictureElement.SELECT_PICTURE) {
+				Uri selectedImageUri = data.getData();
+				String imgPath;
+				if(selectedImageUri.toString().startsWith("file://")) {
+					imgPath = selectedImageUri.toString().replaceAll("file://", "");
+				} else {
+					imgPath = getPath(selectedImageUri);
+				}
+				((PictureElement)askElement).onActivityResult(imgPath);
+			
+			}
+		}
+		if(askElement!=null){
+			askElement = null;
+		}
+	}
+	public String getPath(Uri uri) {
+		
+		String[] projection = { MediaStore.Images.Media.DATA };
+		Cursor cursor = managedQuery(uri, projection, null, null, null);
+		int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+		cursor.moveToFirst();
+		
+		return cursor.getString(column_index);
+	}
 
 }

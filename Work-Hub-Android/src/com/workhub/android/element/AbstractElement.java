@@ -11,7 +11,6 @@ import org.andengine.input.touch.detector.PinchZoomDetector;
 import org.andengine.input.touch.detector.PinchZoomDetector.IPinchZoomDetectorListener;
 import org.andengine.input.touch.detector.ScrollDetector;
 import org.andengine.input.touch.detector.ScrollDetector.IScrollDetectorListener;
-import org.andengine.util.color.Color;
 import org.andengine.util.math.MathUtils;
 
 import android.app.Dialog;
@@ -33,7 +32,7 @@ public abstract class AbstractElement extends Entity  implements ITouchArea, IHo
 	private ContinuousHoldDetector mHoldDetector;
 	protected Dialog menuDialog;
 	protected Ressources res;
-	
+
 
 	protected AbstractElement(float centerX, float centerY, final Ressources res, boolean isResizable){
 		super(centerX, centerY);
@@ -46,15 +45,15 @@ public abstract class AbstractElement extends Entity  implements ITouchArea, IHo
 		res.getContext().runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				
+
 				iniDialogView();
 			}
 		});
-		
+
 		this.registerUpdateHandler(mHoldDetector);
-		
+
 		setZIndex(Constants.ZINDEX++);
-		
+
 	}
 
 
@@ -91,6 +90,9 @@ public abstract class AbstractElement extends Entity  implements ITouchArea, IHo
 			@Override
 			public void run() {
 				((Scene) getParent()).unregisterTouchArea(AbstractElement.this);
+				for (int i =0; i<getChildCount(); i++){
+					getChildByIndex(i).dispose() ;
+				}
 				detachSelf();
 
 			}
@@ -109,7 +111,7 @@ public abstract class AbstractElement extends Entity  implements ITouchArea, IHo
 		//	float X = event.getX();
 		//	float Y = event.getY();
 
-			
+
 		switch (myEventAction) {
 		case TouchEvent.ACTION_DOWN:
 			pointerCount=Math.min(pointerCount+1, 2);
@@ -234,23 +236,23 @@ public abstract class AbstractElement extends Entity  implements ITouchArea, IHo
 			}
 			if(isRot){
 				setRotation(iniAngle + GPoint.AngleBetween(pt1, pt2));
-				
+
 				if(isResizable ){
-				float[] scaleLocalCoord1 = MathUtils.revertRotateAroundCenter(new float[]{pt1.x, pt1.y}, this.getRotation(), 
-						getX(), getY());
-				float[] scaleLocalCoord2 = MathUtils.revertRotateAroundCenter(new float[]{pt2.x, pt2.y}, this.getRotation(), 
-						getX(), getY());
-						
-						//this.convertSceneToLocalCoordinates(pt1.x, pt1.y).clone();
-				//float[] scaleLocalCoord2 = this.convertSceneToLocalCoordinates(pt2.x, pt2.y).clone();
-				float distX=Math.abs(scaleLocalCoord1[0]-scaleLocalCoord2[0]);
-				float distY=Math.abs(scaleLocalCoord1[1]-scaleLocalCoord2[1]);
-				if(iniDistY<50)
-					distY=iniDistY;
-				else if(iniDistX<50)
-					distX=iniDistX;
+					float[] scaleLocalCoord1 = MathUtils.revertRotateAroundCenter(new float[]{pt1.x, pt1.y}, this.getRotation(), 
+							getX(), getY());
+					float[] scaleLocalCoord2 = MathUtils.revertRotateAroundCenter(new float[]{pt2.x, pt2.y}, this.getRotation(), 
+							getX(), getY());
+
+					//this.convertSceneToLocalCoordinates(pt1.x, pt1.y).clone();
+					//float[] scaleLocalCoord2 = this.convertSceneToLocalCoordinates(pt2.x, pt2.y).clone();
+					float distX=Math.abs(scaleLocalCoord1[0]-scaleLocalCoord2[0]);
+					float distY=Math.abs(scaleLocalCoord1[1]-scaleLocalCoord2[1]);
+					if(iniDistY<50)
+						distY=iniDistY;
+					else if(iniDistX<50)
+						distX=iniDistX;
 					this.setScale(iniScaleX*Math.abs(distX/iniDistX),
-						iniScaleY*Math.abs(distY/iniDistY)); 
+							iniScaleY*Math.abs(distY/iniDistY)); 
 				}else{
 					this.setScale(iniScaleX*pZoomFactor,
 							iniScaleY*pZoomFactor); 
@@ -291,7 +293,7 @@ public abstract class AbstractElement extends Entity  implements ITouchArea, IHo
 	public void onScrollFinished(ScrollDetector pScollDetector, int pPointerID,
 			float pDistanceX, float pDistanceY) {
 		onScroll(pScollDetector, pPointerID, pDistanceX, pDistanceY);
-		
+
 		if(pointerCount==0){
 			((MainScene) getParent()).verifyRoundButton(this);
 		}

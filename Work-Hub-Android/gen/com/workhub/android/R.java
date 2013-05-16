@@ -18,6 +18,7 @@ public final class R {
     }
     public static final class drawable {
         public static final int ic_launcher=0x7f020000;
+        public static final int img_default=0x7f020001;
     }
     public static final class id {
         public static final int bt_cancel=0x7f07000f;
@@ -34,16 +35,17 @@ public final class R {
         public static final int bt_nouveau=0x7f070002;
         public static final int bt_ok=0x7f070010;
         public static final int bt_supprimer=0x7f070006;
-        public static final int content=0x7f07000e;
-        public static final int layout_rendersurfaceview=0x7f07000c;
-        public static final int title=0x7f07000d;
+        public static final int content=0x7f07000d;
+        public static final int img_content=0x7f07000e;
+        public static final int layout_rendersurfaceview=0x7f070011;
+        public static final int title=0x7f07000c;
     }
     public static final class layout {
         public static final int dialog=0x7f030000;
         public static final int dialog_scene_main=0x7f030001;
         public static final int dialog_scene_new=0x7f030002;
-        public static final int game_activity=0x7f030003;
-        public static final int text_element=0x7f030004;
+        public static final int element_dialog=0x7f030003;
+        public static final int game_activity=0x7f030004;
     }
     public static final class string {
         public static final int app_name=0x7f050000;
