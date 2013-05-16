@@ -1,20 +1,16 @@
 package com.workhub.mt4j;
 
-import org.mt4j.components.interfaces.IclickableButton;
 import org.mt4j.components.visibleComponents.font.FontManager;
 import org.mt4j.components.visibleComponents.shapes.MTLine;
 import org.mt4j.components.visibleComponents.widgets.MTClipRectangle;
 import org.mt4j.components.visibleComponents.widgets.MTTextArea;
-import org.mt4j.input.IMTInputEventListener;
-import org.mt4j.input.inputProcessors.IGestureEventListener;
-import org.mt4j.input.inputProcessors.componentProcessors.tapProcessor.TapEvent;
 import org.mt4j.util.MTColor;
 import org.mt4j.util.math.Vector3D;
 import org.mt4j.util.math.Vertex;
 
 import processing.core.PApplet;
 
-public abstract class AbstractElementView extends MTClipRectangle implements IclickableButton, IGestureEventListener, IMTInputEventListener{
+public abstract class AbstractElementView extends MTClipRectangle {
 
 	/*
 	 * TODO : empêcher que le titre ou le contenu dépassent du post it
@@ -41,24 +37,32 @@ public abstract class AbstractElementView extends MTClipRectangle implements Icl
 		addChild(ligne);
 		
 		setFillColor(new MTColor(250, 230, 100, 255));
-	}
-
-	@Override
-	public void fireActionPerformed(TapEvent ce) {
-		// TODO Auto-generated method stub
 		
+//		registerInputProcessor(new TapAndHoldProcessor(applet, 2000));
+//		addGestureListener(TapAndHoldProcessor.class, new TapAndHoldVisualizer((MTApplication) applet, (MTCanvas)getParent()));
+//		addGestureListener(TapAndHoldProcessor.class, new IGestureEventListener() {
+//			public boolean processGestureEvent(MTGestureEvent ge) {
+//				TapAndHoldEvent tahe = (TapAndHoldEvent)ge;
+//				switch (tahe.getId()) {
+//				case TapAndHoldEvent.GESTURE_DETECTED:
+//					break;
+//				case TapAndHoldEvent.GESTURE_UPDATED:
+//					break;
+//				case TapAndHoldEvent.GESTURE_ENDED:
+//					if (tahe.isHoldComplete()){
+//						openContextualMenu();
+//					}
+//					break;
+//				default:
+//					break;
+//				}
+//				return false;
+//			}
+//		});
 	}
-
-	@Override
-	public void setSelected(boolean selected) {
-		// TODO Auto-generated method stub
+	
+	protected void openContextualMenu() {
 		
-	}
-
-	@Override
-	public boolean isSelected() {
-		// TODO Auto-generated method stub
-		return false;
 	}
 	
 	public MTTextArea getTitle() {
