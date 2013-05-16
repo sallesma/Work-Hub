@@ -14,6 +14,7 @@ import org.andengine.input.touch.detector.ScrollDetector;
 import org.andengine.input.touch.detector.ScrollDetector.IScrollDetectorListener;
 import org.andengine.opengl.util.GLState;
 import org.andengine.util.adt.list.SmartList;
+import org.andengine.util.color.Color;
 
 import android.app.Dialog;
 import android.view.View;
@@ -101,7 +102,7 @@ public class MainScene extends Scene implements IOnSceneTouchListener, IHoldDete
 		if(b){
 			//IEntity entity = (IEntity) getTouchAreas().get(0);
 			list.clear();
-			for (int i = getChildCount()-1; i >=0; i--) {
+			for (int i = 0; i<getChildCount(); i ++) {
 				if(getChildByIndex(i) instanceof AbstractElement){
 					list.add((ITouchArea) getChildByIndex(i));
 				}
@@ -114,6 +115,7 @@ public class MainScene extends Scene implements IOnSceneTouchListener, IHoldDete
 
 
 		this.setTouchAreaBindingOnActionDownEnabled(true);
+		this.setOnAreaTouchTraversalFrontToBack();
 		this.setOnSceneTouchListenerBindingOnActionDownEnabled(true);
 		this.setOnSceneTouchListener(this);
 		float width = res.getSceneWidth();
@@ -129,8 +131,8 @@ public class MainScene extends Scene implements IOnSceneTouchListener, IHoldDete
 		this.attachChild(rb);
 		this.registerTouchArea(rb);  
 
-		TextElementModel txtM = new TextElementModel();
-		txtM.setContent("tQu'est-ce que qsdf.org ? QSDF.ORG est un domaine à usage initialement personnel. Les services ou sites webs liés à qsdf.");
+		TextElementModel txtM = new TextElementModel(0,"", null, "" );
+		txtM.setContent("tQu'est-ce que qsdf.org ? QSDF.ORG est un domaine ï¿½ usage initialement personnel. Les services ou sites webs liï¿½s ï¿½ qsdf.");
 		txtM.setTitle("titre de l'element txt");
 		TextElement txt = new TextElement(txtM, 200, 200, res);
 		this.registerTouchArea(txt);
@@ -307,8 +309,8 @@ public class MainScene extends Scene implements IOnSceneTouchListener, IHoldDete
 			//TODO
 			break;
 		case R.id.bt_element_texte:
-			//TODO la création doit creer un agent;
-			TextElementModel model = new TextElementModel();
+			//TODO la crï¿½ation doit creer un agent;
+			TextElementModel model = new TextElementModel(0,"", null, "" );
 			model.setTitle("");
 			model.setContent("");
 			GPoint centre = res.getScreenCenter();

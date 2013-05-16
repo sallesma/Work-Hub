@@ -20,6 +20,8 @@ public class TextElementView extends AbstractElementView {
 		content.setNoStroke(true);
 		content.setPositionRelativeToParent(new Vector3D(300, 260));
 		addChild(content);
+		
+		
 	}
 
 	private MTTextArea content;

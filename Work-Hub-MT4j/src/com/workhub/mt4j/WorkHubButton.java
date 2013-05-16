@@ -1,15 +1,12 @@
 package com.workhub.mt4j;
 
 import org.mt4j.MTApplication;
-import org.mt4j.components.interfaces.IclickableButton;
 import org.mt4j.components.visibleComponents.font.FontManager;
 import org.mt4j.components.visibleComponents.shapes.MTRoundRectangle;
 import org.mt4j.components.visibleComponents.widgets.MTTextArea;
 import org.mt4j.input.IMTInputEventListener;
 import org.mt4j.input.inputData.AbstractCursorInputEvt;
 import org.mt4j.input.inputData.MTInputEvent;
-import org.mt4j.input.inputProcessors.IGestureEventListener;
-import org.mt4j.input.inputProcessors.componentProcessors.tapProcessor.TapEvent;
 import org.mt4j.util.MTColor;
 import org.mt4j.util.math.Vector3D;
 /**
@@ -18,7 +15,7 @@ import org.mt4j.util.math.Vector3D;
  * This is necessary in order to have a round button
  *
  */
-public class WorkHubButton extends MTRoundRectangle implements IclickableButton, IGestureEventListener, IMTInputEventListener {
+public class WorkHubButton extends MTRoundRectangle {
 	private MTApplication mtApplication;
 	private MTTextArea buttonText;
 
@@ -41,10 +38,14 @@ public class WorkHubButton extends MTRoundRectangle implements IclickableButton,
 		addChild(buttonText);
 		
 		setFillColor(new MTColor(150, 150, 100, 255));
-		setNoStroke(true);
-		// Empêche le bouton d'être déplacé
+		setNoStroke(true);		
+		
 		unregisterAllInputProcessors();
 		removeAllGestureEventListeners();
+		assignActions(mtApplication, text);
+	}
+
+	private void assignActions(MTApplication mtApplication, String text) {
 		addInputListener(new IMTInputEventListener() {
 			@Override
 			public boolean processInputEvent(MTInputEvent inEvt) {
@@ -65,6 +66,17 @@ public class WorkHubButton extends MTRoundRectangle implements IclickableButton,
 				return false;
 			}
 		});
+
+		switch (text) {
+		case Constants.BUTTON_ID_MENU:
+			break;
+		case Constants.BUTTON_ID_ENVOYER:
+			break;
+		case Constants.BUTTON_ID_RECEVOIR:
+			break;
+		case Constants.BUTTON_ID_MASQUER:
+			break;
+		}
 	}
 
 	public static int getXPositionFromCorner(int corner, MTApplication mtApplication, int rayon) {
@@ -74,22 +86,6 @@ public class WorkHubButton extends MTRoundRectangle implements IclickableButton,
 	public static int getYPositionFromCorner(int corner, MTApplication mtApplication, int rayon) {
 		int y = ((corner & 0x10) == 0) ? -rayon : mtApplication.getHeight()-rayon;
 		return y;
-	}
-
-	@Override
-	public void fireActionPerformed(TapEvent ce) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void setSelected(boolean selected) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public boolean isSelected() {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 	public MTApplication getMtApplication() {

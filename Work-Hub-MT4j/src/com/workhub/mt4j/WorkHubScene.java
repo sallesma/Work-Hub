@@ -1,6 +1,11 @@
 package com.workhub.mt4j;
 
 import org.mt4j.MTApplication;
+import org.mt4j.input.gestureAction.TapAndHoldVisualizer;
+import org.mt4j.input.inputProcessors.IGestureEventListener;
+import org.mt4j.input.inputProcessors.MTGestureEvent;
+import org.mt4j.input.inputProcessors.componentProcessors.tapAndHoldProcessor.TapAndHoldEvent;
+import org.mt4j.input.inputProcessors.componentProcessors.tapAndHoldProcessor.TapAndHoldProcessor;
 import org.mt4j.input.inputProcessors.globalProcessors.CursorTracer;
 import org.mt4j.sceneManagement.AbstractScene;
 import org.mt4j.util.MTColor;
@@ -10,19 +15,19 @@ public class WorkHubScene extends AbstractScene {
 	private WorkHubButton menuButton;
 	private WorkHubButton envoyerButton;
 	private WorkHubButton recevoirButton;
-	private WorkHubButton supprimerButton;
+	private WorkHubButton masquerButton;
 	
 	public WorkHubScene(MTApplication mtApplication, String name) throws WorkHubException{
 		super(mtApplication, name);
 		this.setClearColor(new MTColor(146, 150, 188, 255));
 		this.registerGlobalInputProcessor(new CursorTracer(mtApplication, this));
-		menuButton = new WorkHubButton("Menu", Constants.CORNER_TOP_LEFT, 130, 1000, 40, 40, getMTApplication());
-		envoyerButton = new WorkHubButton("Envoyer", Constants.CORNER_BOTTOM_RIGHT, 130, 1000, 980, 700, getMTApplication());
-		recevoirButton = new WorkHubButton("Recevoir", Constants.CORNER_BOTTOM_LEFT, 130, 1000, 50, 700, getMTApplication());
-		supprimerButton = new WorkHubButton("Supprimer", Constants.CORNER_TOP_RIGHT, 130, 1000, 980, 40, getMTApplication());
-		supprimerButton.setPositionGlobal(new Vector3D(mtApplication.getWidth()-20, -20));
+		menuButton = new WorkHubButton(Constants.BUTTON_ID_MENU, Constants.CORNER_TOP_LEFT, 130, 1000, 40, 40, getMTApplication());
+		envoyerButton = new WorkHubButton(Constants.BUTTON_ID_ENVOYER, Constants.CORNER_BOTTOM_RIGHT, 130, 1000, 980, 700, getMTApplication());
+		recevoirButton = new WorkHubButton(Constants.BUTTON_ID_RECEVOIR, Constants.CORNER_BOTTOM_LEFT, 130, 1000, 50, 700, getMTApplication());
+		masquerButton = new WorkHubButton(Constants.BUTTON_ID_MASQUER, Constants.CORNER_TOP_RIGHT, 130, 1000, 980, 40, getMTApplication());
+		masquerButton.setPositionGlobal(new Vector3D(mtApplication.getWidth()-20, -20));
 		this.getCanvas().addChild(menuButton);
-		this.getCanvas().addChild(supprimerButton);
+		this.getCanvas().addChild(masquerButton);
 		this.getCanvas().addChild(envoyerButton);
 		this.getCanvas().addChild(recevoirButton);
 		
@@ -30,6 +35,35 @@ public class WorkHubScene extends AbstractScene {
 		addElementView(Constants.ELEMENT_IMAGE);
 		addElementView(Constants.ELEMENT_LINK);
 		addElementView(Constants.ELEMENT_FILE);
+		
+		getCanvas().registerInputProcessor(new TapAndHoldProcessor(mtApplication, 2000));
+		getCanvas().addGestureListener(TapAndHoldProcessor.class, new TapAndHoldVisualizer(mtApplication, getCanvas()));
+		getCanvas().addGestureListener(TapAndHoldProcessor.class, new IGestureEventListener() {
+			public boolean processGestureEvent(MTGestureEvent ge) {
+				TapAndHoldEvent tahe = (TapAndHoldEvent)ge;
+				switch (tahe.getId()) {
+				case TapAndHoldEvent.GESTURE_DETECTED:
+					break;
+				case TapAndHoldEvent.GESTURE_UPDATED:
+					break;
+				case TapAndHoldEvent.GESTURE_ENDED:
+					if (tahe.isHoldComplete()){
+						openContextualMenu();
+					}
+					break;
+				default:
+					break;
+				}
+				return false;
+			}
+
+			
+		});
+	}
+	
+	private void openContextualMenu() {
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
@@ -63,6 +97,5 @@ public class WorkHubScene extends AbstractScene {
 			throw new WorkHubException("Type d'élément invalide.");
 		}
 		return null;
-
 	}
 }

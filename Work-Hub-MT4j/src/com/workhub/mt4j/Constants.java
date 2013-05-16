@@ -6,6 +6,11 @@ public class Constants {
 	public static final int ELEMENT_IMAGE		= 2;
 	public static final int ELEMENT_FILE 		= 3;
 	
+	public static final String BUTTON_ID_MENU		= "Menu";
+	public static final String BUTTON_ID_ENVOYER	= "Envoyer";
+	public static final String BUTTON_ID_RECEVOIR	= "Recevoir";
+	public static final String BUTTON_ID_MASQUER	= "Masquer";
+	
 	/*
 	 * Premier bit : 0 = gauche, 1 = droite
 	 * Deuxième bit : 0 = haut, 1 = bas

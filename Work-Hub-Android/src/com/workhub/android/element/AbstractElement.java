@@ -11,6 +11,7 @@ import org.andengine.input.touch.detector.PinchZoomDetector;
 import org.andengine.input.touch.detector.PinchZoomDetector.IPinchZoomDetectorListener;
 import org.andengine.input.touch.detector.ScrollDetector;
 import org.andengine.input.touch.detector.ScrollDetector.IScrollDetectorListener;
+import org.andengine.util.color.Color;
 import org.andengine.util.math.MathUtils;
 
 import android.app.Dialog;
@@ -49,10 +50,10 @@ public abstract class AbstractElement extends Entity  implements ITouchArea, IHo
 				iniDialogView();
 			}
 		});
+		
 		this.registerUpdateHandler(mHoldDetector);
 		
 		setZIndex(Constants.ZINDEX++);
-		getParent().sortChildren(false);
 		
 	}
 
