@@ -48,7 +48,7 @@ public class WorkHubScene extends AbstractScene {
 					break;
 				case TapAndHoldEvent.GESTURE_ENDED:
 					if (tahe.isHoldComplete()){
-						openContextualMenu();
+						openContextualMenu(tahe.getLocationOnScreen());
 					}
 					break;
 				default:
@@ -61,9 +61,9 @@ public class WorkHubScene extends AbstractScene {
 		});
 	}
 	
-	private void openContextualMenu() {
-		// TODO Auto-generated method stub
-		
+	private void openContextualMenu(Vector3D location) {
+		ContextMenu contextMenu = new ContextMenu((int)location.x, (int)location.y, getMTApplication(), Constants.CONTEXT_MAIN_MENU);
+		this.getCanvas().addChild(contextMenu);
 	}
 
 	@Override
