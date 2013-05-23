@@ -5,8 +5,13 @@ import org.mt4j.components.visibleComponents.font.FontManager;
 import org.mt4j.components.visibleComponents.shapes.MTRoundRectangle;
 import org.mt4j.components.visibleComponents.widgets.MTTextArea;
 import org.mt4j.input.IMTInputEventListener;
+import org.mt4j.input.gestureAction.TapAndHoldVisualizer;
 import org.mt4j.input.inputData.AbstractCursorInputEvt;
 import org.mt4j.input.inputData.MTInputEvent;
+import org.mt4j.input.inputProcessors.IGestureEventListener;
+import org.mt4j.input.inputProcessors.MTGestureEvent;
+import org.mt4j.input.inputProcessors.componentProcessors.tapAndHoldProcessor.TapAndHoldEvent;
+import org.mt4j.input.inputProcessors.componentProcessors.tapAndHoldProcessor.TapAndHoldProcessor;
 import org.mt4j.util.MTColor;
 import org.mt4j.util.math.Vector3D;
 /**
@@ -43,17 +48,53 @@ public class WorkHubButton extends MTRoundRectangle {
 		unregisterAllInputProcessors();
 		removeAllGestureEventListeners();
 		assignActions(mtApplication, text);
+		registerInputProcessor(new TapAndHoldProcessor(mtApplication, 2000));
+		addGestureListener(TapAndHoldProcessor.class, new TapAndHoldVisualizer(mtApplication, this));
+		addGestureListener(TapAndHoldProcessor.class, new IGestureEventListener() {
+			public boolean processGestureEvent(MTGestureEvent ge) {
+				TapAndHoldEvent tahe = (TapAndHoldEvent)ge;
+				switch (tahe.getId()) {
+				case TapAndHoldEvent.GESTURE_DETECTED:
+					break;
+				case TapAndHoldEvent.GESTURE_UPDATED:
+					break;
+				case TapAndHoldEvent.GESTURE_ENDED:
+					if (tahe.isHoldComplete()){
+						openContextualMenu(tahe.getLocationOnScreen());
+					}
+					break;
+				default:
+					break;
+				}
+				return false;
+			}
+		});
+	}
+
+	private void openContextualMenu(Vector3D locationOnScreen) {
+		ContextMenu contextMenu = new ContextMenu((int)locationOnScreen.x, (int)locationOnScreen.y, mtApplication, Constants.CONTEXT_SHORTCUT_MENU);
+		this.addChild(contextMenu);
 	}
 
 	private void assignActions(MTApplication mtApplication, String text) {
 		addInputListener(new IMTInputEventListener() {
 			@Override
 			public boolean processInputEvent(MTInputEvent inEvt) {
-				System.out.println(buttonText.getText());
 				if (inEvt instanceof AbstractCursorInputEvt) {
 					AbstractCursorInputEvt cursorInputEvt = (AbstractCursorInputEvt) inEvt;
 					switch (cursorInputEvt.getId()) {
 					case AbstractCursorInputEvt.INPUT_DETECTED:
+						System.out.println(buttonText.getText());
+						switch (buttonText.getText()) {
+						case Constants.BUTTON_ID_MENU:
+							break;
+						case Constants.BUTTON_ID_ENVOYER:
+							break;
+						case Constants.BUTTON_ID_RECEVOIR:
+							break;
+						case Constants.BUTTON_ID_MASQUER:
+							break;
+						}
 						break;
 					case AbstractCursorInputEvt.INPUT_ENDED:
 						break;
@@ -67,16 +108,6 @@ public class WorkHubButton extends MTRoundRectangle {
 			}
 		});
 
-		switch (text) {
-		case Constants.BUTTON_ID_MENU:
-			break;
-		case Constants.BUTTON_ID_ENVOYER:
-			break;
-		case Constants.BUTTON_ID_RECEVOIR:
-			break;
-		case Constants.BUTTON_ID_MASQUER:
-			break;
-		}
 	}
 
 	public static int getXPositionFromCorner(int corner, MTApplication mtApplication, int rayon) {

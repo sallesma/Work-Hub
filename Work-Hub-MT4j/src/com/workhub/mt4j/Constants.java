@@ -21,7 +21,7 @@ public class Constants {
 	public static final int CORNER_BOTTOM_RIGHT	= 0x11;
 
 	public static final int Z_POSITION_DEFAULT_BUTTON = 0;
-	public static final int Z_POSITION_DEFAULT_ELEMENT = 1;
+	public static final int Z_POSITION_DEFAULT_ELEMENT = 0;
 	
 	public static final int CONTEXT_BUTTON_WIDTH	= 200;
 	public static final int CONTEXT_BUTTON_HEIGHT	= 40;

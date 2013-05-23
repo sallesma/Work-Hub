@@ -56,8 +56,6 @@ public class WorkHubScene extends AbstractScene {
 				}
 				return false;
 			}
-
-			
 		});
 	}
 	
