@@ -14,7 +14,6 @@ import org.andengine.input.touch.detector.ScrollDetector;
 import org.andengine.input.touch.detector.ScrollDetector.IScrollDetectorListener;
 import org.andengine.opengl.util.GLState;
 import org.andengine.util.adt.list.SmartList;
-import org.andengine.util.color.Color;
 
 import android.app.Dialog;
 import android.view.View;
@@ -65,13 +64,21 @@ public class MainScene extends Scene implements IOnSceneTouchListener, IHoldDete
 								if(groupElement.collideWith((BaseElement) getChildByIndex(i))){
 									list.add((BaseElement) getChildByIndex(i));
 								}
-
-
 							}
 						}
 
 
 						if(list.size()>1){
+							for (int j = 0; j < getChildCount(); j++) {
+
+								if(getChildByIndex(j)instanceof GroupElement){
+									GroupElement g  = (GroupElement) getChildByIndex(j);
+									if(g!=groupElement&&g.containsOneOf(list)){
+										g.clearGroup();
+										g.remove();
+									}
+								}
+							}
 							groupElement.initialize(list);
 							groupElement.setZIndex(Constants.ZINDEX++);
 							registerTouchArea(groupElement);
@@ -123,13 +130,13 @@ public class MainScene extends Scene implements IOnSceneTouchListener, IHoldDete
 		float width = res.getSceneWidth();
 		float height = res.getSceneHeight();
 
-		RoundButtonElement rb = new RoundButtonElement(width-width/12, -width/20, RoundButtonElement.TYPE_SUPPRIMER, res );
+		RoundButtonElement rb = new RoundButtonElement(width-width/12, -width/20, R.id.bt_raccourci_supprimer, res );
 		this.attachChild(rb);
 		this.registerTouchArea(rb);
-		rb = new RoundButtonElement(width-width/12, height+width/20, RoundButtonElement.TYPE_ENVOYER, res );
+		rb = new RoundButtonElement(width-width/12, height+width/20, R.id.bt_raccourci_envoyer, res );
 		this.attachChild(rb);
 		this.registerTouchArea(rb);
-		rb = new RoundButtonElement(0+width/12, height+width/20, RoundButtonElement.TYPE_RECEVOIR, res );
+		rb = new RoundButtonElement(0+width/12, height+width/20, R.id.bt_raccourci_recevoir, res );
 		this.attachChild(rb);
 		this.registerTouchArea(rb);  
 
@@ -220,9 +227,6 @@ public class MainScene extends Scene implements IOnSceneTouchListener, IHoldDete
 			long pHoldTimeMilliseconds, int pPointerID, float pHoldX,
 			float pHoldY) {
 		res.getContext().runOnUiThread(new Runnable() {
-
-
-
 			@Override
 			public void run() {
 				currentDialog = new Dialog(res.getContext(), R.style.dialog_app_theme);
@@ -230,8 +234,8 @@ public class MainScene extends Scene implements IOnSceneTouchListener, IHoldDete
 				((Button)currentDialog.findViewById(R.id.bt_clear_all)).setOnClickListener(MainScene.this);
 				((Button)currentDialog.findViewById(R.id.bt_nouveau)).setOnClickListener(MainScene.this);
 				((Button)currentDialog.findViewById(R.id.bt_importer)).setOnClickListener(MainScene.this);
+				((Button)currentDialog.findViewById(R.id.bt_nouveau_raccourci)).setOnClickListener(MainScene.this);
 				currentDialog.show();
-
 			}
 		});
 
@@ -264,11 +268,14 @@ public class MainScene extends Scene implements IOnSceneTouchListener, IHoldDete
 			return;
 
 		for (int i = 0; i < getChildCount(); i++) {
-
 			if(getChildByIndex(i) instanceof RoundButtonElement){
 				RoundButtonElement rb = (RoundButtonElement) getChildByIndex(i);
-				if(rb.contains(abstractElement.getX(), abstractElement.getY())){
+				
+				
+				
+				if(abstractElement.contains(rb.getX(), rb.getY())){
 					rb.setActionOn(abstractElement);
+					return;
 				}
 			}
 
@@ -280,12 +287,14 @@ public class MainScene extends Scene implements IOnSceneTouchListener, IHoldDete
 		currentDialog.dismiss();
 		switch (v.getId()) {
 		case R.id.bt_clear_all:
-			res.getContext().runOnUpdateThread(new Runnable() {
-				@Override
-				public void run() {
-					MainScene.this.detachChildren();					
+
+			for (int i = 0; i<getChildCount(); i ++) {
+				if(getChildByIndex(i) instanceof BaseElement){
+					((BaseElement) getChildByIndex(i)).remove();
 				}
-			});
+			}
+
+
 			break;
 
 		case R.id.bt_nouveau:
@@ -295,11 +304,20 @@ public class MainScene extends Scene implements IOnSceneTouchListener, IHoldDete
 			((Button)currentDialog.findViewById(R.id.bt_element_lien)).setOnClickListener(MainScene.this);
 			((Button)currentDialog.findViewById(R.id.bt_element_fichier)).setOnClickListener(MainScene.this);
 			((Button)currentDialog.findViewById(R.id.bt_element_image)).setOnClickListener(MainScene.this);
-
 			currentDialog.show();
 
 			break;
-
+		case R.id.bt_nouveau_raccourci:
+			currentDialog = new Dialog(res.getContext(), R.style.dialog_app_theme);
+			currentDialog.setContentView(R.layout.dialog_scene_new_shortcut);
+			((Button)currentDialog.findViewById(R.id.bt_raccourci_editer)).setOnClickListener(MainScene.this);
+			((Button)currentDialog.findViewById(R.id.bt_raccourci_envoyer)).setOnClickListener(MainScene.this);
+			((Button)currentDialog.findViewById(R.id.bt_raccourci_exporter)).setOnClickListener(MainScene.this);
+			((Button)currentDialog.findViewById(R.id.bt_raccourci_masquer)).setOnClickListener(MainScene.this);
+			((Button)currentDialog.findViewById(R.id.bt_raccourci_recevoir)).setOnClickListener(MainScene.this);
+			((Button)currentDialog.findViewById(R.id.bt_raccourci_supprimer)).setOnClickListener(MainScene.this);
+			currentDialog.show();
+			break;
 		case R.id.bt_importer:
 			//TODO
 			break;
@@ -332,6 +350,17 @@ public class MainScene extends Scene implements IOnSceneTouchListener, IHoldDete
 			registerTouchArea(tx);
 			tx.edit();
 
+			break;
+			
+		case R.id.bt_raccourci_editer:
+		case R.id.bt_raccourci_envoyer:
+		case R.id.bt_raccourci_exporter:
+		case R.id.bt_raccourci_masquer:
+		case R.id.bt_raccourci_recevoir:
+		case R.id.bt_raccourci_supprimer:
+			RoundButtonElement rb = new RoundButtonElement(res.getScreenCenter().x, res.getScreenCenter().y, v.getId(), res );
+			this.attachChild(rb);
+			this.registerTouchArea(rb);  
 			break;
 		}
 

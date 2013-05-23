@@ -4,12 +4,12 @@ import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.text.Text;
 import org.andengine.entity.text.TextOptions;
 import org.andengine.input.touch.TouchEvent;
+import org.andengine.input.touch.detector.HoldDetector;
 import org.andengine.input.touch.detector.PinchZoomDetector;
 import org.andengine.input.touch.detector.ScrollDetector;
 import org.andengine.util.HorizontalAlign;
-import org.andengine.util.color.Color;
 
-import android.view.View;
+import android.app.Dialog;
 
 import com.workhub.android.R;
 import com.workhub.android.utils.Constants;
@@ -18,15 +18,29 @@ import com.workhub.android.utils.Ressources;
 
 public class RoundButtonElement extends AbstractElement{
 
-	public final static int TYPE_ENVOYER = 0;
-	public final static int TYPE_SUPPRIMER = 1;
-	public final static int TYPE_RECEVOIR = 2;
 
 	public final static int RAYON = Constants.SCREEN_WIDTH/4;
 
-	private final static String[] TITRE = {"Envoyer", "Supprimer", "Recevoir"};
+	private String getTitle(int type){
+		switch (type) {
+		case R.id.bt_raccourci_editer:
+			return res.getContext().getString(R.string.raccourci_editer);
+		case R.id.bt_raccourci_envoyer:
+			return res.getContext().getString(R.string.raccourci_envoyer);
+		case R.id.bt_raccourci_exporter:
+			return res.getContext().getString(R.string.raccourci_exporter);
+		case R.id.bt_raccourci_masquer:
+			return res.getContext().getString(R.string.raccourci_masquer);
+		case R.id.bt_raccourci_recevoir:
+			return res.getContext().getString(R.string.raccourci_recevoir);
+		case R.id.bt_raccourci_supprimer:
+			return res.getContext().getString(R.string.raccourci_supprimer);
+		}
 
+		return "Erreur";
+	}
 
+	protected Dialog editDialog;
 	private int type;
 	private Text centerText;
 	private GPoint centerScene;
@@ -48,9 +62,8 @@ public class RoundButtonElement extends AbstractElement{
 		this.attachChild(s);
 
 
-		centerText = new Text(0, 0, res.getFont(), TITRE[type], new TextOptions(HorizontalAlign.CENTER), res.getContext().getVertexBufferObjectManager());
+		centerText = new Text(0, 0, res.getFont(), getTitle(type), new TextOptions(HorizontalAlign.CENTER), res.getContext().getVertexBufferObjectManager());
 		centerText.setPosition(-centerText.getWidth()/2, RAYON/3);
-		centerText.setColor(Color.WHITE);
 		this.attachChild(centerText);
 	}
 
@@ -59,6 +72,22 @@ public class RoundButtonElement extends AbstractElement{
 		super.onScroll(pScollDetector, pPointerID, pDistanceX, pDistanceY);
 		rotateToCenter();
 	};
+
+	@Override
+	public void onHoldFinished(HoldDetector pHoldDetector,
+			long pHoldTimeMilliseconds, int pPointerID, float pHoldX,
+			float pHoldY) {
+		super.onHoldFinished(pHoldDetector, pHoldTimeMilliseconds, pPointerID, pHoldX,
+				pHoldY);
+		res.getContext().runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				menuDialog.show();
+			}
+		});
+	}
+
+
 
 	@Override
 	public void onPinchZoom(PinchZoomDetector pPinchZoomDetector, TouchEvent pTouchEvent, float pZoomFactor) {}
@@ -81,15 +110,28 @@ public class RoundButtonElement extends AbstractElement{
 
 	public void setActionOn(AbstractElement abstractElement) {
 		switch (type) {
-		case TYPE_ENVOYER:
+		case R.id.bt_raccourci_editer:
+			if(abstractElement instanceof BaseElement){
+				((BaseElement)abstractElement).edit();
+			}
+			break;
+		case R.id.bt_raccourci_envoyer:
 			//TODO
 			break;
-		case TYPE_RECEVOIR:
+		case R.id.bt_raccourci_exporter:
 			//TODO
 			break;
-		case TYPE_SUPPRIMER:
-		abstractElement.remove();
-		break;
+		case R.id.bt_raccourci_masquer:
+			if(abstractElement instanceof BaseElement){
+				((BaseElement)abstractElement).masquer();
+			}
+			break;
+		case R.id.bt_raccourci_recevoir:
+			//TODO
+			break;
+		case R.id.bt_raccourci_supprimer:
+			abstractElement.remove();
+			break;
 
 
 		}

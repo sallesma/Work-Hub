@@ -184,9 +184,9 @@ public abstract class AbstractElement extends Entity  implements ITouchArea, IHo
 	}
 
 	protected float iniScaleX, iniScaleY;
-	private GPoint pt1 = new GPoint(-1, -1), pt2=new GPoint(-1, -1);
+	protected GPoint pt1 = new GPoint(-1, -1), pt2=new GPoint(-1, -1);
 	private int iniFingerID = -1;
-	private float iniAngle;
+	protected float iniAngle;
 	private boolean isRot = false;
 	private float[] iniScaleLocalCoord1;
 	private float[] iniScaleLocalCoord2;

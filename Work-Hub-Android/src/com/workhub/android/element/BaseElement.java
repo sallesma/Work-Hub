@@ -1,5 +1,7 @@
 package com.workhub.android.element;
 
+import org.andengine.entity.modifier.MoveModifier;
+import org.andengine.entity.modifier.ScaleModifier;
 import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.text.AutoWrap;
 import org.andengine.entity.text.Text;
@@ -137,7 +139,7 @@ public abstract class BaseElement extends AbstractElement  {
 			edit();
 			break;
 		case R.id.bt_masquer:
-			super.remove();
+			masquer();
 			break;
 		case R.id.bt_ok:
 			model.setTitle(((EditText)editDialog.findViewById(R.id.title)).getText().toString());
@@ -153,12 +155,12 @@ public abstract class BaseElement extends AbstractElement  {
 		super.onClick(v);
 	}
 
+	public void masquer() {
+		super.remove();
+	}
+
 	public void edit() {
 		res.getContext().runOnUiThread(new Runnable() {
-
-
-
-
 
 			@Override
 			public void run() {
@@ -181,5 +183,11 @@ public abstract class BaseElement extends AbstractElement  {
 		float[] v = new float[4*2];
 		RectangularShapeCollisionChecker.fillVertices(body, v);
 		return v;
+	}
+	public void moveTo(BaseElement baseElement) {
+		this.registerEntityModifier(new MoveModifier(Constants.ANIMATION_DURATION, getX(), 	baseElement.getX(),
+				getY(), baseElement.getY(), Constants.EASEFUNCTIONS[0]));
+		this.registerEntityModifier(new ScaleModifier(Constants.ANIMATION_DURATION,
+				getScaleX(), 	1, getScaleY(), 1, Constants.EASEFUNCTIONS[0]));
 	}
 }

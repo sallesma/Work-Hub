@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/bleuFonce"
+    android:gravity="center_horizontal"
+    android:orientation="vertical" >
+
+    <Button
+        android:id="@+id/bt_raccourci_editer"
+        style="@style/bt_list"
+        android:text="@string/raccourci_editer" />
+
+    <Button
+        android:id="@+id/bt_raccourci_envoyer"
+        style="@style/bt_list"
+        android:text="@string/raccourci_envoyer" />
+
+    <Button
+        android:id="@+id/bt_raccourci_exporter"
+        style="@style/bt_list"
+        android:text="@string/raccourci_exporter" />
+
+    <Button
+        android:id="@+id/bt_raccourci_masquer"
+        style="@style/bt_list"
+        android:text="@string/raccourci_masquer" />
+
+    <Button
+        android:id="@+id/bt_raccourci_supprimer"
+        style="@style/bt_list"
+        android:text="@string/raccourci_supprimer" />
+
+    <Button
+        android:id="@+id/bt_raccourci_recevoir"
+        style="@style/bt_list"
+        android:text="@string/raccourci_recevoir" />
+
+</LinearLayout>

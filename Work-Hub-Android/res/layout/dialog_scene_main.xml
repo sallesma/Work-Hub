@@ -12,6 +12,12 @@
     style="@style/bt_list"
     />
     
+    <Button 
+    android:id="@+id/bt_nouveau_raccourci"
+    android:text="@string/nouveau_raccourci"
+    style="@style/bt_list"
+    />
+    
   <Button 
     android:id="@+id/bt_importer"
     android:text="@string/importer"

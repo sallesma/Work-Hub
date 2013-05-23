@@ -4,14 +4,25 @@
 	<string name="supprimer">Supprimer</string>
 	<string name="masquer">Masquer</string>
 	<string name="envoyer_a">Envoyer à ...</string>
-	<string name="nouveau">Nouveau</string>
+	<string name="nouveau">Nouvelle élément</string>
+	<string name="nouveau_raccourci">Nouveau raccourci</string>
 	<string name="importer">Importer</string>
 	<string name="exporter">Exporter</string>
 	<string name="editer">Editer</string>
 	<string name="clear_all">Tous masquer</string>
-	
+	<string name="degroupe">Dégrouper</string>
 	<string name="element_texte">Texte</string>
 	<string name="element_image">Image</string>
 	<string name="element_lien">Lien</string>
 	<string name="element_fichier">Fichier</string>
+	
+	
+	
+	<string name="raccourci_envoyer">Envoyer</string>
+	<string name="raccourci_editer">Editer</string>
+	<string name="raccourci_exporter">Exporter</string>
+	<string name="raccourci_recevoir">Recevoir</string>
+	<string name="raccourci_masquer">Masquer</string>
+	<string name="raccourci_supprimer">Supprimer</string>
+	
 </resources>
