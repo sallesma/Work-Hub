@@ -7,19 +7,19 @@ import java.net.URL;
 import com.workhub.utils.Constants;
 
 public class LinkElementModel extends ElementModel{
+	private String content;
 	
-	public LinkElementModel(int color, String title, AID agent, URL url) {
+	public LinkElementModel(int color, String title, AID agent, String url) {
 		super(color, title, agent);
 		this.content = url;
 	}
 
-	private URL content;
 
-	public URL getContent() {
+	public String getContent() {
 		return content;
 	}
 
-	public void setContent(URL content) {
+	public void setContent(String content) {
 		this.content = content;
 	}
 	@Override

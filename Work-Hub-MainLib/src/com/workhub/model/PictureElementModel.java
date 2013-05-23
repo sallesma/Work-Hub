@@ -24,4 +24,6 @@ public class PictureElementModel extends ElementModel{
 	public int getType() {
 		return Constants.TYPE_ELEMENT_PICTURE;
 	}
+	
+	
 }

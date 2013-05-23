@@ -62,7 +62,7 @@ public class ElementAgent extends Agent {
 	public AID getEditor() {
 		return editor;
 	}
-	public void setEditor(AID editor) {
+	private void setEditor(AID editor) {
 		this.editor = editor;
 	}
 	 public ElementModel getContentModel() {

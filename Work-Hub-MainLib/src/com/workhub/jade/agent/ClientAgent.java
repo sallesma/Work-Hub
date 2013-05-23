@@ -22,8 +22,6 @@ public class ClientAgent extends GuiAgent implements ClientAgentInterface{
 	}
 
 
-
-
 	@Override
 	protected void onGuiEvent(GuiEvent ev) {
 		switch (ev.getType()) {
