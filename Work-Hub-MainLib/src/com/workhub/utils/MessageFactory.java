@@ -22,7 +22,6 @@ public class MessageFactory {
 		int performatif;
 		String content = "message vide";
 		JsonObject j = new JsonObject();
-		
 
 		switch (MessageType) {
 		case Constants.MESSAGE_ACTION_EDIT:
@@ -78,9 +77,7 @@ public class MessageFactory {
 		
 		case Constants.MESSAGE_ACTION_GET_CONTENT:
 			performatif = ACLMessage.INFORM;
-			if(sender instanceof ElementAgent){
-				j = getElementContent(sender, j);
-			}
+			j = getElementContent(sender, j);
 			j.addProperty(Constants.JSON_ACTION, Constants.MESSAGE_ACTION_GET_CONTENT);
 			
 			break;
@@ -94,6 +91,7 @@ public class MessageFactory {
 			break;
 			
 		case Constants.MESSAGE_ACTION_SHARE:
+			j = getElementContent(sender, j);
 			performatif = ACLMessage.REQUEST;
 			j.addProperty(Constants.JSON_ACTION, Constants.MESSAGE_ACTION_SHARE);
 			break;
@@ -141,6 +139,7 @@ public class MessageFactory {
 			j.addProperty("content", text);
 		}
 		
+		//TODO
 		/*else if(type == Constants.TYPE_ELEMENT_FILE){
 			String file_str = new String( ((FileElementModel)(((ElementAgent)sender).getContentModel())).getContent(), "UTF-8");
 			
@@ -165,30 +164,33 @@ public class MessageFactory {
 		AID agent = message.getSender();
 		int type_model = ((JsonObject) js.parse(message.getContent())).get("type").getAsInt();
 		
-		ElementModel model;
+		ElementModel model = null;
 		
-		if (type_model == Constants.TYPE_ELEMENT_FILE){
-			String content = ((JsonObject) js.parse(message.getContent())).get("content").getAsString();
+		String content = ((JsonObject) js.parse(message.getContent())).get("content").getAsString();
 
-			model = new TextElementModel(color, title, agent, content);
-		}
 		
-		else if(type_model == Constants.TYPE_ELEMENT_PICTURE){
-			String content = ((JsonObject) js.parse(message.getContent())).get("content").getAsString();
+		if(type_model == Constants.TYPE_ELEMENT_PICTURE){
 			byte[] image= content.getBytes();
-			
 			model = new PictureElementModel(color, title, agent, image);
 			
 		}
 		
+		else if (type_model == Constants.TYPE_ELEMENT_FILE){
+			// TODO 
+			model = new TextElementModel(color, title, agent, content);
+		}
 		
-		return null;
+		else if(type_model == Constants.TYPE_ELEMENT_LINK){
+			model = new LinkElementModel(color, title, agent, content);
+		}
+		
+		else if(type_model == Constants.TYPE_ELEMENT_TEXT){
+			model = new TextElementModel(color, title, agent, content);
+		}
+		
+		return (ElementModel)model;
 		
 		
 	}
-	
-
-	
-	
 	
 }
