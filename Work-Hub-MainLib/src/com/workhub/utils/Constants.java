@@ -16,6 +16,11 @@ public class Constants {
 	public static final int MESSAGE_ACTION_DELETE = 15004;
 	public static final int MESSAGE_ACTION_SHARE = 15005;
 	public static final int MESSAGE_ACTION_CONTENT= 15006;
+	public static final int MESSAGE_RECEIVE_ELEMENT_CONTENT= 15007;
+	public static final int MESSAGE_RECEIVE_ELEMENT_TITLE= 15008;
+
+
+	
 	
 	public static final String JSON_ACTION = "action";
 	

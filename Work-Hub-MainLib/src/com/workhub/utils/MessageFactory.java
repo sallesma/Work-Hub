@@ -18,25 +18,36 @@ import com.workhub.model.TextElementModel;
 
 public class MessageFactory {	
 	
-	public static ACLMessage createMessage(ClientAgent sender, AID receiver, int MessageType){
+	public static ACLMessage createMessage(ElementAgent sender, AID receiver, int MessageType){
 		int performatif;
 		String content = "message vide";
 		JsonObject j = new JsonObject();
 
+
 		switch (MessageType) {
 		case Constants.MESSAGE_ACTION_EDIT:
-			performatif = ACLMessage.QUERY_IF;
+			boolean autorization = sender.lockEdit(receiver);
+			j.addProperty("can_edit", autorization);
+			performatif = ACLMessage.INFORM;
 			j.addProperty(Constants.JSON_ACTION, Constants.MESSAGE_ACTION_EDIT);			
 			break;
 			
 		case Constants.MESSAGE_ACTION_CONTENT:
+			// annonce que l'element a ete modifie et que le Client (receiver) doit le mettre a jour
 			performatif = ACLMessage.REQUEST;
 			j.addProperty(Constants.JSON_ACTION, Constants.MESSAGE_ACTION_CONTENT);
 			break;
 		
 		
-		case Constants.MESSAGE_ACTION_SHARE:
-			performatif = ACLMessage.REQUEST;
+		case Constants.MESSAGE_RECEIVE_ELEMENT_CONTENT:
+			j = getElementContent(sender, j);
+			performatif = ACLMessage.INFORM;
+			j.addProperty(Constants.JSON_ACTION, Constants.MESSAGE_ACTION_SHARE);
+			break;
+		
+		case Constants.MESSAGE_RECEIVE_ELEMENT_TITLE:
+			j = getElementTitle(sender, j);
+			performatif = ACLMessage.INFORM;
 			j.addProperty(Constants.JSON_ACTION, Constants.MESSAGE_ACTION_SHARE);
 			break;
 		
@@ -54,7 +65,7 @@ public class MessageFactory {
 		
 	}
 	
-	public static ACLMessage createMessage(ElementAgent sender, AID receiver, int MessageType){
+	public static ACLMessage createMessage(ClientAgent sender, AID receiver, int MessageType){
 		
 		int performatif;
 		String content = "message vide";
@@ -65,8 +76,7 @@ public class MessageFactory {
 		case Constants.MESSAGE_ACTION_EDIT:
 			performatif = ACLMessage.QUERY_IF;
 			j.addProperty(Constants.JSON_ACTION, Constants.MESSAGE_ACTION_EDIT);
-			boolean autorization = sender.lockEdit(receiver);
-			j.addProperty("can_edit", autorization);
+			
 			break;
 			
 		
@@ -76,22 +86,18 @@ public class MessageFactory {
 			break;
 		
 		case Constants.MESSAGE_ACTION_GET_CONTENT:
-			performatif = ACLMessage.INFORM;
-			j = getElementContent(sender, j);
+			performatif = ACLMessage.REQUEST;
 			j.addProperty(Constants.JSON_ACTION, Constants.MESSAGE_ACTION_GET_CONTENT);
 			
 			break;
 			
 		case Constants.MESSAGE_ACTION_GET_TITLE:
-			performatif = ACLMessage.INFORM;
-			if(sender instanceof ElementAgent){
-				j  = getElementTitle(sender, j);
-			}
+			performatif = ACLMessage.REQUEST;
 			j.addProperty(Constants.JSON_ACTION, Constants.MESSAGE_ACTION_GET_TITLE);
 			break;
 			
 		case Constants.MESSAGE_ACTION_SHARE:
-			j = getElementContent(sender, j);
+			// TODO on envoie a un autre agent client l'indication qu'on partage, on donne id de l'élément
 			performatif = ACLMessage.REQUEST;
 			j.addProperty(Constants.JSON_ACTION, Constants.MESSAGE_ACTION_SHARE);
 			break;
