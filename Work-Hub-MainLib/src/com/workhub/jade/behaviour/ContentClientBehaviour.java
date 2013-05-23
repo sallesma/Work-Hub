@@ -19,6 +19,8 @@ public class ContentClientBehaviour extends CyclicBehaviour{
 			int action = ((JsonObject) js.parse(msg.getContent())).get(Constants.JSON_ACTION).getAsInt();
 			switch (action) {
 			case Constants.MESSAGE_ACTION_CONTENT:
+			case Constants.MESSAGE_RECEIVE_ELEMENT_CONTENT:
+			case Constants.MESSAGE_RECEIVE_ELEMENT_TITLE:
 			case Constants.MESSAGE_ACTION_EDIT:
 				return true;
 			default:
@@ -31,6 +33,11 @@ public class ContentClientBehaviour extends CyclicBehaviour{
 	@Override
 	public void action() {
 		// TODO Auto-generated method stub
+		
+		// si il recoit un MESSAGE_ACTION_CONTENT : demande contenu pour la mise a jour, envoie un MESSAGE_GET_CONTENT
+		// Si receive_element_content ou title : mettre a jour l'interface
+		// Si action_edit : sait s'il peut etre editeur ou non
+		
 		
 	}
 

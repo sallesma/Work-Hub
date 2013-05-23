@@ -34,6 +34,10 @@ public class ContentElementBehaviour extends CyclicBehaviour {
 	@Override
 	public void action() {
 		// TODO Auto-generated method stub
+		// si MESSAGE_ACTION_GET_CONTENT renvoie le contenu en envoyant au client un message MESSAGE_RECEIVE_ELEMENT_TITLE 
+		// Si MESSAGE_ACTION_GET_TITLE en renvoyant au client un message MESSAGE_RECEIVE_ELEMENT_CONTENT
+		// Va mettre a jour son ElementModel et envoyer a tous les agents un MESSAGE_ACTION_CONTENT
+		
 		
 	}
 
