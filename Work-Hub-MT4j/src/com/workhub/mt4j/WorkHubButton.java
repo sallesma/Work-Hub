@@ -72,7 +72,7 @@ public class WorkHubButton extends MTRoundRectangle {
 	}
 
 	private void openContextualMenu(Vector3D locationOnScreen) {
-		ContextMenu contextMenu = new ContextMenu((int)locationOnScreen.x, (int)locationOnScreen.y, mtApplication, Constants.CONTEXT_SHORTCUT_MENU);
+		ContextMenu contextMenu = new ContextMenu( this, (int)locationOnScreen.x, (int)locationOnScreen.y, mtApplication, Constants.CONTEXT_SHORTCUT_MENU);
 		this.addChild(contextMenu);
 	}
 
