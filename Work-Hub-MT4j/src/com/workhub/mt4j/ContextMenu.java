@@ -8,16 +8,10 @@ import processing.core.PApplet;
 
 public class ContextMenu extends MTList {
 	
-<<<<<<< HEAD
-	public ContextMenu(int x, int y, PApplet applet, Integer menuType) {
-		super(x, y, Constants.CONTEXT_BUTTON_WIDTH, menuType * (Constants.CONTEXT_BUTTON_HEIGHT + 2), applet);
-		initializeButtons(menuType, applet);
-		fixPosition(x, y, applet);
-=======
 	public ContextMenu(MTComponent source, int x, int y, PApplet applet, Integer menuType) {
-		super(x, y, Constants.CONTEXT_BUTTON_WIDTH, menuType * Constants.CONTEXT_BUTTON_HEIGHT, applet);
+		super(x, y, Constants.CONTEXT_BUTTON_WIDTH, menuType * (Constants.CONTEXT_BUTTON_HEIGHT + 2), applet);
 		initializeButtons(menuType, source, applet);
->>>>>>> 185deec4f4bdefbe0737613fbd5440893a2ef579
+		fixPosition(x, y, applet);
 		
 		setVisible(true);
 	}
