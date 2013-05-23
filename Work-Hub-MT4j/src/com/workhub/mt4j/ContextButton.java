@@ -19,7 +19,7 @@ public class ContextButton extends MTListCell {
 		
 		IFont font = FontManager.getInstance().createFont(applet, "arial.ttf", 18);
 		
-		m_text = new MTTextField(0, 0, 200, 40, font, applet);
+		m_text = new MTTextField(0, 0, Constants.CONTEXT_BUTTON_WIDTH, Constants.CONTEXT_BUTTON_HEIGHT, font, applet);
 		m_text.setFillColor(MTColor.AQUA);
 		m_text.setText(text);
 		addChild(m_text);

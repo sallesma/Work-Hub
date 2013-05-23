@@ -1,14 +1,16 @@
 package com.workhub.mt4j;
 
 import org.mt4j.components.visibleComponents.widgets.MTList;
+import org.mt4j.util.math.Vector3D;
 
 import processing.core.PApplet;
 
 public class ContextMenu extends MTList {
 	
 	public ContextMenu(int x, int y, PApplet applet, Integer menuType) {
-		super(x, y, Constants.CONTEXT_BUTTON_WIDTH, menuType * Constants.CONTEXT_BUTTON_HEIGHT, applet);
+		super(x, y, Constants.CONTEXT_BUTTON_WIDTH, menuType * (Constants.CONTEXT_BUTTON_HEIGHT + 2), applet);
 		initializeButtons(menuType, applet);
+		fixPosition(x, y, applet);
 		
 		setVisible(true);
 	}
@@ -66,5 +68,19 @@ public class ContextMenu extends MTList {
 			addListElement(item32);
 			break;
 		}
-	}	
+	}
+	
+	// Empêche le menu contextuel de sortir de l'écran
+	private void fixPosition(int x, int y, PApplet applet) {
+		int fixedX = x;
+		int fixedY = y;
+		if(fixedX + Constants.CONTEXT_BUTTON_WIDTH > applet.width) {
+			fixedX = applet.width - Constants.CONTEXT_BUTTON_WIDTH;
+		}
+		if(fixedY + getWidthXYGlobal() > applet.height) {
+			fixedY = (int)(applet.height - getWidthXYGlobal());
+		}
+		setAnchor(PositionAnchor.UPPER_LEFT);
+		setPositionGlobal(new Vector3D(fixedX, fixedY));
+	}
 }
