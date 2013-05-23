@@ -33,7 +33,7 @@ public class ContextButton extends MTListCell {
 					case AbstractCursorInputEvt.INPUT_DETECTED:
 						switch (text) {
 						case Constants.CONTEXT_BUTTON_CLOSE:
-							getParent().removeFromParent();
+							getParent().getParent().removeFromParent();
 						}
 						break;
 					case AbstractCursorInputEvt.INPUT_ENDED:
