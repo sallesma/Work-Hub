@@ -1,5 +1,6 @@
 package com.workhub.mt4j;
 
+import org.mt4j.components.MTComponent;
 import org.mt4j.components.visibleComponents.font.FontManager;
 import org.mt4j.components.visibleComponents.font.IFont;
 import org.mt4j.components.visibleComponents.widgets.MTListCell;
@@ -13,12 +14,13 @@ import processing.core.PApplet;
 
 public class ContextButton extends MTListCell {
 	private MTTextField m_text;
+	private final MTComponent m_source;
 	
-	public ContextButton(PApplet applet, final String text) {
+	public ContextButton(PApplet applet, MTComponent source, final String text) {
 		super(Constants.CONTEXT_BUTTON_WIDTH, Constants.CONTEXT_BUTTON_HEIGHT, applet);
 		
 		IFont font = FontManager.getInstance().createFont(applet, "arial.ttf", 18);
-		
+		m_source = source;
 		m_text = new MTTextField(0, 0, Constants.CONTEXT_BUTTON_WIDTH, Constants.CONTEXT_BUTTON_HEIGHT, font, applet);
 		m_text.setFillColor(MTColor.AQUA);
 		m_text.setText(text);
@@ -34,6 +36,32 @@ public class ContextButton extends MTListCell {
 						switch (text) {
 						case Constants.CONTEXT_BUTTON_CLOSE:
 							getParent().getParent().removeFromParent();
+							break;
+						case Constants.CONTEXT_BUTTON_DELETE:
+							m_source.removeFromParent();
+							break;
+						case Constants.CONTEXT_BUTTON_CREATE_TEXT:
+							break;
+						case Constants.CONTEXT_BUTTON_CREATE_IMAGE:
+							break;
+						case Constants.CONTEXT_BUTTON_CREATE_LINK:
+							break;
+						case Constants.CONTEXT_BUTTON_CREATE_FILE:
+							break;
+						case Constants.CONTEXT_BUTTON_VISUALIZE_ELEMENTS:
+							break;
+						case Constants.CONTEXT_BUTTON_EDIT:
+							break;
+						case Constants.CONTEXT_BUTTON_SHARE:
+							break;
+						case Constants.CONTEXT_BUTTON_CHANGE_COLOR:
+							break;
+						case Constants.CONTEXT_BUTTON_EXPORT_PDF:
+							break;
+						case Constants.CONTEXT_BUTTON_HIDE:
+							break;
+						case Constants.CONTEXT_BUTTON_SPLIT_GROUP:
+							break;
 						}
 						break;
 					case AbstractCursorInputEvt.INPUT_ENDED:
@@ -49,5 +77,4 @@ public class ContextButton extends MTListCell {
 		});
 
 	}
-
 }
