@@ -29,6 +29,7 @@ public abstract class BaseElement extends AbstractElement  {
 	protected Rectangle body;
 	protected ElementModel model;
 	protected Dialog editDialog;
+	private Rectangle contour;
 
 	public BaseElement(ElementModel model, float centerX, float centerY, Ressources res) {
 		this(model, centerX, centerY, res, false);
@@ -74,7 +75,11 @@ public abstract class BaseElement extends AbstractElement  {
 	protected void initShape(Ressources res){
 
 		body = new Rectangle(0, 0, WIDTH, HEIGHT, res.getContext().getVertexBufferObjectManager());
-		body.setColor(0.5f, 0.5f, 0);//TODO
+		contour = new Rectangle(-2, -2, WIDTH+4, HEIGHT+4, res.getContext().getVertexBufferObjectManager());
+		contour.setZIndex(-20);
+		contour.setColor(0, 0, 0);
+		body.attachChild(contour);
+		body.setColor(246/255f, 234/255f, 111/255f);//TODO
 		body.setPosition(-WIDTH/2, -HEIGHT/2);
 
 		this.attachChild(body);
@@ -89,6 +94,10 @@ public abstract class BaseElement extends AbstractElement  {
 	//		body.attachChild(component);
 	//	}
 
+	public void setBodyHeight(float pHeight){
+		body.setHeight(pHeight);
+		contour.setHeight(body.getHeight()+4);
+	}
 	public float updateView(){
 
 
@@ -100,7 +109,7 @@ public abstract class BaseElement extends AbstractElement  {
 		mTextTitre.setScaleCenter(0, 0);
 		mTextTitre.setScale(1/getScaleX(), 1/getScaleY());
 		mTextTitre.setPosition(getMarginX(), posY);
-
+		
 		return posY+ mTextTitre.getHeightScaled();
 
 

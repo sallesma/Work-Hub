@@ -10,6 +10,7 @@ import org.andengine.opengl.texture.atlas.bitmap.BuildableBitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.source.IBitmapTextureAtlasSource;
 import org.andengine.opengl.texture.atlas.buildable.builder.BlackPawnTextureAtlasBuilder;
 import org.andengine.opengl.texture.atlas.buildable.builder.ITextureAtlasBuilder.TextureAtlasBuilderException;
+import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.texture.region.TextureRegion;
 import org.andengine.util.debug.Debug;
 
@@ -29,6 +30,7 @@ public class Ressources {
 	private float sceneWidth;
 	private float sceneHeight;
 	private TextureRegion TR_No_Image;
+	private ITextureRegion TR_Logo;
 
 	public Ressources(HomeActivity context, Camera mCamera) {
 		this.context = context;
@@ -45,6 +47,7 @@ public class Ressources {
 
 		TR_Rond=BitmapTextureAtlasTextureRegionFactory.createFromAsset(mBuildableTexture, context, "rond.png");
 		TR_No_Image=BitmapTextureAtlasTextureRegionFactory.createFromAsset(mBuildableTexture, context, "default.png");
+		TR_Logo=BitmapTextureAtlasTextureRegionFactory.createFromAsset(mBuildableTexture, context, "logoWH.png");
 
 		try {
 			mBuildableTexture.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(2, 2, 2));
@@ -84,6 +87,14 @@ public class Ressources {
 	}
 	public float getSceneHeight() {
 		return sceneHeight;
+	}
+
+
+
+
+
+	public ITextureRegion getTR_Logo() {
+		return TR_Logo;
 	}
 
 	

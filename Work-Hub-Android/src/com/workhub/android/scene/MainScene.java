@@ -2,10 +2,14 @@ package com.workhub.android.scene;
 
 import java.util.ArrayList;
 
+import javax.microedition.khronos.opengles.GL10;
+
 import org.andengine.engine.camera.Camera;
 import org.andengine.entity.scene.IOnSceneTouchListener;
 import org.andengine.entity.scene.ITouchArea;
 import org.andengine.entity.scene.Scene;
+import org.andengine.entity.scene.background.Background;
+import org.andengine.entity.sprite.Sprite;
 import org.andengine.input.touch.TouchEvent;
 import org.andengine.input.touch.detector.ContinuousHoldDetector;
 import org.andengine.input.touch.detector.HoldDetector;
@@ -122,7 +126,13 @@ public class MainScene extends Scene implements IOnSceneTouchListener, IHoldDete
 	}
 	public void populate() {
 
-
+		this.setBackground(new Background(198/255f, 200/255f, 200/255f));
+		float logoW = res.getTR_Logo().getWidth();
+		float logoH = res.getTR_Logo().getHeight();
+		Sprite logo = new Sprite(res.getScreenCenter().x-logoW/2, res.getScreenCenter().y-logoH/2, res.getTR_Logo(), res.getContext().getVertexBufferObjectManager());
+		logo.setAlpha(0.4f);
+		this.attachChild(logo);
+		
 		this.setTouchAreaBindingOnActionDownEnabled(true);
 		this.setOnAreaTouchTraversalFrontToBack();
 		this.setOnSceneTouchListenerBindingOnActionDownEnabled(true);
@@ -340,7 +350,7 @@ public class MainScene extends Scene implements IOnSceneTouchListener, IHoldDete
 		}
 		break;
 		case R.id.bt_element_texte:
-			//TODO la cr�ation doit creer un agent;
+			//TODO la création doit creer un agent;
 			TextElementModel model = new TextElementModel(0,"", null, "" );
 			model.setTitle("");
 			model.setContent("");

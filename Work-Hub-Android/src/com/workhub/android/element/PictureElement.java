@@ -109,7 +109,7 @@ public class PictureElement extends BaseElement{
 		
 		imageSprite.setPosition(MARGIN, posY);
 		posY =posY+ imageSprite.getHeight();
-		body.setHeight(posY+MARGIN);
+		setBodyHeight(posY+MARGIN);
 		//body.setWidth(imageSprite.getWidth());
 		return posY;
 

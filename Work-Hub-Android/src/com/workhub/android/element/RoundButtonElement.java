@@ -58,7 +58,7 @@ public class RoundButtonElement extends AbstractElement{
 
 		Sprite s = new Sprite(-RAYON, -RAYON ,RAYON*2, RAYON*2,
 				res.getTR_Rond(), res.getContext().getVertexBufferObjectManager());
-		s.setColor(0, 0, 0.8f);
+		s.setColor(110/255f, 200/255f, 240/255f);
 		this.attachChild(s);
 
 
