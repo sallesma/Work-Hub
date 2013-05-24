@@ -46,7 +46,7 @@ public abstract class AbstractElementView extends MTClipRectangle {
 		
 		setFillColor(new MTColor(250, 230, 100, 255));
 		
-		registerInputProcessor(new TapAndHoldProcessor(applet, 2000));
+		registerInputProcessor(new TapAndHoldProcessor(applet, 1000));
 		addGestureListener(TapAndHoldProcessor.class, new TapAndHoldVisualizer((MTApplication) applet, this));
 		addGestureListener(TapAndHoldProcessor.class, new IGestureEventListener() {
 			public boolean processGestureEvent(MTGestureEvent ge) {

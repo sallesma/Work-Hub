@@ -48,7 +48,7 @@ public class WorkHubButton extends MTRoundRectangle {
 		unregisterAllInputProcessors();
 		removeAllGestureEventListeners();
 		assignActions(mtApplication, text);
-		registerInputProcessor(new TapAndHoldProcessor(mtApplication, 2000));
+		registerInputProcessor(new TapAndHoldProcessor(mtApplication, 1000));
 		addGestureListener(TapAndHoldProcessor.class, new TapAndHoldVisualizer(mtApplication, this));
 		addGestureListener(TapAndHoldProcessor.class, new IGestureEventListener() {
 			public boolean processGestureEvent(MTGestureEvent ge) {

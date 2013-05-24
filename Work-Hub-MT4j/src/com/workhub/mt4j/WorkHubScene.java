@@ -35,8 +35,8 @@ public class WorkHubScene extends AbstractScene {
 		addElementView(Constants.ELEMENT_IMAGE);
 		addElementView(Constants.ELEMENT_LINK);
 		addElementView(Constants.ELEMENT_FILE);
-		
-		getCanvas().registerInputProcessor(new TapAndHoldProcessor(mtApplication, 2000));
+
+		getCanvas().registerInputProcessor(new TapAndHoldProcessor(mtApplication, 1000));
 		getCanvas().addGestureListener(TapAndHoldProcessor.class, new TapAndHoldVisualizer(mtApplication, getCanvas()));
 		getCanvas().addGestureListener(TapAndHoldProcessor.class, new IGestureEventListener() {
 			public boolean processGestureEvent(MTGestureEvent ge) {
@@ -59,7 +59,7 @@ public class WorkHubScene extends AbstractScene {
 		});
 	}
 	
-	private void openContextualMenu(Vector3D location) {
+	public void openContextualMenu(Vector3D location) {
 		ContextMenu contextMenu = new ContextMenu(getCanvas(), (int)location.x, (int)location.y, getMTApplication(), Constants.CONTEXT_MAIN_MENU);
 		this.getCanvas().addChild(contextMenu);
 	}

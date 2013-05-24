@@ -16,7 +16,7 @@ public class ContextButton extends MTListCell {
 	private MTTextField m_text;
 	private final MTComponent m_source;
 	
-	public ContextButton(PApplet applet, MTComponent source, final String text) {
+	public ContextButton(final PApplet applet, MTComponent source, final String text) {
 		super(Constants.CONTEXT_BUTTON_WIDTH, Constants.CONTEXT_BUTTON_HEIGHT, applet);
 		
 		IFont font = FontManager.getInstance().createFont(applet, "arial.ttf", 18);
@@ -35,19 +35,26 @@ public class ContextButton extends MTListCell {
 					case AbstractCursorInputEvt.INPUT_DETECTED:
 						switch (text) {
 						case Constants.CONTEXT_BUTTON_CLOSE:
-							getParent().getParent().removeFromParent();
+							//just close the menu (last instruction of the method)
 							break;
 						case Constants.CONTEXT_BUTTON_DELETE:
 							m_source.removeFromParent();
-							getParent().getParent().removeFromParent();
 							break;
 						case Constants.CONTEXT_BUTTON_CREATE_TEXT:
+							TextElementView textElement = new TextElementView(200, 200, 200,200, applet);
+							getParent().getParent().getParent().addChild(textElement);
 							break;
 						case Constants.CONTEXT_BUTTON_CREATE_IMAGE:
+							ImageElementView imageElement = new ImageElementView(200, 200, 200, 200, applet);
+							getParent().getParent().getParent().addChild(imageElement);
 							break;
 						case Constants.CONTEXT_BUTTON_CREATE_LINK:
+							LinkElementView linkElement = new LinkElementView(200, 200, 200,200, applet);
+							getParent().getParent().getParent().addChild(linkElement);
 							break;
 						case Constants.CONTEXT_BUTTON_CREATE_FILE:
+							FileElementView fileElement = new FileElementView(200, 200, 200, 200, applet);
+							getParent().getParent().getParent().addChild(fileElement);
 							break;
 						case Constants.CONTEXT_BUTTON_VISUALIZE_ELEMENTS:
 							break;
@@ -64,6 +71,7 @@ public class ContextButton extends MTListCell {
 						case Constants.CONTEXT_BUTTON_SPLIT_GROUP:
 							break;
 						}
+						getParent().getParent().removeFromParent();
 						break;
 					case AbstractCursorInputEvt.INPUT_ENDED:
 						break;
