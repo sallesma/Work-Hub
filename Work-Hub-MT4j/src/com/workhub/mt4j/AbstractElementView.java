@@ -23,10 +23,12 @@ public abstract class AbstractElementView extends MTClipRectangle {
 	 * TODO : Mettre une taille par défaut
 	 */
 	private MTTextArea title;
+	private MTApplication mtApplication;
 	
 	public AbstractElementView(float x, float y, float z, float width,
 			float height, PApplet applet) {
 		super(x, y, z, width, height, applet);
+		this.mtApplication = (MTApplication) applet;
 		title = new MTTextArea(applet, FontManager.getInstance().createFont(
 				applet, "arial.ttf", 20, new MTColor(0, 0, 0, 255),
 				new MTColor(0, 0, 0, 255)));
@@ -56,7 +58,7 @@ public abstract class AbstractElementView extends MTClipRectangle {
 					break;
 				case TapAndHoldEvent.GESTURE_ENDED:
 					if (tahe.isHoldComplete()){
-						openContextualMenu();
+						openContextualMenu(tahe.getLocationOnScreen());
 					}
 					break;
 				default:
@@ -67,7 +69,9 @@ public abstract class AbstractElementView extends MTClipRectangle {
 		});
 	}
 	
-	protected void openContextualMenu() {
+	protected void openContextualMenu(Vector3D locationOnScreen) {
+		ContextMenu contextMenu = new ContextMenu(this, (int)locationOnScreen.x, (int)locationOnScreen.y, mtApplication, Constants.CONTEXT_ELEMENT_MENU);
+		this.getParent().addChild(contextMenu);
 	}
 	
 	public MTTextArea getTitle() {

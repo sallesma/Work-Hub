@@ -39,6 +39,7 @@ public class ContextButton extends MTListCell {
 							break;
 						case Constants.CONTEXT_BUTTON_DELETE:
 							m_source.removeFromParent();
+							getParent().getParent().removeFromParent();
 							break;
 						case Constants.CONTEXT_BUTTON_CREATE_TEXT:
 							break;

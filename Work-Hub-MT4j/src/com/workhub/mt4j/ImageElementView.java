@@ -8,9 +8,7 @@ import processing.core.PApplet;
 public class ImageElementView extends AbstractElementView {
 
 	private MTImage content;
-/*
- * TODO : Mettre une image
- */
+	
 	public ImageElementView(float x, float y, float width,
 			float height, PApplet applet) {
 		super(x, y, Constants.Z_POSITION_DEFAULT_ELEMENT, width, height, applet);
