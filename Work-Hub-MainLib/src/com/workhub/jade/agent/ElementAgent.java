@@ -7,6 +7,7 @@ import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
 
 import com.workhub.jade.behaviour.ContentElementBehaviour;
+import com.workhub.jade.behaviour.EraseElementBehaviour;
 import com.workhub.model.ElementModel;
 import com.workhub.utils.Constants;
 
@@ -53,6 +54,7 @@ public class ElementAgent extends Agent {
 	protected void setup() {
 		subscribeDFAgent();
 		this.addBehaviour(new ContentElementBehaviour());
+		this.addBehaviour(new EraseElementBehaviour());
 	}
 	 
 	public void fireModelUpdate(){
