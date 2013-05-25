@@ -18,7 +18,6 @@ public class EraseElementBehaviour extends CyclicBehaviour{
 	private MessageTemplate template = new MessageTemplate(new MatchExpression() {
 		@Override
 		public boolean match(ACLMessage msg) {
-			System.out.println("J'essaye de matcher");
 			JsonParser js = new JsonParser();
 			int action = ((JsonObject) js.parse(msg.getContent())).get(Constants.JSON_ACTION).getAsInt();
 			switch (action) {
@@ -36,7 +35,6 @@ public class EraseElementBehaviour extends CyclicBehaviour{
 		if (message!=null){
 			//Il reçoit des messages du type :
 			//{"action" : "15004"}
-			System.out.println("j'ai reçu un message qui me convient");
 			
 			DFAgentDescription[] receivers = Utils.agentSearch(myAgent, Constants.ELEMENT_AGENT);
 			for(DFAgentDescription df : receivers)
