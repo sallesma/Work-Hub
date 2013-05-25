@@ -101,11 +101,12 @@ public class MessageFactory {
 			j.addProperty(Constants.JSON_ACTION, Constants.MESSAGE_ACTION_GET_TITLE);
 			break;
 			
-		case Constants.MESSAGE_ACTION_SHARE:
+		/*case Constants.MESSAGE_ACTION_SHARE:
 			// TODO on envoie a un autre agent client l'indication qu'on partage, on donne id de l'élément
 			performatif = ACLMessage.REQUEST;
 			j.addProperty(Constants.JSON_ACTION, Constants.MESSAGE_ACTION_SHARE);
 			break;
+		*/
 		
 		default:
 			System.err.println("Type de message invalide");

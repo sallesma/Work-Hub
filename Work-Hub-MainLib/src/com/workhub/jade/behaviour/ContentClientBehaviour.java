@@ -35,7 +35,6 @@ public class ContentClientBehaviour extends CyclicBehaviour{
 	
 	@Override
 	public void action() {
-		// TODO Auto-generated method stub
 		
 		ACLMessage message = myAgent.receive(template);
 		if (message!=null){
