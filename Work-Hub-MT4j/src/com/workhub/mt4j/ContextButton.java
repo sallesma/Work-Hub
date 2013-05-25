@@ -1,8 +1,10 @@
 package com.workhub.mt4j;
 
 import org.mt4j.components.MTComponent;
+import org.mt4j.components.TransformSpace;
 import org.mt4j.components.visibleComponents.font.FontManager;
 import org.mt4j.components.visibleComponents.font.IFont;
+import org.mt4j.components.visibleComponents.shapes.MTRectangle;
 import org.mt4j.components.visibleComponents.widgets.MTListCell;
 import org.mt4j.components.visibleComponents.widgets.MTTextField;
 import org.mt4j.input.IMTInputEventListener;
@@ -35,25 +37,25 @@ public class ContextButton extends MTListCell {
 					case AbstractCursorInputEvt.INPUT_DETECTED:
 						switch (text) {
 						case Constants.CONTEXT_BUTTON_CLOSE:
-							//just close the menu (last instruction of the method)
+							//just close the menu (instruction below)
 							break;
 						case Constants.CONTEXT_BUTTON_DELETE:
 							m_source.removeFromParent();
 							break;
 						case Constants.CONTEXT_BUTTON_CREATE_TEXT:
-							TextElementView textElement = new TextElementView(200, 200, 200,200, applet);
+							TextElementView textElement = new TextElementView(((MTRectangle) getParent().getParent()).getPosition(TransformSpace.GLOBAL).x, ((MTRectangle) getParent().getParent()).getPosition(TransformSpace.GLOBAL).y, Constants.ELEMENT_DEFAULT_WIDTH, Constants.ELEMENT_DEFAULT_HEIGHT, applet);
 							getParent().getParent().getParent().addChild(textElement);
 							break;
 						case Constants.CONTEXT_BUTTON_CREATE_IMAGE:
-							ImageElementView imageElement = new ImageElementView(200, 200, 200, 200, applet);
+							ImageElementView imageElement = new ImageElementView(((MTRectangle) getParent().getParent()).getPosition(TransformSpace.GLOBAL).x, ((MTRectangle) getParent().getParent()).getPosition(TransformSpace.GLOBAL).y, Constants.ELEMENT_DEFAULT_WIDTH, Constants.ELEMENT_DEFAULT_HEIGHT, applet);
 							getParent().getParent().getParent().addChild(imageElement);
 							break;
 						case Constants.CONTEXT_BUTTON_CREATE_LINK:
-							LinkElementView linkElement = new LinkElementView(200, 200, 200,200, applet);
+							LinkElementView linkElement = new LinkElementView(((MTRectangle) getParent().getParent()).getPosition(TransformSpace.GLOBAL).x, ((MTRectangle) getParent().getParent()).getPosition(TransformSpace.GLOBAL).y, Constants.ELEMENT_DEFAULT_WIDTH, Constants.ELEMENT_DEFAULT_HEIGHT, applet);
 							getParent().getParent().getParent().addChild(linkElement);
 							break;
 						case Constants.CONTEXT_BUTTON_CREATE_FILE:
-							FileElementView fileElement = new FileElementView(200, 200, 200, 200, applet);
+							FileElementView fileElement = new FileElementView(((MTRectangle) getParent().getParent()).getPosition(TransformSpace.GLOBAL).x, ((MTRectangle) getParent().getParent()).getPosition(TransformSpace.GLOBAL).y, Constants.ELEMENT_DEFAULT_WIDTH, Constants.ELEMENT_DEFAULT_HEIGHT, applet);
 							getParent().getParent().getParent().addChild(fileElement);
 							break;
 						case Constants.CONTEXT_BUTTON_VISUALIZE_ELEMENTS:

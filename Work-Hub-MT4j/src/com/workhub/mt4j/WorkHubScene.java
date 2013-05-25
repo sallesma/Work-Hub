@@ -30,11 +30,6 @@ public class WorkHubScene extends AbstractScene {
 		this.getCanvas().addChild(masquerButton);
 		this.getCanvas().addChild(envoyerButton);
 		this.getCanvas().addChild(recevoirButton);
-		
-		addElementView(Constants.ELEMENT_TEXT);
-		addElementView(Constants.ELEMENT_IMAGE);
-		addElementView(Constants.ELEMENT_LINK);
-		addElementView(Constants.ELEMENT_FILE);
 
 		getCanvas().registerInputProcessor(new TapAndHoldProcessor(mtApplication, 1000));
 		getCanvas().addGestureListener(TapAndHoldProcessor.class, new TapAndHoldVisualizer(mtApplication, getCanvas()));
