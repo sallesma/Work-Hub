@@ -1,8 +1,14 @@
 package com.workhub.mt4j;
 
+import java.io.IOException;
+
 import org.mt4j.components.TransformSpace;
 import org.mt4j.components.visibleComponents.font.FontManager;
 import org.mt4j.components.visibleComponents.widgets.MTTextArea;
+import org.mt4j.input.inputProcessors.IGestureEventListener;
+import org.mt4j.input.inputProcessors.MTGestureEvent;
+import org.mt4j.input.inputProcessors.componentProcessors.tapProcessor.TapEvent;
+import org.mt4j.input.inputProcessors.componentProcessors.tapProcessor.TapProcessor;
 import org.mt4j.util.MTColor;
 import org.mt4j.util.math.Vector3D;
 
@@ -18,16 +24,33 @@ public class LinkElementView extends AbstractElementView{
 				applet, "arial.ttf", 18, new MTColor(50, 50, 50, 255),
 				new MTColor(0, 0, 0, 255)));
 		content.setNoFill(true);
-		content.setText("Inscrivez votre lien ici");
+		content.setText("http://www.google.com");
 		content.setPickable(false);
 		content.setNoStroke(true);
 		content.setAnchor(PositionAnchor.UPPER_LEFT);
 		content.setPositionGlobal(new Vector3D(this.getPosition(TransformSpace.GLOBAL).getX(), (float) (this.getPosition(TransformSpace.GLOBAL).getY()+40)));
-
+		
+		registerInputProcessor(new TapProcessor(applet, 25, true, 350));
+		addGestureListener(TapProcessor.class, new IGestureEventListener() {
+			public boolean processGestureEvent(MTGestureEvent ge) {
+				TapEvent te = (TapEvent)ge;
+				if (te.isDoubleTap()){
+					try {
+						java.awt.Desktop.getDesktop().browse(java.net.URI.create(content.getText()));
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+				return false;
+			}
+		});
 		addChild(content);
 	}
 
-
+	public void editElement() {
+		
+	}
+	
 	public MTTextArea getContent() {
 		return content;
 	}
