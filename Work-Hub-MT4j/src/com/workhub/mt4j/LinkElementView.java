@@ -1,5 +1,6 @@
 package com.workhub.mt4j;
 
+import org.mt4j.components.TransformSpace;
 import org.mt4j.components.visibleComponents.font.FontManager;
 import org.mt4j.components.visibleComponents.widgets.MTTextArea;
 import org.mt4j.util.MTColor;
@@ -20,7 +21,9 @@ public class LinkElementView extends AbstractElementView{
 		content.setText("Inscrivez votre lien ici");
 		content.setPickable(false);
 		content.setNoStroke(true);
-		content.setPositionRelativeToParent(new Vector3D(300, 260));
+		content.setAnchor(PositionAnchor.UPPER_LEFT);
+		content.setPositionGlobal(new Vector3D(this.getPosition(TransformSpace.GLOBAL).getX(), (float) (this.getPosition(TransformSpace.GLOBAL).getY()+40)));
+
 		addChild(content);
 	}
 
