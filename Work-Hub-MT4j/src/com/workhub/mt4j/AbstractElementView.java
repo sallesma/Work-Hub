@@ -1,6 +1,5 @@
 package com.workhub.mt4j;
 
-import org.gstreamer.StateChangeReturn;
 import org.mt4j.MTApplication;
 import org.mt4j.components.StateChange;
 import org.mt4j.components.StateChangeEvent;
@@ -86,7 +85,10 @@ public abstract class AbstractElementView extends MTClipRectangle {
         keyb.setFillColor(new MTColor(30, 30, 30, 210));
         keyb.setStrokeColor(new MTColor(0,0,0,255));
         getParent().addChild(keyb);
-		keyb.setPositionGlobal(new Vector3D(mtApplication.width/2f, mtApplication.height/2f,0));
+        //TODO : caler le clavier
+//        Integer keybXPos = Math.min();
+        Integer keybYPos = (int) Math.min(mtApplication.height-keyb.getHeightXY(TransformSpace.GLOBAL), this.getHeightXYGlobal()+this.getPosition(TransformSpace.GLOBAL).y);
+		keyb.setPositionGlobal(new Vector3D(mtApplication.width/2f, keybYPos,0));
 		
 		title.setEnableCaret(true);
 		keyb.addTextInputListener(title);
