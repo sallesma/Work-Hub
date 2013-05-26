@@ -33,20 +33,22 @@ public class ContextMenu extends MTList {
 			addListElement(item6);
 			break;
 		case Constants.CONTEXT_ELEMENT_MENU:
-			ContextButton item11 = new ContextButton(applet, source, Constants.CONTEXT_BUTTON_EDIT);
+			ContextButton item11 = new ContextButton(applet, source, Constants.CONTEXT_BUTTON_EDIT_TITLE);
 			addListElement(item11);
-			ContextButton item12 = new ContextButton(applet, source, Constants.CONTEXT_BUTTON_SHARE);
+			ContextButton item12 = new ContextButton(applet, source, Constants.CONTEXT_BUTTON_EDIT_CONTENT);
 			addListElement(item12);
-			ContextButton item13 = new ContextButton(applet, source, Constants.CONTEXT_BUTTON_CHANGE_COLOR);
+			ContextButton item13 = new ContextButton(applet, source, Constants.CONTEXT_BUTTON_SHARE);
 			addListElement(item13);
-			ContextButton item14 = new ContextButton(applet, source, Constants.CONTEXT_BUTTON_EXPORT_PDF);
+			ContextButton item14 = new ContextButton(applet, source, Constants.CONTEXT_BUTTON_CHANGE_COLOR);
 			addListElement(item14);
-			ContextButton item15 = new ContextButton(applet, source, Constants.CONTEXT_BUTTON_HIDE);
+			ContextButton item15 = new ContextButton(applet, source, Constants.CONTEXT_BUTTON_EXPORT_PDF);
 			addListElement(item15);
-			ContextButton item16 = new ContextButton(applet, source, Constants.CONTEXT_BUTTON_DELETE);
+			ContextButton item16 = new ContextButton(applet, source, Constants.CONTEXT_BUTTON_HIDE);
 			addListElement(item16);
-			ContextButton item17 = new ContextButton(applet, source, Constants.CONTEXT_BUTTON_CLOSE);
+			ContextButton item17 = new ContextButton(applet, source, Constants.CONTEXT_BUTTON_DELETE);
 			addListElement(item17);
+			ContextButton item18 = new ContextButton(applet, source, Constants.CONTEXT_BUTTON_CLOSE);
+			addListElement(item18);
 			break;
 		case Constants.CONTEXT_GROUP_MENU:
 			ContextButton item21 = new ContextButton(applet, source, Constants.CONTEXT_BUTTON_SPLIT_GROUP);

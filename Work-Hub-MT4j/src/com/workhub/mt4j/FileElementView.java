@@ -29,6 +29,10 @@ public class FileElementView extends AbstractElementView {
 		content.setPositionGlobal(new Vector3D(this.getPosition(TransformSpace.GLOBAL).getX(), (float) (this.getPosition(TransformSpace.GLOBAL).getY()+40)));
 		addChild(content);
 	}
+	
+	public void editElementContent() {
+		// TODO
+	}
 
 	public MTImage getContent() {
 		return content;

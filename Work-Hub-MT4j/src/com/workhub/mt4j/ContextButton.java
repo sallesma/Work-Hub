@@ -67,8 +67,11 @@ public class ContextButton extends MTListCell {
 							break;
 						case Constants.CONTEXT_BUTTON_VISUALIZE_ELEMENTS:
 							break;
-						case Constants.CONTEXT_BUTTON_EDIT:
-							((AbstractElementView) m_source).editElement();
+						case Constants.CONTEXT_BUTTON_EDIT_TITLE:
+							((AbstractElementView) m_source).editElementTitle();
+							break;
+						case Constants.CONTEXT_BUTTON_EDIT_CONTENT:
+							((AbstractElementView) m_source).editElementContent();
 							break;
 						case Constants.CONTEXT_BUTTON_SHARE:
 							break;

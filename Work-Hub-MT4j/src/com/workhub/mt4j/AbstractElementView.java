@@ -1,11 +1,16 @@
 package com.workhub.mt4j;
 
+import org.gstreamer.StateChangeReturn;
 import org.mt4j.MTApplication;
+import org.mt4j.components.StateChange;
+import org.mt4j.components.StateChangeEvent;
+import org.mt4j.components.StateChangeListener;
 import org.mt4j.components.TransformSpace;
 import org.mt4j.components.visibleComponents.font.FontManager;
 import org.mt4j.components.visibleComponents.shapes.MTLine;
 import org.mt4j.components.visibleComponents.widgets.MTClipRectangle;
 import org.mt4j.components.visibleComponents.widgets.MTTextArea;
+import org.mt4j.components.visibleComponents.widgets.keyboard.MTKeyboard;
 import org.mt4j.input.gestureAction.TapAndHoldVisualizer;
 import org.mt4j.input.inputProcessors.IGestureEventListener;
 import org.mt4j.input.inputProcessors.MTGestureEvent;
@@ -74,7 +79,25 @@ public abstract class AbstractElementView extends MTClipRectangle {
 		});
 	}
 
-	public abstract void editElement();
+	public abstract void editElementContent();
+
+	public void editElementTitle(){
+		MTKeyboard keyb = new MTKeyboard(mtApplication);
+        keyb.setFillColor(new MTColor(30, 30, 30, 210));
+        keyb.setStrokeColor(new MTColor(0,0,0,255));
+        getParent().addChild(keyb);
+		keyb.setPositionGlobal(new Vector3D(mtApplication.width/2f, mtApplication.height/2f,0));
+		
+		title.setEnableCaret(true);
+		keyb.addTextInputListener(title);
+		keyb.addStateChangeListener(StateChange.COMPONENT_DESTROYED, new StateChangeListener() {
+			
+			@Override
+			public void stateChanged(StateChangeEvent evt) {
+				title.setEnableCaret(false);
+			}
+		});
+	}
 	
 	protected void openContextualMenu(Vector3D locationOnScreen) {
 		ContextMenu contextMenu = new ContextMenu(this, (int)locationOnScreen.x, (int)locationOnScreen.y, mtApplication, Constants.CONTEXT_ELEMENT_MENU);

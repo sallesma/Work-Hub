@@ -46,9 +46,9 @@ public class LinkElementView extends AbstractElementView{
 		});
 		addChild(content);
 	}
-
-	public void editElement() {
-		
+	
+	public void editElementContent() {
+		//TODO
 	}
 	
 	public MTTextArea getContent() {

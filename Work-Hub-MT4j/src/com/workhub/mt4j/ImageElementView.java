@@ -15,15 +15,23 @@ public class ImageElementView extends AbstractElementView {
 			float height, PApplet applet) {
 		super(x, y, Constants.Z_POSITION_DEFAULT_ELEMENT, width, height, applet);
 		PImage image = applet.loadImage(imagePath);
-		image.resize(190, 0);
+		if ( image.height < image.width )
+			image.resize((int) (width-10), 0);
+		else image.resize(0, (int) (height-40));
 		content = new MTImage(image, applet);
-		content.setName("Default Picture");
 		content.setNoFill(true);
 		content.setPickable(false);
 		content.setNoStroke(true);
 		content.setAnchor(PositionAnchor.UPPER_LEFT);
 		content.setPositionGlobal(new Vector3D(this.getPosition(TransformSpace.GLOBAL).getX(), (float) (this.getPosition(TransformSpace.GLOBAL).getY()+40)));
 		addChild(content);
+	}
+
+	public void editElementContent(){
+		String imagePath = mtApplication.selectInput();
+		PImage image = mtApplication.loadImage(imagePath);
+		content.setTexture(image);
+		content.sendToFront();
 	}
 
 	public MTImage getContent() {
