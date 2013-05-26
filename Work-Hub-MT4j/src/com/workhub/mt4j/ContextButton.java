@@ -47,7 +47,8 @@ public class ContextButton extends MTListCell {
 							getParent().getParent().getParent().addChild(textElement);
 							break;
 						case Constants.CONTEXT_BUTTON_CREATE_IMAGE:
-							ImageElementView imageElement = new ImageElementView(((MTRectangle) getParent().getParent()).getPosition(TransformSpace.GLOBAL).x, ((MTRectangle) getParent().getParent()).getPosition(TransformSpace.GLOBAL).y, Constants.ELEMENT_DEFAULT_WIDTH, Constants.ELEMENT_DEFAULT_HEIGHT, applet);
+							String imagePath = applet.selectInput();
+							ImageElementView imageElement = new ImageElementView(imagePath, ((MTRectangle) getParent().getParent()).getPosition(TransformSpace.GLOBAL).x, ((MTRectangle) getParent().getParent()).getPosition(TransformSpace.GLOBAL).y, Constants.ELEMENT_DEFAULT_WIDTH, Constants.ELEMENT_DEFAULT_HEIGHT, applet);
 							getParent().getParent().getParent().addChild(imageElement);
 							break;
 						case Constants.CONTEXT_BUTTON_CREATE_LINK:

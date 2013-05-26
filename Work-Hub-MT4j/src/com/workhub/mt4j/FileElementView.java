@@ -18,8 +18,8 @@ public class FileElementView extends AbstractElementView {
 		super(x, y, Constants.Z_POSITION_DEFAULT_ELEMENT, width, height, applet);
 		PImage image = applet.loadImage("Image/iconeDefault.png");
 		if ( image.height < image.width )
-			image.resize(190, 0);
-		else image.resize(0, 150);
+			image.resize((int) (width-10), 0);
+		else image.resize(0, (int) (height-45));
 		content = new MTImage(image, applet);
 		content.setName("Default Picture");
 		content.setNoFill(true);

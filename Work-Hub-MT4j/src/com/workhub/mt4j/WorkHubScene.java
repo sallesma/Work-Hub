@@ -79,7 +79,7 @@ public class WorkHubScene extends AbstractScene {
 			this.getCanvas().addChild(linkElement);
 			break;
 		case Constants.ELEMENT_IMAGE:
-			ImageElementView imageElement = new ImageElementView(200, 200, 200, 200, getMTApplication());
+			ImageElementView imageElement = new ImageElementView("Image/defaultImage.jpg", 200, 200, 200, 200, getMTApplication());
 			this.getCanvas().addChild(imageElement);
 			break;
 		case Constants.ELEMENT_FILE:

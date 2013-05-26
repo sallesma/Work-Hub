@@ -11,10 +11,10 @@ public class ImageElementView extends AbstractElementView {
 
 	private MTImage content;
 	
-	public ImageElementView(float x, float y, float width,
+	public ImageElementView(String imagePath, float x, float y, float width,
 			float height, PApplet applet) {
 		super(x, y, Constants.Z_POSITION_DEFAULT_ELEMENT, width, height, applet);
-		PImage image = applet.loadImage("Image/defaultImage.jpg");
+		PImage image = applet.loadImage(imagePath);
 		image.resize(190, 0);
 		content = new MTImage(image, applet);
 		content.setName("Default Picture");
