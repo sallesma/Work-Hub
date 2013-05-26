@@ -30,8 +30,17 @@ public class ImageElementView extends AbstractElementView {
 	public void editElementContent(){
 		String imagePath = mtApplication.selectInput();
 		PImage image = mtApplication.loadImage(imagePath);
-		content.setTexture(image);
-		content.sendToFront();
+		if ( image.height < image.width )
+			image.resize((int) (this.getWidthXYGlobal()-10), 0);
+		else image.resize(0, (int) (this.getHeightXYGlobal()-40));
+		content.removeFromParent();
+		content = new MTImage(image, mtApplication);
+		content.setNoFill(true);
+		content.setPickable(false);
+		content.setNoStroke(true);
+		content.setAnchor(PositionAnchor.UPPER_LEFT);
+		content.setPositionGlobal(new Vector3D(this.getPosition(TransformSpace.LOCAL).getX(), (float) (this.getPosition(TransformSpace.LOCAL).getY()+40)));
+		addChild(content);
 	}
 
 	public MTImage getContent() {
