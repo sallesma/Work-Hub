@@ -55,7 +55,7 @@ public abstract class AbstractElementView extends MTClipRectangle {
 		
 		setFillColor(new MTColor(250, 230, 100, 255));
 		
-		registerInputProcessor(new TapAndHoldProcessor(applet, 1000));
+		registerInputProcessor(new TapAndHoldProcessor(applet, 700));
 		addGestureListener(TapAndHoldProcessor.class, new TapAndHoldVisualizer((MTApplication) applet, this));
 		addGestureListener(TapAndHoldProcessor.class, new IGestureEventListener() {
 			public boolean processGestureEvent(MTGestureEvent ge) {
@@ -99,6 +99,12 @@ public abstract class AbstractElementView extends MTClipRectangle {
 				title.setEnableCaret(false);
 			}
 		});
+	}
+	
+	protected void updateTitleWithElementPath(String path) {
+		String[] splittedPath = path.split("[\\\\/]");
+		System.out.println(splittedPath.toString());
+		title.setText(splittedPath[splittedPath.length-1]);
 	}
 	
 	protected void openContextualMenu(Vector3D locationOnScreen) {

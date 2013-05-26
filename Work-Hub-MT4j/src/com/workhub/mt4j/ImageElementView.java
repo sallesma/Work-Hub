@@ -14,6 +14,7 @@ public class ImageElementView extends AbstractElementView {
 	public ImageElementView(String imagePath, float x, float y, float width,
 			float height, PApplet applet) {
 		super(x, y, Constants.Z_POSITION_DEFAULT_ELEMENT, width, height, applet);
+		updateTitleWithElementPath(imagePath);
 		PImage image = applet.loadImage(imagePath);
 		if ( image.height < image.width )
 			image.resize((int) (width-10), 0);

@@ -10,18 +10,20 @@ import processing.core.PImage;
 public class FileElementView extends AbstractElementView {
 
 	private MTImage content;
+	private String filePath;
 /*
  * TODO : Mettre le bon icone
  */
-	public FileElementView(float x, float y, float width,
+	public FileElementView(String filePath, float x, float y, float width,
 			float height, PApplet applet) {
 		super(x, y, Constants.Z_POSITION_DEFAULT_ELEMENT, width, height, applet);
-		PImage image = applet.loadImage("Image/iconeDefault.png");
+		this.filePath = new String(filePath);
+		updateTitleWithElementPath(filePath);
+		PImage image = applet.loadImage(chooseIcon());
 		if ( image.height < image.width )
 			image.resize((int) (width-10), 0);
 		else image.resize(0, (int) (height-45));
 		content = new MTImage(image, applet);
-		content.setName("Default Picture");
 		content.setNoFill(true);
 		content.setPickable(false);
 		content.setNoStroke(true);
@@ -30,6 +32,19 @@ public class FileElementView extends AbstractElementView {
 		addChild(content);
 	}
 	
+	private String chooseIcon() {
+		if (filePath.toLowerCase().endsWith(".doc") || filePath.toLowerCase().endsWith(".docx")
+				|| filePath.toLowerCase().endsWith(".odt"))
+			return "Image/iconeDocx.png";
+		else if (filePath.toLowerCase().endsWith(".jpg") || filePath.toLowerCase().endsWith(".jpeg")
+				|| filePath.toLowerCase().endsWith(".png") || filePath.toLowerCase().endsWith(".bmp"))
+			return "Image/iconeImage.jpg";
+		else if (filePath.toLowerCase().endsWith(".pdf"))
+			return "Image/iconePDF.png";
+		else
+		return "Image/iconeDefault.png";
+	}
+
 	public void editElementContent() {
 		// TODO
 	}

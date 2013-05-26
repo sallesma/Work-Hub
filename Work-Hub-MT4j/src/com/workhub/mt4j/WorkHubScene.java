@@ -31,7 +31,7 @@ public class WorkHubScene extends AbstractScene {
 		this.getCanvas().addChild(envoyerButton);
 		this.getCanvas().addChild(recevoirButton);
 
-		getCanvas().registerInputProcessor(new TapAndHoldProcessor(mtApplication, 1000));
+		getCanvas().registerInputProcessor(new TapAndHoldProcessor(mtApplication, 700));
 		getCanvas().addGestureListener(TapAndHoldProcessor.class, new TapAndHoldVisualizer(mtApplication, getCanvas()));
 		getCanvas().addGestureListener(TapAndHoldProcessor.class, new IGestureEventListener() {
 			public boolean processGestureEvent(MTGestureEvent ge) {
@@ -65,30 +65,5 @@ public class WorkHubScene extends AbstractScene {
 
 	@Override
 	public void shutDown() {
-	}
-
-	public AbstractElementView addElementView(Integer elementId)
-			throws WorkHubException {
-		switch (elementId) {
-		case Constants.ELEMENT_TEXT:
-			TextElementView textElement = new TextElementView(200, 200, 200,200, getMTApplication());
-			this.getCanvas().addChild(textElement);
-			break;
-		case Constants.ELEMENT_LINK:
-			LinkElementView linkElement = new LinkElementView(200, 200, 200,200, getMTApplication());
-			this.getCanvas().addChild(linkElement);
-			break;
-		case Constants.ELEMENT_IMAGE:
-			ImageElementView imageElement = new ImageElementView("Image/defaultImage.jpg", 200, 200, 200, 200, getMTApplication());
-			this.getCanvas().addChild(imageElement);
-			break;
-		case Constants.ELEMENT_FILE:
-			FileElementView fileElement = new FileElementView(200, 200, 200, 200, getMTApplication());
-			this.getCanvas().addChild(fileElement);
-			break;
-		default:
-			throw new WorkHubException("Type d'élément invalide.");
-		}
-		return null;
 	}
 }

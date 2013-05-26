@@ -62,7 +62,8 @@ public class ContextButton extends MTListCell {
 							getParent().getParent().getParent().addChild(linkElement);
 							break;
 						case Constants.CONTEXT_BUTTON_CREATE_FILE:
-							FileElementView fileElement = new FileElementView(((MTRectangle) getParent().getParent()).getPosition(TransformSpace.GLOBAL).x, ((MTRectangle) getParent().getParent()).getPosition(TransformSpace.GLOBAL).y, Constants.ELEMENT_DEFAULT_WIDTH, Constants.ELEMENT_DEFAULT_HEIGHT, applet);
+							String filePath = applet.selectInput();
+							FileElementView fileElement = new FileElementView(filePath, ((MTRectangle) getParent().getParent()).getPosition(TransformSpace.GLOBAL).x, ((MTRectangle) getParent().getParent()).getPosition(TransformSpace.GLOBAL).y, Constants.ELEMENT_DEFAULT_WIDTH, Constants.ELEMENT_DEFAULT_HEIGHT, applet);
 							getParent().getParent().getParent().addChild(fileElement);
 							break;
 						case Constants.CONTEXT_BUTTON_VISUALIZE_ELEMENTS:
