@@ -23,8 +23,8 @@ public abstract class AbstractElementView extends MTClipRectangle {
 	 * TODO : empêcher que le titre ou le contenu dépassent du post it
 	 * TODO : Mettre une taille par défaut
 	 */
-	private MTTextArea content;
-	private MTApplication mtApplication;
+	protected MTTextArea title;
+	protected MTApplication mtApplication;
 	
 	public AbstractElementView(float x, float y, float z, float width,
 			float height, PApplet applet) {
@@ -32,16 +32,16 @@ public abstract class AbstractElementView extends MTClipRectangle {
 		this.mtApplication = (MTApplication) applet;
 		setAnchor(PositionAnchor.UPPER_LEFT);
 		
-		content = new MTTextArea(applet, FontManager.getInstance().createFont(
+		title = new MTTextArea(applet, FontManager.getInstance().createFont(
 				applet, "arial.ttf", 20, new MTColor(0, 0, 0, 255),
 				new MTColor(0, 0, 0, 255)));
-		content.setNoFill(true);
-		content.setText("Mon titre");
-		content.setPickable(false);
-		content.setNoStroke(true);
-		content.setAnchor(PositionAnchor.UPPER_LEFT);
-		content.setPositionGlobal(new Vector3D(this.getPosition(TransformSpace.GLOBAL).getX(), (float) (this.getPosition(TransformSpace.GLOBAL).getY())));
-		addChild(content);
+		title.setNoFill(true);
+		title.setText("Mon titre");
+		title.setPickable(false);
+		title.setNoStroke(true);
+		title.setAnchor(PositionAnchor.UPPER_LEFT);
+		title.setPositionGlobal(new Vector3D(this.getPosition(TransformSpace.GLOBAL).getX(), (float) (this.getPosition(TransformSpace.GLOBAL).getY())));
+		addChild(title);
 		
 		MTLine ligne = new MTLine(getRenderer(), new Vertex(210, 240), new Vertex(390, 240));
 		ligne.setFillColor(new MTColor(0, 0, 0, 255));
@@ -73,6 +73,8 @@ public abstract class AbstractElementView extends MTClipRectangle {
 			}
 		});
 	}
+
+	public abstract void editElement();
 	
 	protected void openContextualMenu(Vector3D locationOnScreen) {
 		ContextMenu contextMenu = new ContextMenu(this, (int)locationOnScreen.x, (int)locationOnScreen.y, mtApplication, Constants.CONTEXT_ELEMENT_MENU);
@@ -80,10 +82,10 @@ public abstract class AbstractElementView extends MTClipRectangle {
 	}
 	
 	public MTTextArea getTitle() {
-		return content;
+		return title;
 	}
 
 	public void setTitle(MTTextArea title) {
-		this.content = title;
+		this.title = title;
 	}
 }

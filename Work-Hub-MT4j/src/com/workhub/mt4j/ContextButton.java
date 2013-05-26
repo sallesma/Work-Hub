@@ -5,14 +5,20 @@ import org.mt4j.components.TransformSpace;
 import org.mt4j.components.visibleComponents.font.FontManager;
 import org.mt4j.components.visibleComponents.font.IFont;
 import org.mt4j.components.visibleComponents.shapes.MTRectangle;
+import org.mt4j.components.visibleComponents.widgets.MTColorPicker;
 import org.mt4j.components.visibleComponents.widgets.MTListCell;
 import org.mt4j.components.visibleComponents.widgets.MTTextField;
 import org.mt4j.input.IMTInputEventListener;
 import org.mt4j.input.inputData.AbstractCursorInputEvt;
 import org.mt4j.input.inputData.MTInputEvent;
+import org.mt4j.input.inputProcessors.IGestureEventListener;
+import org.mt4j.input.inputProcessors.MTGestureEvent;
+import org.mt4j.input.inputProcessors.componentProcessors.dragProcessor.DragProcessor;
 import org.mt4j.util.MTColor;
+import org.mt4j.util.math.Vector3D;
 
 import processing.core.PApplet;
+import processing.core.PImage;
 
 public class ContextButton extends MTListCell {
 	private MTTextField m_text;
@@ -62,10 +68,28 @@ public class ContextButton extends MTListCell {
 						case Constants.CONTEXT_BUTTON_VISUALIZE_ELEMENTS:
 							break;
 						case Constants.CONTEXT_BUTTON_EDIT:
+							((AbstractElementView) m_source).editElement();
 							break;
 						case Constants.CONTEXT_BUTTON_SHARE:
 							break;
 						case Constants.CONTEXT_BUTTON_CHANGE_COLOR:
+							System.out.println("modif color");
+							PImage colPick = applet.loadImage("Image/colorcircle.png");
+							final MTColorPicker colorWidget = new MTColorPicker(0, 0, colPick, applet);
+					        colorWidget.translate(new Vector3D(0f, 135,0));
+					        colorWidget.setStrokeColor(new MTColor(0,0,0));
+					        colorWidget.addGestureListener(DragProcessor.class, new IGestureEventListener() {
+								public boolean processGestureEvent(MTGestureEvent ge) {
+									if (ge.getId()== MTGestureEvent.GESTURE_ENDED){
+										colorWidget.setVisible(false);
+									}else{
+										((AbstractElementView) m_source).setFillColor(colorWidget.getSelectedColor());
+									}
+									return false;
+								}
+							});
+					        getParent().getParent().getParent().addChild(colorWidget);
+					        colorWidget.setVisible(true);
 							break;
 						case Constants.CONTEXT_BUTTON_EXPORT_PDF:
 							break;
