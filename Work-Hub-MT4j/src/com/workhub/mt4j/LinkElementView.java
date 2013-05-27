@@ -2,9 +2,13 @@ package com.workhub.mt4j;
 
 import java.io.IOException;
 
+import org.mt4j.components.StateChange;
+import org.mt4j.components.StateChangeEvent;
+import org.mt4j.components.StateChangeListener;
 import org.mt4j.components.TransformSpace;
 import org.mt4j.components.visibleComponents.font.FontManager;
 import org.mt4j.components.visibleComponents.widgets.MTTextArea;
+import org.mt4j.components.visibleComponents.widgets.keyboard.MTKeyboard;
 import org.mt4j.input.inputProcessors.IGestureEventListener;
 import org.mt4j.input.inputProcessors.MTGestureEvent;
 import org.mt4j.input.inputProcessors.componentProcessors.tapProcessor.TapEvent;
@@ -38,6 +42,11 @@ public class LinkElementView extends AbstractElementView{
 					try {
 						java.awt.Desktop.getDesktop().browse(java.net.URI.create(content.getText()));
 					} catch (IOException e) {
+						try {
+							java.awt.Desktop.getDesktop().browse(java.net.URI.create("http://"+content.getText()));
+						} catch (IOException e1) {
+							e1.printStackTrace();
+						}
 						e.printStackTrace();
 					}
 				}
@@ -48,7 +57,20 @@ public class LinkElementView extends AbstractElementView{
 	}
 	
 	public void editElementContent() {
-		//TODO
+		MTKeyboard keyb = new MTKeyboard(mtApplication);
+        keyb.setFillColor(new MTColor(30, 30, 30, 210));
+        keyb.setStrokeColor(new MTColor(0,0,0,255));
+        getParent().addChild(keyb);
+		keyb.setPositionGlobal(new Vector3D(mtApplication.width/2f, mtApplication.height/2f,0));
+		
+		content.setEnableCaret(true);
+		keyb.addTextInputListener(content);
+		keyb.addStateChangeListener(StateChange.COMPONENT_DESTROYED, new StateChangeListener() {
+			@Override
+			public void stateChanged(StateChangeEvent evt) {
+				content.setEnableCaret(false);
+			}
+		});
 	}
 	
 	public MTTextArea getContent() {

@@ -41,7 +41,6 @@ public class TextElementView extends AbstractElementView {
 		content.setEnableCaret(true);
 		keyb.addTextInputListener(content);
 		keyb.addStateChangeListener(StateChange.COMPONENT_DESTROYED, new StateChangeListener() {
-			
 			@Override
 			public void stateChanged(StateChangeEvent evt) {
 				content.setEnableCaret(false);
