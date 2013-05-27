@@ -80,8 +80,8 @@ public class ContextMenu extends MTList {
 		if(fixedX + Constants.CONTEXT_BUTTON_WIDTH > applet.width) {
 			fixedX = applet.width - Constants.CONTEXT_BUTTON_WIDTH;
 		}
-		if(fixedY + getWidthXYGlobal() > applet.height) {
-			fixedY = (int)(applet.height - getWidthXYGlobal());
+		if(fixedY + getHeightXYGlobal() > applet.height) {
+			fixedY = (int)(applet.height - getHeightXYGlobal());
 		}
 		setAnchor(PositionAnchor.UPPER_LEFT);
 		setPositionGlobal(new Vector3D(fixedX, fixedY));
