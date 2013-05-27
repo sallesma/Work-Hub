@@ -28,7 +28,6 @@ public class TextElementView extends AbstractElementView {
 		content.setNoStroke(true);
 		content.setAnchor(PositionAnchor.UPPER_LEFT);
 		content.setPositionGlobal(new Vector3D(this.getPosition(TransformSpace.GLOBAL).getX(), (float) (this.getPosition(TransformSpace.GLOBAL).getY()+40)));
-
 		addChild(content);
 	}
 

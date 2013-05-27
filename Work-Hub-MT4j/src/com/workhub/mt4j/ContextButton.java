@@ -1,5 +1,7 @@
 package com.workhub.mt4j;
 
+import javax.swing.JOptionPane;
+
 import org.mt4j.components.MTComponent;
 import org.mt4j.components.TransformSpace;
 import org.mt4j.components.visibleComponents.font.FontManager;
@@ -102,8 +104,16 @@ public class ContextButton extends MTListCell {
 						case Constants.CONTEXT_BUTTON_SPLIT_GROUP:
 							break;
 						case Constants.CONTEXT_BUTTON_EXIT:
-							//TODO : confirmation
-//							applet.exit();
+							Object[] options = {"Quitter",
+							                    "Annuler",};
+							int confirmation = JOptionPane.showOptionDialog(applet,
+							    "Etes-vous sûr de vouloir quitter ?",
+							    "Quitter WorkHub",
+							    JOptionPane.YES_NO_OPTION,
+							    JOptionPane.QUESTION_MESSAGE,
+							    null, options, null);
+							if (0 == confirmation)
+								applet.exit();
 							break;
 						}
 						getParent().getParent().removeFromParent();
