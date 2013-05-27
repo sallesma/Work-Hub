@@ -32,10 +32,11 @@ public class Constants {
 	/*
 	 * ID et taille du menu à la fois
 	 */
-	public static final int CONTEXT_MAIN_MENU		= 6;
-	public static final int CONTEXT_ELEMENT_MENU	= 8;
-	public static final int CONTEXT_GROUP_MENU		= 5;
-	public static final int CONTEXT_SHORTCUT_MENU	= 2;
+	public static final int CONTEXT_MAIN_MENU			= 7;
+	public static final int CONTEXT_BACKGROUND_MENU		= 6;
+	public static final int CONTEXT_ELEMENT_MENU		= 8;
+	public static final int CONTEXT_GROUP_MENU			= 5;
+	public static final int CONTEXT_SHORTCUT_MENU		= 2;
 	
 	public static final String CONTEXT_BUTTON_CLOSE					= "Fermer ce menu";
 	public static final String CONTEXT_BUTTON_CREATE_TEXT			= "Créer un élément texte";
@@ -51,4 +52,5 @@ public class Constants {
 	public static final String CONTEXT_BUTTON_HIDE					= "Masquer";
 	public static final String CONTEXT_BUTTON_DELETE				= "Supprimer";
 	public static final String CONTEXT_BUTTON_SPLIT_GROUP			= "Séparer le groupe";
+	public static final String CONTEXT_BUTTON_EXIT					= "Quitter le Hub";
 }

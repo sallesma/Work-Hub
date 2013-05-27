@@ -55,7 +55,7 @@ public class WorkHubScene extends AbstractScene {
 	}
 	
 	public void openContextualMenu(Vector3D location) {
-		ContextMenu contextMenu = new ContextMenu(getCanvas(), (int)location.x, (int)location.y, getMTApplication(), Constants.CONTEXT_MAIN_MENU);
+		ContextMenu contextMenu = new ContextMenu(getCanvas(), (int)location.x, (int)location.y, getMTApplication(), Constants.CONTEXT_BACKGROUND_MENU);
 		this.getCanvas().addChild(contextMenu);
 	}
 

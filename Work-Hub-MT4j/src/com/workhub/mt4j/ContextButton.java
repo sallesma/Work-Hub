@@ -101,6 +101,10 @@ public class ContextButton extends MTListCell {
 							break;
 						case Constants.CONTEXT_BUTTON_SPLIT_GROUP:
 							break;
+						case Constants.CONTEXT_BUTTON_EXIT:
+							//TODO : confirmation
+//							applet.exit();
+							break;
 						}
 						getParent().getParent().removeFromParent();
 						break;

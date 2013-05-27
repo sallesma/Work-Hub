@@ -11,9 +11,7 @@ public class FileElementView extends AbstractElementView {
 
 	private MTImage content;
 	private String filePath;
-/*
- * TODO : Mettre le bon icone
- */
+	
 	public FileElementView(String filePath, float x, float y, float width,
 			float height, PApplet applet) {
 		super(x, y, Constants.Z_POSITION_DEFAULT_ELEMENT, width, height, applet);
