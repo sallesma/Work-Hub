@@ -25,7 +25,6 @@ public abstract class AbstractElementView extends MTClipRectangle {
 
 	/*
 	 * TODO : empêcher que le titre ou le contenu dépassent du post it
-	 * TODO : Mettre une taille par défaut
 	 */
 	protected MTTextArea title;
 	protected MTApplication mtApplication;

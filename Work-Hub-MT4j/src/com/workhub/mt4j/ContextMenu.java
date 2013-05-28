@@ -19,6 +19,22 @@ public class ContextMenu extends MTList {
 	private void initializeButtons(Integer menuType, MTComponent source, PApplet applet) {
 		switch (menuType) {
 		case Constants.CONTEXT_MAIN_MENU:
+			ContextButton item01 = new ContextButton(applet, source, Constants.CONTEXT_BUTTON_CREATE_TEXT);
+			addListElement(item01);
+			ContextButton item02 = new ContextButton(applet, source, Constants.CONTEXT_BUTTON_CREATE_IMAGE);
+			addListElement(item02);
+			ContextButton item03 = new ContextButton(applet, source, Constants.CONTEXT_BUTTON_CREATE_LINK);
+			addListElement(item03);
+			ContextButton item04 = new ContextButton(applet, source, Constants.CONTEXT_BUTTON_CREATE_FILE);
+			addListElement(item04);
+			ContextButton item05 = new ContextButton(applet, source, Constants.CONTEXT_BUTTON_VISUALIZE_ELEMENTS);
+			addListElement(item05);
+			ContextButton item06 = new ContextButton(applet, source, Constants.CONTEXT_BUTTON_EXIT);
+			addListElement(item06);
+			ContextButton item07 = new ContextButton(applet, source, Constants.CONTEXT_BUTTON_CLOSE);
+			addListElement(item07);
+			break;
+		case Constants.CONTEXT_BACKGROUND_MENU:
 			ContextButton item1 = new ContextButton(applet, source, Constants.CONTEXT_BUTTON_CREATE_TEXT);
 			addListElement(item1);
 			ContextButton item2 = new ContextButton(applet, source, Constants.CONTEXT_BUTTON_CREATE_IMAGE);

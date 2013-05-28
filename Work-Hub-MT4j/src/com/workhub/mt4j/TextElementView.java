@@ -28,7 +28,6 @@ public class TextElementView extends AbstractElementView {
 		content.setNoStroke(true);
 		content.setAnchor(PositionAnchor.UPPER_LEFT);
 		content.setPositionGlobal(new Vector3D(this.getPosition(TransformSpace.GLOBAL).getX(), (float) (this.getPosition(TransformSpace.GLOBAL).getY()+40)));
-
 		addChild(content);
 	}
 
@@ -42,7 +41,6 @@ public class TextElementView extends AbstractElementView {
 		content.setEnableCaret(true);
 		keyb.addTextInputListener(content);
 		keyb.addStateChangeListener(StateChange.COMPONENT_DESTROYED, new StateChangeListener() {
-			
 			@Override
 			public void stateChanged(StateChangeEvent evt) {
 				content.setEnableCaret(false);

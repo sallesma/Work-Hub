@@ -51,8 +51,13 @@ public class WorkHubButton extends MTRoundRectangle {
 		ContextMenu contextMenu = new ContextMenu( this, (int)locationOnScreen.x, (int)locationOnScreen.y, mtApplication, Constants.CONTEXT_SHORTCUT_MENU);
 		this.addChild(contextMenu);
 	}
+	
+	private void openContextualMainMenu(Vector3D locationOnScreen) {
+		ContextMenu contextMenu = new ContextMenu( this, (int)locationOnScreen.x, (int)locationOnScreen.y, mtApplication, Constants.CONTEXT_MAIN_MENU);
+		this.addChild(contextMenu);
+	}
 
-	private void assignActions(MTApplication mtApplication, String text) {
+	private void assignActions(final MTApplication mtApplication, String text) {
 		registerInputProcessor(new TapAndHoldProcessor(mtApplication, 700));
 		addGestureListener(TapAndHoldProcessor.class, new TapAndHoldVisualizer(mtApplication, this));
 		addGestureListener(TapAndHoldProcessor.class, new IGestureEventListener() {
@@ -70,6 +75,7 @@ public class WorkHubButton extends MTRoundRectangle {
 								System.out.println(buttonText.getText());
 								switch (buttonText.getText()) {
 									case Constants.BUTTON_ID_MENU:
+										openContextualMainMenu(tahe.getLocationOnScreen());
 										break;
 									case Constants.BUTTON_ID_ENVOYER:
 										break;
