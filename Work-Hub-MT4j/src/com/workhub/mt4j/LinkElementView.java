@@ -22,7 +22,7 @@ public class LinkElementView extends AbstractElementView{
 		super(x, y, Constants.Z_POSITION_DEFAULT_ELEMENT, width, height, applet);
 		content = new MTTextArea(applet, FontManager.getInstance().createFont(
 				applet, "arial.ttf", 18, new MTColor(50, 50, 50, 255),
-				new MTColor(0, 0, 0, 255)));
+				MTColor.BLUE));
 		content.setNoFill(true);
 		content.setText("http://www.google.com");
 		content.setPickable(false);
