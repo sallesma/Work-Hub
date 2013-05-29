@@ -22,10 +22,6 @@ import org.mt4j.util.math.Vertex;
 import processing.core.PApplet;
 
 public abstract class AbstractElementView extends MTClipRectangle {
-
-	/*
-	 * TODO : empêcher que le titre ou le contenu dépassent du post it
-	 */
 	protected MTTextArea title;
 	protected MTApplication mtApplication;
 	
@@ -80,24 +76,7 @@ public abstract class AbstractElementView extends MTClipRectangle {
 	public abstract void editElementContent();
 
 	public void editElementTitle(){
-		MTKeyboard keyb = new MTKeyboard(mtApplication);
-        keyb.setFillColor(new MTColor(30, 30, 30, 210));
-        keyb.setStrokeColor(new MTColor(0,0,0,255));
-        getParent().addChild(keyb);
-        //TODO : caler le clavier
-//        Integer keybXPos = Math.min();
-        Integer keybYPos = (int) Math.min(mtApplication.height-keyb.getHeightXY(TransformSpace.GLOBAL), this.getHeightXYGlobal()+this.getPosition(TransformSpace.GLOBAL).y);
-		keyb.setPositionGlobal(new Vector3D(mtApplication.width/2f, keybYPos,0));
-		
-		title.setEnableCaret(true);
-		keyb.addTextInputListener(title);
-		keyb.addStateChangeListener(StateChange.COMPONENT_DESTROYED, new StateChangeListener() {
-			
-			@Override
-			public void stateChanged(StateChangeEvent evt) {
-				title.setEnableCaret(false);
-			}
-		});
+		createEditionKeyboard(title);
 	}
 	
 	protected void updateTitleWithElementPath(String path) {
@@ -117,5 +96,26 @@ public abstract class AbstractElementView extends MTClipRectangle {
 
 	public void setTitle(MTTextArea title) {
 		this.title = title;
+	}
+	
+	public void createEditionKeyboard(final MTTextArea target) {
+		MTKeyboard keyb = new MTKeyboard(mtApplication);
+        keyb.setFillColor(new MTColor(30, 30, 30, 210));
+        keyb.setStrokeColor(new MTColor(0,0,0,255));
+        getParent().addChild(keyb);
+		Vector3D position = this.getPosition(TransformSpace.GLOBAL);
+		Vector3D offset = new Vector3D(this.getWidthXYGlobal() / 2, this.getHeightXYGlobal() + keyb.getHeightXY(TransformSpace.GLOBAL) / 2);
+		position = position.addLocal(offset);
+		keyb.setPositionGlobal(position);
+		Utils.fixPosition(keyb, (int)position.x, (int)position.y, this.mtApplication, PositionAnchor.CENTER);
+		
+		target.setEnableCaret(true);
+		keyb.addTextInputListener(target);
+		keyb.addStateChangeListener(StateChange.COMPONENT_DESTROYED, new StateChangeListener() {
+			@Override
+			public void stateChanged(StateChangeEvent evt) {
+				target.setEnableCaret(false);
+			}
+		});
 	}
 }

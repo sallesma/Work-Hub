@@ -1,12 +1,8 @@
 package com.workhub.mt4j;
 
-import org.mt4j.components.StateChange;
-import org.mt4j.components.StateChangeEvent;
-import org.mt4j.components.StateChangeListener;
 import org.mt4j.components.TransformSpace;
 import org.mt4j.components.visibleComponents.font.FontManager;
 import org.mt4j.components.visibleComponents.widgets.MTTextArea;
-import org.mt4j.components.visibleComponents.widgets.keyboard.MTKeyboard;
 import org.mt4j.util.MTColor;
 import org.mt4j.util.math.Vector3D;
 
@@ -32,24 +28,7 @@ public class TextElementView extends AbstractElementView {
 	}
 
 	public void editElementContent(){
-		MTKeyboard keyb = new MTKeyboard(mtApplication);
-        keyb.setFillColor(new MTColor(30, 30, 30, 210));
-        keyb.setStrokeColor(new MTColor(0,0,0,255));
-        getParent().addChild(keyb);
-		Vector3D position = this.getPosition(TransformSpace.GLOBAL);
-		Vector3D offset = new Vector3D(this.getWidthXYGlobal() / 2, this.getHeightXYGlobal() + keyb.getHeightXY(TransformSpace.GLOBAL) / 2);
-		position = position.addLocal(offset);
-		keyb.setPositionGlobal(position);
-		Utils.fixPosition(keyb, (int)position.x, (int)position.y, this.mtApplication, PositionAnchor.CENTER);
-		
-		content.setEnableCaret(true);
-		keyb.addTextInputListener(content);
-		keyb.addStateChangeListener(StateChange.COMPONENT_DESTROYED, new StateChangeListener() {
-			@Override
-			public void stateChanged(StateChangeEvent evt) {
-				content.setEnableCaret(false);
-			}
-		});
+		createEditionKeyboard(content);
 	}
 
 	public MTTextArea getContent() {
