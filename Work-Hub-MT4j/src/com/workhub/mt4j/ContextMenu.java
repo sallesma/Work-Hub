@@ -1,9 +1,7 @@
 package com.workhub.mt4j;
 
 import org.mt4j.components.MTComponent;
-import org.mt4j.components.TransformSpace;
 import org.mt4j.components.visibleComponents.widgets.MTList;
-import org.mt4j.util.math.Vector3D;
 
 import processing.core.PApplet;
 

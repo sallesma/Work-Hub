@@ -14,7 +14,7 @@ import processing.core.PApplet;
 
 public class TextElementView extends AbstractElementView {
 	
-	private MTTextArea content;
+	protected MTTextArea content;
 	
 	public TextElementView(float x, float y, float width,
 			float height, PApplet applet) {
