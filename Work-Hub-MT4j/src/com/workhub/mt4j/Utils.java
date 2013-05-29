@@ -12,21 +12,29 @@ public class Utils {
 	public static void fixPosition(AbstractShape shape, int x, int y, PApplet applet, PositionAnchor positionAnchor) {
 		int fixedX = x;
 		int fixedY = y;
+		int width = (int)shape.getWidthXY(TransformSpace.GLOBAL);
+		int height = (int)shape.getHeightXY(TransformSpace.GLOBAL);
 		switch(positionAnchor) {
 		case UPPER_LEFT :
-			if(fixedX + shape.getWidthXY(TransformSpace.GLOBAL) > applet.width) {
-				fixedX = (int)(applet.width - shape.getWidthXY(TransformSpace.GLOBAL));
+			if(fixedX + width > applet.width) {
+				fixedX = applet.width - width;
 			}
-			if(fixedY + shape.getHeightXY(TransformSpace.GLOBAL) > applet.height) {
-				fixedY = (int)(applet.height - shape.getHeightXY(TransformSpace.GLOBAL));
+			if(fixedY + height > applet.height) {
+				fixedY = applet.height - height;
 			}
 			break;
 		case CENTER :
-			if(fixedX + shape.getWidthXY(TransformSpace.GLOBAL) / 2 > applet.width) {
-				fixedX = (int)(applet.width - shape.getWidthXY(TransformSpace.GLOBAL) / 2);
+			if(fixedX < width / 2) {
+				fixedX = width / 2;
 			}
-			if(fixedY + shape.getHeightXY(TransformSpace.GLOBAL) / 2 > applet.height) {
-				fixedY = (int)(applet.height - shape.getHeightXY(TransformSpace.GLOBAL) / 2);
+			else if(fixedX + width / 2 > applet.width) {
+				fixedX = applet.width - width / 2;
+			}
+			if(fixedY < height / 2) {
+				fixedY = height / 2;
+			}
+			else if(fixedY + height / 2 > applet.height) {
+				fixedY = applet.height - height / 2;
 			}
 			break;
 		case LOWER_LEFT :	
