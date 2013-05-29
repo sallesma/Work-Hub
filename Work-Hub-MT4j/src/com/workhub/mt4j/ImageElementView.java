@@ -29,12 +29,14 @@ public class ImageElementView extends AbstractElementView {
 	}
 
 	public void editElementContent(){
+		float width = this.getWidthXY(TransformSpace.LOCAL);
+		float height = this.getHeightXY(TransformSpace.LOCAL);
 		String imagePath = mtApplication.selectInput();
 		updateTitleWithElementPath(imagePath);
 		PImage image = mtApplication.loadImage(imagePath);
 		if ( image.height < image.width )
-			image.resize((int) (this.getWidthXYGlobal()-10), 0);
-		else image.resize(0, (int) (this.getHeightXYGlobal()-40));
+			image.resize((int) (width - 10), 0);
+		else image.resize(0, (int) (height - 40));
 		content.removeFromParent();
 		content = new MTImage(image, mtApplication);
 		content.setNoFill(true);
