@@ -36,7 +36,11 @@ public class TextElementView extends AbstractElementView {
         keyb.setFillColor(new MTColor(30, 30, 30, 210));
         keyb.setStrokeColor(new MTColor(0,0,0,255));
         getParent().addChild(keyb);
-		keyb.setPositionGlobal(new Vector3D(mtApplication.width/2f, mtApplication.height/2f,0));
+		Vector3D position = this.getPosition(TransformSpace.GLOBAL);
+		Vector3D offset = new Vector3D(this.getWidthXYGlobal() / 2, this.getHeightXYGlobal() + keyb.getHeightXY(TransformSpace.GLOBAL) / 2);
+		position = position.addLocal(offset);
+		keyb.setPositionGlobal(position);
+		Utils.fixPosition(keyb, (int)position.x, (int)position.y, this.mtApplication, PositionAnchor.CENTER);
 		
 		content.setEnableCaret(true);
 		keyb.addTextInputListener(content);

@@ -1,6 +1,7 @@
 package com.workhub.mt4j;
 
 import org.mt4j.components.MTComponent;
+import org.mt4j.components.TransformSpace;
 import org.mt4j.components.visibleComponents.widgets.MTList;
 import org.mt4j.util.math.Vector3D;
 
@@ -12,7 +13,7 @@ public class ContextMenu extends MTList {
 		super(x, y, Constants.CONTEXT_BUTTON_WIDTH, menuType * (Constants.CONTEXT_BUTTON_HEIGHT + 2), applet);
 		initializeButtons(menuType, source, applet);
 		setAnchor(PositionAnchor.UPPER_LEFT);
-		Utils.fixPosition(this, x, y, applet);
+		Utils.fixPosition(this, x, y, applet, PositionAnchor.UPPER_LEFT);
 		
 		setVisible(true);
 	}
