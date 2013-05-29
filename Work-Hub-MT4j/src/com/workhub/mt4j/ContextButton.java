@@ -85,8 +85,11 @@ public class ContextButton extends MTListCell {
 							System.out.println("modif color");
 							PImage colPick = applet.loadImage("Image/colorcircle.png");
 							final MTColorPicker colorWidget = new MTColorPicker(0, 0, colPick, applet);
-					        colorWidget.translate(new Vector3D(0f, 135,0));
-					        colorWidget.setStrokeColor(new MTColor(0,0,0));
+							int colPickX = (int)cursorInputEvt.getPosX();
+							int colPickY = (int)cursorInputEvt.getPosY();
+							colorWidget.setPositionGlobal(new Vector3D(colPickX, colPickY));
+							Utils.fixPosition(colorWidget, colPickX, colPickY, applet, PositionAnchor.CENTER);
+					        colorWidget.setStrokeColor(MTColor.WHITE);
 					        colorWidget.addGestureListener(DragProcessor.class, new IGestureEventListener() {
 								public boolean processGestureEvent(MTGestureEvent ge) {
 									if (ge.getId()== MTGestureEvent.GESTURE_ENDED){
