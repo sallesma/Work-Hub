@@ -46,6 +46,7 @@ public class FileElementView extends AbstractElementView {
 
 	public void editElementContent() {
 		String filePath = mtApplication.selectInput();
+		this.filePath = new String(filePath);
 		updateTitleWithElementPath(filePath);
 		PImage image = mtApplication.loadImage(chooseIcon());
 		if ( image.height < image.width )
