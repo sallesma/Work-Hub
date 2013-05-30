@@ -72,7 +72,6 @@ public class WorkHubButton extends MTRoundRectangle {
 							if (tahe.isHoldComplete() && !buttonText.getText().equals(Constants.BUTTON_ID_MENU)) {
 								openContextualMenu(tahe.getLocationOnScreen());
 							} else {
-								System.out.println(buttonText.getText());
 								switch (buttonText.getText()) {
 									case Constants.BUTTON_ID_MENU:
 										openContextualMainMenu(tahe.getLocationOnScreen());

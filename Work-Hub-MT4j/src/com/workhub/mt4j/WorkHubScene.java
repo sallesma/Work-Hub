@@ -1,6 +1,8 @@
 package com.workhub.mt4j;
 
 import org.mt4j.MTApplication;
+import org.mt4j.components.visibleComponents.shapes.MTRectangle.PositionAnchor;
+import org.mt4j.components.visibleComponents.widgets.MTImage;
 import org.mt4j.input.gestureAction.TapAndHoldVisualizer;
 import org.mt4j.input.inputProcessors.IGestureEventListener;
 import org.mt4j.input.inputProcessors.MTGestureEvent;
@@ -11,11 +13,14 @@ import org.mt4j.sceneManagement.AbstractScene;
 import org.mt4j.util.MTColor;
 import org.mt4j.util.math.Vector3D;
 
+import processing.core.PImage;
+
 public class WorkHubScene extends AbstractScene {
 	private WorkHubButton menuButton;
 	private WorkHubButton envoyerButton;
 	private WorkHubButton recevoirButton;
 	private WorkHubButton masquerButton;
+	private MTImage imageFond;
 	
 	public WorkHubScene(MTApplication mtApplication, String name) throws WorkHubException{
 		super(mtApplication, name);
@@ -30,6 +35,16 @@ public class WorkHubScene extends AbstractScene {
 		this.getCanvas().addChild(masquerButton);
 		this.getCanvas().addChild(envoyerButton);
 		this.getCanvas().addChild(recevoirButton);
+		
+		PImage image = mtApplication.loadImage("Image/logoWH.png");
+		imageFond = new MTImage(image, mtApplication);
+		imageFond.setNoFill(true);
+		imageFond.setNoStroke(true);
+		imageFond.setPickable(false);
+		imageFond.setAnchor(PositionAnchor.CENTER);
+		imageFond.setPositionGlobal(new Vector3D(mtApplication.getWidth()/2f, mtApplication.getHeight()/2f));
+		imageFond.getImage().setNoStroke(true);
+		getCanvas().addChild(imageFond);
 
 		getCanvas().registerInputProcessor(new TapAndHoldProcessor(mtApplication, 700));
 		getCanvas().addGestureListener(TapAndHoldProcessor.class, new TapAndHoldVisualizer(mtApplication, getCanvas()));
