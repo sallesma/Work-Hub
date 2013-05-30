@@ -3,9 +3,11 @@ package com.workhub.mt4j;
 import org.mt4j.MTApplication;
 import org.mt4j.components.visibleComponents.shapes.MTRectangle.PositionAnchor;
 import org.mt4j.components.visibleComponents.widgets.MTImage;
+import org.mt4j.input.gestureAction.DefaultLassoAction;
 import org.mt4j.input.gestureAction.TapAndHoldVisualizer;
 import org.mt4j.input.inputProcessors.IGestureEventListener;
 import org.mt4j.input.inputProcessors.MTGestureEvent;
+import org.mt4j.input.inputProcessors.componentProcessors.lassoProcessor.LassoProcessor;
 import org.mt4j.input.inputProcessors.componentProcessors.tapAndHoldProcessor.TapAndHoldEvent;
 import org.mt4j.input.inputProcessors.componentProcessors.tapAndHoldProcessor.TapAndHoldProcessor;
 import org.mt4j.input.inputProcessors.globalProcessors.CursorTracer;
@@ -67,6 +69,10 @@ public class WorkHubScene extends AbstractScene {
 				return false;
 			}
 		});
+		
+		LassoProcessor lassoProcessor = new LassoProcessor(mtApplication, getCanvas(), getSceneCam());
+		getCanvas().registerInputProcessor(lassoProcessor);
+		getCanvas().addGestureListener(LassoProcessor.class, new LassoAction(mtApplication, getCanvas().getClusterManager(), getCanvas()));
 	}
 	
 	public void openContextualMenu(Vector3D location) {
