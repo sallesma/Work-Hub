@@ -1,8 +1,5 @@
 package com.workhub.android.activity;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-
 import jade.android.AgentContainerHandler;
 import jade.android.AndroidHelper;
 import jade.android.MicroRuntimeService;
@@ -17,6 +14,10 @@ import jade.util.Logger;
 import jade.util.leap.Properties;
 import jade.wrapper.AgentController;
 import jade.wrapper.ControllerException;
+
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.Map;
 
 import org.andengine.engine.camera.Camera;
 import org.andengine.engine.options.EngineOptions;
@@ -37,6 +38,7 @@ import android.provider.MediaStore;
 
 import com.workhub.android.R;
 import com.workhub.android.element.AbstractElement;
+import com.workhub.android.element.BaseElement;
 import com.workhub.android.element.PictureElement;
 import com.workhub.android.scene.MainScene;
 import com.workhub.android.utils.ConstantsAndroid;
@@ -275,11 +277,24 @@ public class HomeActivity extends SimpleLayoutGameActivity implements PropertyCh
 
 		return cursor.getString(column_index);
 	}
+	
+	public void sendElement(AID dest, AID elementAgent){
+		Object[] param = {dest , elementAgent};
+ 		
+		GuiEvent event = new GuiEvent(param,Constants.EVENT_TYPE_SEND);
+		myAgent.fireOnGuiEvent(event);
+	}
+	
 	public void createElement(int elementType){
 		GuiEvent event = new GuiEvent(elementType,Constants.EVENT_TYPE_CREATE_ELEMENT);
 		myAgent.fireOnGuiEvent(event);
 	}
 
+	public void deleteElement(AID elementAgent){
+		GuiEvent event = new GuiEvent(elementAgent,Constants.EVENT_TYPE_DELETE);
+		myAgent.fireOnGuiEvent(event);
+	}
+	
 	public void saveElement(ElementModel model){
 		GuiEvent event = new GuiEvent(model, Constants.EVENT_TYPE_SAVE);
 		myAgent.fireOnGuiEvent(event);
@@ -304,12 +319,52 @@ public class HomeActivity extends SimpleLayoutGameActivity implements PropertyCh
 	public void propertyChange(PropertyChangeEvent event) {
 		switch (((Integer)event.getPropagationId())) {
 		case Constants.EVENT_TYPE_CHANGE:
+		{
+			AID aidModel = (AID)event.getNewValue();
+			BaseElement element = scene.getElement(aidModel);
+			if(element!=null){
+				getElement(aidModel);
+			}
+			break;
+		}
+		case Constants.EVENT_TYPE_CONTENU:
+		{
 			ElementModel model = (ElementModel)event.getNewValue();
-			scene.getElementModel(model);
+			BaseElement element = scene.getElement(model.getAgent());
+			if(element!=null){
+				element.setModel(model);
+			}else{
+				try {
+					scene.addElement(model);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
 			break;
-
-		default:
+		}
+		case Constants.EVENT_TYPE_DIED:
+		{
+			ElementModel model = (ElementModel)event.getNewValue();
+			BaseElement element = scene.getElement(model.getAgent());
+			if(element!=null){
+				element.remove();
+			}
 			break;
+		}
+		case Constants.EVENT_TYPE_ELEMENTS:
+		{
+			Map<AID, String> map = (Map<AID, String>)event.getNewValue();
+			//TODO
+			
+			break;
+		}
+		case Constants.EVENT_TYPE_NEIGHBOURS:
+		{
+			Map<AID, String> map = (Map<AID, String>)event.getNewValue();
+			//TODO
+			
+			break;
+		}
 		}
 
 	}

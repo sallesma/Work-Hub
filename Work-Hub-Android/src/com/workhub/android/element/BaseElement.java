@@ -100,20 +100,13 @@ public abstract class BaseElement extends AbstractElement  {
 	}
 	public float updateView(){
 
-
-
-
 		float posY=MARGIN/getScaleY();
 		mTextTitre.getTextOptions().setAutoWrapWidth(getScaledAutoWrapMargin());
 		mTextTitre.setText(model.getTitle());
 		mTextTitre.setScaleCenter(0, 0);
 		mTextTitre.setScale(1/getScaleX(), 1/getScaleY());
 		mTextTitre.setPosition(getMarginX(), posY);
-		
 		return posY+ mTextTitre.getHeightScaled();
-
-
-
 
 	}
 
@@ -167,6 +160,12 @@ public abstract class BaseElement extends AbstractElement  {
 	public void masquer() {
 		super.remove();
 	}
+	
+	@Override
+	public void remove() {
+		res.getContext().deleteElement(model.getAgent());
+		super.remove();
+	};
 
 	public void edit() {
 		res.getContext().runOnUiThread(new Runnable() {
@@ -198,5 +197,12 @@ public abstract class BaseElement extends AbstractElement  {
 				getY(), baseElement.getY(), ConstantsAndroid.EASEFUNCTIONS[0]));
 		this.registerEntityModifier(new ScaleModifier(ConstantsAndroid.ANIMATION_DURATION,
 				getScaleX(), 	1, getScaleY(), 1, ConstantsAndroid.EASEFUNCTIONS[0]));
+	}
+	public ElementModel getModel() {
+		return model;
+	}
+	public void setModel(ElementModel model) {
+		this.model = model;
+		updateView();
 	}
 }
