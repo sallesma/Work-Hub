@@ -45,13 +45,13 @@ public class MessageFactory {
 			break;	
 
 		case Constants.MESSAGE_RECEIVE_ELEMENT_CONTENT:
-			j = getElementContent(sender, j);
+			j = getElementContent(sender.getContentModel(), j);
 			performatif = ACLMessage.INFORM;
 			j.addProperty(Constants.JSON_ACTION, Constants.MESSAGE_RECEIVE_ELEMENT_CONTENT);
 			break;
 		
 		case Constants.MESSAGE_RECEIVE_ELEMENT_TITLE:
-			j = getElementTitle(sender, j);
+			j = getElementTitle(sender.getContentModel(), j);
 			performatif = ACLMessage.INFORM;
 			j.addProperty(Constants.JSON_ACTION, Constants.MESSAGE_RECEIVE_ELEMENT_TITLE);
 			break;
@@ -69,8 +69,10 @@ public class MessageFactory {
 		return message;
 		
 	}
-	
 	public static ACLMessage createMessage(ClientAgent sender, AID receiver, int MessageType){
+		return createMessage(sender, receiver, MessageType, null);
+	}
+	public static ACLMessage createMessage(ClientAgent sender, AID receiver, int MessageType , Object params){
 		
 		int performatif;
 		String content = "message vide";
@@ -108,6 +110,12 @@ public class MessageFactory {
 			break;
 		*/
 		
+		case Constants.MESSAGE_ACTION_SAVE_CONTENT: 
+			j = getElementContent((ElementModel)params, j);
+			performatif = ACLMessage.INFORM;
+			j.addProperty(Constants.JSON_ACTION, Constants.MESSAGE_ACTION_SAVE_CONTENT);
+			break;
+		
 		default:
 			System.err.println("Type de message invalide");
 			return null;
@@ -122,14 +130,14 @@ public class MessageFactory {
 		
 	}
 	
-	public static JsonObject getElementContent(ElementAgent sender, JsonObject j){
+	public static JsonObject getElementContent(ElementModel model, JsonObject j){
 		
-		System.out.println("sender : "+sender.getAID());
+	//	System.out.println("sender : "+sender.getAID());
 
-		int type = sender.getType();
+		int type = model.getType();
 			
-		int color = sender.getContentModel().getColor();
-		String title = sender.getContentModel().getTitle();
+		int color = model.getColor();
+		String title = model.getTitle();
 		
 		j.addProperty("type", type);
 		j.addProperty("color", color);
@@ -137,7 +145,7 @@ public class MessageFactory {
 		
 		if(type==Constants.TYPE_ELEMENT_PICTURE){
 			try {
-				String picture_str = new String( ((PictureElementModel)(sender.getContentModel())).getContent(), "UTF-8");
+				String picture_str = new String( ((PictureElementModel)model).getContent(), "UTF-8");
 				j.addProperty("content", picture_str);
 			}
 			catch (UnsupportedEncodingException e) {
@@ -146,14 +154,14 @@ public class MessageFactory {
 		}
 		
 		else if(type==Constants.TYPE_ELEMENT_LINK){
-			String url = ((LinkElementModel)(sender.getContentModel())).getContent();
+			String url = ((LinkElementModel)(model)).getContent();
 			j.addProperty("content", url);
 		}
 		
 		else if(type==Constants.TYPE_ELEMENT_TEXT){
 			System.out.println("je suis un text");
 
-			String text = ((TextElementModel)(sender.getContentModel())).getContent();
+			String text = ((TextElementModel)model).getContent();
 			j.addProperty("content", text);
 		}
 		
@@ -166,8 +174,8 @@ public class MessageFactory {
 		return j;
 	}
 	
-	public static JsonObject getElementTitle(ElementAgent sender, JsonObject j){
-		String title = sender.getContentModel().getTitle();
+	public static JsonObject getElementTitle(ElementModel model, JsonObject j){
+		String title = model.getTitle();
 		j.addProperty("title", title);
 		return j;
 	}
