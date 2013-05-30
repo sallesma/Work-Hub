@@ -13,6 +13,9 @@ import org.mt4j.components.visibleComponents.widgets.keyboard.MTKeyboard;
 import org.mt4j.input.gestureAction.TapAndHoldVisualizer;
 import org.mt4j.input.inputProcessors.IGestureEventListener;
 import org.mt4j.input.inputProcessors.MTGestureEvent;
+import org.mt4j.input.inputProcessors.componentProcessors.AbstractComponentProcessor;
+import org.mt4j.input.inputProcessors.componentProcessors.lassoProcessor.IdragClusterable;
+import org.mt4j.input.inputProcessors.componentProcessors.lassoProcessor.LassoProcessor;
 import org.mt4j.input.inputProcessors.componentProcessors.tapAndHoldProcessor.TapAndHoldEvent;
 import org.mt4j.input.inputProcessors.componentProcessors.tapAndHoldProcessor.TapAndHoldProcessor;
 import org.mt4j.util.MTColor;
@@ -21,7 +24,7 @@ import org.mt4j.util.math.Vertex;
 
 import processing.core.PApplet;
 
-public abstract class AbstractElementView extends MTClipRectangle {
+public abstract class AbstractElementView extends MTClipRectangle implements IdragClusterable {
 	protected MTTextArea title;
 	protected MTApplication mtApplication;
 	
@@ -72,8 +75,27 @@ public abstract class AbstractElementView extends MTClipRectangle {
 			}
 		});
 	}
+	
+	@Override
+	final public void setSelected(boolean selected) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	final public boolean isSelected() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
 	public abstract void editElementContent();
+	
+	public void addLassoProcessor(){
+		AbstractComponentProcessor[] processors = getParent().getInputProcessors();
+		for (int i = 0 ; i < processors.length ; i++ ) {
+			if ( processors[i].getClass() == LassoProcessor.class )
+				((LassoProcessor) processors[i]).addClusterable((IdragClusterable) this);
+		}
+	}
 
 	public void editElementTitle(){
 		createEditionKeyboard(title);
