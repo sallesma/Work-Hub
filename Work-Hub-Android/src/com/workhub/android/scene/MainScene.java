@@ -1,8 +1,12 @@
 package com.workhub.android.scene;
 
-import java.util.ArrayList;
+import jade.core.AID;
 
-import javax.microedition.khronos.opengles.GL10;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.andengine.engine.camera.Camera;
 import org.andengine.entity.IEntity;
@@ -24,7 +28,9 @@ import org.andengine.util.adt.list.SmartList;
 import android.app.Dialog;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ListView;
 
 import com.workhub.android.R;
 import com.workhub.android.element.AbstractElement;
@@ -35,10 +41,12 @@ import com.workhub.android.element.RoundButtonElement;
 import com.workhub.android.element.TextElement;
 import com.workhub.android.utils.ConstantsAndroid;
 import com.workhub.android.utils.GPoint;
+import com.workhub.android.utils.MyListAdapter;
 import com.workhub.android.utils.Ressources;
 import com.workhub.model.ElementModel;
 import com.workhub.model.PictureElementModel;
 import com.workhub.model.TextElementModel;
+import com.workhub.utils.Constants;
 
 public class MainScene extends Scene implements IOnSceneTouchListener, IHoldDetectorListener, IScrollDetectorListener, OnClickListener{
 
@@ -49,6 +57,7 @@ public class MainScene extends Scene implements IOnSceneTouchListener, IHoldDete
 	private Runnable groupRunnable;
 
 	private Dialog currentDialog;
+	private MyListAdapter adapter;
 
 
 	public MainScene(Ressources res) {
@@ -143,13 +152,13 @@ public class MainScene extends Scene implements IOnSceneTouchListener, IHoldDete
 		float width = res.getSceneWidth();
 		float height = res.getSceneHeight();
 
-		RoundButtonElement rb = new RoundButtonElement(width-width/12, -width/20, R.id.bt_raccourci_supprimer, res );
+		RoundButtonElement rb = new RoundButtonElement(width-width/12, -width/20, R.id.bt_raccourci_supprimer, res, null );
 		this.attachChild(rb);
 		this.registerTouchArea(rb);
-		rb = new RoundButtonElement(width-width/12, height+width/20, R.id.bt_raccourci_envoyer, res );
+		rb = new RoundButtonElement(width-width/12, height+width/20, R.id.bt_raccourci_envoyer, res, null );
 		this.attachChild(rb);
 		this.registerTouchArea(rb);
-		rb = new RoundButtonElement(0+width/12, height+width/20, R.id.bt_raccourci_recevoir, res );
+		rb = new RoundButtonElement(0+width/12, height+width/20, R.id.bt_raccourci_recevoir, res, null );
 		this.attachChild(rb);
 		this.registerTouchArea(rb);  
 
@@ -178,7 +187,38 @@ public class MainScene extends Scene implements IOnSceneTouchListener, IHoldDete
 
 	}
 
+	public void addElement(ElementModel model) throws Exception {
+		BaseElement e = null;
+		switch (model.getType()) {
+		case Constants.TYPE_ELEMENT_TEXT:
+			e = new TextElement((TextElementModel) model, res.getScreenCenter().x,res.getScreenCenter().y, res);
+			break;
+		case Constants.TYPE_ELEMENT_PICTURE:
+			e = new PictureElement((PictureElementModel) model, res.getScreenCenter().x,res.getScreenCenter().y, res);
+			break;
+		case Constants.TYPE_ELEMENT_LINK:
+			//e = new LinkElement((LinkElementModel) model, res.getScreenCenter().x,res.getScreenCenter().y, res);
+			break;
+		case Constants.TYPE_ELEMENT_FILE:
+			//e = new FileElement((FileElementModel) model, res.getScreenCenter().x,res.getScreenCenter().y, res);
+			break;
+		}
+		if(e!=null){
+			this.registerTouchArea(e);
+			this.attachChild(e);
+		}else{
+			throw new Exception("Element non supporté");
+		}
 
+	}
+
+	private void addShortCut(int id, Object arg) {
+		RoundButtonElement rb = new RoundButtonElement(res.getScreenCenter().x, res.getScreenCenter().y, id, res , arg);
+		this.attachChild(rb);
+		this.registerTouchArea(rb);  
+		
+	}
+	
 	@Override
 	public boolean onSceneTouchEvent(Scene pScene, TouchEvent event) {
 		int myEventAction = event.getAction(); 
@@ -335,60 +375,112 @@ public class MainScene extends Scene implements IOnSceneTouchListener, IHoldDete
 			//TODO
 			break;
 		case R.id.bt_element_fichier:
-			//TODO
+			res.getContext().createElement(Constants.TYPE_ELEMENT_FILE);
 			break;
 		case R.id.bt_element_lien:
-			//TODO
+			res.getContext().createElement(Constants.TYPE_ELEMENT_LINK);
 			break;
 		case R.id.bt_element_image:
-			//TODO
-		{
-			PictureElementModel model = new PictureElementModel(0,"", null, null );
-
-			GPoint centre = res.getScreenCenter();
-			PictureElement tx = new PictureElement(model, centre.x, centre.y, res);
-			attachChild(tx);
-			registerTouchArea(tx);
-			tx.edit();
-		}
-		break;
+			res.getContext().createElement(Constants.TYPE_ELEMENT_PICTURE);
+			break;
 		case R.id.bt_element_texte:
-			//TODO la création doit creer un agent;
-			TextElementModel model = new TextElementModel(0,"", null, "" );
-			model.setTitle("");
-			model.setContent("");
-			GPoint centre = res.getScreenCenter();
-			TextElement tx = new TextElement(model, centre.x, centre.y, res);
-			attachChild(tx);
-			registerTouchArea(tx);
-			tx.edit();
-
+			res.getContext().createElement(Constants.TYPE_ELEMENT_TEXT);
 			break;
 
 		case R.id.bt_raccourci_editer:
-		case R.id.bt_raccourci_envoyer:
 		case R.id.bt_raccourci_exporter:
 		case R.id.bt_raccourci_masquer:
 		case R.id.bt_raccourci_recevoir:
 		case R.id.bt_raccourci_supprimer:
-			RoundButtonElement rb = new RoundButtonElement(res.getScreenCenter().x, res.getScreenCenter().y, v.getId(), res );
-			this.attachChild(rb);
-			this.registerTouchArea(rb);  
+			addShortCut( v.getId(), null);
+			
+			break;
+		case R.id.bt_raccourci_envoyer:
+			iniNeighboursList(null);
+			res.getContext().getNeightbourgList();
 			break;
 		}
 
 	}
 
-	public  BaseElement getElementModel(ElementModel model) {
+	
+
+	public  BaseElement getElement(final AID aidModel) {
 		return (BaseElement) getChildByMatcher(new IEntityMatcher() {
 
 			@Override
 			public boolean matches(IEntity pEntity) {
-				// TODO Auto-generated method stub
+				if(pEntity instanceof BaseElement){
+					BaseElement b = (BaseElement) pEntity;
+					return (b.getModel().getAgent().equals(aidModel));
+
+				}
 				return false;
 			}
 		});
 	}
+
+	public void iniElementList() {
+		iniListDialog();
+
+		adapter = new MyListAdapter(res.getContext(),
+				android.R.layout.simple_list_item_1, new ArrayList<String>());
+		ListView listview = (ListView)currentDialog.findViewById(R.id.listview);
+		listview.setAdapter(adapter);
+
+		listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, final View view,
+					int position, long id) {
+				//final String item = (String) parent.getItemAtPosition(position);
+				res.getContext().getElement(adapter.getListAID().get(position));
+			}
+
+		});
+
+		currentDialog.show();
+
+	}
+	
+	public void iniNeighboursList(final BaseElement baseElement) {
+		
+		iniListDialog();
+
+		adapter = new MyListAdapter(res.getContext(),
+				android.R.layout.simple_list_item_1, new ArrayList<String>());
+		ListView listview = (ListView)currentDialog.findViewById(R.id.listview);
+		listview.setAdapter(adapter);
+
+		listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, final View view,
+					int position, long id) {
+				//final String item = (String) parent.getItemAtPosition(position);
+				//res.getContext().getElement(adapter.getListAID().get(position));
+				if(baseElement==null){
+					addShortCut(R.id.bt_raccourci_envoyer, adapter.getListAID().get(position));
+				}else{
+					res.getContext().sendElement(adapter.getListAID().get(position), baseElement.getModel().getAgent());
+				}
+			
+			}
+
+		});
+		
+		
+		currentDialog.show();
+
+	}
+
+	private void iniListDialog(){
+		currentDialog = new Dialog(res.getContext(), R.style.dialog_app_theme);
+		currentDialog.setContentView(R.layout.listdialog);
+
+	}
+
+
 
 }
 

@@ -1,5 +1,7 @@
 package com.workhub.android.element;
 
+import jade.core.AID;
+
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.text.Text;
 import org.andengine.entity.text.TextOptions;
@@ -44,13 +46,15 @@ public class RoundButtonElement extends AbstractElement{
 	private int type;
 	private Text centerText;
 	private GPoint centerScene;
+	private Object arg;
 
-	public RoundButtonElement(float centerX, float centerY,int type, Ressources res) {
+	public RoundButtonElement(float centerX, float centerY,int type, Ressources res, Object arg) {
 		super(centerX, centerY, res);
 		this.type = type;
 		this.centerScene = res.getScreenCenter();
 		initShape(res);
 		rotateToCenter();
+		this.arg = arg;
 
 	}
 
@@ -116,7 +120,10 @@ public class RoundButtonElement extends AbstractElement{
 			}
 			break;
 		case R.id.bt_raccourci_envoyer:
-			//TODO
+			if(abstractElement instanceof BaseElement){
+				res.getContext().sendElement((AID) arg, ((BaseElement)abstractElement).getModel().getAgent());
+			}
+			
 			break;
 		case R.id.bt_raccourci_exporter:
 			//TODO

@@ -56,20 +56,24 @@ public class ContextButton extends MTListCell {
 						case Constants.CONTEXT_BUTTON_CREATE_TEXT:
 							TextElementView textElement = new TextElementView(((MTRectangle) getParent().getParent()).getPosition(TransformSpace.GLOBAL).x, ((MTRectangle) getParent().getParent()).getPosition(TransformSpace.GLOBAL).y, Constants.ELEMENT_DEFAULT_WIDTH, Constants.ELEMENT_DEFAULT_HEIGHT, applet);
 							getParent().getParent().getParent().addChild(textElement);
+							textElement.addLassoProcessor();
 							break;
 						case Constants.CONTEXT_BUTTON_CREATE_IMAGE:
 							String imagePath = applet.selectInput();
 							ImageElementView imageElement = new ImageElementView(imagePath, ((MTRectangle) getParent().getParent()).getPosition(TransformSpace.GLOBAL).x, ((MTRectangle) getParent().getParent()).getPosition(TransformSpace.GLOBAL).y, Constants.ELEMENT_DEFAULT_WIDTH, Constants.ELEMENT_DEFAULT_HEIGHT, applet);
 							getParent().getParent().getParent().addChild(imageElement);
+							imageElement.addLassoProcessor();
 							break;
 						case Constants.CONTEXT_BUTTON_CREATE_LINK:
 							LinkElementView linkElement = new LinkElementView(((MTRectangle) getParent().getParent()).getPosition(TransformSpace.GLOBAL).x, ((MTRectangle) getParent().getParent()).getPosition(TransformSpace.GLOBAL).y, Constants.ELEMENT_DEFAULT_WIDTH, Constants.ELEMENT_DEFAULT_HEIGHT, applet);
 							getParent().getParent().getParent().addChild(linkElement);
+							linkElement.addLassoProcessor();
 							break;
 						case Constants.CONTEXT_BUTTON_CREATE_FILE:
 							String filePath = applet.selectInput();
 							FileElementView fileElement = new FileElementView(filePath, ((MTRectangle) getParent().getParent()).getPosition(TransformSpace.GLOBAL).x, ((MTRectangle) getParent().getParent()).getPosition(TransformSpace.GLOBAL).y, Constants.ELEMENT_DEFAULT_WIDTH, Constants.ELEMENT_DEFAULT_HEIGHT, applet);
 							getParent().getParent().getParent().addChild(fileElement);
+							fileElement.addLassoProcessor();
 							break;
 						case Constants.CONTEXT_BUTTON_VISUALIZE_ELEMENTS:
 							break;
@@ -82,7 +86,6 @@ public class ContextButton extends MTListCell {
 						case Constants.CONTEXT_BUTTON_SHARE:
 							break;
 						case Constants.CONTEXT_BUTTON_CHANGE_COLOR:
-							System.out.println("modif color");
 							PImage colPick = applet.loadImage("Image/colorcircle.png");
 							final MTColorPicker colorWidget = new MTColorPicker(0, 0, colPick, applet);
 							int colPickX = (int)cursorInputEvt.getPosX();

@@ -46,6 +46,7 @@ public final class R {
         public static final int content=0x7f070015;
         public static final int img_content=0x7f070016;
         public static final int layout_rendersurfaceview=0x7f070019;
+        public static final int listview=0x7f07001a;
         public static final int title=0x7f070014;
     }
     public static final class layout {
@@ -55,6 +56,7 @@ public final class R {
         public static final int dialog_scene_new_shortcut=0x7f030003;
         public static final int element_dialog=0x7f030004;
         public static final int game_activity=0x7f030005;
+        public static final int listdialog=0x7f030006;
     }
     public static final class string {
         public static final int app_name=0x7f050000;

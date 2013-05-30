@@ -1,5 +1,4 @@
 package com.workhub.mt4j;
-
 import org.mt4j.components.TransformSpace;
 import org.mt4j.components.visibleComponents.font.FontManager;
 import org.mt4j.components.visibleComponents.widgets.MTTextArea;
