@@ -3,6 +3,10 @@ import java.util.AbstractSequentialList;
 import java.util.LinkedList;
 
 import com.google.gson.JsonObject;
+import com.workhub.jade.behaviour.ContentClientBehaviour;
+import com.workhub.jade.behaviour.ContentElementBehaviour;
+import com.workhub.jade.behaviour.EraseElementBehaviour;
+import com.workhub.jade.behaviour.ShareClientBehaviour;
 import com.workhub.utils.Constants;
 import com.workhub.utils.MessageFactory; 
 
@@ -29,15 +33,9 @@ public class ClientAgent extends GuiAgent implements ClientAgentInterface{
 				changes.addPropertyChangeListener((PropertyChangeListener) args[0]);
 			}
 		}
-		/*ACLMessage message = new ACLMessage(ACLMessage.REQUEST);
-		JsonObject j = new JsonObject();
-		j.addProperty(Constants.JSON_ACTION, Constants.MESSAGE_ACTION_GET_CONTENT);
-		String content = j.toString();
-		message.setContent(content);
-		message.setSender(this.getAID());
-		message.addReceiver(new AID("ElementAgent1", true));
 		
-		this.send(message);*/
+		this.addBehaviour(new ContentClientBehaviour());
+		this.addBehaviour(new ShareClientBehaviour());
 		
 	}
 
