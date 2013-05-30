@@ -82,7 +82,6 @@ public class ContextButton extends MTListCell {
 						case Constants.CONTEXT_BUTTON_SHARE:
 							break;
 						case Constants.CONTEXT_BUTTON_CHANGE_COLOR:
-							System.out.println("modif color");
 							PImage colPick = applet.loadImage("Image/colorcircle.png");
 							final MTColorPicker colorWidget = new MTColorPicker(0, 0, colPick, applet);
 							int colPickX = (int)cursorInputEvt.getPosX();
