@@ -24,7 +24,6 @@ public class TextElementModel extends ElementModel{
 	} 
 	@Override
 	public int getType() {
-		System.out.println("mon type est "+this.type);
 		return this.type;
 	}
 }

@@ -51,6 +51,8 @@ public class MessageFactory {
 			break;
 		
 		case Constants.MESSAGE_RECEIVE_ELEMENT_TITLE:
+			System.out.println("renvoie info titre");
+
 			j = getElementTitle(sender.getContentModel(), j);
 			performatif = ACLMessage.INFORM;
 			j.addProperty(Constants.JSON_ACTION, Constants.MESSAGE_RECEIVE_ELEMENT_TITLE);
@@ -132,10 +134,10 @@ public class MessageFactory {
 	
 	public static JsonObject getElementContent(ElementModel model, JsonObject j){
 		
-	//	System.out.println("sender : "+sender.getAID());
-
+		
 		int type = model.getType();
-			
+		System.out.println(" type : "+type);
+
 		int color = model.getColor();
 		String title = model.getTitle();
 		
@@ -159,8 +161,6 @@ public class MessageFactory {
 		}
 		
 		else if(type==Constants.TYPE_ELEMENT_TEXT){
-			System.out.println("je suis un text");
-
 			String text = ((TextElementModel)model).getContent();
 			j.addProperty("content", text);
 		}
