@@ -30,8 +30,8 @@ public class WorkHubButton extends MTRoundRectangle {
 
 		buttonText = new MTTextArea(getMtApplication(), FontManager
 				.getInstance().createFont(getMtApplication(), "arial.ttf", 20,
-						new MTColor(255, 255, 255, 255),
-						new MTColor(255, 255, 255, 255)));
+						new MTColor(0, 0, 0, 255),
+						new MTColor(0, 0, 0, 255)));
 		buttonText.setNoFill(true);
 		buttonText.setPickable(false);
 		buttonText.setText(text);
@@ -39,8 +39,8 @@ public class WorkHubButton extends MTRoundRectangle {
 		buttonText.setPositionRelativeToParent(new Vector3D(textXPos, textYPos));
 		addChild(buttonText);
 		
-		setFillColor(new MTColor(150, 150, 100, 255));
-		setNoStroke(true);		
+		setFillColor(new MTColor(110, 200, 240, 255));
+		setStrokeColor(new MTColor(110, 170, 200, 255));		
 		
 		unregisterAllInputProcessors();
 		removeAllGestureEventListeners();

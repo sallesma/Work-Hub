@@ -19,7 +19,7 @@ public class WorkHubScene extends AbstractScene {
 	
 	public WorkHubScene(MTApplication mtApplication, String name) throws WorkHubException{
 		super(mtApplication, name);
-		this.setClearColor(new MTColor(146, 150, 188, 255));
+		this.setClearColor(new MTColor(198, 200, 200, 255));
 		this.registerGlobalInputProcessor(new CursorTracer(mtApplication, this));
 		menuButton = new WorkHubButton(Constants.BUTTON_ID_MENU, Constants.CORNER_TOP_LEFT, 130, 1000, 40, 40, getMTApplication());
 		envoyerButton = new WorkHubButton(Constants.BUTTON_ID_ENVOYER, Constants.CORNER_BOTTOM_RIGHT, 130, 1000, 980, 700, getMTApplication());
