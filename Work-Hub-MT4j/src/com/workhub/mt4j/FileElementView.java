@@ -46,9 +46,9 @@ public class FileElementView extends AbstractElementView {
 	public void editElementContent() {
 		float width = this.getWidthXY(TransformSpace.LOCAL);
 		float height = this.getHeightXY(TransformSpace.LOCAL);
-		String imagePath = mtApplication.selectInput();
-		updateTitleWithElementPath(imagePath);
-		PImage image = mtApplication.loadImage(imagePath);
+		filePath = mtApplication.selectInput();
+		updateTitleWithElementPath(filePath);
+		PImage image = mtApplication.loadImage(chooseIcon());
 		if ( image.height < image.width )
 			image.resize((int) (width - 10), 0);
 		else image.resize(0, (int) (height - 40));
