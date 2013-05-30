@@ -20,7 +20,7 @@ import android.widget.Button;
 
 import com.workhub.android.R;
 import com.workhub.android.scene.MainScene;
-import com.workhub.android.utils.Constants;
+import com.workhub.android.utils.ConstantsAndroid;
 import com.workhub.android.utils.GPoint;
 import com.workhub.android.utils.Ressources;
 
@@ -52,7 +52,7 @@ public abstract class AbstractElement extends Entity  implements ITouchArea, IHo
 
 		this.registerUpdateHandler(mHoldDetector);
 
-		setZIndex(Constants.ZINDEX++);
+		setZIndex(ConstantsAndroid.ZINDEX++);
 
 	}
 
@@ -115,7 +115,7 @@ public abstract class AbstractElement extends Entity  implements ITouchArea, IHo
 		switch (myEventAction) {
 		case TouchEvent.ACTION_DOWN:
 			pointerCount=Math.min(pointerCount+1, 2);
-			setZIndex(Constants.ZINDEX++);
+			setZIndex(ConstantsAndroid.ZINDEX++);
 			getParent().sortChildren(false);
 			break;
 		case TouchEvent.ACTION_MOVE: {

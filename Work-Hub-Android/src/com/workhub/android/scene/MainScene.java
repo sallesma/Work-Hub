@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import javax.microedition.khronos.opengles.GL10;
 
 import org.andengine.engine.camera.Camera;
+import org.andengine.entity.IEntity;
+import org.andengine.entity.IEntityMatcher;
 import org.andengine.entity.scene.IOnSceneTouchListener;
 import org.andengine.entity.scene.ITouchArea;
 import org.andengine.entity.scene.Scene;
@@ -31,9 +33,10 @@ import com.workhub.android.element.GroupElement;
 import com.workhub.android.element.PictureElement;
 import com.workhub.android.element.RoundButtonElement;
 import com.workhub.android.element.TextElement;
-import com.workhub.android.utils.Constants;
+import com.workhub.android.utils.ConstantsAndroid;
 import com.workhub.android.utils.GPoint;
 import com.workhub.android.utils.Ressources;
+import com.workhub.model.ElementModel;
 import com.workhub.model.PictureElementModel;
 import com.workhub.model.TextElementModel;
 
@@ -84,7 +87,7 @@ public class MainScene extends Scene implements IOnSceneTouchListener, IHoldDete
 								}
 							}
 							groupElement.initialize(list);
-							groupElement.setZIndex(Constants.ZINDEX++);
+							groupElement.setZIndex(ConstantsAndroid.ZINDEX++);
 							registerTouchArea(groupElement);
 							sortChildren(false);
 						}else{
@@ -132,7 +135,7 @@ public class MainScene extends Scene implements IOnSceneTouchListener, IHoldDete
 		Sprite logo = new Sprite(res.getScreenCenter().x-logoW/2, res.getScreenCenter().y-logoH/2, res.getTR_Logo(), res.getContext().getVertexBufferObjectManager());
 		logo.setAlpha(0.4f);
 		this.attachChild(logo);
-		
+
 		this.setTouchAreaBindingOnActionDownEnabled(true);
 		this.setOnAreaTouchTraversalFrontToBack();
 		this.setOnSceneTouchListenerBindingOnActionDownEnabled(true);
@@ -280,9 +283,9 @@ public class MainScene extends Scene implements IOnSceneTouchListener, IHoldDete
 		for (int i = 0; i < getChildCount(); i++) {
 			if(getChildByIndex(i) instanceof RoundButtonElement){
 				RoundButtonElement rb = (RoundButtonElement) getChildByIndex(i);
-				
-				
-				
+
+
+
 				if(abstractElement.contains(rb.getX(), rb.getY())){
 					rb.setActionOn(abstractElement);
 					return;
@@ -361,7 +364,7 @@ public class MainScene extends Scene implements IOnSceneTouchListener, IHoldDete
 			tx.edit();
 
 			break;
-			
+
 		case R.id.bt_raccourci_editer:
 		case R.id.bt_raccourci_envoyer:
 		case R.id.bt_raccourci_exporter:
@@ -374,6 +377,17 @@ public class MainScene extends Scene implements IOnSceneTouchListener, IHoldDete
 			break;
 		}
 
+	}
+
+	public  BaseElement getElementModel(ElementModel model) {
+		return (BaseElement) getChildByMatcher(new IEntityMatcher() {
+
+			@Override
+			public boolean matches(IEntity pEntity) {
+				// TODO Auto-generated method stub
+				return false;
+			}
+		});
 	}
 
 }

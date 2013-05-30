@@ -29,6 +29,13 @@ public abstract class  ElementModel {
 	public void setTitle(String title) {
 		this.title = title;
 	}
+
+
+	public AID getAgent() {
+		return agent;
+	}
+
+
 	
 	
 	

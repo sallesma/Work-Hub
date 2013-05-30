@@ -19,7 +19,7 @@ public class BitmapTransform {
 				}
 			} catch (OutOfMemoryError ex) {
 				
-				Log.e(Constants.LOG_TAG, "We have no memory to crop. Return the original bitmap.", ex);
+				Log.e(ConstantsAndroid.LOG_TAG, "We have no memory to crop. Return the original bitmap.", ex);
 			}
 		}
 		return b;
@@ -37,7 +37,7 @@ public class BitmapTransform {
 				}
 			} catch (OutOfMemoryError ex) {
 				
-				Log.e(Constants.LOG_TAG, "We have no memory to resize. Return the original bitmap.", ex);
+				Log.e(ConstantsAndroid.LOG_TAG, "We have no memory to resize. Return the original bitmap.", ex);
 			}
 		}
 		return b;
@@ -57,7 +57,7 @@ public class BitmapTransform {
 				}
 			} catch (OutOfMemoryError ex) {
 				
-				Log.e(Constants.LOG_TAG, "We have no memory to rotate. Return the original bitmap.", ex);
+				Log.e(ConstantsAndroid.LOG_TAG, "We have no memory to rotate. Return the original bitmap.", ex);
 			}
 		}
 		return b;

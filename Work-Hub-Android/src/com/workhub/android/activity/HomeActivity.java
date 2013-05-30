@@ -1,13 +1,18 @@
 package com.workhub.android.activity;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
 import jade.android.AgentContainerHandler;
 import jade.android.AndroidHelper;
 import jade.android.MicroRuntimeService;
 import jade.android.MicroRuntimeServiceBinder;
 import jade.android.RuntimeCallback;
 import jade.android.RuntimeService;
+import jade.core.AID;
 import jade.core.MicroRuntime;
 import jade.core.Profile;
+import jade.gui.GuiEvent;
 import jade.util.Logger;
 import jade.util.leap.Properties;
 import jade.wrapper.AgentController;
@@ -34,12 +39,14 @@ import com.workhub.android.R;
 import com.workhub.android.element.AbstractElement;
 import com.workhub.android.element.PictureElement;
 import com.workhub.android.scene.MainScene;
-import com.workhub.android.utils.Constants;
+import com.workhub.android.utils.ConstantsAndroid;
 import com.workhub.android.utils.Ressources;
 import com.workhub.jade.agent.ClientAgent;
 import com.workhub.jade.agent.ClientAgentInterface;
+import com.workhub.model.ElementModel;
+import com.workhub.utils.Constants;
 
-public class HomeActivity extends SimpleLayoutGameActivity {
+public class HomeActivity extends SimpleLayoutGameActivity implements PropertyChangeListener{
 
 	private Camera mCamera;
 	private Ressources res;
@@ -51,14 +58,14 @@ public class HomeActivity extends SimpleLayoutGameActivity {
 
 	@Override
 	protected void onCreate(Bundle pSavedInstanceState) {
-		
-		
+
+
 		super.onCreate(pSavedInstanceState);
-		
+
 		startJade("Florian", AndroidHelper.getLocalIPAddress(), "1099",agentStartupCallback );
-		
+
 	}
-	
+
 	private RuntimeCallback<AgentController> agentStartupCallback = new RuntimeCallback<AgentController>() {
 		@Override
 		public void onSuccess(AgentController agent) {
@@ -69,8 +76,8 @@ public class HomeActivity extends SimpleLayoutGameActivity {
 			System.out.println("Nickname already in use!");
 		}
 	};
-	private Object as;
 	private AbstractElement askElement;
+	private MainScene scene;
 
 	public void startJade(final String nickname, final String host,
 			final String port,
@@ -78,7 +85,7 @@ public class HomeActivity extends SimpleLayoutGameActivity {
 
 		final Properties profile = new Properties();
 		profile.setProperty(Profile.MAIN_HOST, host);
-	    profile.setProperty(Profile.MAIN_PORT, port);
+		profile.setProperty(Profile.MAIN_PORT, port);
 		profile.setProperty(Profile.MAIN, Boolean.TRUE.toString());
 		profile.setProperty(Profile.JVM, Profile.ANDROID);
 
@@ -118,38 +125,38 @@ public class HomeActivity extends SimpleLayoutGameActivity {
 
 	private void startContainer(final String nickname, final Properties profile,
 			final RuntimeCallback<AgentController> agentStartupCallback) {
-		
+
 		if (!MicroRuntime.isRunning()) {
 			RuntimeService runtimeService = new RuntimeService();
 			runtimeService.createMainAgentContainer(new RuntimeCallback<AgentContainerHandler>() {
-				
+
 				@Override
 				public void onSuccess(AgentContainerHandler arg0) {
 					System.out.println("Successfully start of the container...");
 					startAgent(nickname, agentStartupCallback);
 					microRuntimeServiceBinder.startAgentContainer(profile, 
 							new RuntimeCallback<Void>() {
-								@Override
-								public void onSuccess(Void thisIsNull) {
-									System.out.println("Successfully start of the container...");
-									startAgent(nickname, agentStartupCallback);
-								}
+						@Override
+						public void onSuccess(Void thisIsNull) {
+							System.out.println("Successfully start of the container...");
+							startAgent(nickname, agentStartupCallback);
+						}
 
-								@Override
-								public void onFailure(Throwable throwable) {
-									System.out.println( "Failed to start the container...");
-								}
-							});
-					
+						@Override
+						public void onFailure(Throwable throwable) {
+							System.out.println( "Failed to start the container...");
+						}
+					});
+
 				}
-				
+
 				@Override
 				public void onFailure(Throwable arg0) {
 					// TODO Auto-generated method stub
-					
+
 				}
 			});
-			
+
 		} else {
 			startAgent(nickname, agentStartupCallback);
 		}
@@ -161,37 +168,37 @@ public class HomeActivity extends SimpleLayoutGameActivity {
 				ClientAgent.class.getName(),
 				new Object[] { this },
 				new RuntimeCallback<Void>() {
-					@Override
-					public void onSuccess(Void thisIsNull) {
-						System.out.println("Successfully start of the "
-								+ ClientAgent.class.getName() + "...");
-						try {
-							myAgent = (ClientAgentInterface) MicroRuntime.getAgent(nickname).getO2AInterface(ClientAgentInterface.class);
-						} catch (ControllerException e) {
-							agentStartupCallback.onFailure(e); 
-						}
-					}
+			@Override
+			public void onSuccess(Void thisIsNull) {
+				System.out.println("Successfully start of the "
+						+ ClientAgent.class.getName() + "...");
+				try {
+					myAgent = (ClientAgentInterface) MicroRuntime.getAgent(nickname).getO2AInterface(ClientAgentInterface.class);
+				} catch (ControllerException e) {
+					agentStartupCallback.onFailure(e); 
+				}
+			}
 
-					@Override
-					public void onFailure(Throwable throwable) {
-						System.out.println("Failed to start the "
-								+ ClientAgent.class.getName() + "...");
-						agentStartupCallback.onFailure(throwable);
-					}
-				});
+			@Override
+			public void onFailure(Throwable throwable) {
+				System.out.println("Failed to start the "
+						+ ClientAgent.class.getName() + "...");
+				agentStartupCallback.onFailure(throwable);
+			}
+		});
 	}
-	
 
-	
-	
-	
+
+
+
+
 	@Override
 	public EngineOptions onCreateEngineOptions() {
 		int CAMERA_LARGEUR = getResources().getDisplayMetrics().widthPixels;
 		int CAMERA_HAUTEUR = getResources().getDisplayMetrics().heightPixels;
 
-		int resolutionX= (int) (Constants.SCREEN_WIDTH);
-		int resolutionY= (int) (Constants.SCREEN_HEIGHT);
+		int resolutionX= (int) (ConstantsAndroid.SCREEN_WIDTH);
+		int resolutionY= (int) (ConstantsAndroid.SCREEN_HEIGHT);
 		float x = Math.min(((float)resolutionX/CAMERA_LARGEUR), ((float)resolutionY/CAMERA_HAUTEUR));
 		resolutionX = (int) (CAMERA_LARGEUR*x);
 		resolutionY = (int) (CAMERA_HAUTEUR*x);
@@ -213,7 +220,7 @@ public class HomeActivity extends SimpleLayoutGameActivity {
 	@Override
 	protected Scene onCreateScene() {
 
-		MainScene scene = new MainScene(res); 
+		scene = new MainScene(res); 
 		scene.populate();
 		return scene;
 	}
@@ -234,13 +241,13 @@ public class HomeActivity extends SimpleLayoutGameActivity {
 		intent.setType("image/*");
 		intent.setAction(Intent.ACTION_GET_CONTENT);
 		startActivityForResult(intent, requestCode);
-		
+
 	}
-	
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		
+
 		if (resultCode == RESULT_OK) {
 			if (requestCode == PictureElement.SELECT_PICTURE) {
 				Uri selectedImageUri = data.getData();
@@ -251,21 +258,60 @@ public class HomeActivity extends SimpleLayoutGameActivity {
 					imgPath = getPath(selectedImageUri);
 				}
 				((PictureElement)askElement).onActivityResult(imgPath);
-			
+
 			}
 		}
 		if(askElement!=null){
 			askElement = null;
 		}
 	}
+
 	public String getPath(Uri uri) {
-		
+
 		String[] projection = { MediaStore.Images.Media.DATA };
 		Cursor cursor = managedQuery(uri, projection, null, null, null);
 		int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
 		cursor.moveToFirst();
-		
+
 		return cursor.getString(column_index);
+	}
+	public void createElement(int elementType){
+		GuiEvent event = new GuiEvent(elementType,Constants.EVENT_TYPE_CREATE_ELEMENT);
+		myAgent.fireOnGuiEvent(event);
+	}
+
+	public void saveElement(ElementModel model){
+		GuiEvent event = new GuiEvent(model, Constants.EVENT_TYPE_SAVE);
+		myAgent.fireOnGuiEvent(event);
+	}
+
+	public void getElement(AID agentAID ){
+		GuiEvent event = new GuiEvent(agentAID, Constants.EVENT_TYPE_CHARGE);
+		myAgent.fireOnGuiEvent(event);
+	}
+
+	public void getElementList(){
+		GuiEvent event = new GuiEvent(null, Constants.EVENT_TYPE_GET_ELEMENTS);
+		myAgent.fireOnGuiEvent(event);
+	}
+
+	public void getNeightbourgList(){
+		GuiEvent event = new GuiEvent(null, Constants.EVENT_TYPE_GET_NEIGHBOURGS);
+		myAgent.fireOnGuiEvent(event);
+	}
+
+	@Override
+	public void propertyChange(PropertyChangeEvent event) {
+		switch (((Integer)event.getPropagationId())) {
+		case Constants.EVENT_TYPE_CHANGE:
+			ElementModel model = (ElementModel)event.getNewValue();
+			scene.getElementModel(model);
+			break;
+
+		default:
+			break;
+		}
+
 	}
 
 }

@@ -5,7 +5,7 @@ import org.andengine.util.modifier.ease.EaseCubicInOut;
 import org.andengine.util.modifier.ease.EaseExponentialOut;
 import org.andengine.util.modifier.ease.IEaseFunction;
 
-public class Constants {
+public class ConstantsAndroid {
 
 	public final static int SCREEN_WIDTH  = 624;
 	public final static int SCREEN_HEIGHT = 1040;

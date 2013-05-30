@@ -16,13 +16,13 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.workhub.android.R;
-import com.workhub.android.utils.Constants;
+import com.workhub.android.utils.ConstantsAndroid;
 import com.workhub.android.utils.Ressources;
 import com.workhub.model.ElementModel;
 
 public abstract class BaseElement extends AbstractElement  {
-	protected static final int WIDTH = Constants.SCREEN_WIDTH*2/3;
-	protected static final int HEIGHT = Constants.SCREEN_WIDTH*4/5;
+	protected static final int WIDTH = ConstantsAndroid.SCREEN_WIDTH*2/3;
+	protected static final int HEIGHT = ConstantsAndroid.SCREEN_WIDTH*4/5;
 	protected static final float MARGIN = 25;
 
 	private Text mTextTitre;
@@ -194,9 +194,9 @@ public abstract class BaseElement extends AbstractElement  {
 		return v;
 	}
 	public void moveTo(BaseElement baseElement) {
-		this.registerEntityModifier(new MoveModifier(Constants.ANIMATION_DURATION, getX(), 	baseElement.getX(),
-				getY(), baseElement.getY(), Constants.EASEFUNCTIONS[0]));
-		this.registerEntityModifier(new ScaleModifier(Constants.ANIMATION_DURATION,
-				getScaleX(), 	1, getScaleY(), 1, Constants.EASEFUNCTIONS[0]));
+		this.registerEntityModifier(new MoveModifier(ConstantsAndroid.ANIMATION_DURATION, getX(), 	baseElement.getX(),
+				getY(), baseElement.getY(), ConstantsAndroid.EASEFUNCTIONS[0]));
+		this.registerEntityModifier(new ScaleModifier(ConstantsAndroid.ANIMATION_DURATION,
+				getScaleX(), 	1, getScaleY(), 1, ConstantsAndroid.EASEFUNCTIONS[0]));
 	}
 }

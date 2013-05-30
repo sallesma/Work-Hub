@@ -12,14 +12,14 @@ import org.andengine.util.HorizontalAlign;
 import android.app.Dialog;
 
 import com.workhub.android.R;
-import com.workhub.android.utils.Constants;
+import com.workhub.android.utils.ConstantsAndroid;
 import com.workhub.android.utils.GPoint;
 import com.workhub.android.utils.Ressources;
 
 public class RoundButtonElement extends AbstractElement{
 
 
-	public final static int RAYON = Constants.SCREEN_WIDTH/4;
+	public final static int RAYON = ConstantsAndroid.SCREEN_WIDTH/4;
 
 	private String getTitle(int type){
 		switch (type) {
