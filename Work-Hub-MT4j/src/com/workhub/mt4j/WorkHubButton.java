@@ -4,10 +4,7 @@ import org.mt4j.MTApplication;
 import org.mt4j.components.visibleComponents.font.FontManager;
 import org.mt4j.components.visibleComponents.shapes.MTRoundRectangle;
 import org.mt4j.components.visibleComponents.widgets.MTTextArea;
-import org.mt4j.input.IMTInputEventListener;
 import org.mt4j.input.gestureAction.TapAndHoldVisualizer;
-import org.mt4j.input.inputData.AbstractCursorInputEvt;
-import org.mt4j.input.inputData.MTInputEvent;
 import org.mt4j.input.inputProcessors.IGestureEventListener;
 import org.mt4j.input.inputProcessors.MTGestureEvent;
 import org.mt4j.input.inputProcessors.componentProcessors.tapAndHoldProcessor.TapAndHoldEvent;
@@ -48,66 +45,53 @@ public class WorkHubButton extends MTRoundRectangle {
 		unregisterAllInputProcessors();
 		removeAllGestureEventListeners();
 		assignActions(mtApplication, text);
-		registerInputProcessor(new TapAndHoldProcessor(mtApplication, 1000));
-		addGestureListener(TapAndHoldProcessor.class, new TapAndHoldVisualizer(mtApplication, this));
-		addGestureListener(TapAndHoldProcessor.class, new IGestureEventListener() {
-			public boolean processGestureEvent(MTGestureEvent ge) {
-				TapAndHoldEvent tahe = (TapAndHoldEvent)ge;
-				switch (tahe.getId()) {
-				case TapAndHoldEvent.GESTURE_DETECTED:
-					break;
-				case TapAndHoldEvent.GESTURE_UPDATED:
-					break;
-				case TapAndHoldEvent.GESTURE_ENDED:
-					if (tahe.isHoldComplete()){
-						openContextualMenu(tahe.getLocationOnScreen());
-					}
-					break;
-				default:
-					break;
-				}
-				return false;
-			}
-		});
 	}
 
 	private void openContextualMenu(Vector3D locationOnScreen) {
 		ContextMenu contextMenu = new ContextMenu( this, (int)locationOnScreen.x, (int)locationOnScreen.y, mtApplication, Constants.CONTEXT_SHORTCUT_MENU);
 		this.addChild(contextMenu);
 	}
+	
+	private void openContextualMainMenu(Vector3D locationOnScreen) {
+		ContextMenu contextMenu = new ContextMenu( this, (int)locationOnScreen.x, (int)locationOnScreen.y, mtApplication, Constants.CONTEXT_MAIN_MENU);
+		this.addChild(contextMenu);
+	}
 
-	private void assignActions(MTApplication mtApplication, String text) {
-		addInputListener(new IMTInputEventListener() {
-			@Override
-			public boolean processInputEvent(MTInputEvent inEvt) {
-				if (inEvt instanceof AbstractCursorInputEvt) {
-					AbstractCursorInputEvt cursorInputEvt = (AbstractCursorInputEvt) inEvt;
-					switch (cursorInputEvt.getId()) {
-					case AbstractCursorInputEvt.INPUT_DETECTED:
-						System.out.println(buttonText.getText());
-						switch (buttonText.getText()) {
-						case Constants.BUTTON_ID_MENU:
+	private void assignActions(final MTApplication mtApplication, String text) {
+		registerInputProcessor(new TapAndHoldProcessor(mtApplication, 700));
+		addGestureListener(TapAndHoldProcessor.class, new TapAndHoldVisualizer(mtApplication, this));
+		addGestureListener(TapAndHoldProcessor.class, new IGestureEventListener() {
+					public boolean processGestureEvent(MTGestureEvent ge) {
+						TapAndHoldEvent tahe = (TapAndHoldEvent) ge;
+						switch (tahe.getId()) {
+						case TapAndHoldEvent.GESTURE_DETECTED:
 							break;
-						case Constants.BUTTON_ID_ENVOYER:
+						case TapAndHoldEvent.GESTURE_UPDATED:
 							break;
-						case Constants.BUTTON_ID_RECEVOIR:
+						case TapAndHoldEvent.GESTURE_ENDED:
+							if (tahe.isHoldComplete() && !buttonText.getText().equals(Constants.BUTTON_ID_MENU)) {
+								openContextualMenu(tahe.getLocationOnScreen());
+							} else {
+								System.out.println(buttonText.getText());
+								switch (buttonText.getText()) {
+									case Constants.BUTTON_ID_MENU:
+										openContextualMainMenu(tahe.getLocationOnScreen());
+										break;
+									case Constants.BUTTON_ID_ENVOYER:
+										break;
+									case Constants.BUTTON_ID_RECEVOIR:
+										break;
+									case Constants.BUTTON_ID_MASQUER:
+										break;
+								}
+							}
 							break;
-						case Constants.BUTTON_ID_MASQUER:
+						default:
 							break;
 						}
-						break;
-					case AbstractCursorInputEvt.INPUT_ENDED:
-						break;
-					case AbstractCursorInputEvt.INPUT_UPDATED:
-						break;
-					default:
-						break;
+						return false;
 					}
-				}
-				return false;
-			}
-		});
-
+				});
 	}
 
 	public static int getXPositionFromCorner(int corner, MTApplication mtApplication, int rayon) {
