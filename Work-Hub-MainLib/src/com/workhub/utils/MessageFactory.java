@@ -122,10 +122,14 @@ public class MessageFactory {
 		
 	}
 	
-	public static JsonObject getElementContent(Agent sender, JsonObject j){
-		int type = (((ElementAgent)sender).getContentModel()).getType();
-		int color = (((ElementAgent)sender).getContentModel()).getColor();
-		String title = (((ElementAgent)sender).getContentModel()).getTitle();
+	public static JsonObject getElementContent(ElementAgent sender, JsonObject j){
+		
+		System.out.println("sender : "+sender.getAID());
+
+		int type = sender.getType();
+			
+		int color = sender.getContentModel().getColor();
+		String title = sender.getContentModel().getTitle();
 		
 		j.addProperty("type", type);
 		j.addProperty("color", color);
@@ -133,7 +137,7 @@ public class MessageFactory {
 		
 		if(type==Constants.TYPE_ELEMENT_PICTURE){
 			try {
-				String picture_str = new String( ((PictureElementModel)(((ElementAgent)sender).getContentModel())).getContent(), "UTF-8");
+				String picture_str = new String( ((PictureElementModel)(sender.getContentModel())).getContent(), "UTF-8");
 				j.addProperty("content", picture_str);
 			}
 			catch (UnsupportedEncodingException e) {
@@ -142,12 +146,14 @@ public class MessageFactory {
 		}
 		
 		else if(type==Constants.TYPE_ELEMENT_LINK){
-			String url = ((LinkElementModel)(((ElementAgent)sender).getContentModel())).getContent();
+			String url = ((LinkElementModel)(sender.getContentModel())).getContent();
 			j.addProperty("content", url);
 		}
 		
 		else if(type==Constants.TYPE_ELEMENT_TEXT){
-			String text = ((TextElementModel)(((ElementAgent)sender).getContentModel())).getContent();
+			System.out.println("je suis un text");
+
+			String text = ((TextElementModel)(sender.getContentModel())).getContent();
 			j.addProperty("content", text);
 		}
 		

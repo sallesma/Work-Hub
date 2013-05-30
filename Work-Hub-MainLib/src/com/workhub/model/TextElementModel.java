@@ -9,9 +9,11 @@ public class TextElementModel extends ElementModel{
 	public TextElementModel(int color, String title, AID agent, String txt) {
 		super(color, title, agent);
 		this.content = txt;
+		this.type = Constants.TYPE_ELEMENT_TEXT;
 	}
 
 	private String content;
+	private int type;
 
 	public String getContent() {
 		return content;
@@ -22,6 +24,7 @@ public class TextElementModel extends ElementModel{
 	} 
 	@Override
 	public int getType() {
-		return Constants.TYPE_ELEMENT_TEXT;
+		System.out.println("mon type est "+this.type);
+		return this.type;
 	}
 }

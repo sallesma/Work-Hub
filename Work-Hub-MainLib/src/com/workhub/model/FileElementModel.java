@@ -9,11 +9,13 @@ import com.workhub.utils.Constants;
 
 public class FileElementModel extends ElementModel {
 	private File content;
+	private int type;
 	
 	
 	public FileElementModel(int color, String title, AID agent, File file) {
 		super(color, title, agent);
 		this.content = file;
+		this.type = Constants.TYPE_ELEMENT_FILE;
 	}
 
 
@@ -28,7 +30,7 @@ public class FileElementModel extends ElementModel {
 
 	@Override
 	public int getType() {
-		return Constants.TYPE_ELEMENT_FILE;
+		return this.type;
 	}
 	
 	

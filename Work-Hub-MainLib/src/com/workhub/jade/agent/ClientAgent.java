@@ -2,6 +2,7 @@ package com.workhub.jade.agent;
 import java.util.AbstractSequentialList;
 import java.util.LinkedList;
 
+import com.google.gson.JsonObject;
 import com.workhub.utils.Constants;
 import com.workhub.utils.MessageFactory; 
 
@@ -28,6 +29,16 @@ public class ClientAgent extends GuiAgent implements ClientAgentInterface{
 				changes.addPropertyChangeListener((PropertyChangeListener) args[0]);
 			}
 		}
+		/*ACLMessage message = new ACLMessage(ACLMessage.REQUEST);
+		JsonObject j = new JsonObject();
+		j.addProperty(Constants.JSON_ACTION, Constants.MESSAGE_ACTION_GET_CONTENT);
+		String content = j.toString();
+		message.setContent(content);
+		message.setSender(this.getAID());
+		message.addReceiver(new AID("ElementAgent1", true));
+		
+		this.send(message);*/
+		
 	}
 
 
@@ -63,7 +74,6 @@ public class ClientAgent extends GuiAgent implements ClientAgentInterface{
 		if(!reception_box.isEmpty()){
 			ACLMessage message = reception_box.getFirst();
 			// on recupere element et on envoie a element un GET_CONTENT
-			Iterator list = message.getAllReplyTo();
 			//MessageFactory.createMessage(this, , Constants.MESSAGE_ACTION_GET_CONTENT);
 			reception_box.removeFirst();
 		}

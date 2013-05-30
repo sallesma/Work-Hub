@@ -9,10 +9,12 @@ public class PictureElementModel extends ElementModel{
 	public PictureElementModel(int color, String title, AID agent, byte[] imageByte) {
 		super(color, title, agent);
 		this.content = imageByte;
+		this.type = Constants.TYPE_ELEMENT_PICTURE;
 	}
 
 	private byte[] content;
-
+	private int type;
+	
 	public byte[] getContent() {
 		return content;
 	}
@@ -22,7 +24,7 @@ public class PictureElementModel extends ElementModel{
 	}
 	@Override
 	public int getType() {
-		return Constants.TYPE_ELEMENT_PICTURE;
+		return this.type;
 	}
 	
 	

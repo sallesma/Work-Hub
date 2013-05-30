@@ -8,10 +8,12 @@ import com.workhub.utils.Constants;
 
 public class LinkElementModel extends ElementModel{
 	private String content;
+	private int type;
 	
 	public LinkElementModel(int color, String title, AID agent, String url) {
 		super(color, title, agent);
 		this.content = url;
+		this.type = Constants.TYPE_ELEMENT_LINK;
 	}
 
 
@@ -24,6 +26,6 @@ public class LinkElementModel extends ElementModel{
 	}
 	@Override
 	public int getType() {
-		return Constants.TYPE_ELEMENT_LINK;
+		return this.type;
 	}
 }
