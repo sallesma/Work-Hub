@@ -1,4 +1,5 @@
 package com.workhub.jade.agent;
+
 import jade.gui.GuiAgent;
 import jade.gui.GuiEvent;
 import jade.lang.acl.ACLMessage;
@@ -6,6 +7,9 @@ import jade.lang.acl.ACLMessage;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.LinkedList;
+
+import com.workhub.jade.behaviour.ContentClientBehaviour;
+import com.workhub.jade.behaviour.ShareClientBehaviour;
 
 public class ClientAgent extends GuiAgent implements ClientAgentInterface{
 
@@ -21,6 +25,7 @@ public class ClientAgent extends GuiAgent implements ClientAgentInterface{
 				changes.addPropertyChangeListener((PropertyChangeListener) args[0]);
 			}
 		}
+
 		registerO2AInterface(ClientAgentInterface.class, this);
 		
 		/*ACLMessage message = new ACLMessage(ACLMessage.REQUEST);
@@ -30,8 +35,10 @@ public class ClientAgent extends GuiAgent implements ClientAgentInterface{
 		message.setContent(content);
 		message.setSender(this.getAID());
 		message.addReceiver(new AID("ElementAgent1", true));
+*/
 		
-		this.send(message);*/
+		this.addBehaviour(new ContentClientBehaviour());
+		this.addBehaviour(new ShareClientBehaviour());
 		
 	}
 

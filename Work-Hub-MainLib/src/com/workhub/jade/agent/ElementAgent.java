@@ -64,34 +64,36 @@ public class ElementAgent extends Agent {
 		Object[] args = getArguments();
 		if (args != null && args.length > 0) {
 			
+			
 			int typeModel = (Integer) args[0];
 			
-			switch (typeModel) {
-				case Constants.TYPE_ELEMENT_TEXT:
+			if(typeModel==Constants.TYPE_ELEMENT_TEXT){
 					TextElementModel text = new TextElementModel(255, "postit text", this.getAID(), "init");
 					this.setContentModel((ElementModel)text); 
 					this.type = Constants.TYPE_ELEMENT_TEXT;
 				
-				/*case Constants.TYPE_ELEMENT_FILE :
-					FileElementModel file = new FileElementModel(255, "postit file", this.getAID(), null);
-					this.setContentModel((ElementModel)file);
-				*/
+			}
+			else if(typeModel == Constants.TYPE_ELEMENT_LINK){
 				
-				case Constants.TYPE_ELEMENT_LINK :
 					LinkElementModel link = new LinkElementModel(255, "postit link", this.getAID(), null);
 					this.setContentModel((ElementModel)link); 
 					this.type = Constants.TYPE_ELEMENT_LINK;
-				
-				case Constants.TYPE_ELEMENT_PICTURE :
+					
+			}
+			
+			else if(typeModel == Constants.TYPE_ELEMENT_PICTURE){
 					PictureElementModel pic = new PictureElementModel(255, "postit image", this.getAID(), null);
 					this.setContentModel((ElementModel)pic);
 					this.type = Constants.TYPE_ELEMENT_PICTURE;
+			}
+			
+			/*else if(typeModel == Constants.TYPE_ELEMENT_FILE ){
+				FileElementModel file = new FileElementModel(255, "postit file", this.getAID(), null);
+				this.setContentModel((ElementModel)file);
+			}*/
 				
 			}
 			
-			
-		}
-		
 		subscribeDFAgent();
 		this.addBehaviour(new ContentElementBehaviour());
 		this.addBehaviour(new EraseElementBehaviour());
