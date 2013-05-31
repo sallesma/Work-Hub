@@ -1,19 +1,11 @@
 package com.workhub.jade.agent;
-import java.util.AbstractSequentialList;
-import java.util.LinkedList;
-
-import com.google.gson.JsonObject;
-import com.workhub.utils.Constants;
-import com.workhub.utils.MessageFactory; 
-
-import jade.core.AID;
 import jade.gui.GuiAgent;
 import jade.gui.GuiEvent;
 import jade.lang.acl.ACLMessage;
-import jade.util.leap.Iterator;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.LinkedList;
 
 public class ClientAgent extends GuiAgent implements ClientAgentInterface{
 
@@ -29,6 +21,8 @@ public class ClientAgent extends GuiAgent implements ClientAgentInterface{
 				changes.addPropertyChangeListener((PropertyChangeListener) args[0]);
 			}
 		}
+		registerO2AInterface(ClientAgentInterface.class, this);
+		
 		/*ACLMessage message = new ACLMessage(ACLMessage.REQUEST);
 		JsonObject j = new JsonObject();
 		j.addProperty(Constants.JSON_ACTION, Constants.MESSAGE_ACTION_GET_CONTENT);
