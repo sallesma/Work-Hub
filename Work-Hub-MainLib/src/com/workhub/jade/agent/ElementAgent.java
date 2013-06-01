@@ -10,6 +10,7 @@ import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
 
 import com.workhub.jade.behaviour.ContentElementBehaviour;
+import com.workhub.jade.behaviour.EditableElementBehaviour;
 import com.workhub.jade.behaviour.EraseElementBehaviour;
 import com.workhub.model.ElementModel;
 import com.workhub.model.FileElementModel;
@@ -17,7 +18,9 @@ import com.workhub.model.LinkElementModel;
 import com.workhub.model.PictureElementModel;
 import com.workhub.model.TextElementModel;
 import com.workhub.utils.Constants;
-
+import com.workhub.utils.MessageFactory;
+import com.workhub.utils.Utils;
+import com.workhub.utils.*;
 public class ElementAgent extends Agent {
 	
 	
@@ -45,17 +48,39 @@ public class ElementAgent extends Agent {
 	private boolean findClientAgent(AID agent){
 		DFAgentDescription template = new DFAgentDescription();
 		ServiceDescription sd = new ServiceDescription();
-		sd.setType(Constants.ELEMENT_AGENT);
+		sd.setType(Constants.CLIENT_AGENT);
 		sd.setName(agent.toString());
 		template.addServices(sd);
 		try {
 			DFAgentDescription[] result = DFService.search(this, template);
+			System.out.println("result findClient : "+result+" longueur : "+result.length);
 			if (result.length > 0) {
 				return true;
+			}
+			else{
+				return false;
 			}
 		}
 		catch(FIPAException fe) {}
 		return false;
+	}
+	
+	private boolean findClientAgent2(AID agent){
+		DFAgentDescription[] result = Utils.agentSearch((Agent)this, Constants.CLIENT_AGENT);
+		boolean ok = false;
+		System.out.println("liste agent client"+result);
+		
+		for(DFAgentDescription df : result){
+			System.out.println("name : "+df.getName());
+			if(df.getName() == editor){
+				System.out.println("ok"+ok);
+
+				ok = true;
+			}
+			
+		}
+		return ok;
+
 	}
 	
 	@Override
@@ -96,18 +121,23 @@ public class ElementAgent extends Agent {
 			
 		subscribeDFAgent();
 		this.addBehaviour(new ContentElementBehaviour());
-		this.addBehaviour(new EraseElementBehaviour());
+		this.addBehaviour(new EraseElementBehaviour()); 
+		this.addBehaviour(new EditableElementBehaviour());
 		
 	}
 	 
 	public void fireModelUpdate(){
-		//TODO 
 		//message a tous les clients informant la mise a jour du modele.
+		DFAgentDescription[] receivers = Utils.agentSearch(this, Constants.CLIENT_AGENT);
+		for(DFAgentDescription df : receivers)
+			this.send(MessageFactory.createMessage(this, df.getName(), Constants.MESSAGE_ACTION_CONTENT));
+		
 	}
+	
 	public AID getEditor() {
 		return editor;
 	}
-	private void setEditor(AID editor) {
+	public void setEditor(AID editor) {
 		this.editor = editor;
 	}
 	 public ElementModel getContentModel() {
@@ -119,13 +149,17 @@ public class ElementAgent extends Agent {
 		}
 	
 	public boolean lockEdit(AID agent){
+		
 		 // si editor n'est pas null et est encore connecté retourner false (ne peut pas modifier)
 		if(this.editor != null){
-			if(!findClientAgent(editor)){
+			System.out.println("je sais qu'il y a un editeur : "+this.editor);
+			if(!findClientAgent2(editor)){
+				System.out.println("je n'ai pas trouve l'editure : "+this.editor);
 				setEditor(agent);
 				return true;
 			}else{
 				//TODO
+				System.out.println("what the fuck");
 				//envoyer une requete a l'agent éditeur pour confirmer qu'il édite tjrs
 				return false;
 			}

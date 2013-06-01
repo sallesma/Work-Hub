@@ -26,7 +26,9 @@ public class MessageFactory {
 
 		switch (MessageType) {
 		case Constants.MESSAGE_ACTION_EDIT:
+			System.out.println("editor : "+sender.getEditor());
 			boolean autorization = sender.lockEdit(receiver);
+			System.out.println("editor : "+sender.getEditor());
 			j.addProperty("can_edit", autorization);
 			performatif = ACLMessage.INFORM;
 			j.addProperty(Constants.JSON_ACTION, Constants.MESSAGE_ACTION_EDIT);			

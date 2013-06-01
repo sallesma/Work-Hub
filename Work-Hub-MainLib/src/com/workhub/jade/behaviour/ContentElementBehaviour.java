@@ -68,7 +68,6 @@ public class ContentElementBehaviour extends CyclicBehaviour {
 					int new_color = model.getColor();
 					
 					
-					
 					switch(typeModel){
 						case Constants.TYPE_ELEMENT_TEXT :
 							((TextElementModel)(((ElementAgent)myAgent).getContentModel())).setContent(((TextElementModel)model).getContent());		
@@ -95,10 +94,10 @@ public class ContentElementBehaviour extends CyclicBehaviour {
 					(((ElementAgent)myAgent).getContentModel()).setColor(new_color);
 					
 					// envoyer a tous les clients agents un message de type MESSAGE_ACTION_CONTENT
-					DFAgentDescription[] receivers = Utils.agentSearch(myAgent, Constants.CLIENT_AGENT);
-					for(DFAgentDescription df : receivers)
-						myAgent.send(MessageFactory.createMessage((ElementAgent) myAgent, df.getName(), Constants.MESSAGE_ACTION_CONTENT));
+					((ElementAgent)myAgent).fireModelUpdate();
 					
+					// on remet l'editeur à null
+					((ElementAgent)myAgent).setEditor(null);
 					break;
 					
 				

@@ -47,6 +47,7 @@ public class ContentClientBehaviour extends CyclicBehaviour{
 				// si il recoit un MESSAGE_ACTION_CONTENT : demande contenu pour la mise a jour, envoie un MESSAGE_GET_CONTENT
 				answer = MessageFactory.createMessage((ClientAgent)myAgent, message.getSender(), Constants.MESSAGE_ACTION_GET_CONTENT);
 				myAgent.send(answer);
+				
 			}
 			else if(action == Constants.MESSAGE_ACTION_EDIT){
 				// Si action_edit : sait s'il peut etre editeur ou non
@@ -54,6 +55,10 @@ public class ContentClientBehaviour extends CyclicBehaviour{
 				
 				if(editor == true){
 					// l'agent peut editer !
+					// envoyer a l'interface un evenement de type EVENT_CAN_EDIT
+				}
+				else{
+					// envoyer a l'interface un evenement de type EVENT_CANT_EDIT
 				}
 
 			}

@@ -1,5 +1,9 @@
 package com.workhub.jade.agent;
 
+import jade.domain.DFService;
+import jade.domain.FIPAException;
+import jade.domain.FIPAAgentManagement.DFAgentDescription;
+import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.gui.GuiAgent;
 import jade.gui.GuiEvent;
 import jade.lang.acl.ACLMessage;
@@ -21,6 +25,22 @@ public class ClientAgent extends GuiAgent implements ClientAgentInterface{
 	PropertyChangeSupport changes = new PropertyChangeSupport(this);
     LinkedList<ACLMessage> reception_box = new LinkedList<ACLMessage>();
 	
+    
+    private void subscribeDFAgent(){
+		DFAgentDescription dfd = new DFAgentDescription();
+		dfd.setName(getAID());
+		ServiceDescription sd = new ServiceDescription();
+		sd.setType(Constants.CLIENT_AGENT);
+		sd.setName(this.getAID().toString());
+		dfd.addServices(sd);
+		try {
+			DFService.register(this, dfd);
+		}
+		catch (FIPAException fe) {
+			fe.printStackTrace();
+		}
+	}
+	
 	@Override
 	protected void setup() {
 		Object[] args = getArguments();
@@ -29,8 +49,11 @@ public class ClientAgent extends GuiAgent implements ClientAgentInterface{
 				changes.addPropertyChangeListener((PropertyChangeListener) args[0]);
 			}
 		}
+		
 
 		registerO2AInterface(ClientAgentInterface.class, this);
+		
+		subscribeDFAgent();
 		
 		this.addBehaviour(new ContentClientBehaviour());
 		this.addBehaviour(new ShareClientBehaviour());
