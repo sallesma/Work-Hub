@@ -11,10 +11,7 @@ import java.util.Random;
 public class Utils {
 	
 	public static DFAgentDescription[] agentSearch(Agent agent, String agentType) {
-		/*Cette fonction recupere les agents multiplicateurs existant
-		et renvois l'AID d'un agent pris au hasard*/
 
-		Random r = new Random();
 		DFAgentDescription template = new DFAgentDescription();
 		ServiceDescription sd = new ServiceDescription();
 		sd.setType(agentType);

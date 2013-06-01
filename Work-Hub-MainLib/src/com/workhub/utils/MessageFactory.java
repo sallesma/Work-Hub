@@ -114,7 +114,7 @@ public class MessageFactory {
 		
 		case Constants.MESSAGE_ACTION_SAVE_CONTENT: 
 			j = getElementContent((ElementModel)params, j);
-			performatif = ACLMessage.INFORM;
+			performatif = ACLMessage.REQUEST;
 			j.addProperty(Constants.JSON_ACTION, Constants.MESSAGE_ACTION_SAVE_CONTENT);
 			break;
 		
