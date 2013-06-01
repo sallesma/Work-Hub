@@ -57,9 +57,10 @@ public class ContentClientBehaviour extends CyclicBehaviour{
 				}
 
 			}
-			
-			//TODO
-			// Si receive_element_content ou title : mettre a jour l'interface
+			else if(action==Constants.MESSAGE_RECEIVE_ELEMENT_CONTENT || action==Constants.MESSAGE_RECEIVE_ELEMENT_TITLE){
+				//mettre a jour l'interface
+				//((ClientAgent)myAgent).changes.firePropertyChange("line", null, info);
+			}
 		
 		}
 		

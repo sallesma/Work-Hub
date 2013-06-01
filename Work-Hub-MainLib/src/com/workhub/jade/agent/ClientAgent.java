@@ -1,12 +1,4 @@
 package com.workhub.jade.agent;
-import java.util.AbstractSequentialList;
-import java.util.LinkedList;
-
-import com.google.gson.JsonObject;
-import com.workhub.utils.Constants;
-import com.workhub.utils.MessageFactory; 
-
-import jade.core.AID;
 import jade.gui.GuiAgent;
 import jade.gui.GuiEvent;
 import jade.lang.acl.ACLMessage;
@@ -14,6 +6,11 @@ import jade.util.leap.Iterator;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.LinkedList;
+
+import com.workhub.model.ElementModel;
+import com.workhub.utils.Constants;
+import com.workhub.utils.MessageFactory;
 
 public class ClientAgent extends GuiAgent implements ClientAgentInterface{
 
@@ -29,31 +26,42 @@ public class ClientAgent extends GuiAgent implements ClientAgentInterface{
 				changes.addPropertyChangeListener((PropertyChangeListener) args[0]);
 			}
 		}
-		/*ACLMessage message = new ACLMessage(ACLMessage.REQUEST);
-		JsonObject j = new JsonObject();
-		j.addProperty(Constants.JSON_ACTION, Constants.MESSAGE_ACTION_GET_CONTENT);
-		String content = j.toString();
-		message.setContent(content);
-		message.setSender(this.getAID());
-		message.addReceiver(new AID("ElementAgent1", true));
-		
-		this.send(message);*/
-		
 	}
 
 
 	@Override
 	protected void onGuiEvent(GuiEvent ev) {
+		ElementModel elementModel = (ElementModel) ev.getSource();
+		ACLMessage message = null;
+		
 		switch (ev.getType()) {
-		case 1://TODO
-			
-			
+		case Constants.EVENT_TYPE_SAVE:
+			message =  MessageFactory.createMessage(this, elementModel.getAgent(), Constants.MESSAGE_ACTION_SAVE_CONTENT, elementModel);
 			break;
-
+			
+		case Constants.EVENT_TYPE_SEND://TODO
+			break;
+			
+		case Constants.EVENT_TYPE_DELETE:
+			message =  MessageFactory.createMessage(this, elementModel.getAgent(), Constants.MESSAGE_ACTION_DELETE, null);
+			break;
+			
+		case Constants.EVENT_TYPE_GET_NEIGHBOURGS://TODO
+			break;
+			
+		case Constants.EVENT_TYPE_GET_ELEMENTS://TODO
+			break;
+			
+		case Constants.EVENT_TYPE_CREATE_ELEMENT://TODO
+			break;
+			
+		case Constants.EVENT_TYPE_CHARGE://TODO
+			break;
+			
 		default:
 			break;
 		}
-		
+	send(message);	
 	}
 
 
@@ -74,12 +82,9 @@ public class ClientAgent extends GuiAgent implements ClientAgentInterface{
 		if(!reception_box.isEmpty()){
 			ACLMessage message = reception_box.getFirst();
 			// on recupere element et on envoie a element un GET_CONTENT
+			Iterator list = message.getAllReplyTo();
 			//MessageFactory.createMessage(this, , Constants.MESSAGE_ACTION_GET_CONTENT);
 			reception_box.removeFirst();
 		}
 	}
-
-
-
-
 }

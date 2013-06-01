@@ -56,8 +56,9 @@ public class ContentElementBehaviour extends CyclicBehaviour {
 				answer = MessageFactory.createMessage((ElementAgent)myAgent, message.getSender(), Constants.MESSAGE_RECEIVE_ELEMENT_CONTENT);
 			}
 			
-			// Si MESSAGE_ACTION_SAVE_CONTENT Va mettre a jour son ElementModel et envoyer a tous les agents un MESSAGE_ACTION_CONTENT
-			// TODO
+			else if(action == Constants.MESSAGE_ACTION_SAVE_CONTENT){
+				//TODO: Va mettre a jour son ElementModel et envoyer a tous les agents un MESSAGE_ACTION_CONTENT
+			}
 			
 			myAgent.send(answer);
 			
