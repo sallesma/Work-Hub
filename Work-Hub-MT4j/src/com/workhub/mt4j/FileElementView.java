@@ -1,7 +1,6 @@
 package com.workhub.mt4j;
 
 import org.mt4j.components.TransformSpace;
-import org.mt4j.components.visibleComponents.shapes.MTRectangle.PositionAnchor;
 import org.mt4j.components.visibleComponents.widgets.MTImage;
 import org.mt4j.util.math.Vector3D;
 
