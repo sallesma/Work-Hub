@@ -13,8 +13,8 @@ import processing.core.PApplet;
 
 public class LinkElementView extends TextElementView{
 	public LinkElementView(float x, float y, float width,
-			float height, PApplet applet) {
-		super(x, y, width, height, applet);
+			float height, PApplet applet, WorkHubScene scene) {
+		super(x, y, width, height, applet, scene);
 		content.setFont(FontManager.getInstance().createFont(
 				applet, "arial.ttf", 18, new MTColor(50, 50, 50, 255),
 				MTColor.BLUE));

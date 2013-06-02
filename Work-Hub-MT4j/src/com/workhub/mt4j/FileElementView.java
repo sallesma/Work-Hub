@@ -13,8 +13,8 @@ public class FileElementView extends AbstractElementView {
 	private String filePath;
 	
 	public FileElementView(String filePath, float x, float y, float width,
-			float height, PApplet applet) {
-		super(x, y, Constants.Z_POSITION_DEFAULT_ELEMENT, width, height, applet);
+			float height, PApplet applet, WorkHubScene scene) {
+		super(x, y, Constants.Z_POSITION_DEFAULT_ELEMENT, width, height, applet, scene);
 		this.filePath = new String(filePath);
 		updateTitleWithElementPath(filePath);
 		Vector3D position = new Vector3D(this.getPosition(TransformSpace.LOCAL).getX(), (float) (this.getPosition(TransformSpace.LOCAL).getY()+height*0.2f));

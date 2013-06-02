@@ -29,7 +29,7 @@ public class ContextButton extends MTListCell {
 	private MTTextField m_text;
 	private final MTComponent m_source;
 	
-	public ContextButton(final PApplet applet, MTComponent source, final String text) {
+	public ContextButton(final PApplet applet, final WorkHubScene scene, MTComponent source, final String text) {
 		super(Constants.CONTEXT_BUTTON_WIDTH, Constants.CONTEXT_BUTTON_HEIGHT, applet);
 		
 		IFont font = FontManager.getInstance().createFont(applet, "arial.ttf", 18);
@@ -54,24 +54,32 @@ public class ContextButton extends MTListCell {
 							m_source.removeFromParent();
 							break;
 						case Constants.CONTEXT_BUTTON_CREATE_TEXT:
-							TextElementView textElement = new TextElementView(((MTRectangle) getParent().getParent()).getPosition(TransformSpace.GLOBAL).x, ((MTRectangle) getParent().getParent()).getPosition(TransformSpace.GLOBAL).y, Constants.ELEMENT_DEFAULT_WIDTH, Constants.ELEMENT_DEFAULT_HEIGHT, applet);
+							TextElementView textElement = new TextElementView(((MTRectangle) getParent().getParent()).getPosition(TransformSpace.GLOBAL).x,
+									((MTRectangle) getParent().getParent()).getPosition(TransformSpace.GLOBAL).y,
+									Constants.ELEMENT_DEFAULT_WIDTH, Constants.ELEMENT_DEFAULT_HEIGHT, applet, scene);
 							getParent().getParent().getParent().addChild(textElement);
 							textElement.addLassoProcessor();
 							break;
 						case Constants.CONTEXT_BUTTON_CREATE_IMAGE:
 							String imagePath = applet.selectInput();
-							ImageElementView imageElement = new ImageElementView(imagePath, ((MTRectangle) getParent().getParent()).getPosition(TransformSpace.GLOBAL).x, ((MTRectangle) getParent().getParent()).getPosition(TransformSpace.GLOBAL).y, Constants.ELEMENT_DEFAULT_WIDTH, Constants.ELEMENT_DEFAULT_HEIGHT, applet);
+							ImageElementView imageElement = new ImageElementView(imagePath, ((MTRectangle) getParent().getParent()).getPosition(TransformSpace.GLOBAL).x, 
+									((MTRectangle) getParent().getParent()).getPosition(TransformSpace.GLOBAL).y, 
+									Constants.ELEMENT_DEFAULT_WIDTH, Constants.ELEMENT_DEFAULT_HEIGHT, applet, scene);
 							getParent().getParent().getParent().addChild(imageElement);
 							imageElement.addLassoProcessor();
 							break;
 						case Constants.CONTEXT_BUTTON_CREATE_LINK:
-							LinkElementView linkElement = new LinkElementView(((MTRectangle) getParent().getParent()).getPosition(TransformSpace.GLOBAL).x, ((MTRectangle) getParent().getParent()).getPosition(TransformSpace.GLOBAL).y, Constants.ELEMENT_DEFAULT_WIDTH, Constants.ELEMENT_DEFAULT_HEIGHT, applet);
+							LinkElementView linkElement = new LinkElementView(((MTRectangle) getParent().getParent()).getPosition(TransformSpace.GLOBAL).x, 
+									((MTRectangle) getParent().getParent()).getPosition(TransformSpace.GLOBAL).y, 
+									Constants.ELEMENT_DEFAULT_WIDTH, Constants.ELEMENT_DEFAULT_HEIGHT, applet, scene);
 							getParent().getParent().getParent().addChild(linkElement);
 							linkElement.addLassoProcessor();
 							break;
 						case Constants.CONTEXT_BUTTON_CREATE_FILE:
 							String filePath = applet.selectInput();
-							FileElementView fileElement = new FileElementView(filePath, ((MTRectangle) getParent().getParent()).getPosition(TransformSpace.GLOBAL).x, ((MTRectangle) getParent().getParent()).getPosition(TransformSpace.GLOBAL).y, Constants.ELEMENT_DEFAULT_WIDTH, Constants.ELEMENT_DEFAULT_HEIGHT, applet);
+							FileElementView fileElement = new FileElementView(filePath, ((MTRectangle) getParent().getParent()).getPosition(TransformSpace.GLOBAL).x, 
+									((MTRectangle) getParent().getParent()).getPosition(TransformSpace.GLOBAL).y, 
+									Constants.ELEMENT_DEFAULT_WIDTH, Constants.ELEMENT_DEFAULT_HEIGHT, applet, scene);
 							getParent().getParent().getParent().addChild(fileElement);
 							fileElement.addLassoProcessor();
 							break;

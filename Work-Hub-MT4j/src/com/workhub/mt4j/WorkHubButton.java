@@ -20,13 +20,15 @@ import org.mt4j.util.math.Vector3D;
 public class WorkHubButton extends MTRoundRectangle {
 	private MTApplication mtApplication;
 	private MTTextArea buttonText;
+	private WorkHubScene scene;
 
 	public WorkHubButton(String text, int corner, int rayon, int segments,
-			int textXPos, int textYPos, MTApplication mtApplication) {
+			int textXPos, int textYPos, MTApplication mtApplication, WorkHubScene scene) {
 		super(getXPositionFromCorner(corner, mtApplication, rayon),
 				getYPositionFromCorner(corner, mtApplication, rayon), Constants.Z_POSITION_DEFAULT_BUTTON,
 				rayon * 2, rayon * 2, rayon, rayon, segments, mtApplication);
 		this.mtApplication = mtApplication;
+		this.scene = scene;
 
 		buttonText = new MTTextArea(getMtApplication(), FontManager
 				.getInstance().createFont(getMtApplication(), "arial.ttf", 20,
@@ -48,12 +50,12 @@ public class WorkHubButton extends MTRoundRectangle {
 	}
 
 	private void openContextualMenu(Vector3D locationOnScreen) {
-		ContextMenu contextMenu = new ContextMenu( this, (int)locationOnScreen.x, (int)locationOnScreen.y, mtApplication, Constants.CONTEXT_SHORTCUT_MENU);
+		ContextMenu contextMenu = new ContextMenu( this, (int)locationOnScreen.x, (int)locationOnScreen.y, mtApplication, scene, Constants.CONTEXT_SHORTCUT_MENU);
 		this.addChild(contextMenu);
 	}
 	
 	private void openContextualMainMenu(Vector3D locationOnScreen) {
-		ContextMenu contextMenu = new ContextMenu( this, (int)locationOnScreen.x, (int)locationOnScreen.y, mtApplication, Constants.CONTEXT_MAIN_MENU);
+		ContextMenu contextMenu = new ContextMenu( this, (int)locationOnScreen.x, (int)locationOnScreen.y, mtApplication, scene, Constants.CONTEXT_MAIN_MENU);
 		this.addChild(contextMenu);
 	}
 

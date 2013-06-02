@@ -12,8 +12,8 @@ public class ImageElementView extends AbstractElementView {
 	private MTImage content;
 	
 	public ImageElementView(String imagePath, float x, float y, float width,
-			float height, PApplet applet) {
-		super(x, y, Constants.Z_POSITION_DEFAULT_ELEMENT, width, height, applet);
+			float height, PApplet applet, WorkHubScene scene) {
+		super(x, y, Constants.Z_POSITION_DEFAULT_ELEMENT, width, height, applet, scene);
 		updateTitleWithElementPath(imagePath);
 		Vector3D position = new Vector3D(this.getPosition(TransformSpace.LOCAL).getX(), (float) (this.getPosition(TransformSpace.LOCAL).getY()+height*0.2f));
 		PImage image = applet.loadImage(imagePath);

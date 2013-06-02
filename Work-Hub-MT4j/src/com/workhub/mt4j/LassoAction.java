@@ -25,12 +25,13 @@ public class LassoAction  implements IGestureEventListener{
 	private ClusterManager clusterMgr;
 	private MTCanvas canvas;
 	private PApplet pa;
+	private WorkHubScene scene;
 
-	public LassoAction(PApplet pa, ClusterManager clustermgr, MTCanvas canvas){
+	public LassoAction(PApplet pa, WorkHubScene scene, ClusterManager clustermgr, MTCanvas canvas){
 		this.pa = pa;
 		this.clusterMgr = clustermgr;
 		this.canvas = canvas;
-		
+		this.scene = scene;
 	}
 
 	public boolean processGestureEvent(MTGestureEvent g) {
@@ -46,7 +47,7 @@ public class LassoAction  implements IGestureEventListener{
 				IdragClusterable[] selectedComps = lassoEvent.getClusteredComponents();
 				
 				if (selectedComps.length > 1){
-					final ElementGroupView elementGroupView = new ElementGroupView(pa, lassoEvent.getSelectionPoly());
+					final ElementGroupView elementGroupView = new ElementGroupView(pa, scene, lassoEvent.getSelectionPoly());
 					elementGroupView.attachCamera(selectedComps[0].getViewingCamera());
 					
 					elementGroupView.registerInputProcessor(new DragProcessor(pa));

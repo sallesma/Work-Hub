@@ -12,8 +12,8 @@ public class TextElementView extends AbstractElementView {
 	protected MTTextArea content;
 	
 	public TextElementView(float x, float y, float width,
-			float height, PApplet applet) {
-		super(x, y, Constants.Z_POSITION_DEFAULT_ELEMENT, width, height, applet);
+			float height, PApplet applet, WorkHubScene scene) {
+		super(x, y, Constants.Z_POSITION_DEFAULT_ELEMENT, width, height, applet, scene);
 		content = new MTTextArea(applet, FontManager.getInstance().createFont(
 				applet, "arial.ttf", 18, new MTColor(50, 50, 50, 255),
 				new MTColor(0, 0, 0, 255)));

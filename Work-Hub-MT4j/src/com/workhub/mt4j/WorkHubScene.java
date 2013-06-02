@@ -27,10 +27,10 @@ public class WorkHubScene extends AbstractScene {
 		super(mtApplication, name);
 		this.setClearColor(new MTColor(198, 200, 200, 255));
 		this.registerGlobalInputProcessor(new CursorTracer(mtApplication, this));
-		menuButton = new WorkHubButton(Constants.BUTTON_ID_MENU, Constants.CORNER_TOP_LEFT, 130, 1000, 40, 40, getMTApplication());
-		envoyerButton = new WorkHubButton(Constants.BUTTON_ID_ENVOYER, Constants.CORNER_BOTTOM_RIGHT, 130, 1000, 980, 700, getMTApplication());
-		recevoirButton = new WorkHubButton(Constants.BUTTON_ID_RECEVOIR, Constants.CORNER_BOTTOM_LEFT, 130, 1000, 50, 700, getMTApplication());
-		masquerButton = new WorkHubButton(Constants.BUTTON_ID_MASQUER, Constants.CORNER_TOP_RIGHT, 130, 1000, 980, 40, getMTApplication());
+		menuButton = new WorkHubButton(Constants.BUTTON_ID_MENU, Constants.CORNER_TOP_LEFT, 130, 1000, 40, 40, getMTApplication(), this);
+		envoyerButton = new WorkHubButton(Constants.BUTTON_ID_ENVOYER, Constants.CORNER_BOTTOM_RIGHT, 130, 1000, 980, 700, getMTApplication(), this);
+		recevoirButton = new WorkHubButton(Constants.BUTTON_ID_RECEVOIR, Constants.CORNER_BOTTOM_LEFT, 130, 1000, 50, 700, getMTApplication(), this);
+		masquerButton = new WorkHubButton(Constants.BUTTON_ID_MASQUER, Constants.CORNER_TOP_RIGHT, 130, 1000, 980, 40, getMTApplication(), this);
 		masquerButton.setPositionGlobal(new Vector3D(mtApplication.getWidth()-20, -20));
 		this.getCanvas().addChild(menuButton);
 		this.getCanvas().addChild(masquerButton);
@@ -71,11 +71,11 @@ public class WorkHubScene extends AbstractScene {
 		
 		LassoProcessor lassoProcessor = new LassoProcessor(mtApplication, getCanvas(), getSceneCam());
 		getCanvas().registerInputProcessor(lassoProcessor);
-		getCanvas().addGestureListener(LassoProcessor.class, new LassoAction(mtApplication, getCanvas().getClusterManager(), getCanvas()));
+		getCanvas().addGestureListener(LassoProcessor.class, new LassoAction(mtApplication, this, getCanvas().getClusterManager(), getCanvas()));
 	}
 	
 	public void openContextualMenu(Vector3D location) {
-		ContextMenu contextMenu = new ContextMenu(getCanvas(), (int)location.x, (int)location.y, getMTApplication(), Constants.CONTEXT_BACKGROUND_MENU);
+		ContextMenu contextMenu = new ContextMenu(getCanvas(), (int)location.x, (int)location.y, getMTApplication(), this, Constants.CONTEXT_BACKGROUND_MENU);
 		this.getCanvas().addChild(contextMenu);
 	}
 

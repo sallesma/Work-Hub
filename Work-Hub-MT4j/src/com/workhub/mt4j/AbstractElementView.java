@@ -27,11 +27,13 @@ import processing.core.PApplet;
 public abstract class AbstractElementView extends MTClipRectangle implements IdragClusterable {
 	protected MTTextArea title;
 	protected MTApplication mtApplication;
+	protected WorkHubScene scene;
 	
 	public AbstractElementView(float x, float y, float z, float width,
-			float height, PApplet applet) {
+			float height, PApplet applet, WorkHubScene scene) {
 		super(x, y, z, width, height, applet);
 		this.mtApplication = (MTApplication) applet;
+		this.scene = scene;
 		setAnchor(PositionAnchor.UPPER_LEFT);
 		
 		title = new MTTextArea(applet, FontManager.getInstance().createFont(
@@ -54,7 +56,7 @@ public abstract class AbstractElementView extends MTClipRectangle implements Idr
 		setFillColor(new MTColor(250, 230, 100, 255));
 		
 		registerInputProcessor(new TapAndHoldProcessor(applet, 700));
-		addGestureListener(TapAndHoldProcessor.class, new TapAndHoldVisualizer((MTApplication) applet, this));
+		addGestureListener(TapAndHoldProcessor.class, new TapAndHoldVisualizer((MTApplication) applet, scene.getCanvas()));
 		addGestureListener(TapAndHoldProcessor.class, new IGestureEventListener() {
 			public boolean processGestureEvent(MTGestureEvent ge) {
 				TapAndHoldEvent tahe = (TapAndHoldEvent)ge;
@@ -108,7 +110,7 @@ public abstract class AbstractElementView extends MTClipRectangle implements Idr
 	}
 	
 	protected void openContextualMenu(Vector3D locationOnScreen) {
-		ContextMenu contextMenu = new ContextMenu(this, (int)locationOnScreen.x, (int)locationOnScreen.y, mtApplication, Constants.CONTEXT_ELEMENT_MENU);
+		ContextMenu contextMenu = new ContextMenu(this, (int)locationOnScreen.x, (int)locationOnScreen.y, mtApplication, scene, Constants.CONTEXT_ELEMENT_MENU);
 		this.getParent().addChild(contextMenu);
 	}
 	
