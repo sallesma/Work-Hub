@@ -27,15 +27,6 @@ public class WorkHubScene extends AbstractScene {
 		super(mtApplication, name);
 		this.setClearColor(new MTColor(198, 200, 200, 255));
 		this.registerGlobalInputProcessor(new CursorTracer(mtApplication, this));
-		menuButton = new WorkHubButton(Constants.BUTTON_ID_MENU, Constants.CORNER_TOP_LEFT, 130, 1000, 40, 40, getMTApplication(), this);
-		envoyerButton = new WorkHubButton(Constants.BUTTON_ID_ENVOYER, Constants.CORNER_BOTTOM_RIGHT, 130, 1000, 980, 700, getMTApplication(), this);
-		recevoirButton = new WorkHubButton(Constants.BUTTON_ID_RECEVOIR, Constants.CORNER_BOTTOM_LEFT, 130, 1000, 50, 700, getMTApplication(), this);
-		masquerButton = new WorkHubButton(Constants.BUTTON_ID_MASQUER, Constants.CORNER_TOP_RIGHT, 130, 1000, 980, 40, getMTApplication(), this);
-		masquerButton.setPositionGlobal(new Vector3D(mtApplication.getWidth()-20, -20));
-		this.getCanvas().addChild(menuButton);
-		this.getCanvas().addChild(masquerButton);
-		this.getCanvas().addChild(envoyerButton);
-		this.getCanvas().addChild(recevoirButton);
 		
 		PImage image = mtApplication.loadImage("Image/logoWH.png");
 		imageFond = new MTImage(image, mtApplication);
@@ -46,6 +37,16 @@ public class WorkHubScene extends AbstractScene {
 		imageFond.setPositionGlobal(new Vector3D(mtApplication.getWidth()/2f, mtApplication.getHeight()/2f));
 		imageFond.getImage().setNoStroke(true);
 		getCanvas().addChild(imageFond);
+		
+		menuButton = new WorkHubButton(Constants.BUTTON_ID_MENU, Constants.CORNER_TOP_LEFT, 130, 1000, 40, 40, getMTApplication(), this);
+		envoyerButton = new WorkHubButton(Constants.BUTTON_ID_ENVOYER, Constants.CORNER_BOTTOM_RIGHT, 130, 1000, 980, 700, getMTApplication(), this);
+		recevoirButton = new WorkHubButton(Constants.BUTTON_ID_RECEVOIR, Constants.CORNER_BOTTOM_LEFT, 130, 1000, 50, 700, getMTApplication(), this);
+		masquerButton = new WorkHubButton(Constants.BUTTON_ID_MASQUER, Constants.CORNER_TOP_RIGHT, 130, 1000, 980, 40, getMTApplication(), this);
+		masquerButton.setPositionGlobal(new Vector3D(mtApplication.getWidth()-20, -20));
+		this.getCanvas().addChild(menuButton);
+		this.getCanvas().addChild(masquerButton);
+		this.getCanvas().addChild(envoyerButton);
+		this.getCanvas().addChild(recevoirButton);
 
 		getCanvas().registerInputProcessor(new TapAndHoldProcessor(mtApplication, 700));
 		getCanvas().addGestureListener(TapAndHoldProcessor.class, new TapAndHoldVisualizer(mtApplication, getCanvas()));
