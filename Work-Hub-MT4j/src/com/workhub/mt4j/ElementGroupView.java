@@ -11,9 +11,10 @@ public class ElementGroupView extends Cluster {
 
 	public ElementGroupView(PApplet applet, WorkHubScene scene, MTPolygon selectionPolygon) {
 		super(applet, selectionPolygon);
+		this.scene = scene;
 	}
-	protected void openContextualMenu(Vector3D locationOnScreen) {
+	public void openContextualMenu(Vector3D locationOnScreen) {
 		ContextMenu contextMenu = new ContextMenu(this, (int)locationOnScreen.x, (int)locationOnScreen.y, getRenderer(), scene, Constants.CONTEXT_GROUP_MENU);
-		this.getParent().addChild(contextMenu);
+		scene.getCanvas().addChild(contextMenu);
 	}
 }
