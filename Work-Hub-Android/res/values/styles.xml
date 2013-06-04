@@ -8,6 +8,7 @@
     </style>
 
     <style name="dialog_app_theme" parent="android:Theme.DeviceDefault.Dialog.NoActionBar">
+        <item  name ="android:background">@drawable/dialog_bg</item>
     </style>
 
 </resources>

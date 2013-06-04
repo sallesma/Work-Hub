@@ -1,8 +1,10 @@
 package com.workhub.android.element;
 
+import org.andengine.engine.handler.IUpdateHandler;
 import org.andengine.entity.Entity;
 import org.andengine.entity.scene.ITouchArea;
 import org.andengine.entity.scene.Scene;
+import org.andengine.entity.sprite.Sprite;
 import org.andengine.input.touch.TouchEvent;
 import org.andengine.input.touch.detector.ContinuousHoldDetector;
 import org.andengine.input.touch.detector.HoldDetector;
@@ -32,7 +34,7 @@ public abstract class AbstractElement extends Entity  implements ITouchArea, IHo
 	private ContinuousHoldDetector mHoldDetector;
 	protected Dialog menuDialog;
 	protected Ressources res;
-
+	private Sprite touchRound;
 
 	protected AbstractElement(float centerX, float centerY, final Ressources res, boolean isResizable){
 		super(centerX, centerY);
@@ -40,7 +42,26 @@ public abstract class AbstractElement extends Entity  implements ITouchArea, IHo
 		this.res=res;
 		mPinchZoomDetector = new PinchZoomDetector(this);
 		mScrollDetector = new ScrollDetector(this);
-		mHoldDetector = new ContinuousHoldDetector(this);
+		mHoldDetector = new ContinuousHoldDetector(this){
+			@Override
+			public void onUpdate(float pSecondsElapsed) {
+				boolean visible = false;
+			
+				if(this.mPointerID != TouchEvent.INVALID_POINTER_ID) {
+					final long holdTimeMilliseconds = System.currentTimeMillis() - this.mDownTimeMilliseconds;
+					if(!this.mMaximumDistanceExceeded){
+						if(holdTimeMilliseconds <= this.mTriggerHoldMinimumMilliseconds) {
+							visible = true;
+							float r = -0.25f+((float)(this.mTriggerHoldMinimumMilliseconds-holdTimeMilliseconds))/this.mTriggerHoldMinimumMilliseconds;
+							touchRound.setScale(1/getScaleX()-r, 1/getScaleY()-r);
+						}
+						
+					}						
+				}
+				touchRound.setVisible(visible);
+				super.onUpdate(pSecondsElapsed);
+			}
+		};
 		mHoldDetector.setTriggerHoldMinimumMilliseconds(600);
 		res.getContext().runOnUiThread(new Runnable() {
 			@Override
@@ -50,12 +71,22 @@ public abstract class AbstractElement extends Entity  implements ITouchArea, IHo
 			}
 		});
 
+		
 		this.registerUpdateHandler(mHoldDetector);
 
 		setZIndex(ConstantsAndroid.ZINDEX++);
-
-	}
-
+		touchRound = new Sprite(-80, -80, 160,160, res.getTR_Rond(), res.getContext().getVertexBufferObjectManager());
+		touchRound.setColor(0.2f, 0.2f, 0.2f);
+		
+		this.attachChild(touchRound);
+		touchRound.setZIndex(400);
+		sortChildren(false);
+	} 
+	
+	
+	
+	
+	
 
 	protected AbstractElement(float centerX, float centerY, Ressources res2) {
 		this(centerX, centerY, res2, false);
@@ -114,6 +145,8 @@ public abstract class AbstractElement extends Entity  implements ITouchArea, IHo
 
 		switch (myEventAction) {
 		case TouchEvent.ACTION_DOWN:
+			touchRound.setPosition(pTouchAreaLocalX-touchRound.getWidth()/2, pTouchAreaLocalY-touchRound.getHeight()/2);
+			
 			pointerCount=Math.min(pointerCount+1, 2);
 			setZIndex(ConstantsAndroid.ZINDEX++);
 			getParent().sortChildren(false);

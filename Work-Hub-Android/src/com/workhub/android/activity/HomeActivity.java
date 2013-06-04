@@ -12,8 +12,8 @@ import jade.core.Profile;
 import jade.gui.GuiEvent;
 import jade.util.Logger;
 import jade.util.leap.Properties;
-import jade.wrapper.AgentController;
 import jade.wrapper.ControllerException;
+import jade.wrapper.StaleProxyException;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -55,8 +55,6 @@ public class HomeActivity extends SimpleLayoutGameActivity implements PropertyCh
 	private ServiceConnection serviceConnection;
 	private MicroRuntimeServiceBinder microRuntimeServiceBinder;
 
-	private ClientAgentInterface myAgent;
-	private Logger logger = Logger.getJADELogger(this.getClass().getName());
 
 	@Override
 	protected void onCreate(Bundle pSavedInstanceState) {
@@ -64,26 +62,19 @@ public class HomeActivity extends SimpleLayoutGameActivity implements PropertyCh
 
 		super.onCreate(pSavedInstanceState);
 
-		startJade("Florian", AndroidHelper.getLocalIPAddress(), "1099",agentStartupCallback );
+		//startJade(nickname, AndroidHelper.getLocalIPAddress(), "1099" );
 
 	}
 
-	private RuntimeCallback<AgentController> agentStartupCallback = new RuntimeCallback<AgentController>() {
-		@Override
-		public void onSuccess(AgentController agent) {
-		}
-
-		@Override
-		public void onFailure(Throwable throwable) {
-			System.out.println("Nickname already in use!");
-		}
-	};
+	private String nickname = "Florian";
 	private AbstractElement askElement;
 	private MainScene scene;
 
+
+
+
 	public void startJade(final String nickname, final String host,
-			final String port,
-			final RuntimeCallback<AgentController> agentStartupCallback) {
+			final String port) {
 
 		final Properties profile = new Properties();
 		profile.setProperty(Profile.MAIN_HOST, host);
@@ -107,7 +98,7 @@ public class HomeActivity extends SimpleLayoutGameActivity implements PropertyCh
 						IBinder service) {
 					microRuntimeServiceBinder = (MicroRuntimeServiceBinder) service;
 					System.out.println("Gateway successfully bound to MicroRuntimeService");
-					startContainer(nickname, profile, agentStartupCallback);
+					startContainer(nickname, profile);
 				};
 
 				public void onServiceDisconnected(ComponentName className) {
@@ -121,12 +112,10 @@ public class HomeActivity extends SimpleLayoutGameActivity implements PropertyCh
 					Context.BIND_AUTO_CREATE);
 		} else {
 			System.out.println( "MicroRumtimeGateway already binded to service");
-			startContainer(nickname, profile, agentStartupCallback);
+			startContainer(nickname, profile);
 		}
 	}
-
-	private void startContainer(final String nickname, final Properties profile,
-			final RuntimeCallback<AgentController> agentStartupCallback) {
+	private void startContainer(final String nickname, final Properties profile) {
 
 		if (!MicroRuntime.isRunning()) {
 			RuntimeService runtimeService = new RuntimeService();
@@ -135,13 +124,13 @@ public class HomeActivity extends SimpleLayoutGameActivity implements PropertyCh
 				@Override
 				public void onSuccess(AgentContainerHandler arg0) {
 					System.out.println("Successfully start of the container...");
-					startAgent(nickname, agentStartupCallback);
+					startAgent(nickname);
 					microRuntimeServiceBinder.startAgentContainer(profile, 
 							new RuntimeCallback<Void>() {
 						@Override
 						public void onSuccess(Void thisIsNull) {
 							System.out.println("Successfully start of the container...");
-							startAgent(nickname, agentStartupCallback);
+							startAgent(nickname);
 						}
 
 						@Override
@@ -154,18 +143,16 @@ public class HomeActivity extends SimpleLayoutGameActivity implements PropertyCh
 
 				@Override
 				public void onFailure(Throwable arg0) {
-					// TODO Auto-generated method stub
-
 				}
 			});
 
 		} else {
-			startAgent(nickname, agentStartupCallback);
+			startAgent(nickname);
 		}
 	}
 
-	private void startAgent(final String nickname,
-			final RuntimeCallback<AgentController> agentStartupCallback) {
+
+	private void startAgent(final String nickname) {
 		microRuntimeServiceBinder.startAgent(nickname,
 				ClientAgent.class.getName(),
 				new Object[] { this },
@@ -174,21 +161,33 @@ public class HomeActivity extends SimpleLayoutGameActivity implements PropertyCh
 			public void onSuccess(Void thisIsNull) {
 				System.out.println("Successfully start of the "
 						+ ClientAgent.class.getName() + "...");
-				try {
-					myAgent = (ClientAgentInterface) MicroRuntime.getAgent(nickname).getO2AInterface(ClientAgentInterface.class);
-				} catch (ControllerException e) {
-					agentStartupCallback.onFailure(e); 
-				}
+
 			}
 
 			@Override
 			public void onFailure(Throwable throwable) {
 				System.out.println("Failed to start the "
 						+ ClientAgent.class.getName() + "...");
-				agentStartupCallback.onFailure(throwable);
 			}
 		});
 	}
+	private ClientAgentInterface getAgent() throws StaleProxyException, ControllerException{
+		return  (ClientAgentInterface) MicroRuntime.getAgent(nickname).getO2AInterface(ClientAgentInterface.class);
+	}
+
+	private void fireOnGuiEvent(GuiEvent event) {
+		try {
+			getAgent().fireOnGuiEvent(event);
+		} catch (StaleProxyException e) {
+			e.printStackTrace();
+		} catch (ControllerException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+
+
 
 
 
@@ -277,42 +276,44 @@ public class HomeActivity extends SimpleLayoutGameActivity implements PropertyCh
 
 		return cursor.getString(column_index);
 	}
-	
+
 	public void sendElement(AID dest, AID elementAgent){
 		Object[] param = {dest , elementAgent};
- 		
+
 		GuiEvent event = new GuiEvent(param,Constants.EVENT_TYPE_SEND);
-		myAgent.fireOnGuiEvent(event);
+		fireOnGuiEvent(event);
 	}
-	
+
+
+
 	public void createElement(int elementType){
 		GuiEvent event = new GuiEvent(elementType,Constants.EVENT_TYPE_CREATE_ELEMENT);
-		myAgent.fireOnGuiEvent(event);
+		fireOnGuiEvent(event);
 	}
 
 	public void deleteElement(AID elementAgent){
 		GuiEvent event = new GuiEvent(elementAgent,Constants.EVENT_TYPE_DELETE);
-		myAgent.fireOnGuiEvent(event);
+		fireOnGuiEvent(event);
 	}
-	
+
 	public void saveElement(ElementModel model){
 		GuiEvent event = new GuiEvent(model, Constants.EVENT_TYPE_SAVE);
-		myAgent.fireOnGuiEvent(event);
+		fireOnGuiEvent(event);
 	}
 
 	public void getElement(AID agentAID ){
 		GuiEvent event = new GuiEvent(agentAID, Constants.EVENT_TYPE_CHARGE);
-		myAgent.fireOnGuiEvent(event);
+		fireOnGuiEvent(event);
 	}
 
 	public void getElementList(){
 		GuiEvent event = new GuiEvent(null, Constants.EVENT_TYPE_GET_ELEMENTS);
-		myAgent.fireOnGuiEvent(event);
+		fireOnGuiEvent(event);
 	}
 
 	public void getNeightbourgList(){
 		GuiEvent event = new GuiEvent(null, Constants.EVENT_TYPE_GET_NEIGHBOURGS);
-		myAgent.fireOnGuiEvent(event);
+		fireOnGuiEvent(event);
 	}
 
 	@Override
@@ -355,14 +356,14 @@ public class HomeActivity extends SimpleLayoutGameActivity implements PropertyCh
 		{
 			Map<AID, String> map = (Map<AID, String>)event.getNewValue();
 			//TODO
-			
+
 			break;
 		}
 		case Constants.EVENT_TYPE_NEIGHBOURS:
 		{
 			Map<AID, String> map = (Map<AID, String>)event.getNewValue();
 			//TODO
-			
+
 			break;
 		}
 		}

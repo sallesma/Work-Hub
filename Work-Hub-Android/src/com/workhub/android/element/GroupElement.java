@@ -91,6 +91,9 @@ public class GroupElement extends AbstractElement  {
 		super.onPinchZoomFinished(pPinchZoomDetector, pTouchEvent, pZoomFactor);
 		iniRotation = null;
 	};
+	
+	@Override
+	public void setScale(float pScaleX, float pScaleY) {};
 
 	@Override
 	public void setRotation(float pRotation) {
@@ -224,6 +227,9 @@ public class GroupElement extends AbstractElement  {
 
 
 	}
+	
+	
+	
 	public boolean collideWith(BaseElement e) {
 		if(mHullVertexCount<3)
 			return false;

@@ -58,15 +58,37 @@ public class MainScene extends Scene implements IOnSceneTouchListener, IHoldDete
 
 	private Dialog currentDialog;
 	private MyListAdapter adapter;
+	private Sprite touchRound;
 
 
 	public MainScene(Ressources res) {
 		this.res = res;
-		mHoldDetector = new ContinuousHoldDetector(this);
+		mHoldDetector = new ContinuousHoldDetector(this){
+			@Override
+			public void onUpdate(float pSecondsElapsed) {
+				boolean visible = false;
+			
+				if(this.mPointerID != TouchEvent.INVALID_POINTER_ID) {
+					final long holdTimeMilliseconds = System.currentTimeMillis() - this.mDownTimeMilliseconds;
+					if(!this.mMaximumDistanceExceeded){
+						if(holdTimeMilliseconds <= this.mTriggerHoldMinimumMilliseconds) {
+							visible = true;
+							float r = -0.25f+((float)(this.mTriggerHoldMinimumMilliseconds-holdTimeMilliseconds))/this.mTriggerHoldMinimumMilliseconds;
+							touchRound.setScale(1/getScaleX()-r, 1/getScaleY()-r);
+						}
+						
+					}						
+				}
+				touchRound.setVisible(visible);
+				super.onUpdate(pSecondsElapsed);
+			}
+		};
 		mHoldDetector.setTriggerHoldMinimumMilliseconds(600);
 		this.registerUpdateHandler(mHoldDetector);
 		mScrollDetector = new ScrollDetector(this);
-
+		touchRound = new Sprite(-80, -80, 160,160, res.getTR_Rond(), res.getContext().getVertexBufferObjectManager());
+		touchRound.setColor(0.2f, 0.2f, 0.2f);
+		this.attachChild(touchRound);
 		groupRunnable = new Runnable() {
 			@Override
 			public void run() {
@@ -228,7 +250,9 @@ public class MainScene extends Scene implements IOnSceneTouchListener, IHoldDete
 
 		switch (myEventAction) {
 		case TouchEvent.ACTION_DOWN:
-
+			touchRound.setPosition(X-touchRound.getWidth()/2, Y-touchRound.getHeight()/2);
+			touchRound.setZIndex(ConstantsAndroid.ZINDEX++);
+			sortChildren(false);
 			break;
 		case TouchEvent.ACTION_MOVE: {
 			if(groupElement!=null&&!groupElement.isInitialize()){
