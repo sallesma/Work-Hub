@@ -119,6 +119,8 @@ public class ContextButton extends MTListCell {
 						case Constants.CONTEXT_BUTTON_HIDE:
 							break;
 						case Constants.CONTEXT_BUTTON_SPLIT_GROUP:
+							m_source.removeAllChildren();
+							m_source.destroy();
 							break;
 						case Constants.CONTEXT_BUTTON_EXIT:
 							Object[] options = {"Quitter",
