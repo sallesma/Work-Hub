@@ -44,9 +44,9 @@ public class Constants {
 	public static final int EVENT_TYPE_ELEMENTS= 16011; // agent -> interface : liste des elements
 	public static final int EVENT_TYPE_CREATE_ELEMENT= 16012; // interface -> agent : créer l'element
 	
-	public static final int EVENT_CAN_EDIT = 16013; // agent -> interface : edition possible
-	public static final int EVENT_CANT_EDIT = 16014;// agent -> interface : edition impossible
-	public static final int EVENT_ASK_EDIT = 16015; // interface -> agent : puis je editer
+	public static final int EVENT_TYPE_CAN_EDIT = 16013; // agent -> interface : edition possible
+	public static final int EVENT_TYPE_CANT_EDIT = 16014;// agent -> interface : edition impossible
+	public static final int EVENT_TYPE_ASK_EDIT = 16015; // interface -> agent : puis je editer
 
 	//public static final String JSON_ACTION = "action";
 	//public static final String JSON_ACTION = "action";
