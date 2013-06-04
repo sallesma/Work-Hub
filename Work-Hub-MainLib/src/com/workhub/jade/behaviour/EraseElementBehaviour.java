@@ -37,7 +37,6 @@ public class EraseElementBehaviour extends CyclicBehaviour{
 			//{"action" : "15004"}
 			
 			DFAgentDescription[] receivers = Utils.agentSearch(myAgent, Constants.CLIENT_AGENT);
-			System.out.println("receivers :"+receivers);
 			for(DFAgentDescription df : receivers)
 				myAgent.send(MessageFactory.createMessage((ElementAgent) myAgent, df.getName(), Constants.MESSAGE_ACTION_IS_DYING));
 			

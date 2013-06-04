@@ -44,37 +44,14 @@ public class ElementAgent extends Agent {
 		}
 	}
 	
+
 	
 	private boolean findClientAgent(AID agent){
-		DFAgentDescription template = new DFAgentDescription();
-		ServiceDescription sd = new ServiceDescription();
-		sd.setType(Constants.CLIENT_AGENT);
-		sd.setName(agent.toString());
-		template.addServices(sd);
-		try {
-			DFAgentDescription[] result = DFService.search(this, template);
-			System.out.println("result findClient : "+result+" longueur : "+result.length);
-			if (result.length > 0) {
-				return true;
-			}
-			else{
-				return false;
-			}
-		}
-		catch(FIPAException fe) {}
-		return false;
-	}
-	
-	private boolean findClientAgent2(AID agent){
-		DFAgentDescription[] result = Utils.agentSearch((Agent)this, Constants.CLIENT_AGENT);
+		DFAgentDescription[] result = Utils.agentSearch(this, Constants.CLIENT_AGENT);
 		boolean ok = false;
-		System.out.println("liste agent client"+result);
-		
-		for(DFAgentDescription df : result){
-			System.out.println("name : "+df.getName());
-			if(df.getName() == editor){
-				System.out.println("ok"+ok);
 
+		for(DFAgentDescription df : result){
+			if(df.getName().getName().equals(editor.getName())){
 				ok = true;
 			}
 			
@@ -152,14 +129,11 @@ public class ElementAgent extends Agent {
 		
 		 // si editor n'est pas null et est encore connecté retourner false (ne peut pas modifier)
 		if(this.editor != null){
-			System.out.println("je sais qu'il y a un editeur : "+this.editor);
-			if(!findClientAgent2(editor)){
-				System.out.println("je n'ai pas trouve l'editure : "+this.editor);
+			if(!findClientAgent(editor)){
 				setEditor(agent);
 				return true;
 			}else{
 				//TODO
-				System.out.println("what the fuck");
 				//envoyer une requete a l'agent éditeur pour confirmer qu'il édite tjrs
 				return false;
 			}
