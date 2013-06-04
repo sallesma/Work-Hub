@@ -40,59 +40,45 @@ public class WorkHubButton extends MTRoundRectangle {
 		buttonText.setNoStroke(true);
 		buttonText.setPositionRelativeToParent(new Vector3D(textXPos, textYPos));
 		addChild(buttonText);
-		
+
 		setFillColor(new MTColor(110, 200, 240, 255));
 		setStrokeColor(new MTColor(110, 170, 200, 255));		
-		
+
 		unregisterAllInputProcessors();
 		removeAllGestureEventListeners();
 		assignActions(mtApplication, text);
-	}
-
-	private void openContextualMenu(Vector3D locationOnScreen) {
-		ContextMenu contextMenu = new ContextMenu( this, (int)locationOnScreen.x, (int)locationOnScreen.y, mtApplication, scene, Constants.CONTEXT_SHORTCUT_MENU);
-		this.addChild(contextMenu);
-	}
-	
-	private void openContextualMainMenu(Vector3D locationOnScreen) {
-		ContextMenu contextMenu = new ContextMenu( this, (int)locationOnScreen.x, (int)locationOnScreen.y, mtApplication, scene, Constants.CONTEXT_MAIN_MENU);
-		this.addChild(contextMenu);
 	}
 
 	private void assignActions(final MTApplication mtApplication, String text) {
 		registerInputProcessor(new TapAndHoldProcessor(mtApplication, 700));
 		addGestureListener(TapAndHoldProcessor.class, new TapAndHoldVisualizer(mtApplication, this));
 		addGestureListener(TapAndHoldProcessor.class, new IGestureEventListener() {
-					public boolean processGestureEvent(MTGestureEvent ge) {
-						TapAndHoldEvent tahe = (TapAndHoldEvent) ge;
-						switch (tahe.getId()) {
-						case TapAndHoldEvent.GESTURE_DETECTED:
-							break;
-						case TapAndHoldEvent.GESTURE_UPDATED:
-							break;
-						case TapAndHoldEvent.GESTURE_ENDED:
-							if (tahe.isHoldComplete() && !buttonText.getText().equals(Constants.BUTTON_ID_MENU)) {
-								openContextualMenu(tahe.getLocationOnScreen());
-							} else {
-								switch (buttonText.getText()) {
-									case Constants.BUTTON_ID_MENU:
-										openContextualMainMenu(tahe.getLocationOnScreen());
-										break;
-									case Constants.BUTTON_ID_ENVOYER:
-										break;
-									case Constants.BUTTON_ID_RECEVOIR:
-										break;
-									case Constants.BUTTON_ID_MASQUER:
-										break;
-								}
-							}
-							break;
-						default:
-							break;
-						}
-						return false;
+			public boolean processGestureEvent(MTGestureEvent ge) {
+				TapAndHoldEvent tahe = (TapAndHoldEvent) ge;
+				switch (tahe.getId()) {
+				case TapAndHoldEvent.GESTURE_DETECTED:
+					break;
+				case TapAndHoldEvent.GESTURE_UPDATED:
+					break;
+				case TapAndHoldEvent.GESTURE_ENDED:
+					switch (buttonText.getText()) {
+					case Constants.BUTTON_ID_MENU:
+						scene.openContextualMenu(tahe.getLocationOnScreen());
+						break;
+					case Constants.BUTTON_ID_ENVOYER:
+						break;
+					case Constants.BUTTON_ID_RECEVOIR:
+						break;
+					case Constants.BUTTON_ID_MASQUER:
+						break;
 					}
-				});
+					break;
+				default:
+					break;
+				}
+				return false;
+			}
+		});
 	}
 
 	public static int getXPositionFromCorner(int corner, MTApplication mtApplication, int rayon) {
