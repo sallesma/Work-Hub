@@ -164,7 +164,7 @@ public class LassoAction  implements IGestureEventListener{
 					for (IdragClusterable currentComp : selectedComps){
 						int decalageX = 1 + r.nextInt(50 - 1);
 						int decalageY = 1 + r.nextInt(50 - 1);
-						((AbstractElementView) currentComp).setPositionGlobal(new Vector3D(averageX+decalageX, averageY+decalageY));
+						((AbstractElementView)currentComp).tweenTranslateTo(averageX+decalageX, averageY+decalageY, 0, 500, 0.25f, 0.25f);
 					}
 					
 					//Draw a convex hull around all selected shapes
