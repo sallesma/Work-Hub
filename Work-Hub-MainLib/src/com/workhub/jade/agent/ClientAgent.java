@@ -1,5 +1,6 @@
 package com.workhub.jade.agent;
 
+import jade.core.AID;
 import jade.domain.DFService;
 import jade.domain.FIPAException;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
@@ -10,20 +11,24 @@ import jade.lang.acl.ACLMessage;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Map;
 
+import com.workhub.jade.behaviour.ContentClientBehaviour;
+import com.workhub.jade.behaviour.ShareClientBehaviour;
 import com.workhub.model.ElementModel;
 import com.workhub.utils.Constants;
 import com.workhub.utils.MessageFactory;
-import com.workhub.jade.behaviour.ContentClientBehaviour;
-import com.workhub.jade.behaviour.ShareClientBehaviour;
+import com.workhub.utils.Utils;
 
 public class ClientAgent extends GuiAgent implements ClientAgentInterface{
 
 	
 	PropertyChangeSupport changes = new PropertyChangeSupport(this);
     LinkedList<ACLMessage> reception_box = new LinkedList<ACLMessage>();
+    String nickname;
 	
     
     private void subscribeDFAgent(){
@@ -78,9 +83,21 @@ public class ClientAgent extends GuiAgent implements ClientAgentInterface{
 			break;
 			
 		case Constants.EVENT_TYPE_GET_NEIGHBOURGS://TODO
+			DFAgentDescription[] listClientAgent = Utils.agentSearch(this, Constants.CLIENT_AGENT);
+			//create Hashmap
+			Map<AID, String> listToFire = new HashMap<AID, String>();
+			for(DFAgentDescription df : listClientAgent){
+				String temp = ""; //TODO : recuperer le nom de l'agent
+				listToFire.put(df.getName(), temp);
+			}
+			changes.firePropertyChange(String.valueOf(Constants.EVENT_TYPE_NEIGHBOURS), null, listToFire);
 			break;
 			
 		case Constants.EVENT_TYPE_GET_ELEMENTS://TODO
+			DFAgentDescription[] listElementAgent = Utils.agentSearch(this, Constants.ELEMENT_AGENT);
+			for(DFAgentDescription df : listElementAgent){
+				//listToFire.put(df.getName(), temp);
+			}
 			break;
 			
 		case Constants.EVENT_TYPE_CREATE_ELEMENT://TODO
@@ -102,6 +119,10 @@ public class ClientAgent extends GuiAgent implements ClientAgentInterface{
 
 
 
+	public String getNickname() {
+		return nickname;
+	}
+
 	@Override
 	public void fireOnGuiEvent(GuiEvent ev) {
 		onGuiEvent(ev);		
@@ -122,4 +143,9 @@ public class ClientAgent extends GuiAgent implements ClientAgentInterface{
 			reception_box.removeFirst();
 		}
 	}
+	
+	public void fireChanges (Integer typeMessage, Object params){
+		changes.firePropertyChange(String.valueOf(typeMessage), null, params);
+	}
+	
 }
