@@ -30,11 +30,11 @@ public class ContextButton extends MTListCell {
 	private final MTComponent m_source;
 	
 	public ContextButton(final PApplet applet, final WorkHubScene scene, MTComponent source, final String text) {
-		super(Constants.CONTEXT_BUTTON_WIDTH, Constants.CONTEXT_BUTTON_HEIGHT, applet);
+		super(MT4JConstants.CONTEXT_BUTTON_WIDTH, MT4JConstants.CONTEXT_BUTTON_HEIGHT, applet);
 		
 		IFont font = FontManager.getInstance().createFont(applet, "arial.ttf", 18);
 		m_source = source;
-		m_text = new MTTextField(0, 0, Constants.CONTEXT_BUTTON_WIDTH, Constants.CONTEXT_BUTTON_HEIGHT, font, applet);
+		m_text = new MTTextField(0, 0, MT4JConstants.CONTEXT_BUTTON_WIDTH, MT4JConstants.CONTEXT_BUTTON_HEIGHT, font, applet);
 		m_text.setFillColor(MTColor.AQUA);
 		m_text.setText(text);
 		addChild(m_text);
@@ -47,59 +47,59 @@ public class ContextButton extends MTListCell {
 					switch (cursorInputEvt.getId()) {
 					case AbstractCursorInputEvt.INPUT_DETECTED:
 						switch (text) {
-						case Constants.CONTEXT_BUTTON_CLOSE:
+						case MT4JConstants.CONTEXT_BUTTON_CLOSE:
 							//just close the menu (instruction below)
 							break;
-						case Constants.CONTEXT_BUTTON_DELETE:
+						case MT4JConstants.CONTEXT_BUTTON_DELETE:
 							m_source.removeFromParent();
 							break;
-						case Constants.CONTEXT_BUTTON_CREATE_TEXT:
+						case MT4JConstants.CONTEXT_BUTTON_CREATE_TEXT:
 							TextElementView textElement = new TextElementView(((MTRectangle) getParent().getParent()).getPosition(TransformSpace.GLOBAL).x,
 									((MTRectangle) getParent().getParent()).getPosition(TransformSpace.GLOBAL).y,
-									Constants.ELEMENT_DEFAULT_WIDTH, Constants.ELEMENT_DEFAULT_HEIGHT, applet, scene);
+									MT4JConstants.ELEMENT_DEFAULT_WIDTH, MT4JConstants.ELEMENT_DEFAULT_HEIGHT, applet, scene);
 							getParent().getParent().getParent().addChild(textElement);
 							textElement.addLassoProcessor();
 							break;
-						case Constants.CONTEXT_BUTTON_CREATE_IMAGE:
+						case MT4JConstants.CONTEXT_BUTTON_CREATE_IMAGE:
 							String imagePath = applet.selectInput();
 							ImageElementView imageElement = new ImageElementView(imagePath, ((MTRectangle) getParent().getParent()).getPosition(TransformSpace.GLOBAL).x, 
 									((MTRectangle) getParent().getParent()).getPosition(TransformSpace.GLOBAL).y, 
-									Constants.ELEMENT_DEFAULT_WIDTH, Constants.ELEMENT_DEFAULT_HEIGHT, applet, scene);
+									MT4JConstants.ELEMENT_DEFAULT_WIDTH, MT4JConstants.ELEMENT_DEFAULT_HEIGHT, applet, scene);
 							getParent().getParent().getParent().addChild(imageElement);
 							imageElement.addLassoProcessor();
 							break;
-						case Constants.CONTEXT_BUTTON_CREATE_LINK:
+						case MT4JConstants.CONTEXT_BUTTON_CREATE_LINK:
 							LinkElementView linkElement = new LinkElementView(((MTRectangle) getParent().getParent()).getPosition(TransformSpace.GLOBAL).x, 
 									((MTRectangle) getParent().getParent()).getPosition(TransformSpace.GLOBAL).y, 
-									Constants.ELEMENT_DEFAULT_WIDTH, Constants.ELEMENT_DEFAULT_HEIGHT, applet, scene);
+									MT4JConstants.ELEMENT_DEFAULT_WIDTH, MT4JConstants.ELEMENT_DEFAULT_HEIGHT, applet, scene);
 							getParent().getParent().getParent().addChild(linkElement);
 							linkElement.addLassoProcessor();
 							break;
-						case Constants.CONTEXT_BUTTON_CREATE_FILE:
+						case MT4JConstants.CONTEXT_BUTTON_CREATE_FILE:
 							String filePath = applet.selectInput();
 							FileElementView fileElement = new FileElementView(filePath, ((MTRectangle) getParent().getParent()).getPosition(TransformSpace.GLOBAL).x, 
 									((MTRectangle) getParent().getParent()).getPosition(TransformSpace.GLOBAL).y, 
-									Constants.ELEMENT_DEFAULT_WIDTH, Constants.ELEMENT_DEFAULT_HEIGHT, applet, scene);
+									MT4JConstants.ELEMENT_DEFAULT_WIDTH, MT4JConstants.ELEMENT_DEFAULT_HEIGHT, applet, scene);
 							getParent().getParent().getParent().addChild(fileElement);
 							fileElement.addLassoProcessor();
 							break;
-						case Constants.CONTEXT_BUTTON_VISUALIZE_ELEMENTS:
+						case MT4JConstants.CONTEXT_BUTTON_VISUALIZE_ELEMENTS:
 							break;
-						case Constants.CONTEXT_BUTTON_EDIT_TITLE:
+						case MT4JConstants.CONTEXT_BUTTON_EDIT_TITLE:
 							((AbstractElementView) m_source).editElementTitle();
 							break;
-						case Constants.CONTEXT_BUTTON_EDIT_CONTENT:
+						case MT4JConstants.CONTEXT_BUTTON_EDIT_CONTENT:
 							((AbstractElementView) m_source).editElementContent();
 							break;
-						case Constants.CONTEXT_BUTTON_SHARE:
+						case MT4JConstants.CONTEXT_BUTTON_SHARE:
 							break;
-						case Constants.CONTEXT_BUTTON_CHANGE_COLOR:
+						case MT4JConstants.CONTEXT_BUTTON_CHANGE_COLOR:
 							PImage colPick = applet.loadImage("Image/colorcircle.png");
 							final MTColorPicker colorWidget = new MTColorPicker(0, 0, colPick, applet);
 							int colPickX = (int)cursorInputEvt.getPosX();
 							int colPickY = (int)cursorInputEvt.getPosY();
 							colorWidget.setPositionGlobal(new Vector3D(colPickX, colPickY));
-							Utils.fixPosition(colorWidget, colPickX, colPickY, applet, PositionAnchor.CENTER);
+							MT4JUtils.fixPosition(colorWidget, colPickX, colPickY, applet, PositionAnchor.CENTER);
 					        colorWidget.setStrokeColor(MTColor.WHITE);
 					        colorWidget.addGestureListener(DragProcessor.class, new IGestureEventListener() {
 								public boolean processGestureEvent(MTGestureEvent ge) {
@@ -114,15 +114,15 @@ public class ContextButton extends MTListCell {
 					        getParent().getParent().getParent().addChild(colorWidget);
 					        colorWidget.setVisible(true);
 							break;
-						case Constants.CONTEXT_BUTTON_EXPORT_PDF:
+						case MT4JConstants.CONTEXT_BUTTON_EXPORT_PDF:
 							break;
-						case Constants.CONTEXT_BUTTON_HIDE:
+						case MT4JConstants.CONTEXT_BUTTON_HIDE:
 							break;
-						case Constants.CONTEXT_BUTTON_SPLIT_GROUP:
+						case MT4JConstants.CONTEXT_BUTTON_SPLIT_GROUP:
 							m_source.removeAllChildren();
 							m_source.destroy();
 							break;
-						case Constants.CONTEXT_BUTTON_EXIT:
+						case MT4JConstants.CONTEXT_BUTTON_EXIT:
 							Object[] options = {"Quitter",
 							                    "Annuler",};
 							ImageIcon icon = new ImageIcon("Image/logo.png");
