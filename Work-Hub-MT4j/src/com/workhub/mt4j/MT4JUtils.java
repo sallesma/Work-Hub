@@ -7,7 +7,7 @@ import org.mt4j.util.math.Vector3D;
 
 import processing.core.PApplet;
 
-// Modifie la position d'un élément pour qu'il apparaisse en entier à l'écran
+// Modifie la position d'un ï¿½lï¿½ment pour qu'il apparaisse en entier ï¿½ l'ï¿½cran
 public class Utils {
 	public static void fixPosition(AbstractShape shape, int x, int y, PApplet applet, PositionAnchor positionAnchor) {
 		int fixedX = x;
@@ -39,7 +39,7 @@ public class Utils {
 			break;
 		case LOWER_LEFT :	
 		case LOWER_RIGHT :
-			// Non implémenté
+			// Non implï¿½mentï¿½
 		default :
 			break;
 		}
