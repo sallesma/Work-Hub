@@ -26,7 +26,7 @@ public class LinkElementView extends TextElementView{
 				TapEvent te = (TapEvent)ge;
 				if (te.isDoubleTap()){
 					try {
-						if (!content.getText().startsWith("http://")){
+						if (content.getText().startsWith("http://")){
 							java.awt.Desktop.getDesktop().browse(java.net.URI.create(content.getText()));
 						} else {
 							java.awt.Desktop.getDesktop().browse(java.net.URI.create("http://"+content.getText()));
