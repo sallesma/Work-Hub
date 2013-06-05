@@ -10,12 +10,18 @@ import org.mt4j.components.visibleComponents.shapes.MTLine;
 import org.mt4j.components.visibleComponents.widgets.MTClipRectangle;
 import org.mt4j.components.visibleComponents.widgets.MTTextArea;
 import org.mt4j.components.visibleComponents.widgets.keyboard.MTKeyboard;
+import org.mt4j.input.gestureAction.DefaultDragAction;
+import org.mt4j.input.gestureAction.DefaultRotateAction;
+import org.mt4j.input.gestureAction.DefaultScaleAction;
 import org.mt4j.input.gestureAction.TapAndHoldVisualizer;
 import org.mt4j.input.inputProcessors.IGestureEventListener;
 import org.mt4j.input.inputProcessors.MTGestureEvent;
 import org.mt4j.input.inputProcessors.componentProcessors.AbstractComponentProcessor;
+import org.mt4j.input.inputProcessors.componentProcessors.dragProcessor.DragProcessor;
 import org.mt4j.input.inputProcessors.componentProcessors.lassoProcessor.IdragClusterable;
 import org.mt4j.input.inputProcessors.componentProcessors.lassoProcessor.LassoProcessor;
+import org.mt4j.input.inputProcessors.componentProcessors.rotateProcessor.RotateProcessor;
+import org.mt4j.input.inputProcessors.componentProcessors.scaleProcessor.ScaleProcessor;
 import org.mt4j.input.inputProcessors.componentProcessors.tapAndHoldProcessor.TapAndHoldEvent;
 import org.mt4j.input.inputProcessors.componentProcessors.tapAndHoldProcessor.TapAndHoldProcessor;
 import org.mt4j.util.MTColor;
@@ -126,6 +132,13 @@ public abstract class AbstractElementView extends MTClipRectangle implements Idr
 		MTKeyboard keyb = new MTKeyboard(mtApplication);
         keyb.setFillColor(new MTColor(30, 30, 30, 210));
         keyb.setStrokeColor(new MTColor(0,0,0,255));
+
+        //permet de supprimer l'inertie
+        keyb.removeAllGestureEventListeners();
+        keyb.addGestureListener(DragProcessor.class, new DefaultDragAction());
+        keyb.addGestureListener(RotateProcessor.class, new DefaultRotateAction());
+        keyb.addGestureListener(ScaleProcessor.class, new DefaultScaleAction());
+		
         getParent().addChild(keyb);
 		Vector3D position = this.getPosition(TransformSpace.GLOBAL);
 		Vector3D offset = new Vector3D(this.getWidthXYGlobal() / 2, this.getHeightXYGlobal() + keyb.getHeightXY(TransformSpace.GLOBAL) / 2);
