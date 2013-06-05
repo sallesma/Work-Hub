@@ -76,6 +76,7 @@ public class MessageFactory {
 	public static ACLMessage createMessage(ClientAgent sender, AID receiver, int MessageType){
 		return createMessage(sender, receiver, MessageType, null);
 	}
+	
 	public static ACLMessage createMessage(ClientAgent sender, AID receiver, int MessageType , Object params){
 		
 		int performatif;
@@ -107,18 +108,21 @@ public class MessageFactory {
 			j.addProperty(Constants.JSON_ACTION, Constants.MESSAGE_ACTION_GET_TITLE);
 			break;
 			
-		/*case Constants.MESSAGE_ACTION_SHARE:
-			// TODO on envoie a un autre agent client l'indication qu'on partage, on donne id de l'élément
+		case Constants.MESSAGE_ACTION_SHARE:
+			// Quand on veut creer un message de type MESSAGE_ACTION_SHARE : sender et receiver : ClientAgent, dans params : AID de l'element a envoyer
 			performatif = ACLMessage.REQUEST;
 			j.addProperty(Constants.JSON_ACTION, Constants.MESSAGE_ACTION_SHARE);
+			j.addProperty("element", (String)params);
 			break;
-		*/
+		
 		
 		case Constants.MESSAGE_ACTION_SAVE_CONTENT: 
 			j = getElementContent((ElementModel)params, j);
 			performatif = ACLMessage.REQUEST;
 			j.addProperty(Constants.JSON_ACTION, Constants.MESSAGE_ACTION_SAVE_CONTENT);
 			break;
+			
+			
 		
 		default:
 			System.err.println("Type de message invalide");
