@@ -29,7 +29,7 @@ public class Constants {
 	public static final int EVENT_TYPE_CHANGE = 16001; //agent -> Interface : l'element a changé : ok
 	public static final int EVENT_TYPE_CHARGE = 16002; //Interface -> agent : demande de contenu d'element
 
-	public static final int EVENT_TYPE_RECEIPT = 16004; //agent -> interface : il y a un nouveau message
+	public static final int EVENT_TYPE_RECEIVE_ELEMENT = 16004; //agent -> interface : il y a un nouveau message
 	
 	// param : elementmodel
 	public static final int EVENT_TYPE_CONTENU = 16003; //agent -> interface : contenu de l'element
@@ -56,10 +56,6 @@ public class Constants {
 	//param : AID de l'agent non editable
 	public static final int EVENT_TYPE_CANT_EDIT = 16014;// agent -> interface : edition impossible : ok
 	public static final int EVENT_TYPE_ASK_EDIT = 16015; // interface -> agent : puis je editer : ok
-	
-	
-	public static final int EVENT_TYPE_RECEIVE_ELEMENT = 16016; // agent -> interface : quelqu'un a envoye un element 
-
 
 	//public static final String JSON_ACTION = "action";
 	//public static final String JSON_ACTION = "action";
