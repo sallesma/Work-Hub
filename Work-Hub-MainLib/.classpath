@@ -12,5 +12,8 @@
 			<attribute name="javadoc_location" value="jar:platform:/resource/Work-Hub-MainLib/lib/gson-2.2.4-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="lib/itext-pdfa-5.4.1.jar"/>
+	<classpathentry kind="lib" path="lib/itext-xtra-5.4.1.jar"/>
+	<classpathentry kind="lib" path="lib/itextpdf-5.4.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
