@@ -14,7 +14,7 @@ public class ElementGroupView extends Cluster {
 		this.scene = scene;
 	}
 	public void openContextualMenu(Vector3D locationOnScreen) {
-		ContextMenu contextMenu = new ContextMenu(this, (int)locationOnScreen.x, (int)locationOnScreen.y, getRenderer(), scene, Constants.CONTEXT_GROUP_MENU);
+		ContextMenu contextMenu = new ContextMenu(this, (int)locationOnScreen.x, (int)locationOnScreen.y, getRenderer(), scene, MT4JConstants.CONTEXT_GROUP_MENU);
 		scene.getCanvas().addChild(contextMenu);
 	}
 }

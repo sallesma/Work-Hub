@@ -8,7 +8,7 @@ import org.mt4j.util.math.Vector3D;
 import processing.core.PApplet;
 
 // Modifie la position d'un élément pour qu'il apparaisse en entier à l'écran
-public class Utils {
+public class MT4JUtils {
 	public static void fixPosition(AbstractShape shape, int x, int y, PApplet applet, PositionAnchor positionAnchor) {
 		int fixedX = x;
 		int fixedY = y;

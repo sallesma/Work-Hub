@@ -1,6 +1,6 @@
 package com.workhub.mt4j;
 
-public class Constants {
+public class MT4JConstants {
 	public static final int ELEMENT_TEXT 		= 0;
 	public static final int ELEMENT_LINK 		= 1;
 	public static final int ELEMENT_IMAGE		= 2;

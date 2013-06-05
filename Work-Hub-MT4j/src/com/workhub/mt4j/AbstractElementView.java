@@ -116,7 +116,7 @@ public abstract class AbstractElementView extends MTClipRectangle implements Idr
 	}
 	
 	protected void openContextualMenu(Vector3D locationOnScreen) {
-		ContextMenu contextMenu = new ContextMenu(this, (int)locationOnScreen.x, (int)locationOnScreen.y, mtApplication, scene, Constants.CONTEXT_ELEMENT_MENU);
+		ContextMenu contextMenu = new ContextMenu(this, (int)locationOnScreen.x, (int)locationOnScreen.y, mtApplication, scene, MT4JConstants.CONTEXT_ELEMENT_MENU);
 		this.getParent().addChild(contextMenu);
 	}
 	
@@ -144,7 +144,7 @@ public abstract class AbstractElementView extends MTClipRectangle implements Idr
 		Vector3D offset = new Vector3D(this.getWidthXYGlobal() / 2, this.getHeightXYGlobal() + keyb.getHeightXY(TransformSpace.GLOBAL) / 2);
 		position = position.addLocal(offset);
 		keyb.setPositionGlobal(position);
-		Utils.fixPosition(keyb, (int)position.x, (int)position.y, this.mtApplication, PositionAnchor.CENTER);
+		MT4JUtils.fixPosition(keyb, (int)position.x, (int)position.y, this.mtApplication, PositionAnchor.CENTER);
 		
 		target.setEnableCaret(true);
 		keyb.addTextInputListener(target);
