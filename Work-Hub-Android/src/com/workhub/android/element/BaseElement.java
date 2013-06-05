@@ -21,9 +21,9 @@ import com.workhub.android.utils.Ressources;
 import com.workhub.model.ElementModel;
 
 public abstract class BaseElement extends AbstractElement  {
-	protected static final int WIDTH = ConstantsAndroid.SCREEN_WIDTH*2/3;
-	protected static final int HEIGHT = ConstantsAndroid.SCREEN_WIDTH*4/5;
-	protected static final float MARGIN = 25;
+	protected final float WIDTH;
+	protected final float HEIGHT;
+	protected final float MARGIN;
 
 	private Text mTextTitre;
 	protected Rectangle body;
@@ -36,6 +36,9 @@ public abstract class BaseElement extends AbstractElement  {
 	}
 	public BaseElement(ElementModel model, float centerX, float centerY, Ressources res, boolean isResizable) {
 		super(centerX, centerY, res, isResizable);
+		WIDTH = res.toPixel(250);
+		HEIGHT = res.toPixel(300);
+		MARGIN = res.toPixel(10);
 		this.model = model;
 		initShape(res);
 	}
@@ -80,8 +83,10 @@ public abstract class BaseElement extends AbstractElement  {
 	}
 	protected void initShape(Ressources res){
 
+
 		body = new Rectangle(0, 0, WIDTH, HEIGHT, res.getContext().getVertexBufferObjectManager());
-		contour = new Rectangle(-2, -2, WIDTH+4, HEIGHT+4, res.getContext().getVertexBufferObjectManager());
+		
+		contour = new Rectangle(res.toPixel(-2),res.toPixel(-2), WIDTH+res.toPixel(4), HEIGHT+res.toPixel(4), res.getContext().getVertexBufferObjectManager());
 		contour.setZIndex(-20);
 		contour.setColor(0, 0, 0);
 		body.attachChild(contour);
@@ -102,7 +107,7 @@ public abstract class BaseElement extends AbstractElement  {
 
 	public void setBodyHeight(float pHeight){
 		body.setHeight(pHeight);
-		contour.setHeight(body.getHeight()+4);
+		contour.setHeight(body.getHeight()+res.toPixel(4));
 	}
 	public float updateView(){
 

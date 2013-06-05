@@ -87,7 +87,7 @@ public class MainScene extends Scene implements IOnSceneTouchListener, IHoldDete
 		mHoldDetector.setTriggerHoldMinimumMilliseconds(600);
 		this.registerUpdateHandler(mHoldDetector);
 		mScrollDetector = new ScrollDetector(this);
-		touchRound = new Sprite(-80, -80, 160,160, res.getTR_Rond(), res.getContext().getVertexBufferObjectManager());
+		touchRound = new Sprite(-res.toPixel(50), -res.toPixel(50), res.toPixel(50)*2,res.toPixel(50)*2, res.getTR_Rond(), res.getContext().getVertexBufferObjectManager());
 		touchRound.setColor(0.2f, 0.2f, 0.2f);
 		this.attachChild(touchRound);
 		groupRunnable = new Runnable() {
@@ -175,13 +175,13 @@ public class MainScene extends Scene implements IOnSceneTouchListener, IHoldDete
 		float width = res.getSceneWidth();
 		float height = res.getSceneHeight();
 
-		RoundButtonElement rb = new RoundButtonElement(width-width/12, -width/20, R.id.bt_raccourci_supprimer, res, null );
+		RoundButtonElement rb = new RoundButtonElement(width-res.toPixel(45), -res.toPixel(14), R.id.bt_raccourci_supprimer, res, null );
 		this.attachChild(rb);
 		this.registerTouchArea(rb);
-		rb = new RoundButtonElement(width-width/12, height+width/20, R.id.bt_raccourci_envoyer, res, null );
+		rb = new RoundButtonElement(width-res.toPixel(45), height+res.toPixel(14), R.id.bt_raccourci_envoyer, res, null );
 		this.attachChild(rb);
 		this.registerTouchArea(rb);
-		rb = new RoundButtonElement(0+width/12, height+width/20, R.id.bt_raccourci_recevoir, res, null );
+		rb = new RoundButtonElement(0+res.toPixel(45), height+res.toPixel(14), R.id.bt_raccourci_recevoir, res, null );
 		this.attachChild(rb);
 		this.registerTouchArea(rb);  
 
@@ -322,6 +322,17 @@ public class MainScene extends Scene implements IOnSceneTouchListener, IHoldDete
 	@Override
 	public void onScrollStarted(ScrollDetector pScollDetector, int pPointerID,
 			float pDistanceX, float pDistanceY) {
+		if(groupElement!=null){
+			final GroupElement grp = groupElement;
+			res.getContext().runOnUpdateThread(new Runnable() {
+				
+				@Override
+				public void run() {
+					unregisterTouchArea(grp);
+					grp.detachSelf();
+				}
+			});
+		}
 		groupElement = new GroupElement(res );
 		attachChild(groupElement);
 	}

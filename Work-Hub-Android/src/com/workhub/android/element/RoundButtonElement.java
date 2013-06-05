@@ -14,14 +14,13 @@ import org.andengine.util.HorizontalAlign;
 import android.app.Dialog;
 
 import com.workhub.android.R;
-import com.workhub.android.utils.ConstantsAndroid;
 import com.workhub.android.utils.GPoint;
 import com.workhub.android.utils.Ressources;
 
 public class RoundButtonElement extends AbstractElement{
 
 
-	public final static int RAYON = ConstantsAndroid.SCREEN_WIDTH/4;
+	public final float RAYON;
 
 	private String getTitle(int type){
 		switch (type) {
@@ -50,6 +49,7 @@ public class RoundButtonElement extends AbstractElement{
 
 	public RoundButtonElement(float centerX, float centerY,int type, Ressources res, Object arg) {
 		super(centerX, centerY, res);
+		RAYON = res.toPixel(100);
 		this.type = type;
 		this.centerScene = res.getScreenCenter();
 		initShape(res);
@@ -67,7 +67,8 @@ public class RoundButtonElement extends AbstractElement{
 
 
 		centerText = new Text(0, 0, res.getFont(), getTitle(type), new TextOptions(HorizontalAlign.CENTER), res.getContext().getVertexBufferObjectManager());
-		centerText.setPosition(-centerText.getWidth()/2, RAYON/3);
+		System.out.println(res.toPixel(100));		
+		centerText.setPosition(-centerText.getWidth()/2, RAYON/4);
 		this.attachChild(centerText);
 	}
 

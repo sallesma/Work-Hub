@@ -1,6 +1,5 @@
 package com.workhub.android.element;
 
-import org.andengine.engine.handler.IUpdateHandler;
 import org.andengine.entity.Entity;
 import org.andengine.entity.scene.ITouchArea;
 import org.andengine.entity.scene.Scene;
@@ -75,7 +74,7 @@ public abstract class AbstractElement extends Entity  implements ITouchArea, IHo
 		this.registerUpdateHandler(mHoldDetector);
 
 		setZIndex(ConstantsAndroid.ZINDEX++);
-		touchRound = new Sprite(-80, -80, 160,160, res.getTR_Rond(), res.getContext().getVertexBufferObjectManager());
+		touchRound = new Sprite(-res.toPixel(50), -res.toPixel(50), res.toPixel(50)*2,res.toPixel(50)*2, res.getTR_Rond(), res.getContext().getVertexBufferObjectManager());
 		touchRound.setColor(0.2f, 0.2f, 0.2f);
 		
 		this.attachChild(touchRound);
