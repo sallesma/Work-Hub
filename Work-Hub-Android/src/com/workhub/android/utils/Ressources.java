@@ -14,8 +14,11 @@ import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.texture.region.TextureRegion;
 import org.andengine.util.debug.Debug;
 
+import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
+import android.util.DisplayMetrics;
 
 import com.workhub.android.activity.HomeActivity;
 
@@ -37,7 +40,7 @@ public class Ressources {
 		this.screenCenter = new GPoint(mCamera.getCenterX(), mCamera.getCenterY());
 		sceneHeight = mCamera.getHeight();
 		sceneWidth = mCamera.getWidth();
-		this.mFont = FontFactory.create(context.getFontManager(), context.getTextureManager(), 256, 256, Typeface.create(Typeface.DEFAULT, Typeface.BOLD), 32);
+		this.mFont = FontFactory.create(context.getFontManager(), context.getTextureManager(), 512, 512, TextureOptions.BILINEAR, Typeface.create(Typeface.DEFAULT, Typeface.BOLD), toPixel(24));
 		this.mFont.load();
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 		mainTextureAtlas = new BitmapTextureAtlas(context.getTextureManager(), 2048, 1024, TextureOptions.BILINEAR);
@@ -59,7 +62,20 @@ public class Ressources {
 
 	
 	
+	public float toPixel(float dp){
+	    Resources resources = context.getResources();
+	    DisplayMetrics metrics = resources.getDisplayMetrics();
+	    float px = dp * (metrics.densityDpi / 160f);
+	    return px;
+	}
+
 	
+	public float toDp(float px){
+	    Resources resources = context.getResources();
+	    DisplayMetrics metrics = resources.getDisplayMetrics();
+	    float dp = px / (metrics.densityDpi / 160f);
+	    return dp;
+	}
 	 
 	public TextureRegion getTR_No_Image() {
 		return TR_No_Image;

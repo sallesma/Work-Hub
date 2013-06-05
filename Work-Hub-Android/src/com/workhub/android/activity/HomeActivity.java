@@ -10,7 +10,6 @@ import jade.core.AID;
 import jade.core.MicroRuntime;
 import jade.core.Profile;
 import jade.gui.GuiEvent;
-import jade.util.Logger;
 import jade.util.leap.Properties;
 import jade.wrapper.ControllerException;
 import jade.wrapper.StaleProxyException;
@@ -200,8 +199,8 @@ public class HomeActivity extends SimpleLayoutGameActivity implements PropertyCh
 		int CAMERA_LARGEUR = getResources().getDisplayMetrics().widthPixels;
 		int CAMERA_HAUTEUR = getResources().getDisplayMetrics().heightPixels;
 
-		int resolutionX= (int) (ConstantsAndroid.SCREEN_WIDTH);
-		int resolutionY= (int) (ConstantsAndroid.SCREEN_HEIGHT);
+		int resolutionX= (int) (CAMERA_LARGEUR);
+		int resolutionY= (int) (CAMERA_HAUTEUR);
 		float x = Math.min(((float)resolutionX/CAMERA_LARGEUR), ((float)resolutionY/CAMERA_HAUTEUR));
 		resolutionX = (int) (CAMERA_LARGEUR*x);
 		resolutionY = (int) (CAMERA_HAUTEUR*x);

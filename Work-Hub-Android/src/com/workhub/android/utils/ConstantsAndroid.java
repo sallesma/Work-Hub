@@ -5,10 +5,14 @@ import org.andengine.util.modifier.ease.EaseCubicInOut;
 import org.andengine.util.modifier.ease.EaseExponentialOut;
 import org.andengine.util.modifier.ease.IEaseFunction;
 
+import android.content.Context;
+import android.content.res.Resources;
+import android.util.DisplayMetrics;
+
 public class ConstantsAndroid {
 
-	public final static int SCREEN_WIDTH  = 624;
-	public final static int SCREEN_HEIGHT = 1040;
+	//public final static int SCREEN_WIDTH  = 624;
+	//public final static int SCREEN_HEIGHT = 1040;
 	public static int ZINDEX = 0;
 //	public static final String EXT_PATH_TEMP = Environment.getExternalStorageDirectory() + "/Android/data/com.piviandco.fatbooth/temp/";
 //	public static final String EXT_PATH_FILES = Environment.getExternalStorageDirectory() + "/Android/data/com.piviandco.fatbooth/files/";
@@ -20,6 +24,9 @@ public class ConstantsAndroid {
         EaseExponentialOut.getInstance(),
         EaseBackOut.getInstance(),
         EaseCubicInOut.getInstance()
-        };;
+        };
+	
+	
+	
 
 }
