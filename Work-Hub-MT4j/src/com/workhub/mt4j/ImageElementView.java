@@ -17,6 +17,12 @@ public class ImageElementView extends AbstractElementView {
 		updateTitleWithElementPath(imagePath);
 		Vector3D position = new Vector3D(this.getPosition(TransformSpace.LOCAL).getX(), (float) (this.getPosition(TransformSpace.LOCAL).getY()+height*0.2f));
 		PImage image = applet.loadImage(imagePath);
+		if(image.width > 500) {
+			image.resize(500, 0);
+		}
+		if(image.height > 500) {
+			image.resize(0, 500);
+		}
 		content = new MTImage(image, applet);
 		content.setNoFill(true);
 		content.setPickable(false);
