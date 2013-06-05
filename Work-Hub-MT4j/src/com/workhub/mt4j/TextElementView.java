@@ -10,7 +10,7 @@ public class TextElementView extends AbstractElementView {
 	
 	public TextElementView(float x, float y, float width,
 			float height, PApplet applet, WorkHubScene scene) {
-		super(x, y, MT4JConstants.Z_POSITION_DEFAULT_ELEMENT, width, height, applet, scene);
+		super(x, y, Constants.Z_POSITION_DEFAULT_ELEMENT, width, height, applet, scene);
 		content = new MTTextArea(x,
 				y + 40,
 				width,

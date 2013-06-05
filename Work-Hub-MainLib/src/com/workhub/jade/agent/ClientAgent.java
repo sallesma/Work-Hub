@@ -78,10 +78,7 @@ public class ClientAgent extends GuiAgent implements ClientAgentInterface{
 			message =  MessageFactory.createMessage(this, elementModel.getAgent(), Constants.MESSAGE_ACTION_SAVE_CONTENT, elementModel);
 			break;
 			
-		case Constants.EVENT_TYPE_SEND:
-			AID dest = (AID)ev.getParameter(0);
-			AID elementAgent = (AID)ev.getParameter(1);
-			message =  MessageFactory.createMessage(this, dest, Constants.MESSAGE_ACTION_SHARE, elementAgent);
+		case Constants.EVENT_TYPE_SEND://TODO
 			break;
 			
 		case Constants.EVENT_TYPE_DELETE:
@@ -116,8 +113,7 @@ public class ClientAgent extends GuiAgent implements ClientAgentInterface{
 				e.printStackTrace();
 			}
 			break;
-
-		case Constants.EVENT_TYPE_CHARGE:
+		case Constants.EVENT_TYPE_CHARGE://TODO
 			message = MessageFactory.createMessage(this, elementModel.getAgent(), Constants.MESSAGE_ACTION_GET_CONTENT, null);
 			break;
 		
@@ -128,10 +124,7 @@ public class ClientAgent extends GuiAgent implements ClientAgentInterface{
 		default:
 			break;
 		}
-		
-		if(message!=null){
-			send(message);	
-		}
+	send(message);	
 	}
 
 
