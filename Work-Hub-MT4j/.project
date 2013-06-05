@@ -21,4 +21,10 @@
 			<locationURI>WorkHub_source</locationURI>
 		</link>
 	</linkedResources>
+	<variableList>
+		<variable>
+			<name>WorkHub_source</name>
+			<value>$%7BPARENT-1-PROJECT_LOC%7D/Work-Hub-MainLib/src</value>
+		</variable>
+	</variableList>
 </projectDescription>
