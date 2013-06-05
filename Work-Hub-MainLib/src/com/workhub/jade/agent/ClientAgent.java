@@ -8,9 +8,12 @@ import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.gui.GuiAgent;
 import jade.gui.GuiEvent;
 import jade.lang.acl.ACLMessage;
+import jade.wrapper.AgentController;
+import jade.wrapper.StaleProxyException;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -100,9 +103,16 @@ public class ClientAgent extends GuiAgent implements ClientAgentInterface{
 			}
 			break;
 			
-		case Constants.EVENT_TYPE_CREATE_ELEMENT://TODO
+		case Constants.EVENT_TYPE_CREATE_ELEMENT:
+			AgentController newElement;
+			try {
+				newElement = getContainerController().createNewAgent(String.valueOf(System.currentTimeMillis()),"com.workhub.jade.agent.ElementAgent",new Object[]{ev.getParameter(0)});
+				newElement.start();
+			} catch (StaleProxyException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			break;
-			
 		case Constants.EVENT_TYPE_CHARGE://TODO
 			message = MessageFactory.createMessage(this, elementModel.getAgent(), Constants.MESSAGE_ACTION_GET_CONTENT, null);
 			break;
