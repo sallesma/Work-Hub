@@ -63,13 +63,22 @@ public class WorkHubButton extends MTRoundRectangle {
 				case TapAndHoldEvent.GESTURE_ENDED:
 					switch (buttonText.getText()) {
 					case Constants.BUTTON_ID_MENU:
-						scene.openContextualMenu(tahe.getLocationOnScreen());
+						scene.openContextualMenu(tahe.getLocationOnScreen(), Constants.CONTEXT_MAIN_MENU);
 						break;
 					case Constants.BUTTON_ID_ENVOYER:
+						if(tahe.isHoldComplete()) {
+							scene.openContextualMenu(tahe.getLocationOnScreen(), Constants.CONTEXT_SHORTCUT_MENU);
+						}
 						break;
 					case Constants.BUTTON_ID_RECEVOIR:
+						if(tahe.isHoldComplete()) {
+							scene.openContextualMenu(tahe.getLocationOnScreen(), Constants.CONTEXT_SHORTCUT_MENU);
+						}
 						break;
 					case Constants.BUTTON_ID_MASQUER:
+						if(tahe.isHoldComplete()) {
+							scene.openContextualMenu(tahe.getLocationOnScreen(), Constants.CONTEXT_SHORTCUT_MENU);
+						}
 						break;
 					}
 					break;

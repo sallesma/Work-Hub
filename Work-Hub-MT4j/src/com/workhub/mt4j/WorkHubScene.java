@@ -60,7 +60,7 @@ public class WorkHubScene extends AbstractScene {
 					break;
 				case TapAndHoldEvent.GESTURE_ENDED:
 					if (tahe.isHoldComplete()){
-						openContextualMenu(tahe.getLocationOnScreen());
+						openContextualMenu(tahe.getLocationOnScreen(), Constants.CONTEXT_BACKGROUND_MENU);
 					}
 					break;
 				default:
@@ -75,8 +75,8 @@ public class WorkHubScene extends AbstractScene {
 		getCanvas().addGestureListener(LassoProcessor.class, new LassoAction(mtApplication, this, getCanvas().getClusterManager(), getCanvas()));
 	}
 	
-	public void openContextualMenu(Vector3D location) {
-		ContextMenu contextMenu = new ContextMenu(getCanvas(), (int)location.x, (int)location.y, getMTApplication(), this, Constants.CONTEXT_BACKGROUND_MENU);
+	public void openContextualMenu(Vector3D location, int menuType) {
+		ContextMenu contextMenu = new ContextMenu(getCanvas(), (int)location.x, (int)location.y, getMTApplication(), this, menuType);
 		this.getCanvas().addChild(contextMenu);
 	}
 

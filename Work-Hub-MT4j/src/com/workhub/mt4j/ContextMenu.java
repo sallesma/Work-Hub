@@ -8,7 +8,7 @@ import processing.core.PApplet;
 public class ContextMenu extends MTList {
 	
 	public ContextMenu(MTComponent source, int x, int y, PApplet applet, WorkHubScene scene, Integer menuType) {
-		super(x, y, Constants.CONTEXT_BUTTON_WIDTH, menuType * (Constants.CONTEXT_BUTTON_HEIGHT + 2), applet);
+		super(x, y, Constants.CONTEXT_BUTTON_WIDTH, sizeOf(menuType) * (Constants.CONTEXT_BUTTON_HEIGHT + 2), applet);
 		initializeButtons(menuType, source, applet, scene);
 		setAnchor(PositionAnchor.UPPER_LEFT);
 		Utils.fixPosition(this, x, y, applet, PositionAnchor.UPPER_LEFT);
@@ -86,6 +86,23 @@ public class ContextMenu extends MTList {
 			ContextButton item32 = new ContextButton(applet, scene, source, Constants.CONTEXT_BUTTON_CLOSE);
 			addListElement(item32);
 			break;
+		}
+	}
+	
+	public static int sizeOf(int menuType) {
+		switch(menuType) {
+		case Constants.CONTEXT_MAIN_MENU :
+			return 7;
+		case Constants.CONTEXT_BACKGROUND_MENU :
+			return 6;
+		case Constants.CONTEXT_ELEMENT_MENU :
+			return 8;
+		case Constants.CONTEXT_GROUP_MENU :
+			return 6;
+		case Constants.CONTEXT_SHORTCUT_MENU :
+			return 2;
+		default :
+			return -1;
 		}
 	}
 }

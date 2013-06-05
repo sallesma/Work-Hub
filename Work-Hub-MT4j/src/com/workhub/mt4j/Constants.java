@@ -30,13 +30,13 @@ public class Constants {
 	public static final int CONTEXT_BUTTON_HEIGHT	= 40;
 	
 	/*
-	 * ID et taille du menu à la fois
+	 * ID des menus. Pour chacun d'entre eux la taille doit être précisée dans ContextMenu.sizeOf().
 	 */
-	public static final int CONTEXT_MAIN_MENU			= 7;
-	public static final int CONTEXT_BACKGROUND_MENU		= 6;
-	public static final int CONTEXT_ELEMENT_MENU		= 8;
-	public static final int CONTEXT_GROUP_MENU			= 5;
-	public static final int CONTEXT_SHORTCUT_MENU		= 2;
+	public static final int CONTEXT_MAIN_MENU			= 1;
+	public static final int CONTEXT_BACKGROUND_MENU		= 2;
+	public static final int CONTEXT_ELEMENT_MENU		= 3;
+	public static final int CONTEXT_GROUP_MENU			= 4;
+	public static final int CONTEXT_SHORTCUT_MENU		= 5;
 	
 	public static final String CONTEXT_BUTTON_CLOSE					= "Fermer ce menu";
 	public static final String CONTEXT_BUTTON_CREATE_TEXT			= "Créer un élément texte";
