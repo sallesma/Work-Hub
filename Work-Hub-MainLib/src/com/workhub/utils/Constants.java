@@ -26,8 +26,10 @@ public class Constants {
 	public static final int EVENT_TYPE_SAVE = 16000; //Interface -> agent : Sauve l'element
 	public static final int EVENT_TYPE_CHANGE = 16001; //agent -> Interface : l'element a changé
 	public static final int EVENT_TYPE_CHARGE = 16002; //Interface -> agent : demande de contenu d'element
-	public static final int EVENT_TYPE_CONTENU = 16003; //agent -> interface : contenu de l'element
 	public static final int EVENT_TYPE_RECEIPT = 16004; //agent -> interface : il y a un nouveau message
+	
+	// param : Json
+	public static final int EVENT_TYPE_CONTENU = 16003; //agent -> interface : contenu de l'element
 
 
 	//		Object[] params = {AID dest, AID elementAgent};
@@ -40,8 +42,10 @@ public class Constants {
 	public static final int EVENT_TYPE_NEIGHBOURS= 16009; // agent -> interface : liste des voisins
 	public static final int EVENT_TYPE_GET_ELEMENTS= 16010; // interface -> agent : quels sont les elements disponibles
 
-	// param: Map<AID, String> = HashMap<AID agentID, String name>()
+	//param : pour chaque element dont l'agent recois un json, l'agent renvois un model à l'interface
 	public static final int EVENT_TYPE_ELEMENTS= 16011; // agent -> interface : liste des elements
+	
+	// param: Map<AID, String> = HashMap<AID agentID, String name>()
 	public static final int EVENT_TYPE_CREATE_ELEMENT= 16012; // interface -> agent : créer l'element
 	
 	public static final int EVENT_TYPE_CAN_EDIT = 16013; // agent -> interface : edition possible

@@ -63,10 +63,8 @@ public class ContentClientBehaviour extends CyclicBehaviour{
 
 			}
 			else if(action==Constants.MESSAGE_RECEIVE_ELEMENT_CONTENT || action==Constants.MESSAGE_RECEIVE_ELEMENT_TITLE){
-				//mettre a jour l'interface
-				//((ClientAgent)myAgent).changes.firePropertyChange("line", null, info);
+				((ClientAgent)myAgent).fireChanges(Constants.EVENT_TYPE_GET_ELEMENTS, MessageFactory.getModel(message));
 			}
-		
 		}
 		
 	

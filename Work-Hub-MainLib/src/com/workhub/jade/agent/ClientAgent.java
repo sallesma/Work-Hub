@@ -93,20 +93,20 @@ public class ClientAgent extends GuiAgent implements ClientAgentInterface{
 			changes.firePropertyChange(String.valueOf(Constants.EVENT_TYPE_NEIGHBOURS), null, listToFire);
 			break;
 			
-		case Constants.EVENT_TYPE_GET_ELEMENTS://TODO
+		case Constants.EVENT_TYPE_GET_ELEMENTS:
 			DFAgentDescription[] listElementAgent = Utils.agentSearch(this, Constants.ELEMENT_AGENT);
 			for(DFAgentDescription df : listElementAgent){
-				//listToFire.put(df.getName(), temp);
+				send(MessageFactory.createMessage(this, df.getName(), Constants.MESSAGE_ACTION_GET_TITLE, null));
 			}
 			break;
 			
 		case Constants.EVENT_TYPE_CREATE_ELEMENT://TODO
 			break;
 			
-		case Constants.EVENT_TYPE_CHARGE://TODO
+		case Constants.EVENT_TYPE_CHARGE:
 			break;
 		
-		case Constants.EVENT_TYPE_ASK_EDIT: // TODO
+		case Constants.EVENT_TYPE_ASK_EDIT:
 			message = MessageFactory.createMessage(this, elementModel.getAgent(), Constants.MESSAGE_ACTION_EDIT, null);
 			break;
 			
