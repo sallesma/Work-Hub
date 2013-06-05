@@ -103,7 +103,8 @@ public class ClientAgent extends GuiAgent implements ClientAgentInterface{
 		case Constants.EVENT_TYPE_CREATE_ELEMENT://TODO
 			break;
 			
-		case Constants.EVENT_TYPE_CHARGE:
+		case Constants.EVENT_TYPE_CHARGE://TODO
+			message = MessageFactory.createMessage(this, elementModel.getAgent(), Constants.MESSAGE_ACTION_GET_CONTENT, null);
 			break;
 		
 		case Constants.EVENT_TYPE_ASK_EDIT:

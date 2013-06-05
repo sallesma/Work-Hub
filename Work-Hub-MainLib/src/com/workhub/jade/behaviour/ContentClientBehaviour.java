@@ -9,8 +9,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.workhub.jade.agent.ClientAgent;
 import com.workhub.jade.agent.ElementAgent;
+import com.workhub.model.ElementModel;
 import com.workhub.utils.Constants;
 import com.workhub.utils.MessageFactory;
+import com.workhub.utils.Utils;
 // Behaviour agent client
 public class ContentClientBehaviour extends CyclicBehaviour{
 
@@ -25,6 +27,7 @@ public class ContentClientBehaviour extends CyclicBehaviour{
 			case Constants.MESSAGE_RECEIVE_ELEMENT_CONTENT:
 			case Constants.MESSAGE_RECEIVE_ELEMENT_TITLE:
 			case Constants.MESSAGE_ACTION_EDIT:
+			case Constants.MESSAGE_ACTION_IS_DYING:
 				return true;
 			default:
 				return false;
@@ -54,16 +57,28 @@ public class ContentClientBehaviour extends CyclicBehaviour{
 				boolean editor = ((JsonObject) js.parse(message.getContent())).get("can_edit").getAsBoolean();
 				
 				if(editor == true){
-					// l'agent peut editer !
 					// envoyer a l'interface un evenement de type EVENT_CAN_EDIT
+					((ClientAgent)myAgent).fireChanges(Constants.EVENT_TYPE_CAN_EDIT, message.getSender());
 				}
 				else{
 					// envoyer a l'interface un evenement de type EVENT_CANT_EDIT
+					((ClientAgent)myAgent).fireChanges(Constants.EVENT_TYPE_CANT_EDIT, message.getSender());
 				}
 
 			}
-			else if(action==Constants.MESSAGE_RECEIVE_ELEMENT_CONTENT || action==Constants.MESSAGE_RECEIVE_ELEMENT_TITLE){
-				((ClientAgent)myAgent).fireChanges(Constants.EVENT_TYPE_GET_ELEMENTS, MessageFactory.getModel(message));
+			else if(action==Constants.MESSAGE_RECEIVE_ELEMENT_CONTENT ){
+				//mettre a jour l'interface
+				// renvoie un elementModel
+				ElementModel model = MessageFactory.getModel(message);
+				((ClientAgent)myAgent).fireChanges(Constants.EVENT_TYPE_CONTENU, model);
+			}			
+			else if(action==Constants.MESSAGE_RECEIVE_ELEMENT_TITLE){
+				Constants.MESSAGE_RECEIVE_ELEMENT_TITLE){
+                    ((ClientAgent)myAgent).fireChanges(Constants.EVENT_TYPE_GET_ELEMENTS, MessageFactory.getModel(message));
+			}
+			
+			else if(action == Constants.MESSAGE_ACTION_IS_DYING){
+				((ClientAgent)myAgent).fireChanges(Constants.EVENT_TYPE_DIED, message.getSender());
 			}
 		}
 		
