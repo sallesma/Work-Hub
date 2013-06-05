@@ -73,7 +73,6 @@ public class ContentClientBehaviour extends CyclicBehaviour{
 				((ClientAgent)myAgent).fireChanges(Constants.EVENT_TYPE_CONTENU, model);
 			}			
 			else if(action==Constants.MESSAGE_RECEIVE_ELEMENT_TITLE){
-				Constants.MESSAGE_RECEIVE_ELEMENT_TITLE){
                     ((ClientAgent)myAgent).fireChanges(Constants.EVENT_TYPE_GET_ELEMENTS, MessageFactory.getModel(message));
 			}
 			
