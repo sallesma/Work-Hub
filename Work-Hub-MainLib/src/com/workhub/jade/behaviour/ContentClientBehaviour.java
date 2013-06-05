@@ -77,6 +77,10 @@ public class ContentClientBehaviour extends CyclicBehaviour{
 			else if(action==Constants.MESSAGE_RECEIVE_ELEMENT_TITLE){
 				// TODO 
 			}
+			
+			else if(action == Constants.MESSAGE_ACTION_IS_DYING){
+				((ClientAgent)myAgent).fireChanges(Constants.EVENT_TYPE_DIED, message.getSender());
+			}
 		
 		}
 		
