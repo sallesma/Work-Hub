@@ -2,6 +2,7 @@ package com.workhub.jade.behaviour;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.workhub.jade.agent.ClientAgent;
 import com.workhub.jade.agent.ElementAgent;
 import com.workhub.utils.Constants;
 import com.workhub.utils.MessageFactory;
@@ -39,7 +40,6 @@ public class EraseElementBehaviour extends CyclicBehaviour{
 			DFAgentDescription[] receivers = Utils.agentSearch(myAgent, Constants.CLIENT_AGENT);
 			for(DFAgentDescription df : receivers)
 				myAgent.send(MessageFactory.createMessage((ElementAgent) myAgent, df.getName(), Constants.MESSAGE_ACTION_IS_DYING));
-			
 			myAgent.doDelete();
 		}
 		else {

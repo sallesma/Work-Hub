@@ -23,17 +23,21 @@ public class Constants {
 
 	public static final String JSON_ACTION = "action";
 
-	public static final int EVENT_TYPE_SAVE = 16000; //Interface -> agent : Sauve l'element
-	public static final int EVENT_TYPE_CHANGE = 16001; //agent -> Interface : l'element a changé
+	public static final int EVENT_TYPE_SAVE = 16000; //Interface -> agent : Sauve l'element : ok
+	
+	//param : AID de l'element
+	public static final int EVENT_TYPE_CHANGE = 16001; //agent -> Interface : l'element a changé : ok
 	public static final int EVENT_TYPE_CHARGE = 16002; //Interface -> agent : demande de contenu d'element
+	
+	// param ElementModel 
 	public static final int EVENT_TYPE_CONTENU = 16003; //agent -> interface : contenu de l'element
 	public static final int EVENT_TYPE_RECEIPT = 16004; //agent -> interface : il y a un nouveau message
 
 
 	//		Object[] params = {AID dest, AID elementAgent};
 	public static final int EVENT_TYPE_SEND = 16005; //interface -> agent : envoi le message
-	public static final int EVENT_TYPE_DELETE = 16006; //interface -> agent : Supprime l'agent element
-	public static final int EVENT_TYPE_DIED = 16007; //agent -> interface: L'element est mort, ne l'affiche plus
+	public static final int EVENT_TYPE_DELETE = 16006; //interface -> agent : Supprime l'agent element : ok
+	public static final int EVENT_TYPE_DIED = 16007; //agent -> interface: L'element est mort, ne l'affiche plus : ok
 	public static final int EVENT_TYPE_GET_NEIGHBOURGS= 16008; // interface -> agent : quels sont les voisins a qui je peux envoyer ?
 
 	// param: Map<AID, String> = HashMap<AID agentID, String name>()
@@ -44,9 +48,11 @@ public class Constants {
 	public static final int EVENT_TYPE_ELEMENTS= 16011; // agent -> interface : liste des elements
 	public static final int EVENT_TYPE_CREATE_ELEMENT= 16012; // interface -> agent : créer l'element
 	
-	public static final int EVENT_TYPE_CAN_EDIT = 16013; // agent -> interface : edition possible
-	public static final int EVENT_TYPE_CANT_EDIT = 16014;// agent -> interface : edition impossible
-	public static final int EVENT_TYPE_ASK_EDIT = 16015; // interface -> agent : puis je editer
+	//param : AID de l'agent editable
+	public static final int EVENT_TYPE_CAN_EDIT = 16013; // agent -> interface : edition possible : ok
+	//param : AID de l'agent non editable
+	public static final int EVENT_TYPE_CANT_EDIT = 16014;// agent -> interface : edition impossible : ok
+	public static final int EVENT_TYPE_ASK_EDIT = 16015; // interface -> agent : puis je editer : ok
 
 	//public static final String JSON_ACTION = "action";
 	//public static final String JSON_ACTION = "action";
