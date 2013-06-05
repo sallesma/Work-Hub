@@ -42,7 +42,13 @@ public abstract class BaseElement extends AbstractElement  {
 
 
 	protected abstract void iniEditDialog();
-	protected abstract void saveModel();
+	protected void saveModel(){
+		model.setTitle(((EditText)editDialog.findViewById(R.id.title)).getText().toString());
+		saveContent();
+		res.getContext().saveElement(model);
+	}
+	
+	protected abstract void saveContent();
 
 	@Override
 	public void setScale(float pScaleX, float pScaleY) {
@@ -138,14 +144,15 @@ public abstract class BaseElement extends AbstractElement  {
 			//TODO
 			break;
 		case R.id.bt_editer:
-			edit();
+			res.getContext().askEdition(model.getAgent());
 			break;
 		case R.id.bt_masquer:
 			masquer();
 			break;
 		case R.id.bt_ok:
-			model.setTitle(((EditText)editDialog.findViewById(R.id.title)).getText().toString());
+			
 			saveModel();
+			res.getContext().saveElement(model);
 			editDialog.dismiss();
 			editDialog=null;
 			updateView();

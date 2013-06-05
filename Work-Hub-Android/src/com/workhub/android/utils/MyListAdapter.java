@@ -4,6 +4,7 @@ import jade.core.AID;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map.Entry;
 
 import android.widget.ArrayAdapter;
 
@@ -38,6 +39,11 @@ public class MyListAdapter extends ArrayAdapter<String> {
 
 	public List<AID> getListAID() {
 		return mlistAID;
+	}
+	
+	public void addEntry(Entry<AID, String> entry) {
+		mlistAID.add(entry.getKey());
+		mIdMap.add(entry.getValue());
 	}
 
 

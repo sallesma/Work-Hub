@@ -18,6 +18,7 @@ import jade.wrapper.StaleProxyException;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.andengine.engine.camera.Camera;
 import org.andengine.engine.options.EngineOptions;
@@ -35,6 +36,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.MediaStore;
+import android.widget.Toast;
 
 import com.workhub.android.R;
 import com.workhub.android.element.AbstractElement;
@@ -283,7 +285,10 @@ public class HomeActivity extends SimpleLayoutGameActivity implements PropertyCh
 		GuiEvent event = new GuiEvent(param,Constants.EVENT_TYPE_SEND);
 		fireOnGuiEvent(event);
 	}
-
+	public void askEdition(AID elementAgent){
+		GuiEvent event = new GuiEvent(elementAgent,Constants.EVENT_TYPE_ASK_EDIT);
+		fireOnGuiEvent(event);
+	}
 
 
 	public void createElement(int elementType){
@@ -318,7 +323,7 @@ public class HomeActivity extends SimpleLayoutGameActivity implements PropertyCh
 
 	@Override
 	public void propertyChange(PropertyChangeEvent event) {
-		switch (((Integer)event.getPropagationId())) {
+		switch ((Integer.parseInt(event.getPropertyName()))) {
 		case Constants.EVENT_TYPE_CHANGE:
 		{
 			AID aidModel = (AID)event.getNewValue();
@@ -355,15 +360,36 @@ public class HomeActivity extends SimpleLayoutGameActivity implements PropertyCh
 		case Constants.EVENT_TYPE_ELEMENTS:
 		{
 			Map<AID, String> map = (Map<AID, String>)event.getNewValue();
-			//TODO
+			
+			for (Entry<AID, String> entry : map.entrySet()) {
+				scene.addToAdapter(entry);
+			}
+			
 
 			break;
 		}
 		case Constants.EVENT_TYPE_NEIGHBOURS:
 		{
 			Map<AID, String> map = (Map<AID, String>)event.getNewValue();
-			//TODO
+			for (Entry<AID, String> entry : map.entrySet()) {
+				scene.addToAdapter(entry);
+			}
 
+			break;
+		}
+		case Constants.EVENT_TYPE_CAN_EDIT:
+		{
+			AID aidModel = (AID)event.getNewValue();
+			BaseElement element = scene.getElement(aidModel);
+			if(element!=null){
+				element.edit();
+			}
+			
+			break;
+		}
+		case Constants.EVENT_TYPE_CANT_EDIT:
+		{
+			Toast.makeText(getApplicationContext(), "Vous ne pouvez pas éditer l'élément", Toast.LENGTH_SHORT).show();			
 			break;
 		}
 		}

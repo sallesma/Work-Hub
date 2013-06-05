@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import org.andengine.engine.camera.Camera;
@@ -396,7 +397,8 @@ public class MainScene extends Scene implements IOnSceneTouchListener, IHoldDete
 			currentDialog.show();
 			break;
 		case R.id.bt_importer:
-			//TODO
+			iniElementList();
+			res.getContext().getNeightbourgList();
 			break;
 		case R.id.bt_element_fichier:
 			res.getContext().createElement(Constants.TYPE_ELEMENT_FILE);
@@ -444,6 +446,16 @@ public class MainScene extends Scene implements IOnSceneTouchListener, IHoldDete
 		});
 	}
 
+	
+	public void addToAdapter(Entry<AID, String> entry){
+		if(adapter!=null){
+			synchronized (adapter) {
+				adapter.addEntry(entry);
+			}
+			
+		}
+	}
+	
 	public void iniElementList() {
 		iniListDialog();
 
@@ -460,6 +472,7 @@ public class MainScene extends Scene implements IOnSceneTouchListener, IHoldDete
 				//final String item = (String) parent.getItemAtPosition(position);
 				res.getContext().getElement(adapter.getListAID().get(position));
 			}
+			
 
 		});
 
@@ -499,7 +512,13 @@ public class MainScene extends Scene implements IOnSceneTouchListener, IHoldDete
 	}
 
 	private void iniListDialog(){
-		currentDialog = new Dialog(res.getContext(), R.style.dialog_app_theme);
+		currentDialog = new Dialog(res.getContext(), R.style.dialog_app_theme){
+			@Override
+			public void onDetachedFromWindow() {
+				adapter = null;
+				super.onDetachedFromWindow();
+			}
+		};
 		currentDialog.setContentView(R.layout.listdialog);
 
 	}

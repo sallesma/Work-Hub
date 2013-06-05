@@ -58,7 +58,7 @@ public class TextElement extends BaseElement{
 		((EditText)editDialog.findViewById(R.id.content)).setText(getModel().getContent());
 	}
 	@Override
-	protected void saveModel() {
+	protected void saveContent() {
 		getModel().setContent(((EditText)editDialog.findViewById(R.id.content)).getText().toString());
 	}
 	

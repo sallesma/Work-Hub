@@ -116,7 +116,7 @@ public class RoundButtonElement extends AbstractElement{
 		switch (type) {
 		case R.id.bt_raccourci_editer:
 			if(abstractElement instanceof BaseElement){
-				((BaseElement)abstractElement).edit();
+				res.getContext().askEdition(((BaseElement) abstractElement).getModel().getAgent());
 			}
 			break;
 		case R.id.bt_raccourci_envoyer:

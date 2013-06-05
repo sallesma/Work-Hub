@@ -169,7 +169,7 @@ public class GroupElement extends AbstractElement  {
 		switch (v.getId()) {
 		case R.id.bt_editer:
 			if(selectedElement!=null){
-				selectedElement.edit();
+				res.getContext().askEdition(selectedElement.getModel().getAgent());
 			}
 			break;
 		case R.id.bt_envoyer_a:

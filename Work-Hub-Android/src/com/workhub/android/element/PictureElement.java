@@ -1,5 +1,7 @@
 package com.workhub.android.element;
 
+import java.io.ByteArrayOutputStream;
+
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
@@ -198,8 +200,10 @@ public class PictureElement extends BaseElement{
 	}
 
 	@Override
-	protected void saveModel() {
-//TODO
+	protected void saveContent() {
+		ByteArrayOutputStream stream = new ByteArrayOutputStream();
+		bitmapTextureAtlasSourcePerso.getBitmap().compress(Bitmap.CompressFormat.PNG, 100, stream);
+		getModel().setContent(stream.toByteArray());
 	}
 	
 	@Override
