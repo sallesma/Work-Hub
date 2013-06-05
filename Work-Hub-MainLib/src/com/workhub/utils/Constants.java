@@ -28,7 +28,7 @@ public class Constants {
 	public static final int EVENT_TYPE_CHARGE = 16002; //Interface -> agent : demande de contenu d'element
 	public static final int EVENT_TYPE_RECEIPT = 16004; //agent -> interface : il y a un nouveau message
 	
-	// param : Json
+	// param : elementmodel
 	public static final int EVENT_TYPE_CONTENU = 16003; //agent -> interface : contenu de l'element
 
 
