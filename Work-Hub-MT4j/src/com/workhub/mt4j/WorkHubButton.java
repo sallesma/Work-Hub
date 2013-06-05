@@ -25,7 +25,7 @@ public class WorkHubButton extends MTRoundRectangle {
 	public WorkHubButton(String text, int corner, int rayon, int segments,
 			int textXPos, int textYPos, MTApplication mtApplication, WorkHubScene scene) {
 		super(getXPositionFromCorner(corner, mtApplication, rayon),
-				getYPositionFromCorner(corner, mtApplication, rayon), Constants.Z_POSITION_DEFAULT_BUTTON,
+				getYPositionFromCorner(corner, mtApplication, rayon), MT4JConstants.Z_POSITION_DEFAULT_BUTTON,
 				rayon * 2, rayon * 2, rayon, rayon, segments, mtApplication);
 		this.mtApplication = mtApplication;
 		this.scene = scene;
@@ -62,22 +62,22 @@ public class WorkHubButton extends MTRoundRectangle {
 					break;
 				case TapAndHoldEvent.GESTURE_ENDED:
 					switch (buttonText.getText()) {
-					case Constants.BUTTON_ID_MENU:
-						scene.openContextualMenu(tahe.getLocationOnScreen(), Constants.CONTEXT_MAIN_MENU);
+					case MT4JConstants.BUTTON_ID_MENU:
+						scene.openContextualMenu(tahe.getLocationOnScreen(), MT4JConstants.CONTEXT_MAIN_MENU);
 						break;
-					case Constants.BUTTON_ID_ENVOYER:
+					case MT4JConstants.BUTTON_ID_ENVOYER:
 						if(tahe.isHoldComplete()) {
-							scene.openContextualMenu(tahe.getLocationOnScreen(), Constants.CONTEXT_SHORTCUT_MENU);
+							scene.openContextualMenu(tahe.getLocationOnScreen(), MT4JConstants.CONTEXT_SHORTCUT_MENU);
 						}
 						break;
-					case Constants.BUTTON_ID_RECEVOIR:
+					case MT4JConstants.BUTTON_ID_RECEVOIR:
 						if(tahe.isHoldComplete()) {
-							scene.openContextualMenu(tahe.getLocationOnScreen(), Constants.CONTEXT_SHORTCUT_MENU);
+							scene.openContextualMenu(tahe.getLocationOnScreen(), MT4JConstants.CONTEXT_SHORTCUT_MENU);
 						}
 						break;
-					case Constants.BUTTON_ID_MASQUER:
+					case MT4JConstants.BUTTON_ID_MASQUER:
 						if(tahe.isHoldComplete()) {
-							scene.openContextualMenu(tahe.getLocationOnScreen(), Constants.CONTEXT_SHORTCUT_MENU);
+							scene.openContextualMenu(tahe.getLocationOnScreen(), MT4JConstants.CONTEXT_SHORTCUT_MENU);
 						}
 						break;
 					}

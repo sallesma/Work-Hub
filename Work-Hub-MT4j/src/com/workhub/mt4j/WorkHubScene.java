@@ -38,10 +38,10 @@ public class WorkHubScene extends AbstractScene {
 		imageFond.getImage().setNoStroke(true);
 		getCanvas().addChild(imageFond);
 		
-		menuButton = new WorkHubButton(Constants.BUTTON_ID_MENU, Constants.CORNER_TOP_LEFT, 130, 1000, 40, 40, getMTApplication(), this);
-		envoyerButton = new WorkHubButton(Constants.BUTTON_ID_ENVOYER, Constants.CORNER_BOTTOM_RIGHT, 130, 1000, 980, 700, getMTApplication(), this);
-		recevoirButton = new WorkHubButton(Constants.BUTTON_ID_RECEVOIR, Constants.CORNER_BOTTOM_LEFT, 130, 1000, 50, 700, getMTApplication(), this);
-		masquerButton = new WorkHubButton(Constants.BUTTON_ID_MASQUER, Constants.CORNER_TOP_RIGHT, 130, 1000, 980, 40, getMTApplication(), this);
+		menuButton = new WorkHubButton(MT4JConstants.BUTTON_ID_MENU, MT4JConstants.CORNER_TOP_LEFT, 130, 1000, 40, 40, getMTApplication(), this);
+		envoyerButton = new WorkHubButton(MT4JConstants.BUTTON_ID_ENVOYER, MT4JConstants.CORNER_BOTTOM_RIGHT, 130, 1000, 980, 700, getMTApplication(), this);
+		recevoirButton = new WorkHubButton(MT4JConstants.BUTTON_ID_RECEVOIR, MT4JConstants.CORNER_BOTTOM_LEFT, 130, 1000, 50, 700, getMTApplication(), this);
+		masquerButton = new WorkHubButton(MT4JConstants.BUTTON_ID_MASQUER, MT4JConstants.CORNER_TOP_RIGHT, 130, 1000, 980, 40, getMTApplication(), this);
 		masquerButton.setPositionGlobal(new Vector3D(mtApplication.getWidth()-20, -20));
 		this.getCanvas().addChild(menuButton);
 		this.getCanvas().addChild(masquerButton);
@@ -60,7 +60,7 @@ public class WorkHubScene extends AbstractScene {
 					break;
 				case TapAndHoldEvent.GESTURE_ENDED:
 					if (tahe.isHoldComplete()){
-						openContextualMenu(tahe.getLocationOnScreen(), Constants.CONTEXT_BACKGROUND_MENU);
+						openContextualMenu(tahe.getLocationOnScreen(), MT4JConstants.CONTEXT_BACKGROUND_MENU);
 					}
 					break;
 				default:
