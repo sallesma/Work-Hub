@@ -158,6 +158,7 @@ public class LassoAction  implements IGestureEventListener{
 						}
 					}
 					
+					// Regroupement
 					averageX = averageX / count;
 					averageY = averageY / count;
 					Random r = new Random();
@@ -166,11 +167,6 @@ public class LassoAction  implements IGestureEventListener{
 						int decalageY = 1 + r.nextInt(50 - 1);
 						((AbstractElementView)currentComp).tweenTranslateTo(averageX+decalageX, averageY+decalageY, 0, 500, 0.25f, 0.25f);
 					}
-					
-					//Draw a convex hull around all selected shapes
-					elementGroupView.packClusterPolygon();
-					lassoEvent.getSelectionPoly().setLineStipple((short)0xDDDD);
-					lassoEvent.getSelectionPoly().setStrokeColor(new MTColor(0,0,0,255));
 					
 					if (selectedComps[0] instanceof MTComponent && ((MTComponent)selectedComps[0]).getParent() != null) {
 							MTComponent firstSelectedComp = (MTComponent)selectedComps[0];
@@ -195,14 +191,8 @@ public class LassoAction  implements IGestureEventListener{
 							}
 						}
 					}
-					//Remove the Selection Polygon from the canvas when only 1 component is selected
-					clusterManager.removeClusterPolyFromCanvas(lassoEvent.getSelectionPoly());
 				}
-				//If no comp is selected, just remove the selection polygon from canvas
-				else if (selectedComps.length < 1){ 
-					//Remove the Selection Polygon from the canvas when no component is selected
-					clusterManager.removeClusterPolyFromCanvas(lassoEvent.getSelectionPoly());
-				}
+				clusterManager.removeClusterPolyFromCanvas(lassoEvent.getSelectionPoly());
 				break;
 			}
 		}
