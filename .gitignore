@@ -27,6 +27,9 @@ Work-Hub-Android/local.properties
 Work-Hub-Android/.settings/
 Work-Hub-Android/.loadpath
 
+APDescription.txt
+MTPs-Main-Container.txt
+
 .metadata/
 
 *.tmp
