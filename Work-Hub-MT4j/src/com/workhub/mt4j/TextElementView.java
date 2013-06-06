@@ -57,4 +57,9 @@ public class TextElementView extends AbstractElementView {
 	public void setContent(MTTextArea content) {
 		this.content = content;
 	}
+
+	@Override
+	public void saveContent() {
+		((TextElementModel)getModel()).setContent(content.getText());
+	}
 }
