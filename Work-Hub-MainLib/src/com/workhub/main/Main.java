@@ -1,5 +1,7 @@
 package com.workhub.main;
 
+import com.workhub.utils.Constants;
+
 import jade.core.Profile;
 import jade.core.ProfileException;
 import jade.core.ProfileImpl;
@@ -31,14 +33,11 @@ public class Main {
 			AgentController clientAgent3 = mc.createNewAgent("ClientAgent3","com.workhub.jade.agent.ClientAgent",null);
 			clientAgent3.start();
 			
-			AgentController elementAgent1 = mc.createNewAgent("ElementAgent1","com.workhub.jade.agent.ElementAgent",null);
+			AgentController elementAgent1 = mc.createNewAgent("ElementAgent1","com.workhub.jade.agent.ElementAgent",new Object[]{Constants.TYPE_ELEMENT_LINK});
 			elementAgent1.start();
-			
-			AgentController elementAgent2 = mc.createNewAgent("ElementAgent2","com.workhub.jade.agent.ElementAgent",null);
+		
+			AgentController elementAgent2 = mc.createNewAgent("ElementAgent2","com.workhub.jade.agent.ElementAgent",new Object[]{Constants.TYPE_ELEMENT_TEXT});
 			elementAgent2.start();
-
-			AgentController elementAgent3 = mc.createNewAgent("ElementAgent3","com.workhub.jade.agent.ElementAgent",null);
-			elementAgent3.start();
 		}
 		catch (StaleProxyException e) {
 			e.printStackTrace();
