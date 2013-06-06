@@ -6,6 +6,7 @@ import jade.lang.acl.ACLMessage;
 
 import java.io.UnsupportedEncodingException;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.workhub.jade.agent.ClientAgent;
@@ -148,12 +149,15 @@ public class MessageFactory {
 		j.addProperty("title", title);
 		
 		if(type==Constants.TYPE_ELEMENT_PICTURE){
-			try {
-				String picture_str = new String( ((PictureElementModel)model).getContent(), "UTF-8");
-				j.addProperty("content", picture_str);
-			}
-			catch (UnsupportedEncodingException e) {
-				e.printStackTrace();
+			byte[] content = ((PictureElementModel)model).getContent();
+			if(content!=null){
+				try {
+					String picture_str = new String(content, "UTF-8");
+					j.addProperty("content", picture_str);
+				}
+				catch (UnsupportedEncodingException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 		
@@ -193,9 +197,13 @@ public class MessageFactory {
 		int type_model = ((JsonObject) js.parse(message.getContent())).get("type").getAsInt();
 		
 		ElementModel model = null;
+		String content = null;
 		
-		String content = ((JsonObject) js.parse(message.getContent())).get("content").getAsString();
+		JsonElement content_json = ((JsonObject) js.parse(message.getContent())).get("content");
+		if(content_json!=null){
+			content = content_json.getAsString();
 
+		}
 		
 		if(type_model == Constants.TYPE_ELEMENT_PICTURE){
 			byte[] image= content.getBytes();
