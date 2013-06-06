@@ -23,6 +23,8 @@ import com.workhub.model.TextElementModel;
 
 public class MessageFactory {	
 	
+	
+	
 	public static ACLMessage createMessage(ElementAgent sender, AID receiver, int MessageType){
 		int performatif;
 		String content = "message vide";
@@ -92,6 +94,11 @@ public class MessageFactory {
 			performatif = ACLMessage.QUERY_IF;
 			j.addProperty(Constants.JSON_ACTION, ""+Constants.MESSAGE_ACTION_EDIT);
 			
+			break;
+		case Constants.MESSAGE_ACTION_CREATE_ELEMENT:
+			performatif = ACLMessage.QUERY_IF;
+			j.addProperty(Constants.JSON_ACTION, ""+Constants.MESSAGE_ACTION_CREATE_ELEMENT);
+			j.addProperty(Constants.JSON_AGENT_TYPE, ""+params);
 			break;
 			
 		
@@ -188,6 +195,13 @@ public class MessageFactory {
 		return j;
 	}
 	
+	public static int getAgentType(ACLMessage message){
+		
+		JsonParser js = new JsonParser();
+		int color = ((JsonObject) js.parse(message.getContent())).get("agent_type").getAsInt();
+		
+		return color;
+	}
 	
 	public static ElementModel getModel(ACLMessage message){
 		  

@@ -322,32 +322,32 @@ public class HomeActivity extends SimpleLayoutGameActivity implements PropertyCh
 
 
 	public void createElement(int elementType){
-		//GuiEvent event = new GuiEvent(null,Constants.EVENT_TYPE_CREATE_ELEMENT);
+		GuiEvent event = new GuiEvent(null,Constants.EVENT_TYPE_CREATE_ELEMENT);
 		
-		
-		 Date dNow = new Date( );
-	      SimpleDateFormat ft = 
-	      new SimpleDateFormat ("hh:mm:ss");
-	      
-		try {
-			microRuntimeServiceBinder.startAgent("Nouvel element : "+ft.format(dNow),"com.workhub.jade.agent.ElementAgent",new Object[]{elementType, getAgent().getAgentAID()}, new RuntimeCallback<Void>() {
+//		
+//		 Date dNow = new Date( );
+//	      SimpleDateFormat ft = 
+//	      new SimpleDateFormat ("hh:mm:ss");
+//	      
+//		try {
+//			microRuntimeServiceBinder.startAgent("Nouvel element : "+ft.format(dNow),"com.workhub.jade.agent.ElementAgent",new Object[]{elementType, getAgent().getAgentAID()}, new RuntimeCallback<Void>() {
+//				
+//				@Override
+//				public void onSuccess(Void arg0) {
+//				}
+//				
+//				@Override
+//				public void onFailure(Throwable arg0) {
+//				}
+//			});
+//		} catch (StaleProxyException e) {
+//			e.printStackTrace();
+//		} catch (ControllerException e) {
+//			e.printStackTrace();
+//		}
 				
-				@Override
-				public void onSuccess(Void arg0) {
-				}
-				
-				@Override
-				public void onFailure(Throwable arg0) {
-				}
-			});
-		} catch (StaleProxyException e) {
-			e.printStackTrace();
-		} catch (ControllerException e) {
-			e.printStackTrace();
-		}
-				
-//		event.addParameter(elementType);
-//		fireOnGuiEvent(event);
+		event.addParameter(elementType);
+		fireOnGuiEvent(event);
 	}
 
 	public void deleteElement(AID elementAgent){
