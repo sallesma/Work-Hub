@@ -93,7 +93,7 @@ public class ClientAgent extends GuiAgent implements ClientAgentInterface{
 			message =  MessageFactory.createMessage(this, agent, Constants.MESSAGE_ACTION_DELETE, null);
 			break;
 		}			
-		case Constants.EVENT_TYPE_GET_NEIGHBOURGS://TODO
+		case Constants.EVENT_TYPE_GET_NEIGHBOURGS:
 			DFAgentDescription[] listClientAgent = Utils.agentSearch(this, Constants.CLIENT_AGENT);
 			//create Hashmap
 			Map<AID, String> listToFire = new HashMap<AID, String>();

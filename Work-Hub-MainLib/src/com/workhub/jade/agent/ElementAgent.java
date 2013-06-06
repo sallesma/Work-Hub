@@ -68,21 +68,21 @@ public class ElementAgent extends Agent {
 			int typeModel = (Integer) args[0];
 			
 			if(typeModel==Constants.TYPE_ELEMENT_TEXT){
-					TextElementModel text = new TextElementModel(255, getName().substring(0, 25), this.getAID(), "...");
+					TextElementModel text = new TextElementModel(255, Utils.getAgentName(getName()), this.getAID(), "...");
 					this.setContentModel((ElementModel)text); 
 					this.type = Constants.TYPE_ELEMENT_TEXT;
 				
 			}
 			else if(typeModel == Constants.TYPE_ELEMENT_LINK){
 				
-					LinkElementModel link = new LinkElementModel(255, getName().substring(0, 25), this.getAID(), "http://www.utc.fr/");
+					LinkElementModel link = new LinkElementModel(255, Utils.getAgentName(getName()), this.getAID(), "http://www.utc.fr/");
 					this.setContentModel((ElementModel)link); 
 					this.type = Constants.TYPE_ELEMENT_LINK;
 					
 			}
 			
 			else if(typeModel == Constants.TYPE_ELEMENT_PICTURE){
-					PictureElementModel pic = new PictureElementModel(255, getName().substring(0, 25), this.getAID(), null);
+					PictureElementModel pic = new PictureElementModel(255, Utils.getAgentName(getName()), this.getAID(), null);
 					this.setContentModel((ElementModel)pic);
 					this.type = Constants.TYPE_ELEMENT_PICTURE;
 			}
