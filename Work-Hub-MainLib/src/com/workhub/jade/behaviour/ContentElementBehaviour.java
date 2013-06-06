@@ -25,7 +25,12 @@ public class ContentElementBehaviour extends CyclicBehaviour {
 			//TODO: prévoir sis c'est un message systeme. Dans ce cas ce n'est pas forcement un JSON
 			//MalformedJsonException
 			JsonParser js = new JsonParser();
-			int action = ((JsonObject) js.parse(msg.getContent())).get(Constants.JSON_ACTION).getAsInt();
+			int action = 0;
+			try {
+				action = ((JsonObject) js.parse(msg.getContent())).get(Constants.JSON_ACTION).getAsInt();
+			} catch (Exception e) {
+				return false;
+			}
 			switch (action) {
 			case Constants.MESSAGE_ACTION_GET_CONTENT:
 			case Constants.MESSAGE_ACTION_GET_TITLE:
