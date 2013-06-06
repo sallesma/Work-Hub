@@ -44,6 +44,7 @@ public class MyListAdapter extends ArrayAdapter<String> {
 	public void addEntry(Entry<AID, String> entry) {
 		mlistAID.add(entry.getKey());
 		mIdMap.add(entry.getValue());
+		this.notifyDataSetChanged();
 	}
 
 

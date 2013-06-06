@@ -389,7 +389,7 @@ public class HomeActivity extends SimpleLayoutGameActivity implements PropertyCh
 			}
 			break;
 		}
-		case Constants.EVENT_TYPE_ELEMENTS:
+		case Constants.EVENT_TYPE_ELEMENTS: 
 		{
 			Map<AID, String> map = (Map<AID, String>)event.getNewValue();
 			

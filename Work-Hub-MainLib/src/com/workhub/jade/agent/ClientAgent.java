@@ -88,10 +88,11 @@ public class ClientAgent extends GuiAgent implements ClientAgentInterface{
 			break;
 			
 		case Constants.EVENT_TYPE_DELETE:
+		{
 			AID agent = (AID) ev.getParameter(0);
 			message =  MessageFactory.createMessage(this, agent, Constants.MESSAGE_ACTION_DELETE, null);
 			break;
-			
+		}			
 		case Constants.EVENT_TYPE_GET_NEIGHBOURGS://TODO
 			DFAgentDescription[] listClientAgent = Utils.agentSearch(this, Constants.CLIENT_AGENT);
 			//create Hashmap
@@ -128,15 +129,17 @@ public class ClientAgent extends GuiAgent implements ClientAgentInterface{
 			break;
 
 		case Constants.EVENT_TYPE_CHARGE:
-			elementModel = (ElementModel) ev.getParameter(0);
-			message = MessageFactory.createMessage(this, elementModel.getAgent(), Constants.MESSAGE_ACTION_GET_CONTENT, null);
+		{
+			AID agent = (AID) ev.getParameter(0);
+			message = MessageFactory.createMessage(this, agent, Constants.MESSAGE_ACTION_GET_CONTENT, null);
 			break;
-		
+		}
 		case Constants.EVENT_TYPE_ASK_EDIT:
-			elementModel = (ElementModel) ev.getParameter(0);
-			message = MessageFactory.createMessage(this, elementModel.getAgent(), Constants.MESSAGE_ACTION_EDIT, null);
+		{
+			AID agent = (AID) ev.getParameter(0);
+			message = MessageFactory.createMessage(this, agent, Constants.MESSAGE_ACTION_EDIT, null);
 			break;
-			
+		}
 		default:
 			break;
 		}
