@@ -98,8 +98,7 @@ public class ClientAgent extends GuiAgent implements ClientAgentInterface{
 			//create Hashmap
 			Map<AID, String> listToFire = new HashMap<AID, String>();
 			for(DFAgentDescription df : listClientAgent){
-				String temp = ""; //TODO : recuperer le nom de l'agent
-				listToFire.put(df.getName(), temp);
+				listToFire.put(df.getName(), Utils.getAgentName(df.getName()));
 			}
 			changes.firePropertyChange(String.valueOf(Constants.EVENT_TYPE_NEIGHBOURS), null, listToFire);
 			break;
