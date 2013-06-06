@@ -190,7 +190,7 @@ public class MessageFactory {
 	
 	
 	public static ElementModel getModel(ACLMessage message){
-		
+		  
 		JsonParser js = new JsonParser();
 		int color = ((JsonObject) js.parse(message.getContent())).get("color").getAsInt();
 		String title = ((JsonObject) js.parse(message.getContent())).get("title").getAsString();

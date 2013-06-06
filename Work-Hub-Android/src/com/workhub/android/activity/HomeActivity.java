@@ -396,7 +396,7 @@ public class HomeActivity extends SimpleLayoutGameActivity implements PropertyCh
 			for (Entry<AID, String> entry : map.entrySet()) {
 				scene.addToAdapter(entry);
 			}
-			
+			 
 
 			break;
 		}
