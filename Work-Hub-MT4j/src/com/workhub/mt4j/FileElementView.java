@@ -90,4 +90,9 @@ public class FileElementView extends AbstractElementView {
 	public void setContent(MTImage content) {
 		this.content = content;
 	}
+
+	@Override
+	public void saveContent() {
+		((FileElementModel)getModel()).setContent(null); // TODO
+	}
 }

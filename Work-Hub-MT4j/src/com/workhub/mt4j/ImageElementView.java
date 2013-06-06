@@ -85,4 +85,9 @@ public class ImageElementView extends AbstractElementView {
 	public void setContent(MTImage content) {
 		this.content = content;
 	}
+
+	@Override
+	public void saveContent() {
+		((PictureElementModel)getModel()).setContent(null); // TODO
+	}
 }

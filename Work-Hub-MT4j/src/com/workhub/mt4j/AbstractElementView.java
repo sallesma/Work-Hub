@@ -206,4 +206,12 @@ public abstract class AbstractElementView extends MTClipRectangle implements Idr
 		editionTarget = MT4JConstants.EDIT_TARGET_CONTENT;
 		JadeInterface.getInstance().askEdition(model.getAgent());
 	}
+	
+	public void saveModel() {
+		model.setTitle(title.getText());
+		saveContent();
+		JadeInterface.getInstance().saveElement(model);
+	}
+	
+	public abstract void saveContent();
 }
