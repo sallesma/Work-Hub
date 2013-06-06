@@ -37,6 +37,7 @@ public class CreateElementBehaviour extends CyclicBehaviour {
 			}
 
 			JsonParser js = new JsonParser();
+
 			JsonElement json= null;
 			try{
 				json = js.parse(msg.getContent());
@@ -44,6 +45,7 @@ public class CreateElementBehaviour extends CyclicBehaviour {
 				return false;
 			}
 			int action = ((JsonObject) json).get(Constants.JSON_ACTION).getAsInt();
+
 			switch (action) {
 			case Constants.MESSAGE_ACTION_CREATE_ELEMENT:
 				return true;

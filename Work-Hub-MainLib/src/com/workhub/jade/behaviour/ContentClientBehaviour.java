@@ -38,6 +38,7 @@ public class ContentClientBehaviour extends CyclicBehaviour{
 				return false;
 			}
 			int action = ((JsonObject) json).get(Constants.JSON_ACTION).getAsInt();
+
 			switch (action) {
 			case Constants.MESSAGE_ACTION_CONTENT:
 			case Constants.MESSAGE_RECEIVE_ELEMENT_CONTENT:
