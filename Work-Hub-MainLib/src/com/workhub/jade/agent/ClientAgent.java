@@ -8,14 +8,9 @@ import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.gui.GuiAgent;
 import jade.gui.GuiEvent;
 import jade.lang.acl.ACLMessage;
-import jade.wrapper.AgentContainer;
-import jade.wrapper.AgentController;
-import jade.wrapper.StaleProxyException;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -112,7 +107,7 @@ public class ClientAgent extends GuiAgent implements ClientAgentInterface{
 			
 		case Constants.EVENT_TYPE_CREATE_ELEMENT:
 			DFAgentDescription creatorAgent = Utils.agentSearch(this, Constants.CREATOR_AGENT)[0];
-			message = MessageFactory.createMessage(this, creatorAgent.getName(), Constants.EVENT_TYPE_CREATE_ELEMENT, ev.getParameter(0)); 
+			message = MessageFactory.createMessage(this, creatorAgent.getName(), Constants.MESSAGE_ACTION_CREATE_ELEMENT, ev.getParameter(0)); 
 			break;
 
 		case Constants.EVENT_TYPE_CHARGE:
