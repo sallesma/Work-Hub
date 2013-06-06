@@ -90,37 +90,37 @@ public class MessageFactory {
 		switch (MessageType) {
 		case Constants.MESSAGE_ACTION_EDIT:
 			performatif = ACLMessage.QUERY_IF;
-			j.addProperty(Constants.JSON_ACTION, Constants.MESSAGE_ACTION_EDIT);
+			j.addProperty(Constants.JSON_ACTION, ""+Constants.MESSAGE_ACTION_EDIT);
 			
 			break;
 			
 		
 		case Constants.MESSAGE_ACTION_DELETE:
 			performatif = ACLMessage.REQUEST;
-			j.addProperty(Constants.JSON_ACTION, Constants.MESSAGE_ACTION_DELETE);
+			j.addProperty(Constants.JSON_ACTION, ""+Constants.MESSAGE_ACTION_DELETE);
 			break;
 		
 		case Constants.MESSAGE_ACTION_GET_CONTENT:
 			performatif = ACLMessage.REQUEST;
-			j.addProperty(Constants.JSON_ACTION, Constants.MESSAGE_ACTION_GET_CONTENT);	
+			j.addProperty(Constants.JSON_ACTION, ""+Constants.MESSAGE_ACTION_GET_CONTENT);	
 			break;
 			
 		case Constants.MESSAGE_ACTION_GET_TITLE:
 			performatif = ACLMessage.REQUEST;
-			j.addProperty(Constants.JSON_ACTION, Constants.MESSAGE_ACTION_GET_TITLE);
+			j.addProperty(Constants.JSON_ACTION, ""+Constants.MESSAGE_ACTION_GET_TITLE);
 			break;
 			
 		case Constants.MESSAGE_ACTION_SHARE:
 			// Quand on veut creer un message de type MESSAGE_ACTION_SHARE : sender et receiver : ClientAgent, dans params : AID de l'element a envoyer
 			performatif = ACLMessage.REQUEST;
-			j.addProperty(Constants.JSON_ACTION, Constants.MESSAGE_ACTION_SHARE);
+			j.addProperty(Constants.JSON_ACTION, ""+Constants.MESSAGE_ACTION_SHARE);
 			j.addProperty("element", (String)params);
 			break;
 
 		case Constants.MESSAGE_ACTION_SAVE_CONTENT: 
 			j = getElementContent((ElementModel)params, j);
 			performatif = ACLMessage.REQUEST;
-			j.addProperty(Constants.JSON_ACTION, Constants.MESSAGE_ACTION_SAVE_CONTENT);
+			j.addProperty(Constants.JSON_ACTION, ""+Constants.MESSAGE_ACTION_SAVE_CONTENT);
 			break;
 		
 		default:
