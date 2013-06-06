@@ -11,11 +11,14 @@ import jade.core.MicroRuntime;
 import jade.core.Profile;
 import jade.gui.GuiEvent;
 import jade.util.leap.Properties;
+import jade.wrapper.AgentContainer;
 import jade.wrapper.ControllerException;
 import jade.wrapper.StaleProxyException;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -56,7 +59,7 @@ public class HomeActivity extends SimpleLayoutGameActivity implements PropertyCh
 	private ServiceConnection serviceConnection;
 	private MicroRuntimeServiceBinder microRuntimeServiceBinder;
 
-
+	
 	@Override
 	protected void onCreate(Bundle pSavedInstanceState) {
 
@@ -64,7 +67,7 @@ public class HomeActivity extends SimpleLayoutGameActivity implements PropertyCh
 		super.onCreate(pSavedInstanceState);
 
 	//	startJade(nickname, AndroidHelper.getLocalIPAddress(), "1099" );
-			startJade(nickname, "192.168.43.238", "1099" );
+			startJade(nickname, "192.168.43.67", "1099" );
 
 	}
 
@@ -282,32 +285,61 @@ public class HomeActivity extends SimpleLayoutGameActivity implements PropertyCh
 	public void sendElement(AID dest, AID elementAgent){
 		Object[] param = {dest , elementAgent};
 
-		GuiEvent event = new GuiEvent(param,Constants.EVENT_TYPE_SEND);
+		GuiEvent event = new GuiEvent(null,Constants.EVENT_TYPE_SEND);
+		event.addParameter(param);
 		fireOnGuiEvent(event);
 	}
 	public void askEdition(AID elementAgent){
-		GuiEvent event = new GuiEvent(elementAgent,Constants.EVENT_TYPE_ASK_EDIT);
+		GuiEvent event = new GuiEvent(null,Constants.EVENT_TYPE_ASK_EDIT);
+		event.addParameter(elementAgent);
 		fireOnGuiEvent(event);
 	}
 
 
 	public void createElement(int elementType){
-		GuiEvent event = new GuiEvent(elementType,Constants.EVENT_TYPE_CREATE_ELEMENT);
-		fireOnGuiEvent(event);
+		//GuiEvent event = new GuiEvent(null,Constants.EVENT_TYPE_CREATE_ELEMENT);
+		
+		
+		 Date dNow = new Date( );
+	      SimpleDateFormat ft = 
+	      new SimpleDateFormat ("hh:mm:ss");
+	      
+		try {
+			microRuntimeServiceBinder.startAgent("Nouvel element : "+ft.format(dNow),"com.workhub.jade.agent.ElementAgent",new Object[]{elementType, getAgent().getAgentAID()}, new RuntimeCallback<Void>() {
+				
+				@Override
+				public void onSuccess(Void arg0) {
+				}
+				
+				@Override
+				public void onFailure(Throwable arg0) {
+				}
+			});
+		} catch (StaleProxyException e) {
+			e.printStackTrace();
+		} catch (ControllerException e) {
+			e.printStackTrace();
+		}
+				
+//		event.addParameter(elementType);
+//		fireOnGuiEvent(event);
 	}
 
 	public void deleteElement(AID elementAgent){
-		GuiEvent event = new GuiEvent(elementAgent,Constants.EVENT_TYPE_DELETE);
+		GuiEvent event = new GuiEvent(null,Constants.EVENT_TYPE_DELETE);
+		event.addParameter(elementAgent);
 		fireOnGuiEvent(event);
 	}
 
 	public void saveElement(ElementModel model){
-		GuiEvent event = new GuiEvent(model, Constants.EVENT_TYPE_SAVE);
+		GuiEvent event = new GuiEvent(null, Constants.EVENT_TYPE_SAVE);
+		event.addParameter(model);
 		fireOnGuiEvent(event);
 	}
 
 	public void getElement(AID agentAID ){
-		GuiEvent event = new GuiEvent(agentAID, Constants.EVENT_TYPE_CHARGE);
+		GuiEvent event = new GuiEvent(null, Constants.EVENT_TYPE_CHARGE);
+		event.addParameter(agentAID);
 		fireOnGuiEvent(event);
 	}
 

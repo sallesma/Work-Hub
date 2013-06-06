@@ -8,12 +8,14 @@ import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.gui.GuiAgent;
 import jade.gui.GuiEvent;
 import jade.lang.acl.ACLMessage;
+import jade.wrapper.AgentContainer;
 import jade.wrapper.AgentController;
 import jade.wrapper.StaleProxyException;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -111,7 +113,13 @@ public class ClientAgent extends GuiAgent implements ClientAgentInterface{
 		case Constants.EVENT_TYPE_CREATE_ELEMENT:
 			AgentController newElement;
 			try {
-				newElement = getContainerController().createNewAgent(String.valueOf(System.currentTimeMillis()),"com.workhub.jade.agent.ElementAgent",new Object[]{ev.getParameter(0), this.getAID()});
+				AgentContainer controller = getContainerController();
+				int type = (Integer) ev.getParameter(0);
+				 Date dNow = new Date( );
+			      SimpleDateFormat ft = 
+			      new SimpleDateFormat ("Nouvel element : hh:mm:ss");
+			      
+				newElement = controller.createNewAgent(ft.format(dNow),"com.workhub.jade.agent.ElementAgent",new Object[]{type, this.getAID()});
 				newElement.start();
 			} catch (StaleProxyException e) {
 				// TODO Auto-generated catch block
@@ -169,6 +177,11 @@ public class ClientAgent extends GuiAgent implements ClientAgentInterface{
 	
 	public void fireChanges (Integer typeMessage, Object params){
 		changes.firePropertyChange(String.valueOf(typeMessage), null, params);
+	}
+
+	@Override
+	public AID getAgentAID() {
+		return getAID();
 	}
 	
 }
