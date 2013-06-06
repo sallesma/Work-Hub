@@ -55,9 +55,9 @@ public class CreateElementBehaviour extends CyclicBehaviour {
 					AgentContainer controller = myAgent.getContainerController();
 					Date dNow = new Date( );
 					SimpleDateFormat ft = 
-							new SimpleDateFormat ("Nouvel element : hh:mm:ss");
+							new SimpleDateFormat ("hh:mm:ss");
 
-					newElement = controller.createNewAgent(ft.format(dNow),"com.workhub.jade.agent.ElementAgent",new Object[]{MessageFactory.getAgentType(message), message.getSender()});
+					newElement = controller.createNewAgent("Nouvel element : "+ft.format(dNow),"com.workhub.jade.agent.ElementAgent",new Object[]{MessageFactory.getAgentType(message), message.getSender()});
 					newElement.start();
 				} catch (StaleProxyException e) {
 					// TODO Auto-generated catch block
