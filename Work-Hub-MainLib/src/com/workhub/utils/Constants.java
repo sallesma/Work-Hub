@@ -25,7 +25,7 @@ public class Constants {
 
 	public static final String JSON_ACTION = "action";
 	public static final String JSON_AGENT_TYPE = "agent_type";
-	
+	public static final String JSON_AID = "aid";
 	
 	public static final int EVENT_TYPE_SAVE = 16000; //Interface -> agent : Sauve l'element : ok
 	

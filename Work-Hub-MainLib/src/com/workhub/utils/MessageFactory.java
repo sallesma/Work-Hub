@@ -195,12 +195,11 @@ public class MessageFactory {
 		return j;
 	}
 	
-	public static int getAgentType(ACLMessage message){
+	public static Integer getAgentType(ACLMessage message){
 		
 		JsonParser js = new JsonParser();
-		int color = ((JsonObject) js.parse(message.getContent())).get("agent_type").getAsInt();
-		
-		return color;
+		int type = ((JsonObject) js.parse(message.getContent())).get(Constants.JSON_AGENT_TYPE).getAsInt();
+		return type;
 	}
 	
 	public static ElementModel getModel(ACLMessage message){

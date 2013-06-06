@@ -26,12 +26,9 @@ public class Main {
 
 			AgentController clientAgent1 = mc.createNewAgent("ClientAgent1","com.workhub.jade.agent.ClientAgent",null);
 			clientAgent1.start();
-
-			AgentController clientAgent2 = mc.createNewAgent("ClientAgent2","com.workhub.jade.agent.ClientAgent",null);
-			clientAgent2.start();
 		
-			AgentController clientAgent3 = mc.createNewAgent("ClientAgent3","com.workhub.jade.agent.ClientAgent",null);
-			clientAgent3.start();
+			AgentController creatorAgent = mc.createNewAgent("creatorAgent","com.workhub.jade.agent.CreatorAgent",null);
+			creatorAgent.start();
 			
 			AgentController elementAgent1 = mc.createNewAgent("ElementAgent1","com.workhub.jade.agent.ElementAgent",new Object[]{Constants.TYPE_ELEMENT_LINK});
 			elementAgent1.start();

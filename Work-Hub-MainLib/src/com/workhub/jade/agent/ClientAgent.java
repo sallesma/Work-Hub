@@ -111,20 +111,8 @@ public class ClientAgent extends GuiAgent implements ClientAgentInterface{
 			break;
 			
 		case Constants.EVENT_TYPE_CREATE_ELEMENT:
-			AgentController newElement;
-			try {
-				AgentContainer controller = getContainerController();
-				int type = (Integer) ev.getParameter(0);
-				 Date dNow = new Date( );
-			      SimpleDateFormat ft = 
-			      new SimpleDateFormat ("Nouvel element : hh:mm:ss");
-			      
-				newElement = controller.createNewAgent(ft.format(dNow),"com.workhub.jade.agent.ElementAgent",new Object[]{type, this.getAID()});
-				newElement.start();
-			} catch (StaleProxyException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			DFAgentDescription creatorAgent = Utils.agentSearch(this, Constants.CREATOR_AGENT)[0];
+			message = MessageFactory.createMessage(this, creatorAgent.getName(), Constants.EVENT_TYPE_CREATE_ELEMENT, ev.getParameter(0)); 
 			break;
 
 		case Constants.EVENT_TYPE_CHARGE:
