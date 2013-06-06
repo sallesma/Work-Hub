@@ -8,6 +8,7 @@ import jade.domain.DFService;
 import jade.domain.FIPAException;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
+import jade.lang.acl.ACLMessage;
 
 import com.workhub.jade.behaviour.ContentElementBehaviour;
 import com.workhub.jade.behaviour.EditableElementBehaviour;
@@ -17,9 +18,6 @@ import com.workhub.model.FileElementModel;
 import com.workhub.model.LinkElementModel;
 import com.workhub.model.PictureElementModel;
 import com.workhub.model.TextElementModel;
-import com.workhub.utils.Constants;
-import com.workhub.utils.MessageFactory;
-import com.workhub.utils.Utils;
 import com.workhub.utils.*;
 public class ElementAgent extends Agent {
 	
@@ -95,11 +93,15 @@ public class ElementAgent extends Agent {
 			}*/
 				
 			}
+		
 			
 		subscribeDFAgent();
 		this.addBehaviour(new ContentElementBehaviour());
 		this.addBehaviour(new EraseElementBehaviour()); 
 		this.addBehaviour(new EditableElementBehaviour());
+		
+		if(args.length>1)
+			send(MessageFactory.createMessage((ElementAgent)this, (AID) args[1], Constants.MESSAGE_RECEIVE_ELEMENT_CONTENT));
 		
 	}
 	 

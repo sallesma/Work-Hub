@@ -70,11 +70,12 @@ public class ClientAgent extends GuiAgent implements ClientAgentInterface{
 
 	@Override
 	protected void onGuiEvent(GuiEvent ev) {
-		ElementModel elementModel = (ElementModel) ev.getSource();
+		ElementModel elementModel = null;
 		ACLMessage message = null;
 		
 		switch (ev.getType()) {
 		case Constants.EVENT_TYPE_SAVE:
+			elementModel = (ElementModel) ev.getSource();
 			message =  MessageFactory.createMessage(this, elementModel.getAgent(), Constants.MESSAGE_ACTION_SAVE_CONTENT, elementModel);
 			break;
 			
@@ -85,6 +86,7 @@ public class ClientAgent extends GuiAgent implements ClientAgentInterface{
 			break;
 			
 		case Constants.EVENT_TYPE_DELETE:
+			elementModel = (ElementModel) ev.getSource();
 			message =  MessageFactory.createMessage(this, elementModel.getAgent(), Constants.MESSAGE_ACTION_DELETE, null);
 			break;
 			
@@ -109,7 +111,7 @@ public class ClientAgent extends GuiAgent implements ClientAgentInterface{
 		case Constants.EVENT_TYPE_CREATE_ELEMENT:
 			AgentController newElement;
 			try {
-				newElement = getContainerController().createNewAgent(String.valueOf(System.currentTimeMillis()),"com.workhub.jade.agent.ElementAgent",new Object[]{ev.getParameter(0)});
+				newElement = getContainerController().createNewAgent(String.valueOf(System.currentTimeMillis()),"com.workhub.jade.agent.ElementAgent",new Object[]{ev.getParameter(0), this.getAID()});
 				newElement.start();
 			} catch (StaleProxyException e) {
 				// TODO Auto-generated catch block
@@ -118,10 +120,12 @@ public class ClientAgent extends GuiAgent implements ClientAgentInterface{
 			break;
 
 		case Constants.EVENT_TYPE_CHARGE:
+			elementModel = (ElementModel) ev.getSource();
 			message = MessageFactory.createMessage(this, elementModel.getAgent(), Constants.MESSAGE_ACTION_GET_CONTENT, null);
 			break;
 		
 		case Constants.EVENT_TYPE_ASK_EDIT:
+			elementModel = (ElementModel) ev.getSource();
 			message = MessageFactory.createMessage(this, elementModel.getAgent(), Constants.MESSAGE_ACTION_EDIT, null);
 			break;
 			
@@ -130,6 +134,7 @@ public class ClientAgent extends GuiAgent implements ClientAgentInterface{
 		}
 		
 		if(message!=null){
+			
 			send(message);	
 		}
 	}
