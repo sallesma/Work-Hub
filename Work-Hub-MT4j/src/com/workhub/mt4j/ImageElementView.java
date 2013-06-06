@@ -40,7 +40,7 @@ public class ImageElementView extends AbstractElementView {
 			float height, PApplet applet, WorkHubScene scene) {
 		super(x, y, MT4JConstants.Z_POSITION_DEFAULT_ELEMENT, width, height, applet, scene);
 		Vector3D position = new Vector3D(this.getPosition(TransformSpace.LOCAL).getX(), (float) (this.getPosition(TransformSpace.LOCAL).getY()+height*0.2f));
-		PImage image = null; // TODO
+		PImage image = new PImage(); // TODO
 		if(image.width > 500) {
 			image.resize(500, 0);
 		}

@@ -185,12 +185,24 @@ public final class JadeInterface implements PropertyChangeListener {
 			}
 			if(element!=null){
 				element.edit();
+				element.setEditionTarget(MT4JConstants.EDIT_TARGET_UNDEFINED);
 			}
 			break;
 		}
 		case Constants.EVENT_TYPE_CANT_EDIT:
 		{
-			// TODO visualisation de l'accès refusé		
+			// TODO visualisation de l'accès refusé
+			AID aidModel = (AID)event.getNewValue();
+			AbstractElementView element = null;
+			try {
+				element = scene.getElement(aidModel);
+			} catch (WorkHubException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			if(element!=null){
+				element.setEditionTarget(MT4JConstants.EDIT_TARGET_UNDEFINED);
+			}
 			break;
 		}
 		}

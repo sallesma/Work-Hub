@@ -53,4 +53,8 @@ public class MT4JConstants {
 	public static final String CONTEXT_BUTTON_DELETE				= "Supprimer";
 	public static final String CONTEXT_BUTTON_SPLIT_GROUP			= "Séparer le groupe";
 	public static final String CONTEXT_BUTTON_EXIT					= "Quitter le Hub";
+	
+	public static final int EDIT_TARGET_UNDEFINED	= 0;
+	public static final int EDIT_TARGET_TITLE		= 1;
+	public static final int EDIT_TARGET_CONTENT		= 2;
 }

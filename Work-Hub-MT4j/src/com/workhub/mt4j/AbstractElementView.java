@@ -29,7 +29,6 @@ import org.mt4j.util.math.Vector3D;
 import org.mt4j.util.math.Vertex;
 
 import com.workhub.model.ElementModel;
-
 import processing.core.PApplet;
 
 public abstract class AbstractElementView extends MTClipRectangle implements IdragClusterable {
@@ -37,12 +36,14 @@ public abstract class AbstractElementView extends MTClipRectangle implements Idr
 	protected MTApplication mtApplication;
 	protected WorkHubScene scene;
 	protected ElementModel model;
+	protected int editionTarget;	// Indique le champ qui va être édité (constantes EDIT_TARGET_X)
 	
 	public AbstractElementView(float x, float y, float z, float width,
 			float height, PApplet applet, WorkHubScene scene) {
 		super(x, y, z, width, height, applet);
 		this.mtApplication = (MTApplication) applet;
 		this.scene = scene;
+		this.editionTarget = MT4JConstants.EDIT_TARGET_UNDEFINED;
 		setAnchor(PositionAnchor.UPPER_LEFT);
 		
 		title = new MTTextArea(applet, FontManager.getInstance().createFont(
@@ -177,5 +178,32 @@ public abstract class AbstractElementView extends MTClipRectangle implements Idr
 	
 	public void setModel(ElementModel model) {
 		this.model = model;
+	}
+	
+	public void edit() {
+		switch(editionTarget) {
+		case MT4JConstants.EDIT_TARGET_TITLE :
+			editElementTitle();
+			break;
+		case MT4JConstants.EDIT_TARGET_CONTENT :
+			editElementContent();
+			break;
+			default :
+				break;
+		}
+	}
+	
+	public void setEditionTarget(int editionTarget) {
+		this.editionTarget = editionTarget;
+	}
+	
+	public void tryEditElementTitle() {
+		editionTarget = MT4JConstants.EDIT_TARGET_TITLE;
+		JadeInterface.getInstance().askEdition(model.getAgent());
+	}
+	
+	public void tryEditElementContent() {
+		editionTarget = MT4JConstants.EDIT_TARGET_CONTENT;
+		JadeInterface.getInstance().askEdition(model.getAgent());
 	}
 }
