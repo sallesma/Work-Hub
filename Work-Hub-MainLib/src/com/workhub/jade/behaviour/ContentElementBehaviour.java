@@ -56,7 +56,7 @@ public class ContentElementBehaviour extends CyclicBehaviour {
 					break;
 					
 				case Constants.MESSAGE_ACTION_GET_TITLE:
-					answer = MessageFactory.createMessage((ElementAgent)myAgent, message.getSender(), Constants.MESSAGE_RECEIVE_ELEMENT_CONTENT);
+					answer = MessageFactory.createMessage((ElementAgent)myAgent, message.getSender(), Constants.MESSAGE_RECEIVE_ELEMENT_TITLE);
 					myAgent.send(answer);
 					break;
 					
