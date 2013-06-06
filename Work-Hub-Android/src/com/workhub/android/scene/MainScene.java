@@ -183,18 +183,18 @@ public class MainScene extends Scene implements IOnSceneTouchListener, IHoldDete
 		this.attachChild(rb);
 		this.registerTouchArea(rb);  
 
-		TextElementModel txtM = new TextElementModel(0,"", null, "" );
-		txtM.setContent("tQu'est-ce que qsdf.org ? QSDF.ORG est un domaine � usage initialement personnel. Les services ou sites webs li�s � qsdf.");
-		txtM.setTitle("titre de l'element txt");
-		TextElement txt = new TextElement(txtM, 200, 200, res);
-		this.registerTouchArea(txt);
-		this.attachChild(txt);
-
-		PictureElementModel pm = new PictureElementModel(0,"Image Element", null, null);
-
-		PictureElement txt1 = new PictureElement(pm, 100, 200, res);
-		this.registerTouchArea(txt1);
-		this.attachChild(txt1);
+//		TextElementModel txtM = new TextElementModel(0,"", null, "" );
+//		txtM.setContent("tQu'est-ce que qsdf.org ? QSDF.ORG est un domaine � usage initialement personnel. Les services ou sites webs li�s � qsdf.");
+//		txtM.setTitle("titre de l'element txt");
+//		TextElement txt = new TextElement(txtM, 200, 200, res);
+//		this.registerTouchArea(txt);
+//		this.attachChild(txt);
+//
+//		PictureElementModel pm = new PictureElementModel(0,"Image Element", null, null);
+//
+//		PictureElement txt1 = new PictureElement(pm, 100, 200, res);
+//		this.registerTouchArea(txt1);
+//		this.attachChild(txt1);
 
 		//		this.mHullVertices = new float[this.mMeshVertices.length];
 		//		System.arraycopy(this.mMeshVertices, 0, this.mHullVertices, 0, this.mMeshVertices.length);
@@ -544,6 +544,27 @@ public class MainScene extends Scene implements IOnSceneTouchListener, IHoldDete
 			}
 		};
 		currentDialog.setContentView(R.layout.listdialog);
+
+	}
+
+	public void notifyReceiveShorcut(final int size) {
+
+		getChildByMatcher(new IEntityMatcher() {
+
+			@Override
+			public boolean matches(IEntity pEntity) {
+				if(pEntity instanceof RoundButtonElement){
+					RoundButtonElement b = (RoundButtonElement) pEntity;
+					if(b.getType()==R.id.bt_raccourci_recevoir){
+						b.animate(size);
+					}
+
+
+				}
+				return false;
+			}
+		});
+
 
 	}
 

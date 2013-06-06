@@ -76,7 +76,7 @@ public class HomeActivity extends SimpleLayoutGameActivity implements PropertyCh
 
 	//	startJade(nickname, AndroidHelper.getLocalIPAddress(), "1099" );
 	//		startJade(nickname, "192.168.43.67", "1099" );
-		startJade(nickname, "192.168.43.176", "1099" );
+		startJade(nickname, "192.168.43.238", "1099" );
 
 	}
 
@@ -308,6 +308,7 @@ public class HomeActivity extends SimpleLayoutGameActivity implements PropertyCh
 			}else{
 				getElement(elementAID);
 			}
+			scene.notifyReceiveShorcut(mailBox.size());
 		}else{
 			Toast.makeText(getApplicationContext(), "Vous n'avez pas de message", Toast.LENGTH_SHORT).show();			
 
@@ -487,7 +488,7 @@ public class HomeActivity extends SimpleLayoutGameActivity implements PropertyCh
 			AID aidModel = (AID)event.getNewValue();
 			mailBox.add(aidModel);
 			Toast.makeText(getApplicationContext(), "Vous avez "+mailBox.size()+" message(s)", Toast.LENGTH_SHORT).show();			
-
+			scene.notifyReceiveShorcut(mailBox.size());
 			break;
 		}
 		}
