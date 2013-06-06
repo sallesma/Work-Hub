@@ -422,7 +422,7 @@ public class HomeActivity extends SimpleLayoutGameActivity implements PropertyCh
 			if(element!=null){
 				getElement(aidModel);
 			}
-			break;
+			break;  
 		}
 		case Constants.EVENT_TYPE_CONTENU:
 		{
