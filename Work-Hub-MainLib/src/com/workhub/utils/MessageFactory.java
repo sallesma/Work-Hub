@@ -212,6 +212,9 @@ public class MessageFactory {
 				byte[] image= content.getBytes();
 				model = new PictureElementModel(color, title, agent, image);
 			}
+			else{
+				model = new PictureElementModel(color, title, agent, null);
+			}
 		}
 		
 		else if (type_model == Constants.TYPE_ELEMENT_FILE){
