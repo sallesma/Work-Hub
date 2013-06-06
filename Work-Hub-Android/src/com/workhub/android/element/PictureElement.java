@@ -12,6 +12,7 @@ import org.andengine.opengl.texture.region.TextureRegionFactory;
 
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
+import android.graphics.BitmapFactory;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -40,7 +41,7 @@ public class PictureElement extends BaseElement{
 		}else{
 			iniTexture();
 			Bitmap b=null;
-			//model.getContent()//TODO
+			b = BitmapFactory.decodeByteArray(model.getContent(),0, model.getContent().length);
 			tr = getTextureRegion(b);
 		}
 		;

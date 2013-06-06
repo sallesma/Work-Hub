@@ -8,11 +8,9 @@ import jade.lang.acl.MessageTemplate.MatchExpression;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.workhub.jade.agent.ClientAgent;
-import com.workhub.jade.agent.ElementAgent;
 import com.workhub.model.ElementModel;
 import com.workhub.utils.Constants;
 import com.workhub.utils.MessageFactory;
-import com.workhub.utils.Utils;
 // Behaviour agent client
 public class ContentClientBehaviour extends CyclicBehaviour{
 
@@ -21,7 +19,7 @@ public class ContentClientBehaviour extends CyclicBehaviour{
 		@Override
 		public boolean match(ACLMessage msg) {
 			JsonParser js = new JsonParser();
-			int action = ((JsonObject) js.parse(msg.getContent())).get(Constants.JSON_ACTION).getAsInt();
+			int action = Integer.parseInt(((JsonObject) js.parse(msg.getContent())).get(Constants.JSON_ACTION).toString());
 			switch (action) {
 			case Constants.MESSAGE_ACTION_CONTENT:
 			case Constants.MESSAGE_RECEIVE_ELEMENT_CONTENT:
