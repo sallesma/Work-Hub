@@ -54,7 +54,6 @@ public class MessageFactory {
 			break;
 		
 		case Constants.MESSAGE_RECEIVE_ELEMENT_TITLE:
-			System.out.println("renvoie info titre");
 
 			j = getElementTitle(sender.getContentModel(), j);
 			performatif = ACLMessage.INFORM;
@@ -99,8 +98,7 @@ public class MessageFactory {
 		
 		case Constants.MESSAGE_ACTION_GET_CONTENT:
 			performatif = ACLMessage.REQUEST;
-			j.addProperty(Constants.JSON_ACTION, Constants.MESSAGE_ACTION_GET_CONTENT);
-			
+			j.addProperty(Constants.JSON_ACTION, Constants.MESSAGE_ACTION_GET_CONTENT);	
 			break;
 			
 		case Constants.MESSAGE_ACTION_GET_TITLE:
