@@ -6,8 +6,10 @@ import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 import jade.lang.acl.MessageTemplate.MatchExpression;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
 import com.workhub.jade.agent.ElementAgent;
 import com.workhub.model.*;
 import com.workhub.utils.Constants;
@@ -22,10 +24,23 @@ public class ContentElementBehaviour extends CyclicBehaviour {
 		
 		@Override
 		public boolean match(ACLMessage msg) {
-			//TODO: prévoir sis c'est un message systeme. Dans ce cas ce n'est pas forcement un JSON
-			//MalformedJsonException
+			switch(msg.getPerformative()){
+			case ACLMessage.INFORM: 
+			case ACLMessage.REQUEST: 
+			case ACLMessage.QUERY_IF: 
+				break;
+			default:
+				return false;
+			}
+
 			JsonParser js = new JsonParser();
-			int action = ((JsonObject) js.parse(msg.getContent())).get(Constants.JSON_ACTION).getAsInt();
+			JsonElement json= null;
+			try{
+				json = js.parse(msg.getContent());
+			}catch(JsonSyntaxException e){
+				return false;
+			}
+			int action = ((JsonObject) json).get(Constants.JSON_ACTION).getAsInt();
 			switch (action) {
 			case Constants.MESSAGE_ACTION_GET_CONTENT:
 			case Constants.MESSAGE_ACTION_GET_TITLE:

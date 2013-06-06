@@ -19,7 +19,7 @@ public class Main {
 		try {
 			//si on est pas hote ,
 			//p = new ProfileImpl("AdresseIP de l'hote", port (1099),null);
-
+			
 			p = new ProfileImpl("prop");
 			//crÈation d'un conteneur
 			AgentContainer mc = rt.createMainContainer(p);

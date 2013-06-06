@@ -1,6 +1,7 @@
 package com.workhub.android.element;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.opengl.texture.TextureOptions;
@@ -16,6 +17,7 @@ import android.graphics.BitmapFactory;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.itextpdf.text.pdf.codec.Base64;
 import com.workhub.android.R;
 import com.workhub.android.utils.BitmapTransform;
 import com.workhub.android.utils.FileManager;
@@ -41,10 +43,13 @@ public class PictureElement extends BaseElement{
 		}else{
 			iniTexture();
 			Bitmap b=null;
-			b = BitmapFactory.decodeByteArray(model.getContent(),0, model.getContent().length);
+			byte[] bytes = model.getContent();
+			BitmapFactory.Options opts = new BitmapFactory.Options();               
+			opts.inPreferredConfig = Bitmap.Config.ARGB_8888;
+			b = BitmapFactory.decodeByteArray(bytes,0, bytes.length, opts);
 			tr = getTextureRegion(b);
 		}
-		;
+		
 		imageSprite = new Sprite(0, 0, tr, res.getContext().getVertexBufferObjectManager());
 		body.attachChild(imageSprite);
 		this.updateView();
@@ -205,6 +210,14 @@ public class PictureElement extends BaseElement{
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
 		bitmapTextureAtlasSourcePerso.getBitmap().compress(Bitmap.CompressFormat.PNG, 100, stream);
 		getModel().setContent(stream.toByteArray());
+		
+		try {
+		    stream.close();
+		    stream = null;
+		} catch (IOException e) {
+
+		    e.printStackTrace();
+		}
 	}
 	
 	@Override

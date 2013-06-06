@@ -21,7 +21,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -76,10 +75,10 @@ public class HomeActivity extends SimpleLayoutGameActivity implements PropertyCh
 
 	//	startJade(nickname, AndroidHelper.getLocalIPAddress(), "1099" );
 	//		startJade(nickname, "192.168.43.67", "1099" );
-		startJade(nickname, "192.168.43.238", "1099" );
+		startJade(nickname, "192.168.1.50", "1099" );
 
 	}
-
+//TODO demarrer creator agent si main container.
 	private String nickname = "Florian";
 	private AbstractElement askElement;
 	private MainScene scene;
@@ -175,13 +174,14 @@ public class HomeActivity extends SimpleLayoutGameActivity implements PropertyCh
 			public void onSuccess(Void thisIsNull) {
 				System.out.println("Successfully start of the "
 						+ ClientAgent.class.getName() + "...");
-
+				Toast.makeText(getApplicationContext(), "Connexion réussie", Toast.LENGTH_SHORT).show();	
 			}
 
 			@Override
 			public void onFailure(Throwable throwable) {
 				System.out.println("Failed to start the "
 						+ ClientAgent.class.getName() + "...");
+				Toast.makeText(getApplicationContext(), "Connexion échouée", Toast.LENGTH_SHORT).show();	
 			}
 		});
 	}
@@ -192,11 +192,15 @@ public class HomeActivity extends SimpleLayoutGameActivity implements PropertyCh
 	private void fireOnGuiEvent(GuiEvent event) {
 		try {
 			getAgent().fireOnGuiEvent(event);
+			return;
 		} catch (StaleProxyException e) {
 			e.printStackTrace();
 		} catch (ControllerException e) {
 			e.printStackTrace();
+		}catch (NullPointerException e){
+			e.printStackTrace();
 		}
+		Toast.makeText(getApplicationContext(), "Problème de connection", Toast.LENGTH_SHORT).show();
 
 	}
 
@@ -323,29 +327,7 @@ public class HomeActivity extends SimpleLayoutGameActivity implements PropertyCh
 
 	public void createElement(int elementType){
 		GuiEvent event = new GuiEvent(null,Constants.EVENT_TYPE_CREATE_ELEMENT);
-		
-//		
-//		 Date dNow = new Date( );
-//	      SimpleDateFormat ft = 
-//	      new SimpleDateFormat ("hh:mm:ss");
-//	      
-//		try {
-//			microRuntimeServiceBinder.startAgent("Nouvel element : "+ft.format(dNow),"com.workhub.jade.agent.ElementAgent",new Object[]{elementType, getAgent().getAgentAID()}, new RuntimeCallback<Void>() {
-//				
-//				@Override
-//				public void onSuccess(Void arg0) {
-//				}
-//				
-//				@Override
-//				public void onFailure(Throwable arg0) {
-//				}
-//			});
-//		} catch (StaleProxyException e) {
-//			e.printStackTrace();
-//		} catch (ControllerException e) {
-//			e.printStackTrace();
-//		}
-				
+						
 		event.addParameter(elementType);
 		fireOnGuiEvent(event);
 	}

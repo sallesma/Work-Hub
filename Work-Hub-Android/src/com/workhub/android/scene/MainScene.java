@@ -456,15 +456,16 @@ public class MainScene extends Scene implements IOnSceneTouchListener, IHoldDete
 	}
 
 
-	public void addToAdapter(Entry<AID, String> entry){
+	public void addToAdapter(final Entry<AID, String> entry){
 		if(adapter!=null){
-			synchronized (adapter) {
-				adapter.addEntry(entry);
-			}
+			
 			res.getContext().runOnUiThread(new Runnable() {
 
 				@Override
 				public void run() {
+					synchronized (adapter) {
+						adapter.addEntry(entry);
+					}
 					adapter.notifyDataSetChanged();
 				}
 			});

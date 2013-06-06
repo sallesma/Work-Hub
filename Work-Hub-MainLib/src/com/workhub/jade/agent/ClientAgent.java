@@ -100,6 +100,8 @@ public class ClientAgent extends GuiAgent implements ClientAgentInterface{
 			
 		case Constants.EVENT_TYPE_GET_ELEMENTS:
 			DFAgentDescription[] listElementAgent = Utils.agentSearch(this, Constants.ELEMENT_AGENT);
+			if(listElementAgent==null)
+				break;
 			for(DFAgentDescription df : listElementAgent){
 				send(MessageFactory.createMessage(this, df.getName(), Constants.MESSAGE_ACTION_GET_TITLE, null));
 			}
