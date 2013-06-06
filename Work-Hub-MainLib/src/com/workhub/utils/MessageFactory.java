@@ -5,6 +5,10 @@ import jade.core.Agent;
 import jade.lang.acl.ACLMessage;
 
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.Map.Entry;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -226,6 +230,15 @@ public class MessageFactory {
 		return (ElementModel)model;
 		
 		
+	}
+	public static Map<AID, String> getTitle(ACLMessage message) {
+		Map<AID, String> e = new HashMap<AID, String>();
+		JsonParser js = new JsonParser();
+		String title = ((JsonObject) js.parse(message.getContent())).get("title").getAsString();
+		
+		AID agent = message.getSender();
+		e.put(agent, title);
+		return e;
 	}
 	
 }

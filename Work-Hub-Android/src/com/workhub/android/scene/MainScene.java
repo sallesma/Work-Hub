@@ -411,7 +411,7 @@ public class MainScene extends Scene implements IOnSceneTouchListener, IHoldDete
 			break;
 		case R.id.bt_importer:
 			iniElementList();
-			res.getContext().getNeightbourgList();
+			res.getContext().getElementList();
 			break;
 		case R.id.bt_element_fichier:
 			res.getContext().createElement(Constants.TYPE_ELEMENT_FILE);
