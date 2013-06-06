@@ -8,6 +8,12 @@
     android:orientation="vertical" >
 
     <Button
+        android:id="@+id/bt_ouvrir"
+        style="@style/bt_list"
+        android:text="@string/ouvrir"
+        android:visibility="gone" />
+    
+    <Button
         android:id="@+id/bt_editer"
         style="@style/bt_list"
         android:text="@string/editer"

@@ -37,6 +37,7 @@ import com.workhub.android.R;
 import com.workhub.android.element.AbstractElement;
 import com.workhub.android.element.BaseElement;
 import com.workhub.android.element.GroupElement;
+import com.workhub.android.element.LinkElement;
 import com.workhub.android.element.PictureElement;
 import com.workhub.android.element.RoundButtonElement;
 import com.workhub.android.element.TextElement;
@@ -45,6 +46,7 @@ import com.workhub.android.utils.GPoint;
 import com.workhub.android.utils.MyListAdapter;
 import com.workhub.android.utils.Ressources;
 import com.workhub.model.ElementModel;
+import com.workhub.model.LinkElementModel;
 import com.workhub.model.PictureElementModel;
 import com.workhub.model.TextElementModel;
 import com.workhub.utils.Constants;
@@ -220,7 +222,7 @@ public class MainScene extends Scene implements IOnSceneTouchListener, IHoldDete
 			e = new PictureElement((PictureElementModel) model, res.getScreenCenter().x,res.getScreenCenter().y, res);
 			break;
 		case Constants.TYPE_ELEMENT_LINK:
-			//e = new LinkElement((LinkElementModel) model, res.getScreenCenter().x,res.getScreenCenter().y, res);
+			e = new LinkElement((LinkElementModel) model, res.getScreenCenter().x,res.getScreenCenter().y, res);
 			break;
 		case Constants.TYPE_ELEMENT_FILE:
 			//e = new FileElement((FileElementModel) model, res.getScreenCenter().x,res.getScreenCenter().y, res);

@@ -22,33 +22,34 @@ public final class R {
         public static final int img_default=0x7f020002;
     }
     public static final class id {
-        public static final int bt_cancel=0x7f070017;
-        public static final int bt_clear_all=0x7f070009;
-        public static final int bt_degroupe=0x7f070001;
-        public static final int bt_editer=0x7f070000;
-        public static final int bt_element_fichier=0x7f07000d;
-        public static final int bt_element_image=0x7f07000b;
-        public static final int bt_element_lien=0x7f07000c;
-        public static final int bt_element_texte=0x7f07000a;
-        public static final int bt_envoyer_a=0x7f070002;
-        public static final int bt_exporter=0x7f070004;
-        public static final int bt_importer=0x7f070003;
-        public static final int bt_masquer=0x7f070005;
-        public static final int bt_nouveau=0x7f070007;
-        public static final int bt_nouveau_raccourci=0x7f070008;
-        public static final int bt_ok=0x7f070018;
-        public static final int bt_raccourci_editer=0x7f07000e;
-        public static final int bt_raccourci_envoyer=0x7f07000f;
-        public static final int bt_raccourci_exporter=0x7f070010;
-        public static final int bt_raccourci_masquer=0x7f070011;
-        public static final int bt_raccourci_recevoir=0x7f070013;
-        public static final int bt_raccourci_supprimer=0x7f070012;
-        public static final int bt_supprimer=0x7f070006;
-        public static final int content=0x7f070015;
-        public static final int img_content=0x7f070016;
-        public static final int layout_rendersurfaceview=0x7f070019;
-        public static final int listview=0x7f07001a;
-        public static final int title=0x7f070014;
+        public static final int bt_cancel=0x7f070018;
+        public static final int bt_clear_all=0x7f07000a;
+        public static final int bt_degroupe=0x7f070002;
+        public static final int bt_editer=0x7f070001;
+        public static final int bt_element_fichier=0x7f07000e;
+        public static final int bt_element_image=0x7f07000c;
+        public static final int bt_element_lien=0x7f07000d;
+        public static final int bt_element_texte=0x7f07000b;
+        public static final int bt_envoyer_a=0x7f070003;
+        public static final int bt_exporter=0x7f070005;
+        public static final int bt_importer=0x7f070004;
+        public static final int bt_masquer=0x7f070006;
+        public static final int bt_nouveau=0x7f070008;
+        public static final int bt_nouveau_raccourci=0x7f070009;
+        public static final int bt_ok=0x7f070019;
+        public static final int bt_ouvrir=0x7f070000;
+        public static final int bt_raccourci_editer=0x7f07000f;
+        public static final int bt_raccourci_envoyer=0x7f070010;
+        public static final int bt_raccourci_exporter=0x7f070011;
+        public static final int bt_raccourci_masquer=0x7f070012;
+        public static final int bt_raccourci_recevoir=0x7f070014;
+        public static final int bt_raccourci_supprimer=0x7f070013;
+        public static final int bt_supprimer=0x7f070007;
+        public static final int content=0x7f070016;
+        public static final int img_content=0x7f070017;
+        public static final int layout_rendersurfaceview=0x7f07001a;
+        public static final int listview=0x7f07001b;
+        public static final int title=0x7f070015;
     }
     public static final class layout {
         public static final int dialog=0x7f030000;
@@ -61,25 +62,26 @@ public final class R {
     }
     public static final class string {
         public static final int app_name=0x7f050000;
-        public static final int clear_all=0x7f050009;
-        public static final int degroupe=0x7f05000a;
-        public static final int editer=0x7f050008;
-        public static final int element_fichier=0x7f05000e;
-        public static final int element_image=0x7f05000c;
-        public static final int element_lien=0x7f05000d;
-        public static final int element_texte=0x7f05000b;
-        public static final int envoyer_a=0x7f050003;
-        public static final int exporter=0x7f050007;
-        public static final int importer=0x7f050006;
-        public static final int masquer=0x7f050002;
-        public static final int nouveau=0x7f050004;
-        public static final int nouveau_raccourci=0x7f050005;
-        public static final int raccourci_editer=0x7f050010;
-        public static final int raccourci_envoyer=0x7f05000f;
-        public static final int raccourci_exporter=0x7f050011;
-        public static final int raccourci_masquer=0x7f050013;
-        public static final int raccourci_recevoir=0x7f050012;
-        public static final int raccourci_supprimer=0x7f050014;
+        public static final int clear_all=0x7f05000a;
+        public static final int degroupe=0x7f05000b;
+        public static final int editer=0x7f050009;
+        public static final int element_fichier=0x7f05000f;
+        public static final int element_image=0x7f05000d;
+        public static final int element_lien=0x7f05000e;
+        public static final int element_texte=0x7f05000c;
+        public static final int envoyer_a=0x7f050004;
+        public static final int exporter=0x7f050008;
+        public static final int importer=0x7f050007;
+        public static final int masquer=0x7f050003;
+        public static final int nouveau=0x7f050005;
+        public static final int nouveau_raccourci=0x7f050006;
+        public static final int ouvrir=0x7f050002;
+        public static final int raccourci_editer=0x7f050011;
+        public static final int raccourci_envoyer=0x7f050010;
+        public static final int raccourci_exporter=0x7f050012;
+        public static final int raccourci_masquer=0x7f050014;
+        public static final int raccourci_recevoir=0x7f050013;
+        public static final int raccourci_supprimer=0x7f050015;
         public static final int supprimer=0x7f050001;
     }
     public static final class style {

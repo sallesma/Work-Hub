@@ -63,7 +63,8 @@ public class HomeActivity extends SimpleLayoutGameActivity implements PropertyCh
 
 		super.onCreate(pSavedInstanceState);
 
-		//startJade(nickname, AndroidHelper.getLocalIPAddress(), "1099" );
+	//	startJade(nickname, AndroidHelper.getLocalIPAddress(), "1099" );
+			startJade(nickname, "192.168.43.238", "1099" );
 
 	}
 

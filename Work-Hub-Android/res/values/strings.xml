@@ -2,6 +2,7 @@
 
     <string name="app_name">Work Hub</string>
 	<string name="supprimer">Supprimer</string>
+	<string name="ouvrir">Ouvrir</string>
 	<string name="masquer">Masquer</string>
 	<string name="envoyer_a">Envoyer à ...</string>
 	<string name="nouveau">Nouvel élément</string>

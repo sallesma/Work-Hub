@@ -13,7 +13,7 @@ public class TextElementModel extends ElementModel{
 	}
 
 	private String content;
-	private int type;
+	protected int type;
 
 	public String getContent() {
 		return content;
