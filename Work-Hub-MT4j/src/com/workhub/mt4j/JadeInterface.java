@@ -19,7 +19,7 @@ import jade.wrapper.ContainerController;
 import jade.wrapper.StaleProxyException;
 
 public final class JadeInterface implements PropertyChangeListener {
-	private static volatile JadeInterface instance;
+	private static volatile JadeInterface instance = new JadeInterface();
 
 	private AgentController agentController;
 	private WorkHubScene scene;
