@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Locale;
 
 import com.itextpdf.text.Anchor;
-import com.itextpdf.text.BadElementException;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chapter;
 import com.itextpdf.text.Document;
@@ -18,10 +17,6 @@ import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.Phrase;
-import com.itextpdf.text.Section;
-import com.itextpdf.text.pdf.PdfPCell;
-import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.workhub.model.ElementModel;
 import com.workhub.model.FileElementModel;
@@ -69,7 +64,6 @@ public class PDFUtils {
 		//		document.addKeywords("Java, PDF, iText");
 		//		document.addAuthor("Lars Vogel");
 		document.addCreator(creator);
-		//TODO
 	}
 	private static void addTitlePage(Document document, String title, List<ElementModel> models, String creator)
 			throws DocumentException {
@@ -122,32 +116,36 @@ public class PDFUtils {
 			catPart.add(content);
 			addEmptyLine(content, 2);
 
-
-			if(elementModel instanceof TextElementModel){
-
+			switch (elementModel.getType()) {
+			case Constants.TYPE_ELEMENT_TEXT:
 				content.add(new Paragraph(((TextElementModel)elementModel).getContent(), smallBold));
 
-			}else if(elementModel instanceof LinkElementModel){
-
+				break;
+			case Constants.TYPE_ELEMENT_LINK:
 				content.add(new Paragraph(((LinkElementModel)elementModel).getContent(), smallBold));
 
-			}else if(elementModel instanceof FileElementModel){
-				content.add(new Paragraph(((FileElementModel)elementModel).getTitle(), smallBold));
-			}
-			else if(elementModel instanceof PictureElementModel){
-
+				break;
+			case Constants.TYPE_ELEMENT_PICTURE:
 				Image image1;
 				try {
+					if(((PictureElementModel)elementModel).getContent()!=null){
 					image1 = Image.getInstance(((PictureElementModel)elementModel).getContent());
 
 					content.add(image1);
+					}
 				} catch (MalformedURLException e) {
 					e.printStackTrace();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
+				break;
+			case Constants.TYPE_ELEMENT_FILE:
+				content.add(new Paragraph(((FileElementModel)elementModel).getTitle(), smallBold));
+				break;
 
+			
 			}
+
 			document.add(catPart);
 		}
 
@@ -157,38 +155,38 @@ public class PDFUtils {
 
 	}
 
-	private static void createTable(Section subCatPart)
-			throws BadElementException {
-		PdfPTable table = new PdfPTable(3);
-
-		// t.setBorderColor(BaseColor.GRAY);
-		// t.setPadding(4);
-		// t.setSpacing(4);
-		// t.setBorderWidth(1);
-
-		PdfPCell c1 = new PdfPCell(new Phrase("Table Header 1"));
-		c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-		table.addCell(c1);
-
-		c1 = new PdfPCell(new Phrase("Table Header 2"));
-		c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-		table.addCell(c1);
-
-		c1 = new PdfPCell(new Phrase("Table Header 3"));
-		c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-		table.addCell(c1);
-		table.setHeaderRows(1);
-
-		table.addCell("1.0");
-		table.addCell("1.1");
-		table.addCell("1.2");
-		table.addCell("2.1");
-		table.addCell("2.2");
-		table.addCell("2.3");
-
-		subCatPart.add(table);
-
-	}
+//	private static void createTable(Section subCatPart)
+//			throws BadElementException {
+//		PdfPTable table = new PdfPTable(3);
+//
+//		// t.setBorderColor(BaseColor.GRAY);
+//		// t.setPadding(4);
+//		// t.setSpacing(4);
+//		// t.setBorderWidth(1);
+//
+//		PdfPCell c1 = new PdfPCell(new Phrase("Table Header 1"));
+//		c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+//		table.addCell(c1);
+//
+//		c1 = new PdfPCell(new Phrase("Table Header 2"));
+//		c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+//		table.addCell(c1);
+//
+//		c1 = new PdfPCell(new Phrase("Table Header 3"));
+//		c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+//		table.addCell(c1);
+//		table.setHeaderRows(1);
+//
+//		table.addCell("1.0");
+//		table.addCell("1.1");
+//		table.addCell("1.2");
+//		table.addCell("2.1");
+//		table.addCell("2.2");
+//		table.addCell("2.3");
+//
+//		subCatPart.add(table);
+//
+//	}
 
 	private static void createList(Paragraph sommaire, List<ElementModel> models) {
 		com.itextpdf.text.List list = new com.itextpdf.text.List(true, false, 10);

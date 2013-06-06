@@ -18,8 +18,10 @@ import android.view.View;
 import android.widget.Button;
 
 import com.workhub.android.R;
+import com.workhub.android.scene.MainScene;
 import com.workhub.android.utils.GPoint;
 import com.workhub.android.utils.Ressources;
+import com.workhub.model.ElementModel;
 
 public class GroupElement extends AbstractElement  {
 
@@ -41,6 +43,12 @@ public class GroupElement extends AbstractElement  {
 	@Override
 	protected void iniDialogView() {
 		super.iniDialogView();
+		
+		Button bt_exporter = (Button) menuDialog.findViewById(R.id.bt_exporter);
+		bt_exporter.setVisibility(View.VISIBLE);
+		bt_exporter.setOnClickListener(this);
+		
+		
 		Button bt_masquer = (Button) menuDialog.findViewById(R.id.bt_masquer);
 		bt_masquer.setVisibility(View.VISIBLE);
 		bt_masquer.setOnClickListener(this);
@@ -76,12 +84,12 @@ public class GroupElement extends AbstractElement  {
 		
 		
 		
-		float size = baseElements.size();
-		float x = baseElements.get(0).getX();
-		float y = baseElements.get(0).getY();
-		for (int i = 0; i < baseElements.size(); i++) {
+		float size = getBaseElements().size();
+		float x = getBaseElements().get(0).getX();
+		float y = getBaseElements().get(0).getY();
+		for (int i = 0; i < getBaseElements().size(); i++) {
 			GPoint pos = GPoint.Mult(vec, i/size);
-			baseElements.get(i).setPosition(x+pos.x, y+pos.y);
+			getBaseElements().get(i).setPosition(x+pos.x, y+pos.y);
 		}
 	}
 	
@@ -101,19 +109,19 @@ public class GroupElement extends AbstractElement  {
 		
 		float rotation =  GPoint.AngleBetween(pt1, pt2);
 		if(iniRotation==null){
-			iniRotation = new Float[baseElements.size()];
-			for (int i = 0; i < baseElements.size(); i++) {
-				iniRotation[i]= baseElements.get(i).getRotation()-rotation;
+			iniRotation = new Float[getBaseElements().size()];
+			for (int i = 0; i < getBaseElements().size(); i++) {
+				iniRotation[i]= getBaseElements().get(i).getRotation()-rotation;
 			}
 		}
 		
-		for (int i = 0; i < baseElements.size(); i++) {
-			baseElements.get(i).setRotation(iniRotation[i]+rotation);
+		for (int i = 0; i < getBaseElements().size(); i++) {
+			getBaseElements().get(i).setRotation(iniRotation[i]+rotation);
 		}
 		
 	};
 	public void initialize(List<BaseElement> list){
-		baseElements = list;
+		setBaseElements(list);
 		if(mHull!=null){
 			mHull.detachSelf();
 		}
@@ -122,16 +130,16 @@ public class GroupElement extends AbstractElement  {
 	}
 	
 	public void group(){
-		for (BaseElement baseElement : baseElements) {
-			baseElement.moveTo(baseElements.get(0));
+		for (BaseElement baseElement : getBaseElements()) {
+			baseElement.moveTo(getBaseElements().get(0));
 		}
 	}
 
 	@Override
 	public boolean contains(float pX, float pY) {
-		for (int i = 0; i < baseElements.size(); i++) {
-			if(baseElements.get(i).contains(pX, pY)){
-				selectedElement = baseElements.get(i);
+		for (int i = 0; i < getBaseElements().size(); i++) {
+			if(getBaseElements().get(i).contains(pX, pY)){
+				selectedElement = getBaseElements().get(i);
 				return true;
 			}
 		}
@@ -155,8 +163,8 @@ public class GroupElement extends AbstractElement  {
 	}
 	@Override
 	public void remove() { 
-		for (int i = 0; i < baseElements.size(); i++) {
-			baseElements.get(i).remove();
+		for (int i = 0; i < getBaseElements().size(); i++) {
+			getBaseElements().get(i).remove();
 		}
 		clearGroup();
 		super.remove();
@@ -173,7 +181,15 @@ public class GroupElement extends AbstractElement  {
 			}
 			break;
 		case R.id.bt_envoyer_a:
-			//TODO
+			((MainScene)getParent()).iniNeighboursList(this);
+			res.getContext().getNeightbourgList();
+			break;
+		case R.id.bt_exporter:
+			List<ElementModel> list = new ArrayList<ElementModel>();
+			for (int i = 0; i < getBaseElements().size(); i++) {
+				list.add(getBaseElements().get(i).getModel());
+			}
+			res.getContext().export(list);
 			break;
 		case R.id.bt_masquer:
 			remove();
@@ -188,8 +204,8 @@ public class GroupElement extends AbstractElement  {
 	@Override
 	public void onScroll(ScrollDetector pScollDetector, int pPointerID,
 			float pDistanceX, float pDistanceY) {
-		for (int i = 0; i < baseElements.size(); i++) {
-			baseElements.get(i).onScroll(pScollDetector, pPointerID, pDistanceX, pDistanceY);
+		for (int i = 0; i < getBaseElements().size(); i++) {
+			getBaseElements().get(i).onScroll(pScollDetector, pPointerID, pDistanceX, pDistanceY);
 		}
 	}
 	
@@ -242,18 +258,24 @@ public class GroupElement extends AbstractElement  {
 		return ShapeCollisionChecker.checkCollision(vertices, mHullVertexCount, e.getVerticles(), 4);
 	}
 	public boolean isInitialize() {
-		return baseElements.size()>0;
+		return getBaseElements().size()>0;
 	}
 	public boolean containsOneOf(ArrayList<BaseElement> list) {
-		for (int i = 0; i < baseElements.size(); i++) {
-			if(list.contains(baseElements.get(i))){
+		for (int i = 0; i < getBaseElements().size(); i++) {
+			if(list.contains(getBaseElements().get(i))){
 				return true;
 			}
 		}
 		return false;
 	}
 	public void clearGroup() {
-		baseElements.clear();
+		getBaseElements().clear();
 		selectedElement = null;
+	}
+	public List<BaseElement> getBaseElements() {
+		return baseElements;
+	}
+	public void setBaseElements(List<BaseElement> baseElements) {
+		this.baseElements = baseElements;
 	}
 }

@@ -2,6 +2,9 @@ package com.workhub.android.element;
 
 import jade.core.AID;
 
+import org.andengine.entity.modifier.AlphaModifier;
+import org.andengine.entity.modifier.LoopEntityModifier;
+import org.andengine.entity.modifier.SequenceEntityModifier;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.text.Text;
 import org.andengine.entity.text.TextOptions;
@@ -46,11 +49,12 @@ public class RoundButtonElement extends AbstractElement{
 	private Text centerText;
 	private GPoint centerScene;
 	private Object arg;
+	private LoopEntityModifier entityModifier;
 
 	public RoundButtonElement(float centerX, float centerY,int type, Ressources res, Object arg) {
 		super(centerX, centerY, res);
 		RAYON = res.toPixel(100);
-		this.type = type;
+		this.setType(type);
 		this.centerScene = res.getScreenCenter();
 		initShape(res);
 		rotateToCenter();
@@ -66,7 +70,7 @@ public class RoundButtonElement extends AbstractElement{
 		this.attachChild(s);
 
 
-		centerText = new Text(0, 0, res.getFont(), getTitle(type), new TextOptions(HorizontalAlign.CENTER), res.getContext().getVertexBufferObjectManager());
+		centerText = new Text(0, 0, res.getFont(), getTitle(getType()), new TextOptions(HorizontalAlign.CENTER), res.getContext().getVertexBufferObjectManager());
 		System.out.println(res.toPixel(100));		
 		centerText.setPosition(-centerText.getWidth()/2, RAYON/4);
 		this.attachChild(centerText);
@@ -114,7 +118,7 @@ public class RoundButtonElement extends AbstractElement{
 	}
 
 	public void setActionOn(AbstractElement abstractElement) {
-		switch (type) {
+		switch (getType()) {
 		case R.id.bt_raccourci_editer:
 			if(abstractElement instanceof BaseElement){
 				res.getContext().askEdition(((BaseElement) abstractElement).getModel().getAgent());
@@ -124,7 +128,7 @@ public class RoundButtonElement extends AbstractElement{
 			if(abstractElement instanceof BaseElement){
 				res.getContext().sendElement((AID) arg, ((BaseElement)abstractElement).getModel().getAgent());
 			}
-			
+
 			break;
 		case R.id.bt_raccourci_exporter:
 			//TODO
@@ -135,7 +139,7 @@ public class RoundButtonElement extends AbstractElement{
 			}
 			break;
 		case R.id.bt_raccourci_recevoir:
-			//TODO
+			res.getContext().receive();
 			break;
 		case R.id.bt_raccourci_supprimer:
 			abstractElement.remove();
@@ -144,6 +148,36 @@ public class RoundButtonElement extends AbstractElement{
 
 		}
 
+	}
+
+	public int getType() {
+		return type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
+	}
+
+	public void animate(int size) {
+
+
+		if(size==0&&entityModifier!=null){
+			res.getContext().runOnUpdateThread(new Runnable() {
+
+				@Override
+				public void run() {
+					RoundButtonElement.this.unregisterEntityModifier(entityModifier);
+					entityModifier = null;
+				}
+			});
+		}else if(size>0&&entityModifier==null){
+			entityModifier = new LoopEntityModifier( new SequenceEntityModifier(
+					new AlphaModifier(0.5f, 1, 1.2f),
+					new AlphaModifier(0.5f, 1.2f, 1)
+					));
+			this.registerEntityModifier(entityModifier);
+
+		}
 	}
 
 

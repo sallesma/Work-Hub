@@ -1,5 +1,8 @@
 package com.workhub.android.element;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.andengine.entity.modifier.MoveModifier;
 import org.andengine.entity.modifier.ScaleModifier;
 import org.andengine.entity.primitive.Rectangle;
@@ -16,6 +19,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.workhub.android.R;
+import com.workhub.android.scene.MainScene;
 import com.workhub.android.utils.ConstantsAndroid;
 import com.workhub.android.utils.Ressources;
 import com.workhub.model.ElementModel;
@@ -50,13 +54,13 @@ public abstract class BaseElement extends AbstractElement  {
 		saveContent();
 		res.getContext().saveElement(model);
 	}
-	
+
 	protected abstract void saveContent();
 
 	@Override
 	public void setScale(float pScaleX, float pScaleY) {
 		super.setScale(pScaleX, pScaleY);
-			this.updateView();
+		this.updateView();
 	}
 
 	@Override
@@ -66,6 +70,10 @@ public abstract class BaseElement extends AbstractElement  {
 		bt_masquer.setVisibility(View.VISIBLE);
 		bt_masquer.setOnClickListener(this);
 
+		Button bt_exporter = (Button) menuDialog.findViewById(R.id.bt_exporter);
+		bt_exporter.setVisibility(View.VISIBLE);
+		bt_exporter.setOnClickListener(this);
+		
 		Button bt_envoyer_a = (Button) menuDialog.findViewById(R.id.bt_envoyer_a);
 		bt_envoyer_a.setVisibility(View.VISIBLE);
 		bt_envoyer_a.setOnClickListener(this);
@@ -85,7 +93,7 @@ public abstract class BaseElement extends AbstractElement  {
 
 
 		body = new Rectangle(0, 0, WIDTH, HEIGHT, res.getContext().getVertexBufferObjectManager());
-		
+
 		contour = new Rectangle(res.toPixel(-2),res.toPixel(-2), WIDTH+res.toPixel(4), HEIGHT+res.toPixel(4), res.getContext().getVertexBufferObjectManager());
 		contour.setZIndex(-20);
 		contour.setColor(0, 0, 0);
@@ -139,14 +147,15 @@ public abstract class BaseElement extends AbstractElement  {
 			}
 		});
 	};
-	
+
 
 
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.bt_envoyer_a:
-			//TODO
+			((MainScene)getParent()).iniNeighboursList(this);
+			res.getContext().getNeightbourgList();
 			break;
 		case R.id.bt_editer:
 			res.getContext().askEdition(model.getAgent());
@@ -155,7 +164,7 @@ public abstract class BaseElement extends AbstractElement  {
 			masquer();
 			break;
 		case R.id.bt_ok:
-			
+
 			saveModel();
 			res.getContext().saveElement(model);
 			editDialog.dismiss();
@@ -165,14 +174,20 @@ public abstract class BaseElement extends AbstractElement  {
 		case R.id.bt_cancel:
 			editDialog.dismiss();
 			break;	
+		case R.id.bt_exporter:
+			List<ElementModel> list = new ArrayList<ElementModel>();
+			list.add(getModel());
+			res.getContext().export(list);
+			break;
 		}
+
 		super.onClick(v);
 	}
 
 	public void masquer() {
 		super.remove();
 	}
-	
+
 	@Override
 	public void remove() {
 		res.getContext().deleteElement(model.getAgent());
@@ -204,11 +219,15 @@ public abstract class BaseElement extends AbstractElement  {
 		RectangularShapeCollisionChecker.fillVertices(body, v);
 		return v;
 	}
-	public void moveTo(BaseElement baseElement) {
-		this.registerEntityModifier(new MoveModifier(ConstantsAndroid.ANIMATION_DURATION, getX(), 	baseElement.getX(),
-				getY(), baseElement.getY(), ConstantsAndroid.EASEFUNCTIONS[0]));
+	public void moveTo(float x, float y) {
+		this.registerEntityModifier(new MoveModifier(ConstantsAndroid.ANIMATION_DURATION, getX(), 	x,
+				getY(), y, ConstantsAndroid.EASEFUNCTIONS[0]));
 		this.registerEntityModifier(new ScaleModifier(ConstantsAndroid.ANIMATION_DURATION,
 				getScaleX(), 	1, getScaleY(), 1, ConstantsAndroid.EASEFUNCTIONS[0]));
+	}
+	
+	public void moveTo(BaseElement baseElement) {
+		moveTo(baseElement.getX(), baseElement.getY());
 	}
 	public ElementModel getModel() {
 		return model;

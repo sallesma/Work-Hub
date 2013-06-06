@@ -3,11 +3,8 @@ package com.workhub.android.scene;
 import jade.core.AID;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import org.andengine.engine.camera.Camera;
 import org.andengine.entity.IEntity;
@@ -42,7 +39,6 @@ import com.workhub.android.element.PictureElement;
 import com.workhub.android.element.RoundButtonElement;
 import com.workhub.android.element.TextElement;
 import com.workhub.android.utils.ConstantsAndroid;
-import com.workhub.android.utils.GPoint;
 import com.workhub.android.utils.MyListAdapter;
 import com.workhub.android.utils.Ressources;
 import com.workhub.model.ElementModel;
@@ -70,7 +66,7 @@ public class MainScene extends Scene implements IOnSceneTouchListener, IHoldDete
 			@Override
 			public void onUpdate(float pSecondsElapsed) {
 				boolean visible = false;
-			
+
 				if(this.mPointerID != TouchEvent.INVALID_POINTER_ID) {
 					final long holdTimeMilliseconds = System.currentTimeMillis() - this.mDownTimeMilliseconds;
 					if(!this.mMaximumDistanceExceeded){
@@ -79,7 +75,7 @@ public class MainScene extends Scene implements IOnSceneTouchListener, IHoldDete
 							float r = -0.25f+((float)(this.mTriggerHoldMinimumMilliseconds-holdTimeMilliseconds))/this.mTriggerHoldMinimumMilliseconds;
 							touchRound.setScale(1/getScaleX()-r, 1/getScaleY()-r);
 						}
-						
+
 					}						
 				}
 				touchRound.setVisible(visible);
@@ -193,7 +189,7 @@ public class MainScene extends Scene implements IOnSceneTouchListener, IHoldDete
 //		TextElement txt = new TextElement(txtM, 200, 200, res);
 //		this.registerTouchArea(txt);
 //		this.attachChild(txt);
-
+//
 //		PictureElementModel pm = new PictureElementModel(0,"Image Element", null, null);
 //
 //		PictureElement txt1 = new PictureElement(pm, 100, 200, res);
@@ -241,9 +237,9 @@ public class MainScene extends Scene implements IOnSceneTouchListener, IHoldDete
 		RoundButtonElement rb = new RoundButtonElement(res.getScreenCenter().x, res.getScreenCenter().y, id, res , arg);
 		this.attachChild(rb);
 		this.registerTouchArea(rb);  
-		
+
 	}
-	
+
 	@Override
 	public boolean onSceneTouchEvent(Scene pScene, TouchEvent event) {
 		int myEventAction = event.getAction(); 
@@ -327,7 +323,7 @@ public class MainScene extends Scene implements IOnSceneTouchListener, IHoldDete
 		if(groupElement!=null){
 			final GroupElement grp = groupElement;
 			res.getContext().runOnUpdateThread(new Runnable() {
-				
+
 				@Override
 				public void run() {
 					unregisterTouchArea(grp);
@@ -432,7 +428,7 @@ public class MainScene extends Scene implements IOnSceneTouchListener, IHoldDete
 		case R.id.bt_raccourci_recevoir:
 		case R.id.bt_raccourci_supprimer:
 			addShortCut( v.getId(), null);
-			
+
 			break;
 		case R.id.bt_raccourci_envoyer:
 			iniNeighboursList(null);
@@ -442,7 +438,7 @@ public class MainScene extends Scene implements IOnSceneTouchListener, IHoldDete
 
 	}
 
-	
+
 
 	public  BaseElement getElement(final AID aidModel) {
 		return (BaseElement) getChildByMatcher(new IEntityMatcher() {
@@ -459,16 +455,22 @@ public class MainScene extends Scene implements IOnSceneTouchListener, IHoldDete
 		});
 	}
 
-	
+
 	public void addToAdapter(Entry<AID, String> entry){
 		if(adapter!=null){
 			synchronized (adapter) {
 				adapter.addEntry(entry);
 			}
-			
+			res.getContext().runOnUiThread(new Runnable() {
+
+				@Override
+				public void run() {
+					adapter.notifyDataSetChanged();
+				}
+			});
 		}
 	}
-	
+
 	public void iniElementList() {
 		iniListDialog();
 
@@ -484,17 +486,18 @@ public class MainScene extends Scene implements IOnSceneTouchListener, IHoldDete
 					int position, long id) {
 				//final String item = (String) parent.getItemAtPosition(position);
 				res.getContext().getElement(adapter.getListAID().get(position));
+				currentDialog.dismiss();
 			}
-			
+
 
 		});
 
 		currentDialog.show();
 
 	}
-	
-	public void iniNeighboursList(final BaseElement baseElement) {
-		
+
+	public void iniNeighboursList(final AbstractElement baseElement) {
+
 		iniListDialog();
 
 		adapter = new MyListAdapter(res.getContext(),
@@ -512,14 +515,22 @@ public class MainScene extends Scene implements IOnSceneTouchListener, IHoldDete
 				if(baseElement==null){
 					addShortCut(R.id.bt_raccourci_envoyer, adapter.getListAID().get(position));
 				}else{
-					res.getContext().sendElement(adapter.getListAID().get(position), baseElement.getModel().getAgent());
+					if(baseElement instanceof GroupElement){
+						GroupElement gp = ((GroupElement) baseElement);
+						List<BaseElement> elements = gp.getBaseElements();
+						for(int i = 0; i < elements.size(); i++){
+							res.getContext().sendElement(adapter.getListAID().get(position),((BaseElement) elements.get(i)).getModel().getAgent());
+						}
+					}else{
+						res.getContext().sendElement(adapter.getListAID().get(position),((BaseElement) baseElement).getModel().getAgent());
+					}
 				}
-			
+				currentDialog.dismiss();
 			}
 
 		});
-		
-		
+
+
 		currentDialog.show();
 
 	}
@@ -533,6 +544,27 @@ public class MainScene extends Scene implements IOnSceneTouchListener, IHoldDete
 			}
 		};
 		currentDialog.setContentView(R.layout.listdialog);
+
+	}
+
+	public void notifyReceiveShorcut(final int size) {
+
+		getChildByMatcher(new IEntityMatcher() {
+
+			@Override
+			public boolean matches(IEntity pEntity) {
+				if(pEntity instanceof RoundButtonElement){
+					RoundButtonElement b = (RoundButtonElement) pEntity;
+					if(b.getType()==R.id.bt_raccourci_recevoir){
+						b.animate(size);
+					}
+
+
+				}
+				return false;
+			}
+		});
+
 
 	}
 

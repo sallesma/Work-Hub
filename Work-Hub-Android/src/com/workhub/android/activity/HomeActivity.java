@@ -11,14 +11,21 @@ import jade.core.MicroRuntime;
 import jade.core.Profile;
 import jade.gui.GuiEvent;
 import jade.util.leap.Properties;
-import jade.wrapper.AgentContainer;
 import jade.wrapper.ControllerException;
 import jade.wrapper.StaleProxyException;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -51,6 +58,7 @@ import com.workhub.jade.agent.ClientAgent;
 import com.workhub.jade.agent.ClientAgentInterface;
 import com.workhub.model.ElementModel;
 import com.workhub.utils.Constants;
+import com.workhub.utils.PDFUtils;
 
 public class HomeActivity extends SimpleLayoutGameActivity implements PropertyChangeListener{
 
@@ -59,7 +67,7 @@ public class HomeActivity extends SimpleLayoutGameActivity implements PropertyCh
 	private ServiceConnection serviceConnection;
 	private MicroRuntimeServiceBinder microRuntimeServiceBinder;
 
-	
+	private List<AID> mailBox = new ArrayList<AID>();
 	@Override
 	protected void onCreate(Bundle pSavedInstanceState) {
 
@@ -67,7 +75,8 @@ public class HomeActivity extends SimpleLayoutGameActivity implements PropertyCh
 		super.onCreate(pSavedInstanceState);
 
 	//	startJade(nickname, AndroidHelper.getLocalIPAddress(), "1099" );
-			startJade(nickname, "192.168.43.67", "1099" );
+	//		startJade(nickname, "192.168.43.67", "1099" );
+		startJade(nickname, "192.168.43.238", "1099" );
 
 	}
 
@@ -283,11 +292,27 @@ public class HomeActivity extends SimpleLayoutGameActivity implements PropertyCh
 	}
 
 	public void sendElement(AID dest, AID elementAgent){
-		Object[] param = {dest , elementAgent};
-
 		GuiEvent event = new GuiEvent(null,Constants.EVENT_TYPE_SEND);
-		event.addParameter(param);
+		event.addParameter(dest);
+		event.addParameter(elementAgent);
 		fireOnGuiEvent(event);
+	}
+	
+	public void receive(){
+		if(mailBox.size()>0){
+			AID elementAID = mailBox.remove(0);
+			
+			BaseElement element = scene.getElement(elementAID);
+			if(element!=null){
+				element.moveTo(res.getScreenCenter().x, res.getScreenCenter().y);
+			}else{
+				getElement(elementAID);
+			}
+			scene.notifyReceiveShorcut(mailBox.size());
+		}else{
+			Toast.makeText(getApplicationContext(), "Vous n'avez pas de message", Toast.LENGTH_SHORT).show();			
+
+		}
 	}
 	public void askEdition(AID elementAgent){
 		GuiEvent event = new GuiEvent(null,Constants.EVENT_TYPE_ASK_EDIT);
@@ -351,6 +376,40 @@ public class HomeActivity extends SimpleLayoutGameActivity implements PropertyCh
 	public void getNeightbourgList(){
 		GuiEvent event = new GuiEvent(null, Constants.EVENT_TYPE_GET_NEIGHBOURGS);
 		fireOnGuiEvent(event);
+	}
+	
+	public void export(List<ElementModel> models){
+		FileOutputStream outf;
+		try {
+			File f = new File(ConstantsAndroid.EXT_PATH_FILES);
+			f.mkdirs();
+			
+			
+			Locale locale = Locale.getDefault();
+			DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.FULL, locale);
+			
+			f = new File(ConstantsAndroid.EXT_PATH_FILES+"export"+dateFormat.format(new Date())+".pdf");
+			f.createNewFile();
+			outf = new FileOutputStream(f);
+			PDFUtils.createPDF("WorkHub export", nickname, models, outf);		
+					
+			Intent sendIntent = new Intent();
+			sendIntent.setAction(Intent.ACTION_SEND);
+			sendIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+			sendIntent.setType("image/*");
+			sendIntent.putExtra(Intent.EXTRA_SUBJECT, "Réunion du "+dateFormat.format(new Date()));
+			sendIntent.putExtra(Intent.EXTRA_TEXT, "Export pdf du hub de "+dateFormat.format(new Date()) + " en pièce jointe");
+			Uri uri = Uri.fromFile((f));
+			sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
+			
+			sendIntent.setType("text/plain");
+			startActivity(sendIntent);
+		} catch (FileNotFoundException e) {
+		
+		e.printStackTrace();
+	} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -422,6 +481,14 @@ public class HomeActivity extends SimpleLayoutGameActivity implements PropertyCh
 		case Constants.EVENT_TYPE_CANT_EDIT:
 		{
 			Toast.makeText(getApplicationContext(), "Vous ne pouvez pas éditer l'élément", Toast.LENGTH_SHORT).show();			
+			break;
+		}
+		case Constants.EVENT_TYPE_RECEIVE_ELEMENT:
+		{
+			AID aidModel = (AID)event.getNewValue();
+			mailBox.add(aidModel);
+			Toast.makeText(getApplicationContext(), "Vous avez "+mailBox.size()+" message(s)", Toast.LENGTH_SHORT).show();			
+			scene.notifyReceiveShorcut(mailBox.size());
 			break;
 		}
 		}

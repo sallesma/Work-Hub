@@ -7,6 +7,7 @@ import org.andengine.util.modifier.ease.IEaseFunction;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.os.Environment;
 import android.util.DisplayMetrics;
 
 public class ConstantsAndroid {
@@ -18,6 +19,10 @@ public class ConstantsAndroid {
 //	public static final String EXT_PATH_FILES = Environment.getExternalStorageDirectory() + "/Android/data/com.piviandco.fatbooth/files/";
 //	public static final String EXT_PATH_THUMBS = Environment.getExternalStorageDirectory() + "/Android/data/com.piviandco.fatbooth/thumbs/";
 //	public static final String EXT_PATH_SAVED = Environment.getExternalStorageDirectory() + "/FatBooth/";
+	
+	public static final String EXT_PATH_FILES = Environment.getExternalStorageDirectory() + "/Android/data/com.workhub.android/export/";
+	
+	
 	public static final String LOG_TAG = "WorkHub";
 	public static final float ANIMATION_DURATION = 0.25f;
 	public static final IEaseFunction[] EASEFUNCTIONS = new IEaseFunction[] {
