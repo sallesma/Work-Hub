@@ -18,6 +18,8 @@ public class EraseElementBehaviour extends CyclicBehaviour{
 	private MessageTemplate template = new MessageTemplate(new MatchExpression() {
 		@Override
 		public boolean match(ACLMessage msg) {
+			//TODO: prévoir sis c'est un message systeme. Dans ce cas ce n'est pas forcement un JSON
+			//MalformedJsonException
 			JsonParser js = new JsonParser();
 			int action = ((JsonObject) js.parse(msg.getContent())).get(Constants.JSON_ACTION).getAsInt();
 			switch (action) {

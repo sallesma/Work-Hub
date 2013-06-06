@@ -17,7 +17,9 @@ public class ContentClientBehaviour extends CyclicBehaviour{
 	
 	private MessageTemplate template = new MessageTemplate(new MatchExpression() {
 		@Override
-		public boolean match(ACLMessage msg) {
+		public boolean match(ACLMessage msg) {	
+			//TODO: prévoir sis c'est un message systeme. Dans ce cas ce n'est pas forcement un JSON
+			//MalformedJsonException
 			JsonParser js = new JsonParser();
 			int action = Integer.parseInt(((JsonObject) js.parse(msg.getContent())).get(Constants.JSON_ACTION).toString());
 			switch (action) {
