@@ -1,6 +1,9 @@
 package com.workhub.mt4j;
 
+import jade.core.AID;
+
 import org.mt4j.MTApplication;
+import org.mt4j.components.MTComponent;
 import org.mt4j.components.visibleComponents.shapes.MTRectangle.PositionAnchor;
 import org.mt4j.components.visibleComponents.widgets.MTImage;
 import org.mt4j.input.gestureAction.TapAndHoldVisualizer;
@@ -14,6 +17,13 @@ import org.mt4j.sceneManagement.AbstractScene;
 import org.mt4j.util.MTColor;
 import org.mt4j.util.math.Vector3D;
 
+import com.workhub.model.ElementModel;
+import com.workhub.model.FileElementModel;
+import com.workhub.model.LinkElementModel;
+import com.workhub.model.PictureElementModel;
+import com.workhub.model.TextElementModel;
+import com.workhub.utils.Constants;
+
 import processing.core.PImage;
 
 public class WorkHubScene extends AbstractScene {
@@ -22,9 +32,11 @@ public class WorkHubScene extends AbstractScene {
 	private WorkHubButton recevoirButton;
 	private WorkHubButton masquerButton;
 	private MTImage imageFond;
+	private MTApplication mtApplication;
 	
 	public WorkHubScene(MTApplication mtApplication, String name) throws WorkHubException{
 		super(mtApplication, name);
+		this.mtApplication = mtApplication;
 		this.setClearColor(new MTColor(198, 200, 200, 255));
 		this.registerGlobalInputProcessor(new CursorTracer(mtApplication, this));
 		
@@ -86,5 +98,45 @@ public class WorkHubScene extends AbstractScene {
 
 	@Override
 	public void shutDown() {
+	}
+	
+	public AbstractElementView getElement(AID aid) throws WorkHubException {
+		for(MTComponent comp : getCanvas().getChildren()) {
+			if(comp instanceof AbstractElementView) {
+				AbstractElementView elt = (AbstractElementView)comp;
+				if(elt.getModel().getAgent() == aid) {
+					return elt;
+				}
+			}
+		}
+		throw new WorkHubException("Elément inconnu (AID non trouvé)");
+	}
+	
+	public void addElement(ElementModel model) throws Exception {
+		AbstractElementView e = null;
+		switch (model.getType()) {
+		case Constants.TYPE_ELEMENT_TEXT:
+			e = new TextElementView((TextElementModel)model, mtApplication.getWidth() / 2, mtApplication.getHeight() / 2,
+					MT4JConstants.ELEMENT_DEFAULT_WIDTH, MT4JConstants.ELEMENT_DEFAULT_HEIGHT, mtApplication, this);
+			break;
+		case Constants.TYPE_ELEMENT_PICTURE:
+			e = new ImageElementView((PictureElementModel)model, mtApplication.getWidth() / 2, mtApplication.getHeight() / 2,
+					MT4JConstants.ELEMENT_DEFAULT_WIDTH, MT4JConstants.ELEMENT_DEFAULT_HEIGHT, mtApplication, this);
+			break;
+		case Constants.TYPE_ELEMENT_LINK:
+			e = new LinkElementView((LinkElementModel)model, mtApplication.getWidth() / 2, mtApplication.getHeight() / 2,
+					MT4JConstants.ELEMENT_DEFAULT_WIDTH, MT4JConstants.ELEMENT_DEFAULT_HEIGHT, mtApplication, this);
+			break;
+		case Constants.TYPE_ELEMENT_FILE:
+			e = new FileElementView((FileElementModel)model, mtApplication.getWidth() / 2, mtApplication.getHeight() / 2,
+					MT4JConstants.ELEMENT_DEFAULT_WIDTH, MT4JConstants.ELEMENT_DEFAULT_HEIGHT, mtApplication, this);
+			break;
+		}
+		if(e!=null){
+			getCanvas().addChild(e);
+		}else{
+			throw new WorkHubException("Element non supporté");
+		}
+
 	}
 }
