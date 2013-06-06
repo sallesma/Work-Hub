@@ -382,8 +382,8 @@ public class HomeActivity extends SimpleLayoutGameActivity implements PropertyCh
 		}
 		case Constants.EVENT_TYPE_DIED:
 		{
-			ElementModel model = (ElementModel)event.getNewValue();
-			BaseElement element = scene.getElement(model.getAgent());
+			AID agent = (AID)event.getNewValue();
+			BaseElement element = scene.getElement(agent);
 			if(element!=null){
 				element.remove();
 			}

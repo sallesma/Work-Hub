@@ -77,7 +77,7 @@ public class ClientAgent extends GuiAgent implements ClientAgentInterface{
 		
 		switch (ev.getType()) {
 		case Constants.EVENT_TYPE_SAVE:
-			elementModel = (ElementModel) ev.getSource();
+			elementModel = (ElementModel)ev.getParameter(0);
 			message =  MessageFactory.createMessage(this, elementModel.getAgent(), Constants.MESSAGE_ACTION_SAVE_CONTENT, elementModel);
 			break;
 			
@@ -88,8 +88,8 @@ public class ClientAgent extends GuiAgent implements ClientAgentInterface{
 			break;
 			
 		case Constants.EVENT_TYPE_DELETE:
-			elementModel = (ElementModel) ev.getSource();
-			message =  MessageFactory.createMessage(this, elementModel.getAgent(), Constants.MESSAGE_ACTION_DELETE, null);
+			AID agent = (AID) ev.getParameter(0);
+			message =  MessageFactory.createMessage(this, agent, Constants.MESSAGE_ACTION_DELETE, null);
 			break;
 			
 		case Constants.EVENT_TYPE_GET_NEIGHBOURGS://TODO
@@ -128,12 +128,12 @@ public class ClientAgent extends GuiAgent implements ClientAgentInterface{
 			break;
 
 		case Constants.EVENT_TYPE_CHARGE:
-			elementModel = (ElementModel) ev.getSource();
+			elementModel = (ElementModel) ev.getParameter(0);
 			message = MessageFactory.createMessage(this, elementModel.getAgent(), Constants.MESSAGE_ACTION_GET_CONTENT, null);
 			break;
 		
 		case Constants.EVENT_TYPE_ASK_EDIT:
-			elementModel = (ElementModel) ev.getSource();
+			elementModel = (ElementModel) ev.getParameter(0);
 			message = MessageFactory.createMessage(this, elementModel.getAgent(), Constants.MESSAGE_ACTION_EDIT, null);
 			break;
 			
