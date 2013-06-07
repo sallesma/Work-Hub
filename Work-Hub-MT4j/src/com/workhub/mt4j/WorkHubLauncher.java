@@ -16,9 +16,11 @@ public class WorkHubLauncher extends MTApplication {
 		try {
 			WorkHubScene scene = new WorkHubScene(this, "WorkHub");
 			addScene(scene);
-			JadeInterface.getInstance().setScene(scene);
 			ImageIcon icon = new ImageIcon("Image/logo.png");
 			frame.setIconImage(icon.getImage());
+			
+			JadeInterface.getInstance().setScene(scene);
+			JadeInterface.getInstance().startJade("localhost", null, true, "MT4J RPZ");
 		} catch (WorkHubException e) {
 			e.printStackTrace();
 		}
