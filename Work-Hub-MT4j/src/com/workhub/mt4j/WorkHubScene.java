@@ -104,7 +104,7 @@ public class WorkHubScene extends AbstractScene {
 		for(MTComponent comp : getCanvas().getChildren()) {
 			if(comp instanceof AbstractElementView) {
 				AbstractElementView elt = (AbstractElementView)comp;
-				if(elt.getModel().getAgent() == aid) {
+				if(elt.getModel() != null && elt.getModel().getAgent() == aid) {
 					return elt;
 				}
 			}
@@ -122,9 +122,7 @@ public class WorkHubScene extends AbstractScene {
 				AbstractElementView element = (AbstractElementView)children[i];
 				if(element.getType() == type && element.getModel() == null) {
 					element.setModel(model);
-					JadeInterface.getInstance().saveElement(element);
 					found = true;
-					System.out.println("modele attache : " + model.toString());
 				}
 			}
 		}

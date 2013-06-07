@@ -134,6 +134,7 @@ public final class JadeInterface implements PropertyChangeListener {
 			}else{
 				try {
 					scene.attachModel(model);
+					saveElement(element);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
