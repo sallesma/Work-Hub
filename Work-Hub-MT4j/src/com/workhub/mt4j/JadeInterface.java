@@ -65,12 +65,15 @@ public final class JadeInterface implements PropertyChangeListener {
 
 	public void sendElement(AID dest, AID elementAgent){
 		Object[] param = {dest , elementAgent};
-
-		GuiEvent event = new GuiEvent(param,Constants.EVENT_TYPE_SEND);
+		GuiEvent event = new GuiEvent(null,Constants.EVENT_TYPE_SEND);
+		event.addParameter(dest);
+		event.addParameter(elementAgent);
 		fireOnGuiEvent(event);
 	}
+	
 	public void askEdition(AID elementAgent){
-		GuiEvent event = new GuiEvent(elementAgent,Constants.EVENT_TYPE_ASK_EDIT);
+		GuiEvent event = new GuiEvent(null,Constants.EVENT_TYPE_ASK_EDIT);
+		event.addParameter(elementAgent);
 		fireOnGuiEvent(event);
 	}
 
@@ -83,12 +86,14 @@ public final class JadeInterface implements PropertyChangeListener {
 	}
 
 	public void deleteElement(AID elementAgent){
-		GuiEvent event = new GuiEvent(elementAgent,Constants.EVENT_TYPE_DELETE);
+		GuiEvent event = new GuiEvent(null,Constants.EVENT_TYPE_DELETE);
+		event.addParameter(elementAgent);
 		fireOnGuiEvent(event);
 	}
 
 	public void saveElement(ElementModel model){
-		GuiEvent event = new GuiEvent(model, Constants.EVENT_TYPE_SAVE);
+		GuiEvent event = new GuiEvent(null, Constants.EVENT_TYPE_SAVE);
+		event.addParameter(model);
 		fireOnGuiEvent(event);
 	}
 	
@@ -97,7 +102,8 @@ public final class JadeInterface implements PropertyChangeListener {
 	}
 
 	public void getElement(AID agentAID ){
-		GuiEvent event = new GuiEvent(agentAID, Constants.EVENT_TYPE_CHARGE);
+		GuiEvent event = new GuiEvent(null, Constants.EVENT_TYPE_CHARGE);
+		event.addParameter(agentAID);
 		fireOnGuiEvent(event);
 	}
 
@@ -134,7 +140,6 @@ public final class JadeInterface implements PropertyChangeListener {
 			}else{
 				try {
 					scene.attachModel(model);
-					saveElement(element);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
