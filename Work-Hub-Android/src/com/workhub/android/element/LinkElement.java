@@ -16,6 +16,10 @@ public class LinkElement extends TextElement{
 		super(model, centerX, centerY, res);
 		
 	}
+	@Override
+	protected float getBodyHeight() {
+		return res.toPixel(100);
+	};
 	
 	@Override
 	protected void onShortClick() {

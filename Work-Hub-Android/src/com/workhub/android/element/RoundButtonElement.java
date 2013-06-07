@@ -1,5 +1,7 @@
 package com.workhub.android.element;
 
+import java.util.List;
+
 import jade.core.AID;
 
 import org.andengine.entity.modifier.LoopEntityModifier;
@@ -112,9 +114,11 @@ public class RoundButtonElement extends AbstractElement{
 	@Override
 	protected void iniDialogView() {
 		super.iniDialogView();
-		Button bt_recevoir = (Button) menuDialog.findViewById(R.id.bt_recevoir);
-		bt_recevoir.setVisibility(View.VISIBLE);
-		bt_recevoir.setOnClickListener(this);
+		if(type==R.id.bt_raccourci_recevoir){
+			Button bt_recevoir = (Button) menuDialog.findViewById(R.id.bt_recevoir);
+			bt_recevoir.setVisibility(View.VISIBLE);
+			bt_recevoir.setOnClickListener(this);
+		}
 	}
 
 	@Override
@@ -144,10 +148,16 @@ public class RoundButtonElement extends AbstractElement{
 			}
 			break;
 		case R.id.bt_raccourci_envoyer:
-			if(abstractElement instanceof BaseElement){
+			if(abstractElement instanceof GroupElement){
+				List<BaseElement> es = ((GroupElement)abstractElement).getBaseElements();
+				for(int i = 0 ; i <es.size() ; i++ ){
+					res.getContext().sendElement((AID) arg, ((BaseElement)es.get(i)).getModel().getAgent());
+				}
+			}
+			else if(abstractElement instanceof BaseElement){
 				res.getContext().sendElement((AID) arg, ((BaseElement)abstractElement).getModel().getAgent());
 			}
-
+			abstractElement.masquer();
 			break;
 		case R.id.bt_raccourci_exporter:
 			if(abstractElement instanceof GroupElement){
@@ -155,9 +165,6 @@ public class RoundButtonElement extends AbstractElement{
 			}else if (abstractElement instanceof BaseElement){
 				((BaseElement)abstractElement).export();
 			}
-			
-			
-			
 			break;
 		case R.id.bt_raccourci_masquer:
 			if(abstractElement instanceof BaseElement){
@@ -175,7 +182,7 @@ public class RoundButtonElement extends AbstractElement{
 		}
 
 	}
-	
+
 	@Override
 	protected void onShortClick() 
 	{
@@ -211,7 +218,7 @@ public class RoundButtonElement extends AbstractElement{
 					new ScaleModifier(0.5f, 1.1f, 1)
 					));
 			cercleBody.registerEntityModifier(entityModifier);
-			
+
 
 		}
 	}

@@ -11,9 +11,11 @@ import jade.lang.acl.ACLMessage;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import com.workhub.jade.behaviour.ContentClientBehaviour;
@@ -77,9 +79,21 @@ public class ClientAgent extends GuiAgent implements ClientAgentInterface{
 			break;
 			
 		case Constants.EVENT_TYPE_SEND:
-			AID dest = (AID)ev.getParameter(0);
-			AID elementAgent = (AID)ev.getParameter(1);
-			message =  MessageFactory.createMessage(this, dest, Constants.MESSAGE_ACTION_SHARE, elementAgent);
+			List<AID> dests= new ArrayList<AID>(); 
+			if(ev.getParameter(0)!=null){
+				dests.add((AID)ev.getParameter(0));
+			}else{
+				DFAgentDescription[] receivers = Utils.agentSearch(this, Constants.CLIENT_AGENT);
+				for(DFAgentDescription df : receivers){
+					if(!df.getName().equals(getAID()))
+						dests.add(df.getName());
+				}
+			}
+			for (int i = 0; i < dests.size(); i++) {
+				AID elementAgent = (AID)ev.getParameter(1);
+				send( MessageFactory.createMessage(this, dests.get(i), Constants.MESSAGE_ACTION_SHARE, elementAgent));
+			}
+			
 			break;
 			
 		case Constants.EVENT_TYPE_DELETE:
@@ -172,9 +186,5 @@ public class ClientAgent extends GuiAgent implements ClientAgentInterface{
 		changes.firePropertyChange(String.valueOf(typeMessage), null, params);
 	}
 
-	@Override
-	public AID getAgentAID() {
-		return getAID();
-	}
-	
+
 }

@@ -47,13 +47,16 @@ public abstract class BaseElement extends AbstractElement  {
 	public BaseElement(ElementModel model, float centerX, float centerY, Ressources res, boolean isResizable) {
 		super(centerX, centerY, res, isResizable);
 		WIDTH = res.toPixel(250);
-		HEIGHT = res.toPixel(300);
+		HEIGHT = getBodyHeight();
 		MARGIN = res.toPixel(10);
 		this.model = model;
 		initShape(res);
 	}
 
 
+	protected float getBodyHeight() {
+		return res.toPixel(250);
+	}
 	protected abstract void iniEditDialog();
 	protected void saveModel(){
 		isSaving  = true;
@@ -62,8 +65,6 @@ public abstract class BaseElement extends AbstractElement  {
 		model.setTitle(((EditText)editDialog.findViewById(R.id.title)).getText().toString());
 		saveContent();
 		res.getContext().saveElement(model);
-		int[] colors  = model.getColorRGB();
-		body.setColor(colors[0]/255f, colors[1]/255f, colors[2]/255f);
 	}
 
 	protected abstract void saveContent();
@@ -111,8 +112,7 @@ public abstract class BaseElement extends AbstractElement  {
 		contour.setZIndex(-20);
 		contour.setColor(0, 0, 0);
 		body.attachChild(contour);
-		int[] colors  = model.getColorRGB();
-		body.setColor(colors[0]/255f, colors[1]/255f, colors[2]/255f);
+
 		body.setPosition(-WIDTH/2, -HEIGHT/2);
 
 		this.attachChild(body);
@@ -133,6 +133,8 @@ public abstract class BaseElement extends AbstractElement  {
 	}
 	public float updateView(){
 
+		int[] colors  = model.getColorRGB();
+		body.setColor(colors[0]/255f, colors[1]/255f, colors[2]/255f);
 		float posY=MARGIN/getScaleY();
 		mTextTitre.getTextOptions().setAutoWrapWidth(getScaledAutoWrapMargin());
 		mTextTitre.setText(model.getTitle());
@@ -220,14 +222,15 @@ public abstract class BaseElement extends AbstractElement  {
 		res.getContext().export(list);		
 	}
 
+	@Override
 	public void masquer() {
-		super.remove();
+		super.masquer();
 	}
 
-	@Override
+
 	public void remove() {
 		res.getContext().deleteElement(model.getAgent());
-		super.remove();
+		super.masquer();
 	};
 
 	public void edit() {

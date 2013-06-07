@@ -24,6 +24,8 @@ public class Constants {
 	public static final int MESSAGE_ACTION_CREATE_ELEMENT = 15010;
 	public static final int MESSAGE_ACTION_STOP_EDIT = 150011; 
 	
+	public static final int MESSAGE_ACTION_ELEMENT_CHANGED= 15012; //TODO element venant d'être édité -> tous les clients (client -> interface : cf EVENT_TYPE_CHANGE)
+	
 
 	public static final String JSON_ACTION = "action";
 	public static final String JSON_AGENT_TYPE = "agent_type";

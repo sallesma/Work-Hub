@@ -127,7 +127,7 @@ public class MessageFactory {
 			// Quand on veut creer un message de type MESSAGE_ACTION_SHARE : sender et receiver : ClientAgent, dans params : AID de l'element a envoyer
 			performatif = ACLMessage.REQUEST;
 			j.addProperty(Constants.JSON_ACTION, ""+Constants.MESSAGE_ACTION_SHARE);
-			j.addProperty("element", ((AID)params).toString());
+			j.addProperty("element", ((AID)params).getName());
 			break;
 
 		case Constants.MESSAGE_ACTION_SAVE_CONTENT: 

@@ -36,8 +36,10 @@ import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.andengine.entity.scene.Scene;
 import org.andengine.ui.activity.SimpleLayoutGameActivity;
 
+import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.database.Cursor;
@@ -45,6 +47,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.MediaStore;
+import android.view.KeyEvent;
 import android.widget.Toast;
 
 import com.workhub.android.R;
@@ -54,6 +57,7 @@ import com.workhub.android.element.PictureElement;
 import com.workhub.android.scene.MainScene;
 import com.workhub.android.utils.ConstantsAndroid;
 import com.workhub.android.utils.Ressources;
+import com.workhub.android.utils.SettingsManager;
 import com.workhub.jade.agent.ClientAgent;
 import com.workhub.jade.agent.ClientAgentInterface;
 import com.workhub.jade.agent.CreatorAgent;
@@ -69,26 +73,26 @@ public class HomeActivity extends SimpleLayoutGameActivity implements PropertyCh
 	private MicroRuntimeServiceBinder microRuntimeServiceBinder;
 
 	private List<AID> mailBox = new ArrayList<AID>();
+	private String nickname;
+	private AbstractElement askElement;
+	private MainScene scene;
+
+	
+	
+	
 	@Override
 	protected void onCreate(Bundle pSavedInstanceState) {
 
 
 		super.onCreate(pSavedInstanceState);
-
-		startJade(nickname, AndroidHelper.getLocalIPAddress(), "1099" );
+		nickname = SettingsManager.getInstance(getApplicationContext()).getNickname();
+		startJade(nickname, SettingsManager.getInstance(getApplicationContext()).getHost(), "1099" );
 
 
 		//		startJade(nickname, "192.168.43.67", "1099" );
 		//	startJade(nickname, "192.168.1.50", "1099" );
 
 	}
-	//TODO demarrer creator agent si main container.
-	private String nickname = "Florian";
-	private AbstractElement askElement;
-	private MainScene scene;
-
-
-
 
 	public void startJade(final String nickname, final String host,
 			final String port) {
@@ -229,6 +233,7 @@ public class HomeActivity extends SimpleLayoutGameActivity implements PropertyCh
 			}
 		});
 	}
+	
 	private ClientAgentInterface getAgent() throws StaleProxyException, ControllerException{
 		return  (ClientAgentInterface) MicroRuntime.getAgent(nickname).getO2AInterface(ClientAgentInterface.class);
 	}
@@ -248,10 +253,34 @@ public class HomeActivity extends SimpleLayoutGameActivity implements PropertyCh
 
 	}
 
-
-
-
-
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+	    if (keyCode == KeyEvent.KEYCODE_BACK) {
+	        quitter();
+	        return true;
+	    }
+	    return super.onKeyDown(keyCode, event);
+	}
+	
+	void quitter(){
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setMessage("Etes vous sûr de vouloir quitter?")
+		       .setCancelable(false)
+		       .setPositiveButton("Oui", new DialogInterface.OnClickListener() {
+		           public void onClick(DialogInterface dialog, int id) {
+		        	   //TODO clean jade
+		        	   HomeActivity.this.finish();
+		                dialog.dismiss();
+		           }
+		       })
+		       .setNegativeButton("Non", new DialogInterface.OnClickListener() {
+		           public void onClick(DialogInterface dialog, int id) {
+		                dialog.cancel();
+		           }
+		       });
+		AlertDialog alert = builder.create();
+		alert.show();
+	}
 
 
 

@@ -63,7 +63,7 @@ public class ShareClientBehaviour extends CyclicBehaviour {
 			JsonParser js = new JsonParser();
 			String agent = ((JsonObject) js.parse(message.getContent())).get("element").getAsString();
 
-			AID element_shared = findElementAgent(agent);
+			AID element_shared = 	new AID(agent, AID.ISGUID);//findElementAgent(agent);
 
 			((ClientAgent)myAgent).fireChanges(Constants.EVENT_TYPE_RECEIVE_ELEMENT, element_shared);
 		}else{
@@ -75,16 +75,16 @@ public class ShareClientBehaviour extends CyclicBehaviour {
 
 	}
 
-	private AID findElementAgent(String agent){
-		DFAgentDescription[] result = Utils.agentSearch(myAgent, Constants.ELEMENT_AGENT);
-
-		for(DFAgentDescription df : result){
-			if(df.getName().getName().equals(agent)){
-				return df.getName();
-			}
-		}
-		return null;
-
-	}
+//	private AID findElementAgent(String agent){
+//		DFAgentDescription[] result = Utils.agentSearch(myAgent, Constants.ELEMENT_AGENT);
+//
+//		for(DFAgentDescription df : result){
+//			if(df.getName().getName().equals(agent)){
+//				return df.getName();
+//			}
+//		}
+//		return null;
+//
+//	}
 
 }

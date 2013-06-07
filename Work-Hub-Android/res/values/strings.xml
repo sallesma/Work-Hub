@@ -17,7 +17,10 @@
 	<string name="element_lien">Lien</string>
 	<string name="element_fichier">Fichier</string>
 	<string name="select_color">Couleur:</string>
-	
+	<string name="ip_address">Adresse IP</string>
+	<string name="pseudo">Votre pseudo</string>
+	<string name="heberger">Héberger le Hub</string>
+	<string name="connexion">Connexion au Hub</string>
 	
 	<string name="raccourci_envoyer">Envoyer</string>
 	<string name="raccourci_editer">Editer</string>

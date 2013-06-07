@@ -161,13 +161,13 @@ public class GroupElement extends AbstractElement  {
 		});
 
 	}
-	@Override
+	
 	public void remove() { 
 		for (int i = 0; i < getBaseElements().size(); i++) {
 			getBaseElements().get(i).remove();
 		}
 		clearGroup();
-		super.remove();
+		super.masquer();
 	}
 
 
@@ -191,7 +191,7 @@ public class GroupElement extends AbstractElement  {
 			remove();
 			break;
 		case R.id.bt_degroupe:
-			super.remove();
+			super.masquer();
 			break;
 		}
 		super.onClick(v);

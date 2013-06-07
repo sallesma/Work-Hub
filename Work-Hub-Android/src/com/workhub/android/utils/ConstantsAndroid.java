@@ -30,6 +30,8 @@ public class ConstantsAndroid {
         EaseBackOut.getInstance(),
         EaseCubicInOut.getInstance()
         };
+
+	public static final String SettingsFileName = "settingsfile";
 	
 	
 	

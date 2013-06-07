@@ -35,7 +35,7 @@ public abstract class AbstractElement extends Entity  implements ITouchArea, IHo
 	protected Ressources res;
 	private Sprite touchRound;
 
-	private final long SHORT_CLICK_TIMEOUT = 200;
+	private final long SHORT_CLICK_TIMEOUT = 100;
 	private boolean shortClick = false;
 	
 	protected AbstractElement(float centerX, float centerY, final Ressources res, boolean isResizable){
@@ -118,13 +118,13 @@ public abstract class AbstractElement extends Entity  implements ITouchArea, IHo
 		switch (v.getId()) {
 
 		case R.id.bt_supprimer:
-			remove();
+			masquer();
 			break;
 		}
 	}
 
 
-	public void remove() {
+	public void masquer() {
 		res.getContext().runOnUpdateThread(new Runnable() {
 
 			@Override
@@ -351,6 +351,12 @@ public abstract class AbstractElement extends Entity  implements ITouchArea, IHo
 		if(pointerCount==0){
 			((MainScene) getParent()).verifyRoundButton(this);
 		}
+	}
+
+
+
+	public void remove() {
+		masquer();
 	}
 
 

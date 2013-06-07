@@ -4,4 +4,7 @@
 	<dimen name="ambilwarna_hsvWidth">240dp</dimen>
 	<dimen name="ambilwarna_hueWidth">30dp</dimen>
 	<dimen name="ambilwarna_spacer">8dp</dimen>
+	
+	
+	<integer name="long_anim_speed">1000</integer>
 </resources>

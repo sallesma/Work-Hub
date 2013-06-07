@@ -3,7 +3,9 @@ package com.workhub.android.scene;
 import jade.core.AID;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import org.andengine.engine.camera.Camera;
@@ -333,6 +335,7 @@ public class MainScene extends Scene implements IOnSceneTouchListener, IHoldDete
 		}
 		groupElement = new GroupElement(res );
 		attachChild(groupElement);
+		groupElement = null;
 	}
 
 	@Override
@@ -505,7 +508,12 @@ public class MainScene extends Scene implements IOnSceneTouchListener, IHoldDete
 				android.R.layout.simple_list_item_1, new ArrayList<String>());
 		ListView listview = (ListView)currentDialog.findViewById(R.id.listview);
 		listview.setAdapter(adapter);
-
+		
+		Map<AID, String> map = new HashMap<AID, String>();	
+		map.put(null, "Tous");
+		for (Entry<AID, String> el : map.entrySet()) {
+			adapter.addEntry(el);
+		}
 		listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
 			@Override

@@ -1,59 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
+    style="@style/AppTheme"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/gris"
     android:orientation="vertical" >
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:src="@drawable/logoWH" />
-
     <LinearLayout
         android:id="@+id/linearLayout1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:orientation="vertical" >
+        android:layout_alignParentTop="true"
+        android:orientation="vertical"
+        android:padding="5dp" >
 
         <EditText
-        android:id="@+id/ipaddress"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/ip_address"
-        android:ems="10"
-        android:inputType="numberDecimal" >
+            android:id="@+id/ipaddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/ip_address"
+            android:inputType="phone" >
 
-        <requestFocus />
-   		</EditText>
+            <requestFocus />
+        </EditText>
 
-    <EditText
-        android:id="@+id/name"
-         android:hint="@string/pseudo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10" />
-    
+        <EditText
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/pseudo" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:orientation="horizontal"
+            android:weightSum="2" >
 
             <Button
-                android:id="@+id/bt_hevberger"
-                style="@style/bt_list"
+                android:id="@+id/bt_heberger"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="@string/heberger" />
 
             <Button
                 android:id="@+id/bt_connexion"
-                style="@style/bt_list"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="@string/connexion" />
         </LinearLayout>
     </LinearLayout>
 
-    
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:src="@drawable/logowh" />
 
 </RelativeLayout>

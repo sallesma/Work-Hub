@@ -32,33 +32,17 @@ public class PictureElement extends BaseElement{
 	private BitmapTextureAtlas texture;
 	private BitmapTextureAtlasSourcePerso bitmapTextureAtlasSourcePerso;
 	private Sprite imageSprite;
-	
+
 	public PictureElement(PictureElementModel model, float centerX, float centerY, Ressources res) {
 		super(model, centerX, centerY, res , false);
 
-		TextureRegion tr = null;
-		if(model.getContent()==null){
-			tr = res.getTR_No_Image();
-
-		}else{
-			iniTexture();
-			Bitmap b=null;
-			byte[] bytes = model.getContent();
-			BitmapFactory.Options opts = new BitmapFactory.Options();               
-			opts.inPreferredConfig = Bitmap.Config.ARGB_8888;
-			b = BitmapFactory.decodeByteArray(bytes,0, bytes.length, opts);
-			tr = getTextureRegion(b);
-		}
-		
-		imageSprite = new Sprite(0, 0, tr, res.getContext().getVertexBufferObjectManager());
-		body.attachChild(imageSprite);
 		this.updateView();
 	}
 	private TextureRegion getTextureRegion(Bitmap b) {
 		bitmapTextureAtlasSourcePerso = new BitmapTextureAtlasSourcePerso(b);
 		return TextureRegionFactory.createFromSource(texture, bitmapTextureAtlasSourcePerso , 0, 0, false);
 	}
-	
+
 	private void iniTexture(){
 		if(texture!=null){
 			texture.clearTextureAtlasSources();
@@ -68,38 +52,70 @@ public class PictureElement extends BaseElement{
 			texture = new BitmapTextureAtlas(res.getContext().getTextureManager(), requiredSize, requiredSize, TextureOptions.BILINEAR);
 			res.getContext().getEngine().getTextureManager().loadTexture(texture);
 		}
-		
-			
-		
-			
+
+
+
+
 	}
-	
+
 	public void changeImage(final Bitmap b){
-		
+
 		res.getContext().runOnUiThread(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				((ImageView)editDialog.findViewById(R.id.img_content)).setImageBitmap(b);
-				
+
 			}
 		});
 	}
-	
-	
+
+
 	@Override
 	public float updateView() {
+		
+		final Sprite imageSpritetmp = imageSprite;
+		res.getContext().runOnUpdateThread(new Runnable() {
+
+			@Override
+			public void run() {
+				if(imageSpritetmp!=null){
+					imageSpritetmp.dispose();
+					imageSpritetmp.detachSelf();
+				}
+
+			}
+		});
+		
+		
+		TextureRegion tr = null;
+		if(getModel().getContent()==null){
+			tr = res.getTR_No_Image();
+
+		}else{
+			iniTexture();
+			Bitmap b=null;
+			byte[] bytes = getModel().getContent();
+			BitmapFactory.Options opts = new BitmapFactory.Options();               
+			opts.inPreferredConfig = Bitmap.Config.ARGB_8888;
+			b = BitmapFactory.decodeByteArray(bytes,0, bytes.length, opts);
+			tr = getTextureRegion(b);
+			texture.load();
+		}
+
+		imageSprite = new Sprite(0, 0,tr.getWidth(), tr.getHeight(), tr, res.getContext().getVertexBufferObjectManager());
+		body.attachChild(imageSprite);
 		float posY = super.updateView()+MARGIN/getScaleY();
-		
-		
+
+
 		float rap = imageSprite.getWidth()/imageSprite.getHeight();
-		
+
 		float height = (body.getWidth()-2*MARGIN)/rap;
 		imageSprite.setHeight(height);
 		imageSprite.setWidth((body.getWidth()-2*MARGIN));
 		//imageSprite.setScaleCenter(0, 0);
 		//imageSprite.setScale(rap);
-		
+
 		imageSprite.setPosition(MARGIN, posY);
 		posY =posY+ imageSprite.getHeight();
 		setBodyHeight(posY+MARGIN);
@@ -151,7 +167,7 @@ public class PictureElement extends BaseElement{
 			float size=bitmapSize.height;
 			if(bitmapSize.width>bitmapSize.height)
 				size = bitmapSize.width;
-			
+
 			if(size > requiredSize){
 
 
@@ -162,13 +178,13 @@ public class PictureElement extends BaseElement{
 
 				}
 			}
-			
+
 			Bitmap bitmap;
-			
+
 			bitmap = FileManager.readBitmapFile(imgPath, (int) sampleScale);
-			
+
 			float rap =((float) bitmap.getWidth())/bitmap.getHeight();
-			
+
 			int height = requiredSize;
 			int weight = requiredSize;
 			if(rap>1){
@@ -176,13 +192,13 @@ public class PictureElement extends BaseElement{
 			}else{
 				weight = (int) (requiredSize*rap);
 			}
-			
-			
-			
+
+
+
 			bitmap = BitmapTransform.resize(bitmap, weight, height);
 			size = bitmap.getWidth();
 			changeImage(bitmap);
-			
+
 
 
 		} catch (Exception e) {
@@ -192,37 +208,22 @@ public class PictureElement extends BaseElement{
 
 	@Override
 	protected void saveContent() {
-		final Bitmap b = ((BitmapDrawable)((ImageView)editDialog.findViewById(R.id.img_content)).getDrawable()).getBitmap();
-		res.getContext().runOnUpdateThread(new Runnable() {
-			
-			@Override
-			public void run() {
-				imageSprite.dispose();
-				imageSprite.detachSelf();
-				
-				
-				iniTexture();
-				TextureRegion tr = getTextureRegion(b);
-				texture.load();
-				imageSprite = new Sprite(0, 0,b.getWidth(), b.getHeight(), tr, res.getContext().getVertexBufferObjectManager());
-				body.attachChild(imageSprite);
-				updateView();
-			}
-		});
-		
+		Bitmap b = ((BitmapDrawable)((ImageView)editDialog.findViewById(R.id.img_content)).getDrawable()).getBitmap();
+
+
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
 		b.compress(Bitmap.CompressFormat.PNG, 100, stream);
 		getModel().setContent(stream.toByteArray());
-		
+
 		try {
-		    stream.close();
-		    stream = null;
+			stream.close();
+			stream = null;
 		} catch (IOException e) {
 
-		    e.printStackTrace();
+			e.printStackTrace();
 		}
 	}
-	
+
 	@Override
 	public void remove() {
 		super.remove();
@@ -233,7 +234,7 @@ public class PictureElement extends BaseElement{
 			bitmapTextureAtlasSourcePerso.recycle();
 		}
 	}
-	
+
 	class BitmapTextureAtlasSourcePerso extends BaseTextureAtlasSource implements IBitmapTextureAtlasSource
 	{
 		private Bitmap mBitmap;
