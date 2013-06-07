@@ -38,10 +38,13 @@ public final class JadeInterface implements PropertyChangeListener {
 	public void startJade(String hostID, String platformID, boolean isHost, String nickname) {
 		Runtime rt = Runtime.instance();
 		Profile profile = isHost ? new ProfileImpl(null , 1099, null) : new ProfileImpl(hostID, 1099, platformID, false);
+		profile.setParameter(Profile.GUI, "true"); // Pour debugger
 		ContainerController cc = rt.createMainContainer(profile);
 		try {
 			agentController = cc.createNewAgent(nickname, "com.workhub.jade.agent.ClientAgent", new Object[] { this });
 			agentController.start();
+			AgentController creatorAgent = cc.createNewAgent("creatorAgent","com.workhub.jade.agent.CreatorAgent",null);
+			creatorAgent.start();
 		} catch (StaleProxyException e) {
 			System.err.println("Erreur lors de la creation de l'agent");
 			e.printStackTrace();
