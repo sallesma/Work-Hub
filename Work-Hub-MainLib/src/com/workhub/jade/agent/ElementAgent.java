@@ -110,12 +110,9 @@ public class ElementAgent extends Agent {
 		
 		
 		
-		
-		
 		DFAgentDescription[] receivers = Utils.agentSearch(this, Constants.CLIENT_AGENT);
 		for(DFAgentDescription df : receivers)
-			this.send(MessageFactory.createMessage(this, df.getName(), Constants.MESSAGE_ACTION_CONTENT)); // FIXME
-		    //this.send(MessageFactory.createMessage(this, df.getName(), Constants.MESSAGE_ACTION_ELEMENT_CHANGED));//TODO
+		    this.send(MessageFactory.createMessage(this, df.getName(), Constants.MESSAGE_ACTION_ELEMENT_CHANGED));
 		
 	}
 	

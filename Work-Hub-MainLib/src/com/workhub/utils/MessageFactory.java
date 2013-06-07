@@ -53,6 +53,12 @@ public class MessageFactory {
 			performatif = ACLMessage.INFORM;
 			j.addProperty(Constants.JSON_ACTION, Constants.MESSAGE_ACTION_IS_DYING);
 			break;	
+			
+		case Constants.MESSAGE_ACTION_ELEMENT_CHANGED:
+			// annonce que l'element a ete modifie et que le Client (receiver) doit le mettre a jour
+			performatif = ACLMessage.INFORM;
+			j.addProperty(Constants.JSON_ACTION, Constants.MESSAGE_ACTION_ELEMENT_CHANGED);
+			break;
 
 		case Constants.MESSAGE_RECEIVE_ELEMENT_CONTENT:
 			j = getElementContent(sender.getContentModel(), j);
