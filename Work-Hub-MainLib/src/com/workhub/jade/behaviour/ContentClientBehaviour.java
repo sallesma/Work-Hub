@@ -73,7 +73,7 @@ public class ContentClientBehaviour extends CyclicBehaviour{
 				case Constants.MESSAGE_ACTION_EDIT:
 					// Si action_edit : sait s'il peut etre editeur ou non
 
-					boolean editor = ((JsonObject) js.parse(message.getContent())).get("can_edit").getAsBoolean();
+					boolean editor = ((JsonObject) js.parse(message.getContent())).get(Constants.JSON_CAN_EDIT).getAsBoolean();
 
 					if(editor == true){
 						// envoyer a l'interface un evenement de type EVENT_CAN_EDIT

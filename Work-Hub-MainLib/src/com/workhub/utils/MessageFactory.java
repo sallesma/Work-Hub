@@ -37,7 +37,7 @@ public class MessageFactory {
 
 			boolean autorization = sender.lockEdit(receiver);
 			Utils.agentSearch(sender, Constants.CLIENT_AGENT);
-			j.addProperty("can_edit", autorization);
+			j.addProperty(Constants.JSON_CAN_EDIT, autorization);
 			performatif = ACLMessage.INFORM;
 			j.addProperty(Constants.JSON_ACTION, Constants.MESSAGE_ACTION_EDIT);			
 			break;
@@ -133,7 +133,7 @@ public class MessageFactory {
 			// Quand on veut creer un message de type MESSAGE_ACTION_SHARE : sender et receiver : ClientAgent, dans params : AID de l'element a envoyer
 			performatif = ACLMessage.REQUEST;
 			j.addProperty(Constants.JSON_ACTION, ""+Constants.MESSAGE_ACTION_SHARE);
-			j.addProperty("element", ((AID)params).getName());
+			j.addProperty(Constants.JSON_ELEMENT, ((AID)params).getName());
 			break;
 
 		case Constants.MESSAGE_ACTION_SAVE_CONTENT: 
@@ -160,7 +160,6 @@ public class MessageFactory {
 
 
 		int type = model.getType();
-		System.out.println(" type : "+type);
 
 		int color = model.getColor();
 		String title = model.getTitle();
@@ -173,18 +172,18 @@ public class MessageFactory {
 			byte[] content = ((PictureElementModel)model).getContent();
 			if(content!=null){
 				String picture_str = Base64.encodeBytes(content, Base64.NO_OPTIONS);
-				j.addProperty("content", picture_str);
+				j.addProperty(Constants.JSON_CONTENT, picture_str);
 			}
 		}
 
 		else if(type==Constants.TYPE_ELEMENT_LINK){
 			String url = ((LinkElementModel)(model)).getContent();
-			j.addProperty("content", url);
+			j.addProperty(Constants.JSON_CONTENT, url);
 		}
 
 		else if(type==Constants.TYPE_ELEMENT_TEXT){
 			String text = ((TextElementModel)model).getContent();
-			j.addProperty("content", text);
+			j.addProperty(Constants.JSON_CONTENT, text);
 		}
 
 		//TODO
@@ -198,7 +197,7 @@ public class MessageFactory {
 
 	public static JsonObject getElementTitle(ElementModel model, JsonObject j){
 		String title = model.getTitle();
-		j.addProperty("title", title);
+		j.addProperty(Constants.JSON_TITLE, title);
 		return j;
 	}
 

@@ -30,6 +30,12 @@ public class Constants {
 	public static final String JSON_ACTION = "action";
 	public static final String JSON_AGENT_TYPE = "agent_type";
 	public static final String JSON_AID = "aid";
+	public static final String JSON_CAN_EDIT = "can_edit";
+	public static final String JSON_ELEMENT = "element";
+	public static final String JSON_CONTENT = "content";
+	public static final String JSON_TITLE = "title";
+
+	
 	
 	public static final int EVENT_TYPE_SAVE = 16000; //Interface -> agent : Sauve l'element : ok
 	

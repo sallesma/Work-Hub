@@ -61,7 +61,7 @@ public class ShareClientBehaviour extends CyclicBehaviour {
 
 			// on recupere dans le json du message l'AID de l'element a partager
 			JsonParser js = new JsonParser();
-			String agent = ((JsonObject) js.parse(message.getContent())).get("element").getAsString();
+			String agent = ((JsonObject) js.parse(message.getContent())).get(Constants.JSON_ELEMENT).getAsString();
 
 			AID element_shared = 	new AID(agent, AID.ISGUID);//findElementAgent(agent);
 
