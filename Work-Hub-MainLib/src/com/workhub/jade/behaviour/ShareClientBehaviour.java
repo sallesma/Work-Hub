@@ -66,6 +66,8 @@ public class ShareClientBehaviour extends CyclicBehaviour {
 			AID element_shared = findElementAgent(agent);
 
 			((ClientAgent)myAgent).fireChanges(Constants.EVENT_TYPE_RECEIVE_ELEMENT, element_shared);
+		}else{
+			block();
 		}
 
 

@@ -185,11 +185,7 @@ public class GroupElement extends AbstractElement  {
 			res.getContext().getNeightbourgList();
 			break;
 		case R.id.bt_exporter:
-			List<ElementModel> list = new ArrayList<ElementModel>();
-			for (int i = 0; i < getBaseElements().size(); i++) {
-				list.add(getBaseElements().get(i).getModel());
-			}
-			res.getContext().export(list);
+			export();
 			break;
 		case R.id.bt_masquer:
 			remove();
@@ -201,6 +197,13 @@ public class GroupElement extends AbstractElement  {
 		super.onClick(v);
 	}
 	
+	public void export() {
+		List<ElementModel> list = new ArrayList<ElementModel>();
+		for (int i = 0; i < getBaseElements().size(); i++) {
+			list.add(getBaseElements().get(i).getModel());
+		}
+		res.getContext().export(list);	
+	}
 	@Override
 	public void onScroll(ScrollDetector pScollDetector, int pPointerID,
 			float pDistanceX, float pDistanceY) {

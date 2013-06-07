@@ -35,6 +35,9 @@ public abstract class AbstractElement extends Entity  implements ITouchArea, IHo
 	protected Ressources res;
 	private Sprite touchRound;
 
+	private final long SHORT_CLICK_TIMEOUT = 200;
+	private boolean shortClick = false;
+	
 	protected AbstractElement(float centerX, float centerY, final Ressources res, boolean isResizable){
 		super(centerX, centerY);
 		this.isResizable = isResizable;
@@ -42,6 +45,10 @@ public abstract class AbstractElement extends Entity  implements ITouchArea, IHo
 		mPinchZoomDetector = new PinchZoomDetector(this);
 		mScrollDetector = new ScrollDetector(this);
 		mHoldDetector = new ContinuousHoldDetector(this){
+			
+
+			
+
 			@Override
 			public void onUpdate(float pSecondsElapsed) {
 				boolean visible = false;
@@ -49,6 +56,8 @@ public abstract class AbstractElement extends Entity  implements ITouchArea, IHo
 				if(this.mPointerID != TouchEvent.INVALID_POINTER_ID) {
 					final long holdTimeMilliseconds = System.currentTimeMillis() - this.mDownTimeMilliseconds;
 					if(!this.mMaximumDistanceExceeded){
+						shortClick = (holdTimeMilliseconds<SHORT_CLICK_TIMEOUT);
+						
 						if(holdTimeMilliseconds <= this.mTriggerHoldMinimumMilliseconds) {
 							visible = true;
 							float r = -0.25f+((float)(this.mTriggerHoldMinimumMilliseconds-holdTimeMilliseconds))/this.mTriggerHoldMinimumMilliseconds;
@@ -98,6 +107,7 @@ public abstract class AbstractElement extends Entity  implements ITouchArea, IHo
 		Button bt_supprimer = (Button) menuDialog.findViewById(R.id.bt_supprimer);
 		bt_supprimer.setVisibility(View.VISIBLE);
 		bt_supprimer.setOnClickListener(AbstractElement.this);
+	
 	}
 
 	private int pointerCount = 0;
@@ -158,6 +168,9 @@ public abstract class AbstractElement extends Entity  implements ITouchArea, IHo
 		case TouchEvent.ACTION_CANCEL:
 		case TouchEvent.ACTION_OUTSIDE:
 			pointerCount=Math.max(pointerCount-1, 0);
+			if(shortClick&&pointerCount==0){
+				onShortClick();
+			}
 			break;
 		}
 
@@ -192,6 +205,15 @@ public abstract class AbstractElement extends Entity  implements ITouchArea, IHo
 		return true;
 
 	}
+
+
+
+	protected void onShortClick() {
+		
+	}
+
+
+
 
 
 

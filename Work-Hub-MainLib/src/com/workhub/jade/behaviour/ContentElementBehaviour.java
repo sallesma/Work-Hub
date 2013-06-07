@@ -125,6 +125,8 @@ public class ContentElementBehaviour extends CyclicBehaviour {
 			}
 			
 		
+		}else{
+			block();
 		}
 	}
 	

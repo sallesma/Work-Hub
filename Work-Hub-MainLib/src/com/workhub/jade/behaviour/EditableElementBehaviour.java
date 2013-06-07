@@ -45,6 +45,7 @@ public class EditableElementBehaviour extends CyclicBehaviour{
 			int action = ((JsonObject) json).get(Constants.JSON_ACTION).getAsInt();
 			switch (action) {
 			case Constants.MESSAGE_ACTION_EDIT:
+			case Constants.MESSAGE_ACTION_STOP_EDIT:
 				return true;
 			default:
 				return false;
@@ -82,6 +83,9 @@ public class EditableElementBehaviour extends CyclicBehaviour{
 				System.out.println("je vais envoyer : "+answer);*/
 
 				myAgent.send(answer);				
+				break;
+			case Constants.MESSAGE_ACTION_STOP_EDIT:
+				((ElementAgent)myAgent).setEditor(null);	
 				break;
 			}
 		}

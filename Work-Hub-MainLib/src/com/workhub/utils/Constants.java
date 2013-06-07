@@ -11,7 +11,7 @@ public class Constants {
 	public static final String CLIENT_AGENT = "CLIENT";
 	public static final String CREATOR_AGENT = "CREATOR";
 
-	public static final int MESSAGE_ACTION_EDIT = 15000; 
+	public static final int MESSAGE_ACTION_EDIT = 15000;
 	public static final int MESSAGE_ACTION_GET_CONTENT = 15001;
 	public static final int MESSAGE_ACTION_GET_TITLE = 15002;
 	public static final int MESSAGE_ACTION_SAVE_CONTENT = 15003;
@@ -22,6 +22,8 @@ public class Constants {
 	public static final int MESSAGE_RECEIVE_ELEMENT_TITLE= 15008;
 	public static final int MESSAGE_ACTION_IS_DYING = 15009;
 	public static final int MESSAGE_ACTION_CREATE_ELEMENT = 15010;
+	public static final int MESSAGE_ACTION_STOP_EDIT = 150011; 
+	
 
 	public static final String JSON_ACTION = "action";
 	public static final String JSON_AGENT_TYPE = "agent_type";
@@ -60,6 +62,7 @@ public class Constants {
 	//param : AID de l'agent non editable
 	public static final int EVENT_TYPE_CANT_EDIT = 16014;// agent -> interface : edition impossible : ok
 	public static final int EVENT_TYPE_ASK_EDIT = 16015; // interface -> agent : puis je editer : ok
+	public static final int EVENT_TYPE_STOP_EDIT = 16016; // interface -> agent : je n'édite plus (en cas d'annulation)
 
 	//public static final String JSON_ACTION = "action";
 	//public static final String JSON_ACTION = "action";

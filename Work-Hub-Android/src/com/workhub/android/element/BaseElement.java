@@ -13,7 +13,11 @@ import org.andengine.input.touch.detector.HoldDetector;
 import org.andengine.util.HorizontalAlign;
 import org.andengine.util.algorithm.collision.RectangularShapeCollisionChecker;
 
+import yuku.ambilwarna.AmbilWarnaDialog;
+import yuku.ambilwarna.AmbilWarnaDialog.OnAmbilWarnaListener;
 import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnDismissListener;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -34,6 +38,8 @@ public abstract class BaseElement extends AbstractElement  {
 	protected ElementModel model;
 	protected Dialog editDialog;
 	private Rectangle contour;
+	private int selectColor;
+	private boolean isSaving = false;
 
 	public BaseElement(ElementModel model, float centerX, float centerY, Ressources res) {
 		this(model, centerX, centerY, res, false);
@@ -50,9 +56,14 @@ public abstract class BaseElement extends AbstractElement  {
 
 	protected abstract void iniEditDialog();
 	protected void saveModel(){
+		isSaving  = true;
+		model.setColor(selectColor);
+
 		model.setTitle(((EditText)editDialog.findViewById(R.id.title)).getText().toString());
 		saveContent();
 		res.getContext().saveElement(model);
+		int[] colors  = model.getColorRGB();
+		body.setColor(colors[0]/255f, colors[1]/255f, colors[2]/255f);
 	}
 
 	protected abstract void saveContent();
@@ -66,6 +77,8 @@ public abstract class BaseElement extends AbstractElement  {
 	@Override
 	protected void iniDialogView() {
 		super.iniDialogView();
+
+		selectColor = model.getColor();
 		Button bt_masquer = (Button) menuDialog.findViewById(R.id.bt_masquer);
 		bt_masquer.setVisibility(View.VISIBLE);
 		bt_masquer.setOnClickListener(this);
@@ -73,7 +86,7 @@ public abstract class BaseElement extends AbstractElement  {
 		Button bt_exporter = (Button) menuDialog.findViewById(R.id.bt_exporter);
 		bt_exporter.setVisibility(View.VISIBLE);
 		bt_exporter.setOnClickListener(this);
-		
+
 		Button bt_envoyer_a = (Button) menuDialog.findViewById(R.id.bt_envoyer_a);
 		bt_envoyer_a.setVisibility(View.VISIBLE);
 		bt_envoyer_a.setOnClickListener(this);
@@ -98,7 +111,8 @@ public abstract class BaseElement extends AbstractElement  {
 		contour.setZIndex(-20);
 		contour.setColor(0, 0, 0);
 		body.attachChild(contour);
-		body.setColor(246/255f, 234/255f, 111/255f);//TODO
+		int[] colors  = model.getColorRGB();
+		body.setColor(colors[0]/255f, colors[1]/255f, colors[2]/255f);
 		body.setPosition(-WIDTH/2, -HEIGHT/2);
 
 		this.attachChild(body);
@@ -171,17 +185,39 @@ public abstract class BaseElement extends AbstractElement  {
 			editDialog=null;
 			updateView();
 			break;	
+		case R.id.bt_color:
+			AmbilWarnaDialog dialog = new AmbilWarnaDialog(res.getContext(), model.getColor(), new OnAmbilWarnaListener() {
+				@Override
+				public void onOk(AmbilWarnaDialog dialog, int color) {
+					((Button)editDialog.findViewById(R.id.bt_color)).setBackgroundColor(color);
+					selectColor = color;
+				}
+
+				@Override
+				public void onCancel(AmbilWarnaDialog dialog) {
+				}
+			});
+
+			dialog.show();
+
+
+
+			break;
 		case R.id.bt_cancel:
 			editDialog.dismiss();
 			break;	
 		case R.id.bt_exporter:
-			List<ElementModel> list = new ArrayList<ElementModel>();
-			list.add(getModel());
-			res.getContext().export(list);
+			export();
 			break;
 		}
 
 		super.onClick(v);
+	}
+
+	public void export() {
+		List<ElementModel> list = new ArrayList<ElementModel>();
+		list.add(getModel());
+		res.getContext().export(list);		
 	}
 
 	public void masquer() {
@@ -205,7 +241,22 @@ public abstract class BaseElement extends AbstractElement  {
 				((EditText)editDialog.findViewById(R.id.title)).setText(model.getTitle());
 				((Button)editDialog.findViewById(R.id.bt_ok)).setOnClickListener(BaseElement.this);
 				((Button)editDialog.findViewById(R.id.bt_cancel)).setOnClickListener(BaseElement.this);
+
+				((Button)editDialog.findViewById(R.id.bt_color)).setOnClickListener(BaseElement.this);
+
+				((Button)editDialog.findViewById(R.id.bt_color)).setBackgroundColor(model.getColor());
 				iniEditDialog();
+
+				editDialog.setOnDismissListener(new OnDismissListener() {
+
+					@Override
+					public void onDismiss(DialogInterface dialog) {
+						if(!isSaving)
+							res.getContext().stopEditing(getModel().getAgent());
+						isSaving = false;
+					}
+				});
+
 				editDialog.show();
 			}
 		});
@@ -225,7 +276,7 @@ public abstract class BaseElement extends AbstractElement  {
 		this.registerEntityModifier(new ScaleModifier(ConstantsAndroid.ANIMATION_DURATION,
 				getScaleX(), 	1, getScaleY(), 1, ConstantsAndroid.EASEFUNCTIONS[0]));
 	}
-	
+
 	public void moveTo(BaseElement baseElement) {
 		moveTo(baseElement.getX(), baseElement.getY());
 	}

@@ -14,10 +14,10 @@ import org.andengine.opengl.texture.region.TextureRegionFactory;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.itextpdf.text.pdf.codec.Base64;
 import com.workhub.android.R;
 import com.workhub.android.utils.BitmapTransform;
 import com.workhub.android.utils.FileManager;
@@ -32,7 +32,7 @@ public class PictureElement extends BaseElement{
 	private BitmapTextureAtlas texture;
 	private BitmapTextureAtlasSourcePerso bitmapTextureAtlasSourcePerso;
 	private Sprite imageSprite;
-
+	
 	public PictureElement(PictureElementModel model, float centerX, float centerY, Ressources res) {
 		super(model, centerX, centerY, res , false);
 
@@ -75,22 +75,7 @@ public class PictureElement extends BaseElement{
 	}
 	
 	public void changeImage(final Bitmap b){
-		res.getContext().runOnUpdateThread(new Runnable() {
-			
-			@Override
-			public void run() {
-				imageSprite.dispose();
-				imageSprite.detachSelf();
-				
-				
-				iniTexture();
-				TextureRegion tr = getTextureRegion(b);
-				texture.load();
-				imageSprite = new Sprite(0, 0,b.getWidth(), b.getHeight(), tr, res.getContext().getVertexBufferObjectManager());
-				body.attachChild(imageSprite);
-				updateView();
-			}
-		});
+		
 		res.getContext().runOnUiThread(new Runnable() {
 			
 			@Override
@@ -207,8 +192,26 @@ public class PictureElement extends BaseElement{
 
 	@Override
 	protected void saveContent() {
+		final Bitmap b = ((BitmapDrawable)((ImageView)editDialog.findViewById(R.id.img_content)).getDrawable()).getBitmap();
+		res.getContext().runOnUpdateThread(new Runnable() {
+			
+			@Override
+			public void run() {
+				imageSprite.dispose();
+				imageSprite.detachSelf();
+				
+				
+				iniTexture();
+				TextureRegion tr = getTextureRegion(b);
+				texture.load();
+				imageSprite = new Sprite(0, 0,b.getWidth(), b.getHeight(), tr, res.getContext().getVertexBufferObjectManager());
+				body.attachChild(imageSprite);
+				updateView();
+			}
+		});
+		
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
-		bitmapTextureAtlasSourcePerso.getBitmap().compress(Bitmap.CompressFormat.PNG, 100, stream);
+		b.compress(Bitmap.CompressFormat.PNG, 100, stream);
 		getModel().setContent(stream.toByteArray());
 		
 		try {

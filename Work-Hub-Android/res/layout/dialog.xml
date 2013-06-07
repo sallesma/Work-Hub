@@ -12,7 +12,11 @@
         style="@style/bt_list"
         android:text="@string/ouvrir"
         android:visibility="gone" />
-    
+     <Button
+        android:id="@+id/bt_recevoir"
+        style="@style/bt_list"
+        android:text="@string/raccourci_recevoir"
+        android:visibility="gone" /> 
     <Button
         android:id="@+id/bt_editer"
         style="@style/bt_list"

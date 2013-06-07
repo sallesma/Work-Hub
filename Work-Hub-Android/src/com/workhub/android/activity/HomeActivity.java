@@ -1,6 +1,7 @@
 package com.workhub.android.activity;
 
 import jade.android.AgentContainerHandler;
+import jade.android.AgentHandler;
 import jade.android.AndroidHelper;
 import jade.android.MicroRuntimeService;
 import jade.android.MicroRuntimeServiceBinder;
@@ -55,6 +56,7 @@ import com.workhub.android.utils.ConstantsAndroid;
 import com.workhub.android.utils.Ressources;
 import com.workhub.jade.agent.ClientAgent;
 import com.workhub.jade.agent.ClientAgentInterface;
+import com.workhub.jade.agent.CreatorAgent;
 import com.workhub.model.ElementModel;
 import com.workhub.utils.Constants;
 import com.workhub.utils.PDFUtils;
@@ -73,12 +75,14 @@ public class HomeActivity extends SimpleLayoutGameActivity implements PropertyCh
 
 		super.onCreate(pSavedInstanceState);
 
-	//	startJade(nickname, AndroidHelper.getLocalIPAddress(), "1099" );
-	//		startJade(nickname, "192.168.43.67", "1099" );
-		startJade(nickname, "192.168.1.50", "1099" );
+		startJade(nickname, AndroidHelper.getLocalIPAddress(), "1099" );
+
+
+		//		startJade(nickname, "192.168.43.67", "1099" );
+		//	startJade(nickname, "192.168.1.50", "1099" );
 
 	}
-//TODO demarrer creator agent si main container.
+	//TODO demarrer creator agent si main container.
 	private String nickname = "Florian";
 	private AbstractElement askElement;
 	private MainScene scene;
@@ -131,24 +135,49 @@ public class HomeActivity extends SimpleLayoutGameActivity implements PropertyCh
 	private void startContainer(final String nickname, final Properties profile) {
 
 		if (!MicroRuntime.isRunning()) {
-			RuntimeService runtimeService = new RuntimeService();
+			final RuntimeService runtimeService = new RuntimeService();
 			runtimeService.createMainAgentContainer(new RuntimeCallback<AgentContainerHandler>() {
 
 				@Override
 				public void onSuccess(AgentContainerHandler arg0) {
 					System.out.println("Successfully start of the container...");
-					startAgent(nickname);
+					runtimeService.createNewAgent(arg0, "CreatorAgent", CreatorAgent.class.getName(), null, new RuntimeCallback<AgentHandler>() {
+						@Override
+						public void onSuccess(AgentHandler agentHandler) {
+							runtimeService.startAgent(agentHandler, new RuntimeCallback<Void>() {
+
+								@Override
+								public void onFailure(Throwable arg0) {
+									System.err.println( "Failed to start the CreatorAgent...");
+								}
+
+								@Override
+								public void onSuccess(Void arg0) {
+									System.out.println("Successfully start of the CreatorAgent...");
+								}
+							});
+
+						}
+
+						@Override
+						public void onFailure(Throwable throwable) {
+							System.err.println( "Failed to start the CreatorAgent...");
+						} });
+
+
+
 					microRuntimeServiceBinder.startAgentContainer(profile, 
 							new RuntimeCallback<Void>() {
 						@Override
 						public void onSuccess(Void thisIsNull) {
 							System.out.println("Successfully start of the container...");
+
 							startAgent(nickname);
 						}
 
 						@Override
 						public void onFailure(Throwable throwable) {
-							System.out.println( "Failed to start the container...");
+							System.err.println( "Failed to start the container...");
 						}
 					});
 
@@ -174,14 +203,29 @@ public class HomeActivity extends SimpleLayoutGameActivity implements PropertyCh
 			public void onSuccess(Void thisIsNull) {
 				System.out.println("Successfully start of the "
 						+ ClientAgent.class.getName() + "...");
-				Toast.makeText(getApplicationContext(), "Connexion réussie", Toast.LENGTH_SHORT).show();	
+				runOnUiThread(new Runnable() {
+
+					@Override
+					public void run() {
+						Toast.makeText(getApplicationContext(), "Connexion réussie", Toast.LENGTH_SHORT).show();	
+
+					}
+				});
+
 			}
 
 			@Override
 			public void onFailure(Throwable throwable) {
 				System.out.println("Failed to start the "
 						+ ClientAgent.class.getName() + "...");
-				Toast.makeText(getApplicationContext(), "Connexion échouée", Toast.LENGTH_SHORT).show();	
+				runOnUiThread(new Runnable() {
+
+					@Override
+					public void run() {
+						Toast.makeText(getApplicationContext(), "Connexion échouée", Toast.LENGTH_SHORT).show();
+					}
+				});
+
 			}
 		});
 	}
@@ -301,11 +345,11 @@ public class HomeActivity extends SimpleLayoutGameActivity implements PropertyCh
 		event.addParameter(elementAgent);
 		fireOnGuiEvent(event);
 	}
-	
+
 	public void receive(){
 		if(mailBox.size()>0){
 			AID elementAID = mailBox.remove(0);
-			
+
 			BaseElement element = scene.getElement(elementAID);
 			if(element!=null){
 				element.moveTo(res.getScreenCenter().x, res.getScreenCenter().y);
@@ -314,7 +358,15 @@ public class HomeActivity extends SimpleLayoutGameActivity implements PropertyCh
 			}
 			scene.notifyReceiveShorcut(mailBox.size());
 		}else{
-			Toast.makeText(getApplicationContext(), "Vous n'avez pas de message", Toast.LENGTH_SHORT).show();			
+			runOnUiThread(new Runnable() {
+				
+				@Override
+				public void run() {
+					Toast.makeText(getApplicationContext(), "Vous n'avez pas de message", Toast.LENGTH_SHORT).show();	
+					
+				}
+			});
+					
 
 		}
 	}
@@ -327,7 +379,7 @@ public class HomeActivity extends SimpleLayoutGameActivity implements PropertyCh
 
 	public void createElement(int elementType){
 		GuiEvent event = new GuiEvent(null,Constants.EVENT_TYPE_CREATE_ELEMENT);
-						
+
 		event.addParameter(elementType);
 		fireOnGuiEvent(event);
 	}
@@ -342,6 +394,13 @@ public class HomeActivity extends SimpleLayoutGameActivity implements PropertyCh
 		GuiEvent event = new GuiEvent(null, Constants.EVENT_TYPE_SAVE);
 		event.addParameter(model);
 		fireOnGuiEvent(event);
+	}
+	
+	public void stopEditing(AID elementAgent) {
+		GuiEvent event = new GuiEvent(null, Constants.EVENT_TYPE_STOP_EDIT);
+		event.addParameter(elementAgent);
+		fireOnGuiEvent(event);
+		
 	}
 
 	public void getElement(AID agentAID ){
@@ -359,22 +418,22 @@ public class HomeActivity extends SimpleLayoutGameActivity implements PropertyCh
 		GuiEvent event = new GuiEvent(null, Constants.EVENT_TYPE_GET_NEIGHBOURGS);
 		fireOnGuiEvent(event);
 	}
-	
+
 	public void export(List<ElementModel> models){
 		FileOutputStream outf;
 		try {
 			File f = new File(ConstantsAndroid.EXT_PATH_FILES);
 			f.mkdirs();
-			
-			
+
+
 			Locale locale = Locale.getDefault();
 			DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.FULL, locale);
-			
-			f = new File(ConstantsAndroid.EXT_PATH_FILES+"export"+dateFormat.format(new Date())+".pdf");
+
+			f = new File(ConstantsAndroid.EXT_PATH_FILES+"export "+dateFormat.format(new Date())+".pdf");
 			f.createNewFile();
 			outf = new FileOutputStream(f);
 			PDFUtils.createPDF("WorkHub export", nickname, models, outf);		
-					
+
 			Intent sendIntent = new Intent();
 			sendIntent.setAction(Intent.ACTION_SEND);
 			sendIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
@@ -383,13 +442,13 @@ public class HomeActivity extends SimpleLayoutGameActivity implements PropertyCh
 			sendIntent.putExtra(Intent.EXTRA_TEXT, "Export pdf du hub de "+dateFormat.format(new Date()) + " en pièce jointe");
 			Uri uri = Uri.fromFile((f));
 			sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
-			
-			sendIntent.setType("text/plain");
+
+			//sendIntent.setType("text/plain");
 			startActivity(sendIntent);
 		} catch (FileNotFoundException e) {
-		
-		e.printStackTrace();
-	} catch (IOException e) {
+
+			e.printStackTrace();
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
@@ -433,11 +492,11 @@ public class HomeActivity extends SimpleLayoutGameActivity implements PropertyCh
 		case Constants.EVENT_TYPE_ELEMENTS: 
 		{
 			Map<AID, String> map = (Map<AID, String>)event.getNewValue();
-			
+
 			for (Entry<AID, String> entry : map.entrySet()) {
 				scene.addToAdapter(entry);
 			}
-			 
+
 
 			break;
 		}
@@ -457,24 +516,38 @@ public class HomeActivity extends SimpleLayoutGameActivity implements PropertyCh
 			if(element!=null){
 				element.edit();
 			}
-			
+
 			break;
 		}
 		case Constants.EVENT_TYPE_CANT_EDIT:
 		{
-			Toast.makeText(getApplicationContext(), "Vous ne pouvez pas éditer l'élément", Toast.LENGTH_SHORT).show();			
+			runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					Toast.makeText(getApplicationContext(), "Vous ne pouvez pas éditer l'élément", Toast.LENGTH_SHORT).show();	
+				}
+			});
 			break;
 		}
 		case Constants.EVENT_TYPE_RECEIVE_ELEMENT:
 		{
 			AID aidModel = (AID)event.getNewValue();
 			mailBox.add(aidModel);
-			Toast.makeText(getApplicationContext(), "Vous avez "+mailBox.size()+" message(s)", Toast.LENGTH_SHORT).show();			
+			runOnUiThread(new Runnable() {
+
+				@Override
+				public void run() {
+					Toast.makeText(getApplicationContext(), "Vous avez "+mailBox.size()+" message(s)", Toast.LENGTH_SHORT).show();
+
+				}
+			});
+
 			scene.notifyReceiveShorcut(mailBox.size());
 			break;
 		}
 		}
 
 	}
+	
 
 }

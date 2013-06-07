@@ -83,6 +83,8 @@ public class CreateElementBehaviour extends CyclicBehaviour {
 					e.printStackTrace();
 				}
 			}
+		}else{
+			block();
 		}
 	}
 

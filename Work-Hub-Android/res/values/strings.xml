@@ -16,7 +16,7 @@
 	<string name="element_image">Image</string>
 	<string name="element_lien">Lien</string>
 	<string name="element_fichier">Fichier</string>
-	
+	<string name="select_color">Couleur:</string>
 	
 	
 	<string name="raccourci_envoyer">Envoyer</string>

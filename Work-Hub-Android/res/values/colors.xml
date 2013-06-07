@@ -4,5 +4,6 @@
     <color name="bleuClair">#00b0f0</color>
     <color name="noir">#000000</color>
     <color name="blanc">#ffffff</color>
+    <color name="gris">#ffc6c8c8</color>
 
 </resources>

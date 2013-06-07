@@ -124,6 +124,12 @@ public class ClientAgent extends GuiAgent implements ClientAgentInterface{
 			message = MessageFactory.createMessage(this, agent, Constants.MESSAGE_ACTION_EDIT, null);
 			break;
 		}
+		case Constants.EVENT_TYPE_STOP_EDIT:
+		{
+			AID agent = (AID) ev.getParameter(0);
+			message = MessageFactory.createMessage(this, agent, Constants.MESSAGE_ACTION_STOP_EDIT, null);
+			break;
+		}
 		default:
 			break;
 		}

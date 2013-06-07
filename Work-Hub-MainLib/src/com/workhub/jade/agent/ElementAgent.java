@@ -64,31 +64,31 @@ public class ElementAgent extends Agent {
 		Object[] args = getArguments();
 		if (args != null && args.length > 0) {
 			
-			
+			int color = 0xFFF6EA6F;
 			int typeModel = (Integer) args[0];
 			
 			if(typeModel==Constants.TYPE_ELEMENT_TEXT){
-					TextElementModel text = new TextElementModel(255, Utils.getAgentName(getName()), this.getAID(), "...");
+					TextElementModel text = new TextElementModel(color, Utils.getAgentName(getName()), this.getAID(), "...");
 					this.setContentModel((ElementModel)text); 
 					this.type = Constants.TYPE_ELEMENT_TEXT;
 				
 			}
 			else if(typeModel == Constants.TYPE_ELEMENT_LINK){
 				
-					LinkElementModel link = new LinkElementModel(255, Utils.getAgentName(getName()), this.getAID(), "http://www.utc.fr/");
+					LinkElementModel link = new LinkElementModel(color, Utils.getAgentName(getName()), this.getAID(), "http://www.utc.fr/");
 					this.setContentModel((ElementModel)link); 
 					this.type = Constants.TYPE_ELEMENT_LINK;
 					
 			}
 			
 			else if(typeModel == Constants.TYPE_ELEMENT_PICTURE){
-					PictureElementModel pic = new PictureElementModel(255, Utils.getAgentName(getName()), this.getAID(), null);
+					PictureElementModel pic = new PictureElementModel(color, Utils.getAgentName(getName()), this.getAID(), null);
 					this.setContentModel((ElementModel)pic);
 					this.type = Constants.TYPE_ELEMENT_PICTURE;
 			}
 			
 			/*else if(typeModel == Constants.TYPE_ELEMENT_FILE ){
-				FileElementModel file = new FileElementModel(255, "postit file", this.getAID(), null);
+				FileElementModel file = new FileElementModel(color, "postit file", this.getAID(), null);
 				this.setContentModel((ElementModel)file);
 			}*/
 				

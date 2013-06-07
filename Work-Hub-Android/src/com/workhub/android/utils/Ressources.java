@@ -40,13 +40,13 @@ public class Ressources {
 		this.screenCenter = new GPoint(mCamera.getCenterX(), mCamera.getCenterY());
 		sceneHeight = mCamera.getHeight();
 		sceneWidth = mCamera.getWidth();
-		this.mFont = FontFactory.create(context.getFontManager(), context.getTextureManager(), 512, 512, TextureOptions.BILINEAR, Typeface.create(Typeface.DEFAULT, Typeface.BOLD), toPixel(24));
+		this.mFont = FontFactory.create(context.getFontManager(), context.getTextureManager(), 512, 512, TextureOptions.BILINEAR, Typeface.create(Typeface.DEFAULT, Typeface.BOLD), toPixel(20));
 		this.mFont.load();
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
-		mainTextureAtlas = new BitmapTextureAtlas(context.getTextureManager(), 2048, 1024, TextureOptions.BILINEAR);
-		context.getTextureManager().loadTexture(this.mainTextureAtlas);
+//		mainTextureAtlas = new BitmapTextureAtlas(context.getTextureManager(), 2048, 1024, TextureOptions.BILINEAR);
+//		context.getTextureManager().loadTexture(this.mainTextureAtlas);
 
-		BuildableBitmapTextureAtlas mBuildableTexture = new BuildableBitmapTextureAtlas(context.getTextureManager(), 1024, 2048, TextureOptions.BILINEAR);
+		BuildableBitmapTextureAtlas mBuildableTexture = new BuildableBitmapTextureAtlas(context.getTextureManager(), 1024, 512, TextureOptions.BILINEAR);
 
 		TR_Rond=BitmapTextureAtlasTextureRegionFactory.createFromAsset(mBuildableTexture, context, "rond.png");
 		TR_No_Image=BitmapTextureAtlasTextureRegionFactory.createFromAsset(mBuildableTexture, context, "default.png");

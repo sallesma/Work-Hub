@@ -2,8 +2,8 @@ package com.workhub.android.element;
 
 import jade.core.AID;
 
-import org.andengine.entity.modifier.AlphaModifier;
 import org.andengine.entity.modifier.LoopEntityModifier;
+import org.andengine.entity.modifier.ScaleModifier;
 import org.andengine.entity.modifier.SequenceEntityModifier;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.text.Text;
@@ -15,6 +15,8 @@ import org.andengine.input.touch.detector.ScrollDetector;
 import org.andengine.util.HorizontalAlign;
 
 import android.app.Dialog;
+import android.view.View;
+import android.widget.Button;
 
 import com.workhub.android.R;
 import com.workhub.android.utils.GPoint;
@@ -50,10 +52,11 @@ public class RoundButtonElement extends AbstractElement{
 	private GPoint centerScene;
 	private Object arg;
 	private LoopEntityModifier entityModifier;
+	private Sprite cercleBody;
 
 	public RoundButtonElement(float centerX, float centerY,int type, Ressources res, Object arg) {
 		super(centerX, centerY, res);
-		RAYON = res.toPixel(100);
+		RAYON = res.toPixel(90);
 		this.setType(type);
 		this.centerScene = res.getScreenCenter();
 		initShape(res);
@@ -64,10 +67,10 @@ public class RoundButtonElement extends AbstractElement{
 
 	protected void initShape(Ressources res){
 
-		Sprite s = new Sprite(-RAYON, -RAYON ,RAYON*2, RAYON*2,
+		cercleBody = new Sprite(-RAYON, -RAYON ,RAYON*2, RAYON*2,
 				res.getTR_Rond(), res.getContext().getVertexBufferObjectManager());
-		s.setColor(110/255f, 200/255f, 240/255f);
-		this.attachChild(s);
+		cercleBody.setColor(110/255f, 200/255f, 240/255f);
+		this.attachChild(cercleBody);
 
 
 		centerText = new Text(0, 0, res.getFont(), getTitle(getType()), new TextOptions(HorizontalAlign.CENTER), res.getContext().getVertexBufferObjectManager());
@@ -96,7 +99,23 @@ public class RoundButtonElement extends AbstractElement{
 		});
 	}
 
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.bt_recevoir:
+			res.getContext().receive();
+			break;	
+		}
+		super.onClick(v);
+	}
 
+	@Override
+	protected void iniDialogView() {
+		super.iniDialogView();
+		Button bt_recevoir = (Button) menuDialog.findViewById(R.id.bt_recevoir);
+		bt_recevoir.setVisibility(View.VISIBLE);
+		bt_recevoir.setOnClickListener(this);
+	}
 
 	@Override
 	public void onPinchZoom(PinchZoomDetector pPinchZoomDetector, TouchEvent pTouchEvent, float pZoomFactor) {}
@@ -131,7 +150,14 @@ public class RoundButtonElement extends AbstractElement{
 
 			break;
 		case R.id.bt_raccourci_exporter:
-			//TODO
+			if(abstractElement instanceof GroupElement){
+				((GroupElement)abstractElement).export();
+			}else if (abstractElement instanceof BaseElement){
+				((BaseElement)abstractElement).export();
+			}
+			
+			
+			
 			break;
 		case R.id.bt_raccourci_masquer:
 			if(abstractElement instanceof BaseElement){
@@ -149,6 +175,14 @@ public class RoundButtonElement extends AbstractElement{
 		}
 
 	}
+	
+	@Override
+	protected void onShortClick() 
+	{
+		if(type==R.id.bt_raccourci_recevoir){
+			res.getContext().receive();
+		}
+	};
 
 	public int getType() {
 		return type;
@@ -166,16 +200,18 @@ public class RoundButtonElement extends AbstractElement{
 
 				@Override
 				public void run() {
-					RoundButtonElement.this.unregisterEntityModifier(entityModifier);
+					cercleBody.unregisterEntityModifier(entityModifier);
+					cercleBody.setScale(1);
 					entityModifier = null;
 				}
 			});
 		}else if(size>0&&entityModifier==null){
 			entityModifier = new LoopEntityModifier( new SequenceEntityModifier(
-					new AlphaModifier(0.5f, 1, 1.2f),
-					new AlphaModifier(0.5f, 1.2f, 1)
+					new ScaleModifier(0.5f, 1, 1.1f),
+					new ScaleModifier(0.5f, 1.1f, 1)
 					));
-			this.registerEntityModifier(entityModifier);
+			cercleBody.registerEntityModifier(entityModifier);
+			
 
 		}
 	}

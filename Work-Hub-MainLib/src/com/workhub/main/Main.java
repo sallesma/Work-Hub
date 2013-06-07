@@ -1,5 +1,7 @@
 package com.workhub.main;
 
+import com.workhub.model.ElementModel;
+import com.workhub.model.TextElementModel;
 import com.workhub.utils.Constants;
 
 import jade.core.Profile;
@@ -14,6 +16,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		//Initialisation de l'interface JADE
+		
 		Runtime rt = Runtime.instance();
 		Profile p = null;		
 		try {

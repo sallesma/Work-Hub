@@ -17,7 +17,11 @@ public class LinkElement extends TextElement{
 		
 	}
 	
-	
+	@Override
+	protected void onShortClick() {
+		openWebPage();
+		
+	};
 
 	
 	@Override
@@ -28,13 +32,16 @@ public class LinkElement extends TextElement{
 		bt_ouvrir.setOnClickListener(this);
 	}
 	
+	private void openWebPage(){
+		Intent intent1 = new Intent(Intent.ACTION_VIEW);
+    	intent1.setData(Uri.parse(getModel().getContent()));
+    	res.getContext().startActivity(intent1);
+	}
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.bt_ouvrir:
-			Intent intent1 = new Intent(Intent.ACTION_VIEW);
-	    	intent1.setData(Uri.parse(getModel().getContent()));
-	    	res.getContext().startActivity(intent1);
+			openWebPage();
 			break;	
 		}
 		super.onClick(v);

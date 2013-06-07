@@ -96,6 +96,11 @@ public class MessageFactory {
 			j.addProperty(Constants.JSON_ACTION, ""+Constants.MESSAGE_ACTION_EDIT);
 
 			break;
+		case Constants.MESSAGE_ACTION_STOP_EDIT:
+			performatif = ACLMessage.INFORM;
+			j.addProperty(Constants.JSON_ACTION, ""+Constants.MESSAGE_ACTION_STOP_EDIT);
+
+			break;
 		case Constants.MESSAGE_ACTION_CREATE_ELEMENT:
 			performatif = ACLMessage.QUERY_IF;
 			j.addProperty(Constants.JSON_ACTION, ""+Constants.MESSAGE_ACTION_CREATE_ELEMENT);
