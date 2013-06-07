@@ -38,10 +38,13 @@ public final class JadeInterface implements PropertyChangeListener {
 	public void startJade(String hostID, String platformID, boolean isHost, String nickname) {
 		Runtime rt = Runtime.instance();
 		Profile profile = isHost ? new ProfileImpl(null , 1099, null) : new ProfileImpl(hostID, 1099, platformID, false);
+		profile.setParameter(Profile.GUI, "true"); // Pour debugger
 		ContainerController cc = rt.createMainContainer(profile);
 		try {
 			agentController = cc.createNewAgent(nickname, "com.workhub.jade.agent.ClientAgent", new Object[] { this });
 			agentController.start();
+			AgentController creatorAgent = cc.createNewAgent("creatorAgent","com.workhub.jade.agent.CreatorAgent",null);
+			creatorAgent.start();
 		} catch (StaleProxyException e) {
 			System.err.println("Erreur lors de la creation de l'agent");
 			e.printStackTrace();
@@ -73,7 +76,9 @@ public final class JadeInterface implements PropertyChangeListener {
 
 
 	public void createElement(int elementType){
-		GuiEvent event = new GuiEvent(elementType,Constants.EVENT_TYPE_CREATE_ELEMENT);
+		GuiEvent event = new GuiEvent(null, Constants.EVENT_TYPE_CREATE_ELEMENT);
+		
+		event.addParameter(elementType);
 		fireOnGuiEvent(event);
 	}
 
@@ -85,6 +90,10 @@ public final class JadeInterface implements PropertyChangeListener {
 	public void saveElement(ElementModel model){
 		GuiEvent event = new GuiEvent(model, Constants.EVENT_TYPE_SAVE);
 		fireOnGuiEvent(event);
+	}
+	
+	public void saveElement(AbstractElementView element){
+		saveElement(element.getModel());
 	}
 
 	public void getElement(AID agentAID ){
@@ -109,11 +118,7 @@ public final class JadeInterface implements PropertyChangeListener {
 		{
 			AID aidModel = (AID)event.getNewValue();
 			AbstractElementView element = null;
-			try {
-				element = scene.getElement(aidModel);
-			} catch (WorkHubException e) {
-				e.printStackTrace();
-			}
+			element = scene.getElement(aidModel);
 			if(element!=null){
 				getElement(aidModel);
 			}
@@ -123,16 +128,13 @@ public final class JadeInterface implements PropertyChangeListener {
 		{
 			ElementModel model = (ElementModel)event.getNewValue();
 			AbstractElementView element = null;
-			try {
-				element = scene.getElement(model.getAgent());
-			} catch (WorkHubException e1) {
-				e1.printStackTrace();
-			}
+			element = scene.getElement(model.getAgent());
 			if(element!=null){
 				element.setModel(model);
 			}else{
 				try {
-					scene.addElement(model);
+					scene.attachModel(model);
+					saveElement(element);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -143,11 +145,7 @@ public final class JadeInterface implements PropertyChangeListener {
 		{
 			ElementModel model = (ElementModel)event.getNewValue();
 			AbstractElementView element = null;
-			try {
-				element = scene.getElement(model.getAgent());
-			} catch (WorkHubException e) {
-				e.printStackTrace();
-			}
+			element = scene.getElement(model.getAgent());
 			if(element!=null){
 				element.destroy();
 			}
@@ -177,12 +175,7 @@ public final class JadeInterface implements PropertyChangeListener {
 		{
 			AID aidModel = (AID)event.getNewValue();
 			AbstractElementView element = null;
-			try {
-				element = scene.getElement(aidModel);
-			} catch (WorkHubException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			element = scene.getElement(aidModel);
 			if(element!=null){
 				element.edit();
 				element.setEditionTarget(MT4JConstants.EDIT_TARGET_UNDEFINED);
@@ -194,12 +187,7 @@ public final class JadeInterface implements PropertyChangeListener {
 			// TODO visualisation de l'accès refusé
 			AID aidModel = (AID)event.getNewValue();
 			AbstractElementView element = null;
-			try {
-				element = scene.getElement(aidModel);
-			} catch (WorkHubException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			element = scene.getElement(aidModel);
 			if(element!=null){
 				element.setEditionTarget(MT4JConstants.EDIT_TARGET_UNDEFINED);
 			}
