@@ -44,6 +44,7 @@ public abstract class AbstractElementView extends MTClipRectangle implements Idr
 		this.mtApplication = (MTApplication) applet;
 		this.scene = scene;
 		this.editionTarget = MT4JConstants.EDIT_TARGET_UNDEFINED;
+		this.model = null;
 		setAnchor(PositionAnchor.UPPER_LEFT);
 		
 		title = new MTTextArea(applet, FontManager.getInstance().createFont(
@@ -86,6 +87,8 @@ public abstract class AbstractElementView extends MTClipRectangle implements Idr
 				return false;
 			}
 		});
+		
+		JadeInterface.getInstance().createElement(getType());
 	}
 	
 	@Override
@@ -214,4 +217,6 @@ public abstract class AbstractElementView extends MTClipRectangle implements Idr
 	}
 	
 	public abstract void saveContent();
+	
+	public abstract int getType();
 }

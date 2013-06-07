@@ -109,34 +109,24 @@ public class WorkHubScene extends AbstractScene {
 				}
 			}
 		}
-		throw new WorkHubException("Elément inconnu (AID non trouvé)");
+		return null;
 	}
 	
-	public void addElement(ElementModel model) throws Exception {
-		AbstractElementView e = null;
-		switch (model.getType()) {
-		case Constants.TYPE_ELEMENT_TEXT:
-			e = new TextElementView((TextElementModel)model, mtApplication.getWidth() / 2, mtApplication.getHeight() / 2,
-					MT4JConstants.ELEMENT_DEFAULT_WIDTH, MT4JConstants.ELEMENT_DEFAULT_HEIGHT, mtApplication, this);
-			break;
-		case Constants.TYPE_ELEMENT_PICTURE:
-			e = new ImageElementView((PictureElementModel)model, mtApplication.getWidth() / 2, mtApplication.getHeight() / 2,
-					MT4JConstants.ELEMENT_DEFAULT_WIDTH, MT4JConstants.ELEMENT_DEFAULT_HEIGHT, mtApplication, this);
-			break;
-		case Constants.TYPE_ELEMENT_LINK:
-			e = new LinkElementView((LinkElementModel)model, mtApplication.getWidth() / 2, mtApplication.getHeight() / 2,
-					MT4JConstants.ELEMENT_DEFAULT_WIDTH, MT4JConstants.ELEMENT_DEFAULT_HEIGHT, mtApplication, this);
-			break;
-		case Constants.TYPE_ELEMENT_FILE:
-			e = new FileElementView((FileElementModel)model, mtApplication.getWidth() / 2, mtApplication.getHeight() / 2,
-					MT4JConstants.ELEMENT_DEFAULT_WIDTH, MT4JConstants.ELEMENT_DEFAULT_HEIGHT, mtApplication, this);
-			break;
+	// Ajoute le modele au premier element qui correspond.
+	public void attachModel(ElementModel model) {
+		int type = model.getType();
+		MTComponent[] children = getCanvas().getChildren();
+		boolean found = false;
+		for(int i = 0 ; i < children.length && !found ; i++) {
+			if(children[i] instanceof AbstractElementView) {
+				AbstractElementView element = (AbstractElementView)children[i];
+				if(element.getType() == type && element.getModel() == null) {
+					element.setModel(model);
+					JadeInterface.getInstance().saveElement(element);
+					found = true;
+					System.out.println("modele attache : " + model.toString());
+				}
+			}
 		}
-		if(e!=null){
-			getCanvas().addChild(e);
-		}else{
-			throw new WorkHubException("Element non supporté");
-		}
-
 	}
 }

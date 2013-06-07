@@ -86,6 +86,10 @@ public final class JadeInterface implements PropertyChangeListener {
 		GuiEvent event = new GuiEvent(model, Constants.EVENT_TYPE_SAVE);
 		fireOnGuiEvent(event);
 	}
+	
+	public void saveElement(AbstractElementView element){
+		saveElement(element.getModel());
+	}
 
 	public void getElement(AID agentAID ){
 		GuiEvent event = new GuiEvent(agentAID, Constants.EVENT_TYPE_CHARGE);
@@ -132,7 +136,7 @@ public final class JadeInterface implements PropertyChangeListener {
 				element.setModel(model);
 			}else{
 				try {
-					scene.addElement(model);
+					scene.attachModel(model);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -180,7 +184,6 @@ public final class JadeInterface implements PropertyChangeListener {
 			try {
 				element = scene.getElement(aidModel);
 			} catch (WorkHubException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			if(element!=null){
@@ -197,7 +200,6 @@ public final class JadeInterface implements PropertyChangeListener {
 			try {
 				element = scene.getElement(aidModel);
 			} catch (WorkHubException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			if(element!=null){
