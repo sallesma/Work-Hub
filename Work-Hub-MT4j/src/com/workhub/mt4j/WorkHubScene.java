@@ -122,6 +122,7 @@ public class WorkHubScene extends AbstractScene {
 				AbstractElementView element = (AbstractElementView)children[i];
 				if(element.getType() == type && element.getModel() == null) {
 					element.setModel(model);
+					JadeInterface.getInstance().saveElement(element);
 					found = true;
 				}
 			}

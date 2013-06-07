@@ -57,7 +57,6 @@ public class ContextButton extends MTListCell {
 							TextElementView textElement = new TextElementView(((MTRectangle) getParent().getParent()).getPosition(TransformSpace.GLOBAL).x,
 									((MTRectangle) getParent().getParent()).getPosition(TransformSpace.GLOBAL).y,
 									MT4JConstants.ELEMENT_DEFAULT_WIDTH, MT4JConstants.ELEMENT_DEFAULT_HEIGHT, applet, scene);
-							getParent().getParent().getParent().addChild(textElement);
 							textElement.addLassoProcessor();
 							break;
 						case MT4JConstants.CONTEXT_BUTTON_CREATE_IMAGE:
@@ -65,14 +64,12 @@ public class ContextButton extends MTListCell {
 							ImageElementView imageElement = new ImageElementView(imagePath, ((MTRectangle) getParent().getParent()).getPosition(TransformSpace.GLOBAL).x, 
 									((MTRectangle) getParent().getParent()).getPosition(TransformSpace.GLOBAL).y, 
 									MT4JConstants.ELEMENT_DEFAULT_WIDTH, MT4JConstants.ELEMENT_DEFAULT_HEIGHT, applet, scene);
-							getParent().getParent().getParent().addChild(imageElement);
 							imageElement.addLassoProcessor();
 							break;
 						case MT4JConstants.CONTEXT_BUTTON_CREATE_LINK:
 							LinkElementView linkElement = new LinkElementView(((MTRectangle) getParent().getParent()).getPosition(TransformSpace.GLOBAL).x, 
 									((MTRectangle) getParent().getParent()).getPosition(TransformSpace.GLOBAL).y, 
 									MT4JConstants.ELEMENT_DEFAULT_WIDTH, MT4JConstants.ELEMENT_DEFAULT_HEIGHT, applet, scene);
-							getParent().getParent().getParent().addChild(linkElement);
 							linkElement.addLassoProcessor();
 							break;
 						case MT4JConstants.CONTEXT_BUTTON_CREATE_FILE:
@@ -80,7 +77,6 @@ public class ContextButton extends MTListCell {
 							FileElementView fileElement = new FileElementView(filePath, ((MTRectangle) getParent().getParent()).getPosition(TransformSpace.GLOBAL).x, 
 									((MTRectangle) getParent().getParent()).getPosition(TransformSpace.GLOBAL).y, 
 									MT4JConstants.ELEMENT_DEFAULT_WIDTH, MT4JConstants.ELEMENT_DEFAULT_HEIGHT, applet, scene);
-							getParent().getParent().getParent().addChild(fileElement);
 							fileElement.addLassoProcessor();
 							break;
 						case MT4JConstants.CONTEXT_BUTTON_VISUALIZE_ELEMENTS:
