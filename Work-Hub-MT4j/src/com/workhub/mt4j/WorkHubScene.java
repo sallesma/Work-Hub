@@ -100,7 +100,7 @@ public class WorkHubScene extends AbstractScene {
 	public void shutDown() {
 	}
 	
-	public AbstractElementView getElement(AID aid) throws WorkHubException {
+	public AbstractElementView getElement(AID aid) {
 		for(MTComponent comp : getCanvas().getChildren()) {
 			if(comp instanceof AbstractElementView) {
 				AbstractElementView elt = (AbstractElementView)comp;
