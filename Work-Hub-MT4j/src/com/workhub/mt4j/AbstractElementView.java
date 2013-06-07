@@ -37,7 +37,7 @@ public abstract class AbstractElementView extends MTClipRectangle implements Idr
 	protected WorkHubScene scene;
 	protected ElementModel model;
 	protected int editionTarget;	// Indique le champ qui va être édité (constantes EDIT_TARGET_X)
-	
+
 	public AbstractElementView(float x, float y, float z, float width,
 			float height, PApplet applet, WorkHubScene scene) {
 		super(x, y, z, width, height, applet);
@@ -46,7 +46,7 @@ public abstract class AbstractElementView extends MTClipRectangle implements Idr
 		this.editionTarget = MT4JConstants.EDIT_TARGET_UNDEFINED;
 		this.model = null;
 		setAnchor(PositionAnchor.UPPER_LEFT);
-		
+
 		title = new MTTextArea(applet, FontManager.getInstance().createFont(
 				applet, "arial.ttf", 20, new MTColor(0, 0, 0, 255),
 				new MTColor(0, 0, 0, 255)));
@@ -57,15 +57,15 @@ public abstract class AbstractElementView extends MTClipRectangle implements Idr
 		title.setAnchor(PositionAnchor.UPPER_LEFT);
 		title.setPositionGlobal(new Vector3D(this.getPosition(TransformSpace.GLOBAL).getX(), (float) (this.getPosition(TransformSpace.GLOBAL).getY())));
 		addChild(title);
-		
+
 		MTLine ligne = new MTLine(getRenderer(), new Vertex(210, 240), new Vertex(390, 240));
 		ligne.setFillColor(new MTColor(0, 0, 0, 255));
 		ligne.setPickable(false);
 		ligne.setPositionGlobal(new Vector3D(this.getPosition(TransformSpace.GLOBAL).getX()+100, (float) (this.getPosition(TransformSpace.GLOBAL).getY()+32.0)));
 		addChild(ligne);
-		
+
 		setFillColor(new MTColor(250, 230, 100, 255));
-		
+
 		registerInputProcessor(new TapAndHoldProcessor(applet, 700));
 		addGestureListener(TapAndHoldProcessor.class, new TapAndHoldVisualizer((MTApplication) applet, scene.getCanvas()));
 		addGestureListener(TapAndHoldProcessor.class, new IGestureEventListener() {
@@ -87,10 +87,11 @@ public abstract class AbstractElementView extends MTClipRectangle implements Idr
 				return false;
 			}
 		});
-		
+
+		scene.getCanvas().addChild(this);
 		JadeInterface.getInstance().createElement(getType());
 	}
-	
+
 	@Override
 	final public void setSelected(boolean selected) {
 		// TODO Auto-generated method stub
@@ -103,7 +104,7 @@ public abstract class AbstractElementView extends MTClipRectangle implements Idr
 	}
 
 	public abstract void editElementContent();
-	
+
 	public void addLassoProcessor(){
 		AbstractComponentProcessor[] processors = getParent().getInputProcessors();
 		for (int i = 0 ; i < processors.length ; i++ ) {
@@ -115,18 +116,18 @@ public abstract class AbstractElementView extends MTClipRectangle implements Idr
 	public void editElementTitle(){
 		createEditionKeyboard(title);
 	}
-	
+
 	protected void updateTitleWithElementPath(String path) {
 		String[] splittedPath = path.split("[\\\\/]");
 		System.out.println(splittedPath.toString());
 		title.setText(splittedPath[splittedPath.length-1]);
 	}
-	
+
 	protected void openContextualMenu(Vector3D locationOnScreen) {
 		ContextMenu contextMenu = new ContextMenu(this, (int)locationOnScreen.x, (int)locationOnScreen.y, mtApplication, scene, MT4JConstants.CONTEXT_ELEMENT_MENU);
 		this.getParent().addChild(contextMenu);
 	}
-	
+
 	public MTTextArea getTitle() {
 		return title;
 	}
@@ -134,7 +135,7 @@ public abstract class AbstractElementView extends MTClipRectangle implements Idr
 	public void setTitle(MTTextArea title) {
 		this.title = title;
 	}
-	
+
 	public void setTitle(String text, PApplet applet) {
 		MTTextArea title = new MTTextArea(applet, FontManager.getInstance().createFont(
 				applet, "arial.ttf", 20, new MTColor(0, 0, 0, 255),
@@ -146,25 +147,25 @@ public abstract class AbstractElementView extends MTClipRectangle implements Idr
 		title.setAnchor(PositionAnchor.UPPER_LEFT);
 		title.setPositionGlobal(new Vector3D(this.getPosition(TransformSpace.GLOBAL).getX(), (float) (this.getPosition(TransformSpace.GLOBAL).getY())));
 	}
-	
+
 	public void createEditionKeyboard(final MTTextArea target) {
 		MTKeyboard keyb = new MTKeyboard(mtApplication);
-        keyb.setFillColor(new MTColor(30, 30, 30, 210));
-        keyb.setStrokeColor(new MTColor(0,0,0,255));
+		keyb.setFillColor(new MTColor(30, 30, 30, 210));
+		keyb.setStrokeColor(new MTColor(0,0,0,255));
 
-        //permet de supprimer l'inertie
-        keyb.removeAllGestureEventListeners();
-        keyb.addGestureListener(DragProcessor.class, new DefaultDragAction());
-        keyb.addGestureListener(RotateProcessor.class, new DefaultRotateAction());
-        keyb.addGestureListener(ScaleProcessor.class, new DefaultScaleAction());
-		
-        getParent().addChild(keyb);
+		//permet de supprimer l'inertie
+		keyb.removeAllGestureEventListeners();
+		keyb.addGestureListener(DragProcessor.class, new DefaultDragAction());
+		keyb.addGestureListener(RotateProcessor.class, new DefaultRotateAction());
+		keyb.addGestureListener(ScaleProcessor.class, new DefaultScaleAction());
+
+		getParent().addChild(keyb);
 		Vector3D position = this.getPosition(TransformSpace.GLOBAL);
 		Vector3D offset = new Vector3D(this.getWidthXYGlobal() / 2, this.getHeightXYGlobal() + keyb.getHeightXY(TransformSpace.GLOBAL) / 2);
 		position = position.addLocal(offset);
 		keyb.setPositionGlobal(position);
 		MT4JUtils.fixPosition(keyb, (int)position.x, (int)position.y, this.mtApplication, PositionAnchor.CENTER);
-		
+
 		target.setEnableCaret(true);
 		keyb.addTextInputListener(target);
 		keyb.addStateChangeListener(StateChange.COMPONENT_DESTROYED, new StateChangeListener() {
@@ -174,15 +175,15 @@ public abstract class AbstractElementView extends MTClipRectangle implements Idr
 			}
 		});
 	}
-	
+
 	public ElementModel getModel() {
 		return model;
 	}
-	
+
 	public void setModel(ElementModel model) {
 		this.model = model;
 	}
-	
+
 	public void edit() {
 		switch(editionTarget) {
 		case MT4JConstants.EDIT_TARGET_TITLE :
@@ -191,32 +192,32 @@ public abstract class AbstractElementView extends MTClipRectangle implements Idr
 		case MT4JConstants.EDIT_TARGET_CONTENT :
 			editElementContent();
 			break;
-			default :
-				break;
+		default :
+			break;
 		}
 	}
-	
+
 	public void setEditionTarget(int editionTarget) {
 		this.editionTarget = editionTarget;
 	}
-	
+
 	public void tryEditElementTitle() {
 		editionTarget = MT4JConstants.EDIT_TARGET_TITLE;
 		JadeInterface.getInstance().askEdition(model.getAgent());
 	}
-	
+
 	public void tryEditElementContent() {
 		editionTarget = MT4JConstants.EDIT_TARGET_CONTENT;
 		JadeInterface.getInstance().askEdition(model.getAgent());
 	}
-	
+
 	public void saveModel() {
 		model.setTitle(title.getText());
 		saveContent();
 		JadeInterface.getInstance().saveElement(model);
 	}
-	
+
 	public abstract void saveContent();
-	
+
 	public abstract int getType();
 }
