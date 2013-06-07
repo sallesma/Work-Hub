@@ -77,6 +77,11 @@ public final class JadeInterface implements PropertyChangeListener {
 		fireOnGuiEvent(event);
 	}
 
+	public void finishEdition(AID elementAgent){
+		GuiEvent event = new GuiEvent(null,Constants.EVENT_TYPE_STOP_EDIT);
+		event.addParameter(elementAgent);
+		fireOnGuiEvent(event);
+	}
 
 	public void createElement(int elementType){
 		GuiEvent event = new GuiEvent(null, Constants.EVENT_TYPE_CREATE_ELEMENT);
