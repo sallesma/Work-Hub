@@ -104,7 +104,7 @@ public class WorkHubScene extends AbstractScene {
 		for(MTComponent comp : getCanvas().getChildren()) {
 			if(comp instanceof AbstractElementView) {
 				AbstractElementView elt = (AbstractElementView)comp;
-				if(elt.getModel() != null && elt.getModel().getAgent() == aid) {
+				if(elt.getModel() != null && elt.getModel().getAgent().equals(aid)) {
 					return elt;
 				}
 			}
