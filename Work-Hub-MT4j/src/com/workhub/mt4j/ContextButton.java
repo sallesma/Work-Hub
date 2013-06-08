@@ -51,7 +51,25 @@ public class ContextButton extends MTListCell {
 							//just close the menu (instruction below)
 							break;
 						case MT4JConstants.CONTEXT_BUTTON_DELETE:
-							m_source.removeFromParent();
+							if(m_source instanceof AbstractElementView) {
+								AbstractElementView element = (AbstractElementView)m_source;
+								JadeInterface.getInstance().deleteElement(element.getModel().getAgent());
+							}
+							else if(m_source instanceof ElementGroupView) {
+								for(MTComponent comp : m_source.getChildren()) {
+									if(comp instanceof AbstractElementView) {
+										AbstractElementView element = (AbstractElementView)m_source;
+										JadeInterface.getInstance().deleteElement(element.getModel().getAgent());
+									}
+									else {
+										// Normalement impossible
+									}
+								}
+							}
+							else {
+								// Type d'element inconnu
+							}
+							m_source.destroy();
 							break;
 						case MT4JConstants.CONTEXT_BUTTON_CREATE_TEXT:
 							TextElementView textElement = new TextElementView(((MTRectangle) getParent().getParent()).getPosition(TransformSpace.GLOBAL).x,
@@ -113,6 +131,7 @@ public class ContextButton extends MTListCell {
 						case MT4JConstants.CONTEXT_BUTTON_EXPORT_PDF:
 							break;
 						case MT4JConstants.CONTEXT_BUTTON_HIDE:
+							m_source.destroy();
 							break;
 						case MT4JConstants.CONTEXT_BUTTON_SPLIT_GROUP:
 							m_source.removeAllChildren();

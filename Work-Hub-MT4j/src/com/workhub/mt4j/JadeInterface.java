@@ -197,7 +197,7 @@ public final class JadeInterface implements PropertyChangeListener {
 			AID aidModel = (AID)event.getNewValue();
 			AbstractElementView element = null;
 			element = scene.getElement(aidModel);
-			if(element!=null){
+			if(element!=null && element.getKeyboard() != null){
 				element.getKeyboard().destroy();
 			}
 			break;
