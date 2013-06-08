@@ -55,7 +55,6 @@ public abstract class AbstractElementView extends MTClipRectangle implements Idr
 				applet, "arial.ttf", 20, new MTColor(0, 0, 0, 255),
 				new MTColor(0, 0, 0, 255)));
 		title.setNoFill(true);
-		title.setText("Mon titre");
 		title.setPickable(false);
 		title.setNoStroke(true);
 		title.setAnchor(PositionAnchor.UPPER_LEFT);
@@ -139,16 +138,8 @@ public abstract class AbstractElementView extends MTClipRectangle implements Idr
 		this.title = title;
 	}
 
-	public void setTitle(String text, PApplet applet) {
-		MTTextArea title = new MTTextArea(applet, FontManager.getInstance().createFont(
-				applet, "arial.ttf", 20, new MTColor(0, 0, 0, 255),
-				new MTColor(0, 0, 0, 255)));
-		title.setNoFill(true);
-		title.setText("Mon titre");
-		title.setPickable(false);
-		title.setNoStroke(true);
-		title.setAnchor(PositionAnchor.UPPER_LEFT);
-		title.setPositionGlobal(new Vector3D(this.getPosition(TransformSpace.GLOBAL).getX(), (float) (this.getPosition(TransformSpace.GLOBAL).getY())));
+	public void setTitle(String text) {
+		title.setText(text);
 	}
 
 	public void createEditionKeyboard(final MTTextArea target) {
@@ -226,7 +217,7 @@ public abstract class AbstractElementView extends MTClipRectangle implements Idr
 	}
 	
 	public void updateView() {
-		setTitle(model.getTitle(), mtApplication);
+		setTitle(model.getTitle());
 		updateContent();
 	}
 	
