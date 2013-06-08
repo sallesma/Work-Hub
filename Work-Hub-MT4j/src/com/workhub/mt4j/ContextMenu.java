@@ -26,7 +26,7 @@ public class ContextMenu extends MTList {
 	}
 
 	public ContextMenu(MTComponent source, int x, int y, PApplet applet, WorkHubScene scene, Map<AID, String> map) {
-		super(x, y, MT4JConstants.CONTEXT_BUTTON_WIDTH, (float)((Math.min(6.5, map.size())) * (MT4JConstants.CONTEXT_BUTTON_HEIGHT + 2)), applet);
+		super(x, y, MT4JConstants.CONTEXT_BUTTON_WIDTH, (float)((Math.min(6.5, map.size() + 1)) * (MT4JConstants.CONTEXT_BUTTON_HEIGHT + 2)), applet);
 		initializeButtons(map, source, applet, scene);
 		setAnchor(PositionAnchor.UPPER_LEFT);
 		MT4JUtils.fixPosition(this, x, y, applet, PositionAnchor.UPPER_LEFT);
@@ -113,6 +113,8 @@ public class ContextMenu extends MTList {
 			ContextButton item = new ContextButton(applet, scene, this, entry);
 			addListElement(item);
 		}
+		ContextButton closeButton = new ContextButton(applet, scene, source, this, MT4JConstants.CONTEXT_BUTTON_CLOSE);
+		addListElement(closeButton);
 	}
 	
 	public static int sizeOf(int menuType) {
