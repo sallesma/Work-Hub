@@ -23,7 +23,6 @@ public class TextElementView extends AbstractElementView {
 				applet
 				);
 		content.setNoFill(true);
-		content.setText("Ajoutez votre texte ici");
 		content.setPickable(false);
 		content.setNoStroke(true);
 		addChild(content);

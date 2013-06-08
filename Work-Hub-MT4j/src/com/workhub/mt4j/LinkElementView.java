@@ -21,7 +21,6 @@ public class LinkElementView extends TextElementView{
 		content.setFont(FontManager.getInstance().createFont(
 				applet, "arial.ttf", 18, new MTColor(50, 50, 50, 255),
 				MTColor.BLUE));
-		content.setText("http://www.google.com");
 		
 		registerInputProcessor(new TapProcessor(applet, 25, true, 350));
 		addGestureListener(TapProcessor.class, new IGestureEventListener() {

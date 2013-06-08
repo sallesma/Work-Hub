@@ -174,6 +174,7 @@ public abstract class AbstractElementView extends MTClipRectangle implements Idr
 			@Override
 			public void stateChanged(StateChangeEvent evt) {
 				target.setEnableCaret(false);
+				saveModel();
 				JadeInterface.getInstance().finishEdition(model.getAgent());
 				keyboard = null;
 				keyboardTarget = null;
