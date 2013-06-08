@@ -33,12 +33,14 @@ import processing.core.PImage;
 public class ContextButton extends MTListCell {
 	private MTTextField m_text;
 	private final MTComponent m_source;
+	private ContextMenu m_menu;
 	
-	public ContextButton(final PApplet applet, final WorkHubScene scene, MTComponent source, final String text) {
+	public ContextButton(final PApplet applet, final WorkHubScene scene, MTComponent source, ContextMenu menu, final String text) {
 		super(MT4JConstants.CONTEXT_BUTTON_WIDTH, MT4JConstants.CONTEXT_BUTTON_HEIGHT, applet);
 		
 		IFont font = FontManager.getInstance().createFont(applet, "arial.ttf", 18);
 		m_source = source;
+		m_menu = menu;
 		m_text = new MTTextField(0, 0, MT4JConstants.CONTEXT_BUTTON_WIDTH, MT4JConstants.CONTEXT_BUTTON_HEIGHT, font, applet);
 		m_text.setFillColor(MTColor.AQUA);
 		m_text.setText(text);
@@ -165,7 +167,7 @@ public class ContextButton extends MTListCell {
 								applet.exit();
 							break;
 						}
-						getParent().getParent().destroy();
+						m_menu.destroy();
 						break;
 					case AbstractCursorInputEvt.INPUT_ENDED:
 						break;
@@ -180,11 +182,11 @@ public class ContextButton extends MTListCell {
 		});
 	}
 
-	public ContextButton(PApplet applet, WorkHubScene scene,
-			MTComponent source, final Entry<AID, String> entry) {
+	public ContextButton(PApplet applet, WorkHubScene scene, ContextMenu menu, final Entry<AID, String> entry) {
 		super(MT4JConstants.CONTEXT_BUTTON_WIDTH, MT4JConstants.CONTEXT_BUTTON_HEIGHT, applet);
 		IFont font = FontManager.getInstance().createFont(applet, "arial.ttf", 18);
-		m_source = source;
+		m_source = null;
+		m_menu = menu;
 		m_text = new MTTextField(0, 0, MT4JConstants.CONTEXT_BUTTON_WIDTH, MT4JConstants.CONTEXT_BUTTON_HEIGHT, font, applet);
 		m_text.setFillColor(MTColor.AQUA);
 		m_text.setText(entry.getValue());
@@ -200,7 +202,7 @@ public class ContextButton extends MTListCell {
 						JadeInterface.getInstance().getElement(entry.getKey());
 					}
 				}
-				getParent().getParent().destroy();
+				m_menu.destroy();
 				return false;
 			}
 		});
