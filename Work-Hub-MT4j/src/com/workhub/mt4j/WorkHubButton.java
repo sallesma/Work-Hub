@@ -67,17 +67,17 @@ public class WorkHubButton extends MTRoundRectangle {
 						break;
 					case MT4JConstants.BUTTON_ID_ENVOYER:
 						if(tahe.isHoldComplete()) {
-							scene.openContextualMenu(tahe.getLocationOnScreen(), MT4JConstants.CONTEXT_SHORTCUT_MENU);
+							scene.openContextualMenu(tahe.getLocationOnScreen(), WorkHubButton.this);
 						}
 						break;
 					case MT4JConstants.BUTTON_ID_RECEVOIR:
 						if(tahe.isHoldComplete()) {
-							scene.openContextualMenu(tahe.getLocationOnScreen(), MT4JConstants.CONTEXT_SHORTCUT_MENU);
+							scene.openContextualMenu(tahe.getLocationOnScreen(), WorkHubButton.this);
 						}
 						break;
 					case MT4JConstants.BUTTON_ID_MASQUER:
 						if(tahe.isHoldComplete()) {
-							scene.openContextualMenu(tahe.getLocationOnScreen(), MT4JConstants.CONTEXT_SHORTCUT_MENU);
+							scene.openContextualMenu(tahe.getLocationOnScreen(), WorkHubButton.this);
 						}
 						break;
 					}

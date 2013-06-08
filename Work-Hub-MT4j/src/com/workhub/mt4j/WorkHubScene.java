@@ -85,6 +85,11 @@ public class WorkHubScene extends AbstractScene {
 		ContextMenu contextMenu = new ContextMenu(getCanvas(), (int)location.x, (int)location.y, getMTApplication(), this, menuType);
 		this.getCanvas().addChild(contextMenu);
 	}
+	
+	public void openContextualMenu(Vector3D location, WorkHubButton source) {
+		ContextMenu contextMenu = new ContextMenu(source, (int)location.x, (int)location.y, getMTApplication(), this, MT4JConstants.CONTEXT_SHORTCUT_MENU);
+		this.getCanvas().addChild(contextMenu);
+	}
 
 	// Utilise pour traiter EVENT_TYPE_ELEMENTS
 	public void openContextualMenu(Map<AID, String> map) {

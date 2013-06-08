@@ -73,6 +73,9 @@ public class ContextButton extends MTListCell {
 									}
 								}
 							}
+							else if(m_source instanceof WorkHubButton) {
+								// Ne rien faire de plus
+							}
 							else {
 								// Type d'element inconnu
 							}
