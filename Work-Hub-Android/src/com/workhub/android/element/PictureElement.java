@@ -23,6 +23,7 @@ import com.workhub.android.utils.BitmapTransform;
 import com.workhub.android.utils.FileManager;
 import com.workhub.android.utils.Ressources;
 import com.workhub.android.utils.Size;
+import com.workhub.model.ElementModel;
 import com.workhub.model.PictureElementModel;
 
 public class PictureElement extends BaseElement{
@@ -32,6 +33,7 @@ public class PictureElement extends BaseElement{
 	private BitmapTextureAtlas texture;
 	private BitmapTextureAtlasSourcePerso bitmapTextureAtlasSourcePerso;
 	private Sprite imageSprite;
+	private boolean bitmaphaschanged = true;
 
 	public PictureElement(PictureElementModel model, float centerX, float centerY, Ressources res) {
 		super(model, centerX, centerY, res , false);
@@ -73,38 +75,42 @@ public class PictureElement extends BaseElement{
 
 	@Override
 	public float updateView() {
-		
-		final Sprite imageSpritetmp = imageSprite;
-		res.getContext().runOnUpdateThread(new Runnable() {
 
-			@Override
-			public void run() {
-				if(imageSpritetmp!=null){
-					imageSpritetmp.dispose();
-					imageSpritetmp.detachSelf();
+		
+		
+		if(bitmaphaschanged){
+			bitmaphaschanged = false;
+			final Sprite imageSpritetmp = imageSprite;
+			res.getContext().runOnUpdateThread(new Runnable() {
+
+				@Override
+				public void run() {
+					if(imageSpritetmp!=null){
+						imageSpritetmp.dispose();
+						imageSpritetmp.detachSelf();
+					}
+
 				}
+			});
+			TextureRegion tr = null;
+			if(getModel().getContent()==null){
+				tr = res.getTR_No_Image();
 
+			}else{
+				iniTexture();
+				Bitmap b=null;
+				byte[] bytes = getModel().getContent();
+				BitmapFactory.Options opts = new BitmapFactory.Options();               
+				opts.inPreferredConfig = Bitmap.Config.ARGB_8888;
+				b = BitmapFactory.decodeByteArray(bytes,0, bytes.length, opts);
+				tr = getTextureRegion(b);
+				texture.load();
 			}
-		});
-		
-		
-		TextureRegion tr = null;
-		if(getModel().getContent()==null){
-			tr = res.getTR_No_Image();
-
-		}else{
-			iniTexture();
-			Bitmap b=null;
-			byte[] bytes = getModel().getContent();
-			BitmapFactory.Options opts = new BitmapFactory.Options();               
-			opts.inPreferredConfig = Bitmap.Config.ARGB_8888;
-			b = BitmapFactory.decodeByteArray(bytes,0, bytes.length, opts);
-			tr = getTextureRegion(b);
-			texture.load();
+			imageSprite = new Sprite(0, 0,tr.getWidth(), tr.getHeight(), tr, res.getContext().getVertexBufferObjectManager());
+			body.attachChild(imageSprite);
 		}
 
-		imageSprite = new Sprite(0, 0,tr.getWidth(), tr.getHeight(), tr, res.getContext().getVertexBufferObjectManager());
-		body.attachChild(imageSprite);
+		
 		float posY = super.updateView()+MARGIN/getScaleY();
 
 
@@ -214,7 +220,7 @@ public class PictureElement extends BaseElement{
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
 		b.compress(Bitmap.CompressFormat.PNG, 100, stream);
 		getModel().setContent(stream.toByteArray());
-
+		bitmaphaschanged = true;
 		try {
 			stream.close();
 			stream = null;
@@ -233,6 +239,13 @@ public class PictureElement extends BaseElement{
 		if(bitmapTextureAtlasSourcePerso!=null){
 			bitmapTextureAtlasSourcePerso.recycle();
 		}
+	}
+	
+	@Override
+	public void setModel(ElementModel model) {
+		bitmaphaschanged = true;
+		super.setModel(model);
+		
 	}
 
 	class BitmapTextureAtlasSourcePerso extends BaseTextureAtlasSource implements IBitmapTextureAtlasSource

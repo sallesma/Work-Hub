@@ -56,7 +56,7 @@ public abstract class AbstractElement extends Entity  implements ITouchArea, IHo
 				if(this.mPointerID != TouchEvent.INVALID_POINTER_ID) {
 					final long holdTimeMilliseconds = System.currentTimeMillis() - this.mDownTimeMilliseconds;
 					if(!this.mMaximumDistanceExceeded){
-						shortClick = (holdTimeMilliseconds<SHORT_CLICK_TIMEOUT);
+						shortClick = shortClick&&(holdTimeMilliseconds<SHORT_CLICK_TIMEOUT);
 						
 						if(holdTimeMilliseconds <= this.mTriggerHoldMinimumMilliseconds) {
 							visible = true;
@@ -118,7 +118,7 @@ public abstract class AbstractElement extends Entity  implements ITouchArea, IHo
 		switch (v.getId()) {
 
 		case R.id.bt_supprimer:
-			masquer();
+			remove();
 			break;
 		}
 	}
@@ -154,6 +154,7 @@ public abstract class AbstractElement extends Entity  implements ITouchArea, IHo
 
 		switch (myEventAction) {
 		case TouchEvent.ACTION_DOWN:
+			shortClick=true;
 			touchRound.setPosition(pTouchAreaLocalX-touchRound.getWidth()/2, pTouchAreaLocalY-touchRound.getHeight()/2);
 			
 			pointerCount=Math.min(pointerCount+1, 2);
@@ -161,7 +162,7 @@ public abstract class AbstractElement extends Entity  implements ITouchArea, IHo
 			getParent().sortChildren(false);
 			break;
 		case TouchEvent.ACTION_MOVE: {
-
+			shortClick=false; //FIXME
 
 			break;}
 		case TouchEvent.ACTION_UP:

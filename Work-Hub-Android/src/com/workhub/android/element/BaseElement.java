@@ -58,7 +58,7 @@ public abstract class BaseElement extends AbstractElement  {
 		return res.toPixel(250);
 	}
 	protected abstract void iniEditDialog();
-	protected void saveModel(){
+	private void saveModel(){
 		isSaving  = true;
 		model.setColor(selectColor);
 
@@ -79,7 +79,7 @@ public abstract class BaseElement extends AbstractElement  {
 	protected void iniDialogView() {
 		super.iniDialogView();
 
-		selectColor = model.getColor();
+		
 		Button bt_masquer = (Button) menuDialog.findViewById(R.id.bt_masquer);
 		bt_masquer.setVisibility(View.VISIBLE);
 		bt_masquer.setOnClickListener(this);
@@ -182,7 +182,6 @@ public abstract class BaseElement extends AbstractElement  {
 		case R.id.bt_ok:
 
 			saveModel();
-			res.getContext().saveElement(model);
 			editDialog.dismiss();
 			editDialog=null;
 			updateView();
@@ -238,7 +237,7 @@ public abstract class BaseElement extends AbstractElement  {
 
 			@Override
 			public void run() {
-
+				selectColor = model.getColor();
 				editDialog = new Dialog(res.getContext(), R.style.dialog_app_theme);
 				editDialog.setContentView(R.layout.element_dialog);
 				((EditText)editDialog.findViewById(R.id.title)).setText(model.getTitle());

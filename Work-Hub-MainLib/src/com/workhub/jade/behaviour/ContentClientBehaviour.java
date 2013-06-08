@@ -45,6 +45,7 @@ public class ContentClientBehaviour extends CyclicBehaviour{
 			case Constants.MESSAGE_RECEIVE_ELEMENT_TITLE:
 			case Constants.MESSAGE_ACTION_EDIT:
 			case Constants.MESSAGE_ACTION_IS_DYING:
+			case Constants.MESSAGE_ACTION_ELEMENT_CHANGED:
 				return true;
 			default:
 				return false;
