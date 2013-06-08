@@ -111,9 +111,9 @@ public class ElementAgent extends Agent {
 		
 		
 		DFAgentDescription[] receivers = Utils.agentSearch(this, Constants.CLIENT_AGENT);
-		for(DFAgentDescription df : receivers)
+		for(DFAgentDescription df : receivers){
 		    this.send(MessageFactory.createMessage(this, df.getName(), Constants.MESSAGE_ACTION_ELEMENT_CHANGED));
-		
+		}
 	}
 	
 	public AID getEditor() {

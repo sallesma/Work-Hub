@@ -21,11 +21,11 @@ public class LinkElement extends TextElement{
 		return res.toPixel(100);
 	};
 	
-	@Override
-	protected void onShortClick() {
-		openWebPage();
-		
-	};
+//	@Override
+//	protected void onShortClick() {
+//		openWebPage();
+//		
+//	};
 
 	
 	@Override

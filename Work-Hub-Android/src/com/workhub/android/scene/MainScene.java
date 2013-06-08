@@ -55,7 +55,6 @@ public class MainScene extends Scene implements IOnSceneTouchListener, IHoldDete
 	private ScrollDetector mScrollDetector;
 	private Ressources res;
 	private GroupElement groupElement;
-	private Runnable groupRunnable;
 
 	private Dialog currentDialog;
 	private MyListAdapter adapter;
@@ -90,49 +89,7 @@ public class MainScene extends Scene implements IOnSceneTouchListener, IHoldDete
 		touchRound = new Sprite(-res.toPixel(50), -res.toPixel(50), res.toPixel(50)*2,res.toPixel(50)*2, res.getTR_Rond(), res.getContext().getVertexBufferObjectManager());
 		touchRound.setColor(0.2f, 0.2f, 0.2f);
 		this.attachChild(touchRound);
-		groupRunnable = new Runnable() {
-			@Override
-			public void run() {
-				if(groupElement!=null){
-					if(!groupElement.isInitialize()){
 
-
-						ArrayList<BaseElement> list = new ArrayList<BaseElement>();
-						for (int i = getChildCount()-1; i >=0; i--) {
-							if(getChildByIndex(i) instanceof BaseElement){
-								if(groupElement.collideWith((BaseElement) getChildByIndex(i))){
-									list.add((BaseElement) getChildByIndex(i));
-								}
-							}
-						}
-
-
-						if(list.size()>1){
-							for (int j = 0; j < getChildCount(); j++) {
-
-								if(getChildByIndex(j)instanceof GroupElement){
-									GroupElement g  = (GroupElement) getChildByIndex(j);
-									if(g!=groupElement&&g.containsOneOf(list)){
-										g.clearGroup();
-										g.remove();
-									}
-								}
-							}
-							groupElement.initialize(list);
-							groupElement.setZIndex(ConstantsAndroid.ZINDEX++);
-							registerTouchArea(groupElement);
-							sortChildren(false);
-						}else{
-							groupElement.detachSelf();
-						}
-
-					}else{
-
-						unregisterTouchArea(groupElement);
-						groupElement.detachSelf();
-						groupElement=null;
-					}
-				}}};
 
 
 	}
@@ -185,18 +142,18 @@ public class MainScene extends Scene implements IOnSceneTouchListener, IHoldDete
 		this.attachChild(rb);
 		this.registerTouchArea(rb);  
 
-//		TextElementModel txtM = new TextElementModel(0,"", null, "" );
-//		txtM.setContent("tQu'est-ce que qsdf.org ? QSDF.ORG est un domaine � usage initialement personnel. Les services ou sites webs li�s � qsdf.");
-//		txtM.setTitle("titre de l'element txt");
-//		TextElement txt = new TextElement(txtM, 200, 200, res);
-//		this.registerTouchArea(txt);
-//		this.attachChild(txt);
-//
-//		PictureElementModel pm = new PictureElementModel(0,"Image Element", null, null);
-//
-//		PictureElement txt1 = new PictureElement(pm, 100, 200, res);
-//		this.registerTouchArea(txt1);
-//		this.attachChild(txt1);
+		//		TextElementModel txtM = new TextElementModel(0,"", null, "" );
+		//		txtM.setContent("tQu'est-ce que qsdf.org ? QSDF.ORG est un domaine � usage initialement personnel. Les services ou sites webs li�s � qsdf.");
+		//		txtM.setTitle("titre de l'element txt");
+		//		TextElement txt = new TextElement(txtM, 200, 200, res);
+		//		this.registerTouchArea(txt);
+		//		this.attachChild(txt);
+		//
+		//		PictureElementModel pm = new PictureElementModel(0,"Image Element", null, null);
+		//
+		//		PictureElement txt1 = new PictureElement(pm, 100, 200, res);
+		//		this.registerTouchArea(txt1);
+		//		this.attachChild(txt1);
 
 		//		this.mHullVertices = new float[this.mMeshVertices.length];
 		//		System.arraycopy(this.mMeshVertices, 0, this.mHullVertices, 0, this.mMeshVertices.length);
@@ -273,7 +230,50 @@ public class MainScene extends Scene implements IOnSceneTouchListener, IHoldDete
 		case TouchEvent.ACTION_OUTSIDE:
 
 			if(groupElement!=null){
-				res.getContext().runOnUpdateThread(groupRunnable);
+				final GroupElement group = groupElement;
+				res.getContext().runOnUpdateThread(new Runnable() {
+					@Override
+					public void run() {
+						if(!group.isInitialize()){
+
+
+							ArrayList<BaseElement> list = new ArrayList<BaseElement>();
+							for (int i = getChildCount()-1; i >=0; i--) {
+								if(getChildByIndex(i) instanceof BaseElement){
+									if(group.collideWith((BaseElement) getChildByIndex(i))){
+										list.add((BaseElement) getChildByIndex(i));
+									}
+								}
+							}
+
+
+							if(list.size()>1){
+								for (int j = 0; j < getChildCount(); j++) {
+
+									if(getChildByIndex(j)instanceof GroupElement){
+										GroupElement g  = (GroupElement) getChildByIndex(j);
+										if(g!=group&&g.containsOneOf(list)){
+											g.clearGroup();
+											g.remove();
+										}
+									}
+								}
+								group.initialize(list);
+								group.setZIndex(ConstantsAndroid.ZINDEX++);
+								registerTouchArea(groupElement);
+								sortChildren(false);
+							}else{
+								group.detachSelf();
+							}
+
+						}else{
+
+							unregisterTouchArea(groupElement);
+							groupElement.detachSelf();
+							groupElement=null;
+						}
+					}});
+				groupElement = null;
 			}
 			break;
 		}
@@ -335,7 +335,7 @@ public class MainScene extends Scene implements IOnSceneTouchListener, IHoldDete
 		}
 		groupElement = new GroupElement(res );
 		attachChild(groupElement);
-		groupElement = null;
+
 	}
 
 	@Override
@@ -461,7 +461,7 @@ public class MainScene extends Scene implements IOnSceneTouchListener, IHoldDete
 
 	public void addToAdapter(final Entry<AID, String> entry){
 		if(adapter!=null){
-			
+
 			res.getContext().runOnUiThread(new Runnable() {
 
 				@Override
@@ -508,7 +508,7 @@ public class MainScene extends Scene implements IOnSceneTouchListener, IHoldDete
 				android.R.layout.simple_list_item_1, new ArrayList<String>());
 		ListView listview = (ListView)currentDialog.findViewById(R.id.listview);
 		listview.setAdapter(adapter);
-		
+
 		Map<AID, String> map = new HashMap<AID, String>();	
 		map.put(null, "Tous");
 		for (Entry<AID, String> el : map.entrySet()) {
