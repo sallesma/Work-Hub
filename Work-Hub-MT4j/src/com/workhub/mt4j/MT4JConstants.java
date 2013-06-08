@@ -29,6 +29,8 @@ public class MT4JConstants {
 	public static final int CONTEXT_BUTTON_WIDTH	= 250;
 	public static final int CONTEXT_BUTTON_HEIGHT	= 40;
 	
+	public static final int SHORTCUT_BUTTON_RADIUS = 130;
+	
 	/*
 	 * ID des menus. Pour chacun d'entre eux la taille doit être précisée dans ContextMenu.sizeOf().
 	 */

@@ -17,6 +17,7 @@ import org.mt4j.input.gestureAction.TapAndHoldVisualizer;
 import org.mt4j.input.inputProcessors.IGestureEventListener;
 import org.mt4j.input.inputProcessors.MTGestureEvent;
 import org.mt4j.input.inputProcessors.componentProcessors.AbstractComponentProcessor;
+import org.mt4j.input.inputProcessors.componentProcessors.dragProcessor.DragEvent;
 import org.mt4j.input.inputProcessors.componentProcessors.dragProcessor.DragProcessor;
 import org.mt4j.input.inputProcessors.componentProcessors.lassoProcessor.IdragClusterable;
 import org.mt4j.input.inputProcessors.componentProcessors.lassoProcessor.LassoProcessor;
@@ -42,7 +43,7 @@ public abstract class AbstractElementView extends MTClipRectangle implements Idr
 	protected MTTextArea keyboardTarget;
 
 	public AbstractElementView(float x, float y, float z, float width,
-			float height, PApplet applet, WorkHubScene scene) {
+			float height, PApplet applet, final WorkHubScene scene) {
 		super(x, y, z, width, height, applet);
 		this.mtApplication = (MTApplication) applet;
 		this.scene = scene;
@@ -86,6 +87,37 @@ public abstract class AbstractElementView extends MTClipRectangle implements Idr
 					break;
 				default:
 					break;
+				}
+				return false;
+			}
+		});
+		
+		addGestureListener(DragProcessor.class, new IGestureEventListener() {
+			
+			@Override
+			public boolean processGestureEvent(MTGestureEvent ge) {
+				DragEvent de = (DragEvent)ge;
+				if(de.getId() == DragEvent.GESTURE_ENDED) {
+					String intersection = scene.testShortCutIntersection(de.getTo());
+					if(intersection != null) {
+						switch(intersection) {
+						case MT4JConstants.BUTTON_ID_MENU :
+							// Pas d'action
+							break;
+						case MT4JConstants.BUTTON_ID_ENVOYER :
+							// TODO
+							break;
+						case MT4JConstants.BUTTON_ID_RECEVOIR :
+							// Pas d'action
+							break;
+						case MT4JConstants.BUTTON_ID_MASQUER :
+							AbstractElementView.this.destroy();
+							break;
+						default :
+							// Raccourci inconnu
+							break;
+						}
+					}
 				}
 				return false;
 			}

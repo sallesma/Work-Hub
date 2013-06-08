@@ -74,7 +74,8 @@ public class ContextButton extends MTListCell {
 								}
 							}
 							else if(m_source instanceof WorkHubButton) {
-								// Ne rien faire de plus
+								WorkHubButton button = (WorkHubButton)m_source;
+								scene.removeShortcut(button.getText());
 							}
 							else {
 								// Type d'element inconnu

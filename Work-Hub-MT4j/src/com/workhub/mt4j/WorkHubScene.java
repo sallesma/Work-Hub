@@ -9,6 +9,7 @@ import org.mt4j.components.MTComponent;
 import org.mt4j.components.visibleComponents.shapes.MTRectangle.PositionAnchor;
 import org.mt4j.components.visibleComponents.widgets.MTImage;
 import org.mt4j.input.gestureAction.TapAndHoldVisualizer;
+import org.mt4j.input.inputData.InputCursor;
 import org.mt4j.input.inputProcessors.IGestureEventListener;
 import org.mt4j.input.inputProcessors.MTGestureEvent;
 import org.mt4j.input.inputProcessors.componentProcessors.lassoProcessor.LassoProcessor;
@@ -44,10 +45,10 @@ public class WorkHubScene extends AbstractScene {
 		imageFond.getImage().setNoStroke(true);
 		getCanvas().addChild(imageFond);
 		
-		menuButton = new WorkHubButton(MT4JConstants.BUTTON_ID_MENU, MT4JConstants.CORNER_TOP_LEFT, 130, 1000, 40, 40, getMTApplication(), this);
-		envoyerButton = new WorkHubButton(MT4JConstants.BUTTON_ID_ENVOYER, MT4JConstants.CORNER_BOTTOM_RIGHT, 130, 1000, 980, 700, getMTApplication(), this);
-		recevoirButton = new WorkHubButton(MT4JConstants.BUTTON_ID_RECEVOIR, MT4JConstants.CORNER_BOTTOM_LEFT, 130, 1000, 50, 700, getMTApplication(), this);
-		masquerButton = new WorkHubButton(MT4JConstants.BUTTON_ID_MASQUER, MT4JConstants.CORNER_TOP_RIGHT, 130, 1000, 980, 40, getMTApplication(), this);
+		menuButton = new WorkHubButton(MT4JConstants.BUTTON_ID_MENU, MT4JConstants.CORNER_TOP_LEFT, MT4JConstants.SHORTCUT_BUTTON_RADIUS, 1000, 40, 40, getMTApplication(), this);
+		envoyerButton = new WorkHubButton(MT4JConstants.BUTTON_ID_ENVOYER, MT4JConstants.CORNER_BOTTOM_RIGHT, MT4JConstants.SHORTCUT_BUTTON_RADIUS, 1000, 980, 700, getMTApplication(), this);
+		recevoirButton = new WorkHubButton(MT4JConstants.BUTTON_ID_RECEVOIR, MT4JConstants.CORNER_BOTTOM_LEFT, MT4JConstants.SHORTCUT_BUTTON_RADIUS, 1000, 50, 700, getMTApplication(), this);
+		masquerButton = new WorkHubButton(MT4JConstants.BUTTON_ID_MASQUER, MT4JConstants.CORNER_TOP_RIGHT, MT4JConstants.SHORTCUT_BUTTON_RADIUS, 1000, 980, 40, getMTApplication(), this);
 		masquerButton.setPositionGlobal(new Vector3D(mtApplication.getWidth()-20, -20));
 		this.getCanvas().addChild(menuButton);
 		this.getCanvas().addChild(masquerButton);
@@ -131,6 +132,43 @@ public class WorkHubScene extends AbstractScene {
 					found = true;
 				}
 			}
+		}
+	}
+	
+	// Renvoie le bouton intersecte s'il y en a un, null sinon
+	public String testShortCutIntersection(Vector3D position) {
+		if(menuButton != null && Vector3D.distance(position, menuButton.getCenterPointGlobal()) <= MT4JConstants.SHORTCUT_BUTTON_RADIUS) {
+			return MT4JConstants.BUTTON_ID_MENU; 
+		}
+		if(envoyerButton != null && Vector3D.distance(position, envoyerButton.getCenterPointGlobal()) <= MT4JConstants.SHORTCUT_BUTTON_RADIUS) {
+			return MT4JConstants.BUTTON_ID_ENVOYER; 
+		}
+		if(recevoirButton != null && Vector3D.distance(position, recevoirButton.getCenterPointGlobal()) <= MT4JConstants.SHORTCUT_BUTTON_RADIUS) {
+			return MT4JConstants.BUTTON_ID_RECEVOIR; 
+		}
+		if(masquerButton != null && Vector3D.distance(position, masquerButton.getCenterPointGlobal()) <= MT4JConstants.SHORTCUT_BUTTON_RADIUS) {
+			return MT4JConstants.BUTTON_ID_MASQUER; 
+		}
+		return null;
+	}
+
+	public void removeShortcut(String ID) {
+		switch(ID) {
+		case MT4JConstants.BUTTON_ID_MENU :
+			menuButton = null;
+			break;
+		case MT4JConstants.BUTTON_ID_ENVOYER :
+			envoyerButton = null;
+			break;
+		case MT4JConstants.BUTTON_ID_RECEVOIR :
+			recevoirButton = null;
+			break;
+		case MT4JConstants.BUTTON_ID_MASQUER :
+			masquerButton = null;
+			break;
+		default :
+			// Raccourci inconnu
+			break;
 		}
 	}
 }

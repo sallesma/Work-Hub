@@ -105,5 +105,9 @@ public class WorkHubButton extends MTRoundRectangle {
 
 	public void setMtApplication(MTApplication mtApplication) {
 		this.mtApplication = mtApplication;
-	}	
+	}
+	
+	public String getText() {
+		return buttonText.getText();
+	}
 }
