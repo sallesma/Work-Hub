@@ -153,9 +153,8 @@ public final class JadeInterface implements PropertyChangeListener {
 		}
 		case Constants.EVENT_TYPE_DIED:
 		{
-			ElementModel model = (ElementModel)event.getNewValue();
-			AbstractElementView element = null;
-			element = scene.getElement(model.getAgent());
+			AID agent = (AID)event.getNewValue();
+			AbstractElementView element = scene.getElement(agent);
 			if(element!=null){
 				element.destroy();
 			}
