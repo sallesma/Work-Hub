@@ -73,4 +73,9 @@ public class ImageElementView extends AbstractElementView {
 	public int getType() {
 		return Constants.TYPE_ELEMENT_PICTURE;
 	}
+	
+	@Override
+	public void updateContent() {
+		// TODO
+	}
 }

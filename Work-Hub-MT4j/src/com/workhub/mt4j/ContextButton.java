@@ -1,6 +1,9 @@
 package com.workhub.mt4j;
 
+import jade.core.AID;
+
 import java.awt.Image;
+import java.util.Map.Entry;
 
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -21,6 +24,8 @@ import org.mt4j.input.inputProcessors.MTGestureEvent;
 import org.mt4j.input.inputProcessors.componentProcessors.dragProcessor.DragProcessor;
 import org.mt4j.util.MTColor;
 import org.mt4j.util.math.Vector3D;
+
+import com.workhub.utils.Constants;
 
 import processing.core.PApplet;
 import processing.core.PImage;
@@ -76,6 +81,7 @@ public class ContextButton extends MTListCell {
 									((MTRectangle) getParent().getParent()).getPosition(TransformSpace.GLOBAL).y,
 									MT4JConstants.ELEMENT_DEFAULT_WIDTH, MT4JConstants.ELEMENT_DEFAULT_HEIGHT, applet, scene);
 							textElement.addLassoProcessor();
+							JadeInterface.getInstance().createElement(Constants.TYPE_ELEMENT_TEXT);
 							break;
 						case MT4JConstants.CONTEXT_BUTTON_CREATE_IMAGE:
 							String imagePath = applet.selectInput();
@@ -83,12 +89,14 @@ public class ContextButton extends MTListCell {
 									((MTRectangle) getParent().getParent()).getPosition(TransformSpace.GLOBAL).y, 
 									MT4JConstants.ELEMENT_DEFAULT_WIDTH, MT4JConstants.ELEMENT_DEFAULT_HEIGHT, applet, scene);
 							imageElement.addLassoProcessor();
+							JadeInterface.getInstance().createElement(Constants.TYPE_ELEMENT_PICTURE);
 							break;
 						case MT4JConstants.CONTEXT_BUTTON_CREATE_LINK:
 							LinkElementView linkElement = new LinkElementView(((MTRectangle) getParent().getParent()).getPosition(TransformSpace.GLOBAL).x, 
 									((MTRectangle) getParent().getParent()).getPosition(TransformSpace.GLOBAL).y, 
 									MT4JConstants.ELEMENT_DEFAULT_WIDTH, MT4JConstants.ELEMENT_DEFAULT_HEIGHT, applet, scene);
 							linkElement.addLassoProcessor();
+							JadeInterface.getInstance().createElement(Constants.TYPE_ELEMENT_LINK);
 							break;
 						case MT4JConstants.CONTEXT_BUTTON_CREATE_FILE:
 							String filePath = applet.selectInput();
@@ -96,8 +104,11 @@ public class ContextButton extends MTListCell {
 									((MTRectangle) getParent().getParent()).getPosition(TransformSpace.GLOBAL).y, 
 									MT4JConstants.ELEMENT_DEFAULT_WIDTH, MT4JConstants.ELEMENT_DEFAULT_HEIGHT, applet, scene);
 							fileElement.addLassoProcessor();
+							JadeInterface.getInstance().createElement(Constants.TYPE_ELEMENT_FILE);
 							break;
 						case MT4JConstants.CONTEXT_BUTTON_VISUALIZE_ELEMENTS:
+							ContextMenu.elementViewLocation.add(getPosition(TransformSpace.GLOBAL));
+							JadeInterface.getInstance().getElementList();
 							break;
 						case MT4JConstants.CONTEXT_BUTTON_EDIT_TITLE:
 							((AbstractElementView) m_source).tryEditElementTitle();
@@ -167,6 +178,29 @@ public class ContextButton extends MTListCell {
 				return false;
 			}
 		});
+	}
 
+	public ContextButton(PApplet applet, WorkHubScene scene,
+			MTComponent source, final Entry<AID, String> entry) {
+		super(MT4JConstants.CONTEXT_BUTTON_WIDTH, MT4JConstants.CONTEXT_BUTTON_HEIGHT, applet);
+		IFont font = FontManager.getInstance().createFont(applet, "arial.ttf", 18);
+		m_source = source;
+		m_text = new MTTextField(0, 0, MT4JConstants.CONTEXT_BUTTON_WIDTH, MT4JConstants.CONTEXT_BUTTON_HEIGHT, font, applet);
+		m_text.setFillColor(MTColor.AQUA);
+		m_text.setText(entry.getValue());
+		addChild(m_text);
+		
+		addInputListener(new IMTInputEventListener() {
+			@Override
+			public boolean processInputEvent(MTInputEvent inEvt) {
+				if (inEvt instanceof AbstractCursorInputEvt) {
+					AbstractCursorInputEvt cursorInputEvt = (AbstractCursorInputEvt) inEvt;
+					if(cursorInputEvt.getId() == AbstractCursorInputEvt.INPUT_DETECTED) {
+						JadeInterface.getInstance().getElement(entry.getKey());
+					}
+				}
+				return false;
+			}
+		});
 	}
 }

@@ -91,7 +91,6 @@ public abstract class AbstractElementView extends MTClipRectangle implements Idr
 		});
 
 		scene.getCanvas().addChild(this);
-		JadeInterface.getInstance().createElement(getType());
 	}
 
 	@Override
@@ -190,6 +189,7 @@ public abstract class AbstractElementView extends MTClipRectangle implements Idr
 
 	public void setModel(ElementModel model) {
 		this.model = model;
+		updateView();
 	}
 
 	public void tryEditElementTitle() {
@@ -221,4 +221,11 @@ public abstract class AbstractElementView extends MTClipRectangle implements Idr
 		keyboard.setEnabled(enableKeyboard);
 		keyboardTarget.setEnableCaret(enableKeyboard);
 	}
+	
+	public void updateView() {
+		setTitle(model.getTitle(), mtApplication);
+		updateContent();
+	}
+	
+	public abstract void updateContent();
 }

@@ -9,6 +9,7 @@ import org.mt4j.input.inputProcessors.componentProcessors.tapProcessor.TapEvent;
 import org.mt4j.input.inputProcessors.componentProcessors.tapProcessor.TapProcessor;
 import org.mt4j.util.MTColor;
 
+import com.workhub.model.LinkElementModel;
 import com.workhub.utils.Constants;
 
 import processing.core.PApplet;
@@ -45,5 +46,11 @@ public class LinkElementView extends TextElementView{
 	@Override
 	public int getType() {
 		return Constants.TYPE_ELEMENT_LINK;
+	}
+	
+	@Override
+	public void updateContent() {
+		LinkElementModel linkModel = (LinkElementModel)model;
+		content.setText(linkModel.getContent());
 	}
 }

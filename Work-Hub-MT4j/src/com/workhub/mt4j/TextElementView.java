@@ -50,4 +50,10 @@ public class TextElementView extends AbstractElementView {
 	public int getType() {
 		return Constants.TYPE_ELEMENT_TEXT;
 	}
+
+	@Override
+	public void updateContent() {
+		TextElementModel textModel = (TextElementModel)model;
+		content.setText(textModel.getContent());
+	}
 }

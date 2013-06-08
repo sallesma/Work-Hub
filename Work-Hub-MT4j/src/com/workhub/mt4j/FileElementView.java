@@ -82,4 +82,9 @@ public class FileElementView extends AbstractElementView {
 	public int getType() {
 		return Constants.TYPE_ELEMENT_FILE;
 	}
+	
+	@Override
+	public void updateContent() {
+		// TODO
+	}
 }
