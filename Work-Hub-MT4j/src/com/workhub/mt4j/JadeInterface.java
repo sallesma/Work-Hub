@@ -187,8 +187,7 @@ public final class JadeInterface implements PropertyChangeListener {
 			AbstractElementView element = null;
 			element = scene.getElement(aidModel);
 			if(element!=null){
-				element.edit();
-				element.setEditionTarget(MT4JConstants.EDIT_TARGET_UNDEFINED);
+				element.setEnableKeyboard(true);
 			}
 			break;
 		}
@@ -199,7 +198,7 @@ public final class JadeInterface implements PropertyChangeListener {
 			AbstractElementView element = null;
 			element = scene.getElement(aidModel);
 			if(element!=null){
-				element.setEditionTarget(MT4JConstants.EDIT_TARGET_UNDEFINED);
+				element.getKeyboard().destroy();
 			}
 			break;
 		}
