@@ -131,9 +131,10 @@ public class ContextButton extends MTListCell {
 					        colorWidget.addGestureListener(DragProcessor.class, new IGestureEventListener() {
 								public boolean processGestureEvent(MTGestureEvent ge) {
 									if (ge.getId()== MTGestureEvent.GESTURE_ENDED){
-										colorWidget.setVisible(false);
+										colorWidget.destroy();
+										((AbstractElementView)m_source).saveModel();
 									}else{
-										((AbstractElementView) m_source).setFillColor(colorWidget.getSelectedColor());
+										((AbstractElementView)m_source).setFillColor(colorWidget.getSelectedColor());
 									}
 									return false;
 								}

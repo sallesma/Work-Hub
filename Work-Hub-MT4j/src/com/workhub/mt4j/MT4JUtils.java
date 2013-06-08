@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.mt4j.components.TransformSpace;
 import org.mt4j.components.visibleComponents.shapes.AbstractShape;
 import org.mt4j.components.visibleComponents.shapes.MTRectangle.PositionAnchor;
+import org.mt4j.util.MTColor;
 import org.mt4j.util.math.Vector3D;
 
 import processing.core.PApplet;
@@ -58,5 +59,21 @@ public class MT4JUtils {
 		}
 		list.remove(list.size() - 1);
 		return location;
+	}
+	
+	public static MTColor intToMTColor(int argb) {
+		int a = (argb & 0xFF000000) >>> 24;
+		int r = (argb & 0x00FF0000) >>> 16;
+		int g = (argb & 0x0000FF00) >>> 8;
+		int b = (argb & 0x000000FF);
+		return new MTColor(r, g, b, a);
+	}
+	
+	public static int MTColorToInt(MTColor color) {
+		int a = (int)color.getAlpha();
+		int r = (int)color.getR();
+		int g = (int)color.getG();
+		int b = (int)color.getB();
+		return (a << 24) + (r << 16) + (g << 8) + b;
 	}
 }

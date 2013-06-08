@@ -198,6 +198,7 @@ public abstract class AbstractElementView extends MTClipRectangle implements Idr
 
 	public void saveModel() {
 		model.setTitle(title.getText());
+		model.setColor(MT4JUtils.MTColorToInt(getFillColor()));
 		saveContent();
 		JadeInterface.getInstance().saveElement(model);
 	}
@@ -218,6 +219,7 @@ public abstract class AbstractElementView extends MTClipRectangle implements Idr
 	
 	public void updateView() {
 		setTitle(model.getTitle());
+		setFillColor(MT4JUtils.intToMTColor(model.getColor()));
 		updateContent();
 	}
 	
