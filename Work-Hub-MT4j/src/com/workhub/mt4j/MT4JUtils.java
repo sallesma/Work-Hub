@@ -1,5 +1,7 @@
 package com.workhub.mt4j;
 
+import java.util.ArrayList;
+
 import org.mt4j.components.TransformSpace;
 import org.mt4j.components.visibleComponents.shapes.AbstractShape;
 import org.mt4j.components.visibleComponents.shapes.MTRectangle.PositionAnchor;
@@ -44,5 +46,17 @@ public class MT4JUtils {
 			break;
 		}
 		shape.setPositionGlobal(new Vector3D(fixedX, fixedY));
+	}
+	
+	public static Vector3D removeBeginning(ArrayList<Vector3D> list) {
+		if(list.isEmpty()) {
+			return null;
+		}
+		Vector3D location = list.get(0);
+		for(int i = 1 ; i < list.size() ; i++) {
+			list.set(i - 1, list.get(i));
+		}
+		list.remove(list.size() - 1);
+		return location;
 	}
 }

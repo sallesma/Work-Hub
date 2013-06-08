@@ -142,7 +142,11 @@ public final class JadeInterface implements PropertyChangeListener {
 			element = scene.getElement(model.getAgent());
 			if(element!=null){
 				element.setModel(model);
-			}else{
+			}
+			else{
+				if(!ContextMenu.importLocation.isEmpty()) {
+					AbstractElementView.createEmptyElement(model.getType(), MT4JUtils.removeBeginning(ContextMenu.importLocation), scene.getMTApplication(), scene);
+				}
 				try {
 					scene.attachModel(model);
 				} catch (Exception e) {
@@ -163,12 +167,7 @@ public final class JadeInterface implements PropertyChangeListener {
 		case Constants.EVENT_TYPE_ELEMENTS:
 		{
 			Map<AID, String> map = (Map<AID, String>)event.getNewValue();
-			
-			for (Entry<AID, String> entry : map.entrySet()) {
-				//scene.addToAdapter(entry); TODO
-			}
-			
-
+			scene.openContextualMenu(map);
 			break;
 		}
 		case Constants.EVENT_TYPE_NEIGHBOURS:

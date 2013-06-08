@@ -29,6 +29,8 @@ import org.mt4j.util.math.Vector3D;
 import org.mt4j.util.math.Vertex;
 
 import com.workhub.model.ElementModel;
+import com.workhub.utils.Constants;
+
 import processing.core.PApplet;
 
 public abstract class AbstractElementView extends MTClipRectangle implements IdragClusterable {
@@ -228,4 +230,21 @@ public abstract class AbstractElementView extends MTClipRectangle implements Idr
 	}
 	
 	public abstract void updateContent();
+	
+	public static AbstractElementView createEmptyElement(int type, Vector3D location, PApplet applet, WorkHubScene scene) {
+		float x = location.x;
+		float y = location.y;
+		switch(type) {
+		case Constants.TYPE_ELEMENT_TEXT :
+			return new TextElementView(x, y, MT4JConstants.ELEMENT_DEFAULT_WIDTH, MT4JConstants.ELEMENT_DEFAULT_HEIGHT, applet, scene);
+		case Constants.TYPE_ELEMENT_LINK :
+			return new LinkElementView(x, y, MT4JConstants.ELEMENT_DEFAULT_WIDTH, MT4JConstants.ELEMENT_DEFAULT_HEIGHT, applet, scene);
+		case Constants.TYPE_ELEMENT_PICTURE :
+			return new ImageElementView(null, x, y, MT4JConstants.ELEMENT_DEFAULT_WIDTH, MT4JConstants.ELEMENT_DEFAULT_HEIGHT, applet, scene);
+		case Constants.TYPE_ELEMENT_FILE :
+			return new FileElementView(null, x, y, MT4JConstants.ELEMENT_DEFAULT_WIDTH, MT4JConstants.ELEMENT_DEFAULT_HEIGHT, applet, scene);
+		default :
+			return null;
+		}
+	}
 }

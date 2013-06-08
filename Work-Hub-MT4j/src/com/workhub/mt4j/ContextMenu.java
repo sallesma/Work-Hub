@@ -1,15 +1,33 @@
 package com.workhub.mt4j;
 
+import jade.core.AID;
+
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.Map.Entry;
+
 import org.mt4j.components.MTComponent;
 import org.mt4j.components.visibleComponents.widgets.MTList;
+import org.mt4j.util.math.Vector3D;
 
 import processing.core.PApplet;
 
 public class ContextMenu extends MTList {
+	public static ArrayList<Vector3D> elementViewLocation = new ArrayList<>();	// Liste contenant les positions des menus ayant demande a visualiser tous les elements
+	public static ArrayList<Vector3D> importLocation = new ArrayList<>();	// Liste contenant les positions des elements devant etre importes
 	
 	public ContextMenu(MTComponent source, int x, int y, PApplet applet, WorkHubScene scene, Integer menuType) {
 		super(x, y, MT4JConstants.CONTEXT_BUTTON_WIDTH, sizeOf(menuType) * (MT4JConstants.CONTEXT_BUTTON_HEIGHT + 2), applet);
 		initializeButtons(menuType, source, applet, scene);
+		setAnchor(PositionAnchor.UPPER_LEFT);
+		MT4JUtils.fixPosition(this, x, y, applet, PositionAnchor.UPPER_LEFT);
+		
+		setVisible(true);
+	}
+
+	public ContextMenu(MTComponent source, int x, int y, PApplet applet, WorkHubScene scene, Map<AID, String> map) {
+		super(x, y, MT4JConstants.CONTEXT_BUTTON_WIDTH, (float)((Math.min(6.5, map.size())) * (MT4JConstants.CONTEXT_BUTTON_HEIGHT + 2)), applet);
+		initializeButtons(map, source, applet, scene);
 		setAnchor(PositionAnchor.UPPER_LEFT);
 		MT4JUtils.fixPosition(this, x, y, applet, PositionAnchor.UPPER_LEFT);
 		
@@ -86,6 +104,14 @@ public class ContextMenu extends MTList {
 			ContextButton item32 = new ContextButton(applet, scene, source, MT4JConstants.CONTEXT_BUTTON_CLOSE);
 			addListElement(item32);
 			break;
+		}
+	}
+	
+	private void initializeButtons(Map<AID, String> map, MTComponent source,
+			PApplet applet, WorkHubScene scene) {
+		for (Entry<AID, String> entry : map.entrySet()) {
+			ContextButton item = new ContextButton(applet, scene, source, entry);
+			addListElement(item);
 		}
 	}
 	

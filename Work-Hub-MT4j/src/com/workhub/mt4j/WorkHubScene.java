@@ -1,5 +1,7 @@
 package com.workhub.mt4j;
 
+import java.util.Map;
+
 import jade.core.AID;
 
 import org.mt4j.MTApplication;
@@ -18,12 +20,6 @@ import org.mt4j.util.MTColor;
 import org.mt4j.util.math.Vector3D;
 
 import com.workhub.model.ElementModel;
-import com.workhub.model.FileElementModel;
-import com.workhub.model.LinkElementModel;
-import com.workhub.model.PictureElementModel;
-import com.workhub.model.TextElementModel;
-import com.workhub.utils.Constants;
-
 import processing.core.PImage;
 
 public class WorkHubScene extends AbstractScene {
@@ -32,11 +28,9 @@ public class WorkHubScene extends AbstractScene {
 	private WorkHubButton recevoirButton;
 	private WorkHubButton masquerButton;
 	private MTImage imageFond;
-	private MTApplication mtApplication;
 	
 	public WorkHubScene(MTApplication mtApplication, String name) throws WorkHubException{
 		super(mtApplication, name);
-		this.mtApplication = mtApplication;
 		this.setClearColor(new MTColor(198, 200, 200, 255));
 		this.registerGlobalInputProcessor(new CursorTracer(mtApplication, this));
 		
@@ -92,6 +86,13 @@ public class WorkHubScene extends AbstractScene {
 		this.getCanvas().addChild(contextMenu);
 	}
 
+	// Utilise pour traiter EVENT_TYPE_ELEMENTS
+	public void openContextualMenu(Map<AID, String> map) {
+		Vector3D location = MT4JUtils.removeBeginning(ContextMenu.elementViewLocation);
+		ContextMenu contextMenu = new ContextMenu(getCanvas(), (int)location.x, (int)location.y, getMTApplication(), this, map);
+		this.getCanvas().addChild(contextMenu);
+	}
+	
 	@Override
 	public void init() {
 	}

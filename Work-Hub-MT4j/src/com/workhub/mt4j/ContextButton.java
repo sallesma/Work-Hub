@@ -165,7 +165,7 @@ public class ContextButton extends MTListCell {
 								applet.exit();
 							break;
 						}
-						getParent().getParent().removeFromParent();
+						getParent().getParent().destroy();
 						break;
 					case AbstractCursorInputEvt.INPUT_ENDED:
 						break;
@@ -196,9 +196,11 @@ public class ContextButton extends MTListCell {
 				if (inEvt instanceof AbstractCursorInputEvt) {
 					AbstractCursorInputEvt cursorInputEvt = (AbstractCursorInputEvt) inEvt;
 					if(cursorInputEvt.getId() == AbstractCursorInputEvt.INPUT_DETECTED) {
+						ContextMenu.importLocation.add(cursorInputEvt.getPosition());
 						JadeInterface.getInstance().getElement(entry.getKey());
 					}
 				}
+				getParent().getParent().destroy();
 				return false;
 			}
 		});
