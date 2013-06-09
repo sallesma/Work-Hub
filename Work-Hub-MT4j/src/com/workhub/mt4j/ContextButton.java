@@ -232,8 +232,13 @@ public class ContextButton extends MTListCell {
 							else if(source instanceof ElementGroupView) {
 								ElementGroupView group = (ElementGroupView)source;
 								for(MTComponent comp : group.getChildren()) {
-									AbstractElementView element = (AbstractElementView)comp;
-									JadeInterface.getInstance().sendElement(entry.getKey(), element.getModel().getAgent());
+									if(comp instanceof AbstractElementView) {
+										AbstractElementView element = (AbstractElementView)comp;
+										JadeInterface.getInstance().sendElement(entry.getKey(), element.getModel().getAgent());
+									}
+									else {
+										// Polygone de contour, ne rien faire
+									}
 								}
 							}
 						}
