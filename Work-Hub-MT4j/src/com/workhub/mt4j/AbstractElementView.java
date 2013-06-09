@@ -267,13 +267,21 @@ public abstract class AbstractElementView extends MTClipRectangle implements Idr
 		float y = location.y;
 		switch(type) {
 		case Constants.TYPE_ELEMENT_TEXT :
-			return new TextElementView(x, y, MT4JConstants.ELEMENT_DEFAULT_WIDTH, MT4JConstants.ELEMENT_DEFAULT_HEIGHT, applet, scene);
+			TextElementView textElement = new TextElementView(x, y, MT4JConstants.ELEMENT_DEFAULT_WIDTH, MT4JConstants.ELEMENT_DEFAULT_HEIGHT, applet, scene);
+			textElement.addLassoProcessor();
+			return textElement;
 		case Constants.TYPE_ELEMENT_LINK :
-			return new LinkElementView(x, y, MT4JConstants.ELEMENT_DEFAULT_WIDTH, MT4JConstants.ELEMENT_DEFAULT_HEIGHT, applet, scene);
+			LinkElementView linkElement = new LinkElementView(x, y, MT4JConstants.ELEMENT_DEFAULT_WIDTH, MT4JConstants.ELEMENT_DEFAULT_HEIGHT, applet, scene);
+			linkElement.addLassoProcessor();
+			return linkElement;
 		case Constants.TYPE_ELEMENT_PICTURE :
-			return new ImageElementView(null, x, y, MT4JConstants.ELEMENT_DEFAULT_WIDTH, MT4JConstants.ELEMENT_DEFAULT_HEIGHT, applet, scene);
+			ImageElementView imageElement = new ImageElementView(null, x, y, MT4JConstants.ELEMENT_DEFAULT_WIDTH, MT4JConstants.ELEMENT_DEFAULT_HEIGHT, applet, scene);
+			imageElement.addLassoProcessor();
+			return imageElement;
 		case Constants.TYPE_ELEMENT_FILE :
-			return new FileElementView(null, x, y, MT4JConstants.ELEMENT_DEFAULT_WIDTH, MT4JConstants.ELEMENT_DEFAULT_HEIGHT, applet, scene);
+			FileElementView fileElement = new FileElementView(null, x, y, MT4JConstants.ELEMENT_DEFAULT_WIDTH, MT4JConstants.ELEMENT_DEFAULT_HEIGHT, applet, scene);
+			fileElement.addLassoProcessor();
+			return fileElement;
 		default :
 			return null;
 		}
