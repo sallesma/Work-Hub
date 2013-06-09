@@ -65,7 +65,7 @@ public class ContextButton extends MTListCell {
 							else if(m_source instanceof ElementGroupView) {
 								for(MTComponent comp : m_source.getChildren()) {
 									if(comp instanceof AbstractElementView) {
-										AbstractElementView element = (AbstractElementView)m_source;
+										AbstractElementView element = (AbstractElementView)comp;
 										JadeInterface.getInstance().deleteElement(element.getModel().getAgent());
 									}
 									else {
