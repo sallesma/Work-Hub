@@ -1,5 +1,7 @@
 package com.workhub.mt4j;
 
+import java.nio.ByteBuffer;
+import java.nio.IntBuffer;
 import java.util.ArrayList;
 
 import org.mt4j.components.TransformSpace;
@@ -48,7 +50,7 @@ public class MT4JUtils {
 		}
 		shape.setPositionGlobal(new Vector3D(fixedX, fixedY));
 	}
-	
+
 	public static <T> T removeBeginning(ArrayList<T> list) {
 		if(list.isEmpty()) {
 			return null;
@@ -60,7 +62,7 @@ public class MT4JUtils {
 		list.remove(list.size() - 1);
 		return location;
 	}
-	
+
 	public static MTColor intToMTColor(int argb) {
 		int a = (argb & 0xFF000000) >>> 24;
 		int r = (argb & 0x00FF0000) >>> 16;
@@ -68,12 +70,34 @@ public class MT4JUtils {
 		int b = (argb & 0x000000FF);
 		return new MTColor(r, g, b, a);
 	}
-	
+
 	public static int MTColorToInt(MTColor color) {
 		int a = (int)color.getAlpha();
 		int r = (int)color.getR();
 		int g = (int)color.getG();
 		int b = (int)color.getB();
 		return (a << 24) + (r << 16) + (g << 8) + b;
+	}
+
+	public static int[] byteArrayToIntArray(byte[] array) {
+		int size = (array.length / 4) + ((array.length % 4 == 0) ? 0 : 1);      
+
+		ByteBuffer bb = ByteBuffer.allocate(size *4); 
+		bb.put(array);
+
+		//bb.order(ByteOrder.LITTLE_ENDIAN); 
+		bb.rewind(); 
+		IntBuffer ib =  bb.asIntBuffer();         
+		int [] result = new int [size]; 
+		ib.get(result); 
+
+		return result; 
+	}
+
+	public static byte[] intArrayToByteArray(int[] array) {
+		ByteBuffer byteBuffer = ByteBuffer.allocate(array.length * 4);        
+		IntBuffer intBuffer = byteBuffer.asIntBuffer();
+		intBuffer.put(array);
+		return byteBuffer.array();
 	}
 }

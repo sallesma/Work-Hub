@@ -63,6 +63,7 @@ public class FileElementView extends AbstractElementView {
 		float scale = image.height < image.width ? width / image.width : height * 0.8f / image.height;
 		content.scale(scale, scale, 0f, position);
 		addChild(content);
+		saveModel();
 	}
 
 	public MTImage getContent() {

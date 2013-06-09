@@ -13,13 +13,21 @@ import processing.core.PImage;
 public class ImageElementView extends AbstractElementView {
 
 	private MTImage content;
+	private PImage image;
 	
 	public ImageElementView(String imagePath, float x, float y, float width,
 			float height, PApplet applet, WorkHubScene scene) {
 		super(x, y, MT4JConstants.Z_POSITION_DEFAULT_ELEMENT, width, height, applet, scene);
-		updateTitleWithElementPath(imagePath);
 		Vector3D position = new Vector3D(this.getPosition(TransformSpace.LOCAL).getX(), (float) (this.getPosition(TransformSpace.LOCAL).getY()+height*0.2f));
-		PImage image = applet.loadImage(imagePath);
+		PImage image = null;
+		if(imagePath != null) {
+			updateTitleWithElementPath(imagePath);
+			image = applet.loadImage(imagePath);
+		}
+		else {
+			image = new PImage(MT4JConstants.ELEMENT_DEFAULT_WIDTH, (int)(0.8 * MT4JConstants.ELEMENT_DEFAULT_WIDTH));
+		}
+		this.image = image;
 		if(image.width > 500) {
 			image.resize(500, 0);
 		}
@@ -54,6 +62,7 @@ public class ImageElementView extends AbstractElementView {
 		float scale = image.height < image.width ? width / image.width : height * 0.8f / image.height;
 		content.scale(scale, scale, 0f, position);
 		addChild(content);
+		saveModel();
 	}
 
 	public MTImage getContent() {
@@ -66,7 +75,7 @@ public class ImageElementView extends AbstractElementView {
 
 	@Override
 	public void saveContent() {
-		((PictureElementModel)getModel()).setContent(null); // TODO
+		((PictureElementModel)getModel()).setContent(MT4JUtils.intArrayToByteArray(image.pixels));
 	}
 
 	@Override
@@ -76,6 +85,13 @@ public class ImageElementView extends AbstractElementView {
 	
 	@Override
 	public void updateContent() {
-		// TODO
+		PictureElementModel pictureModel = (PictureElementModel)model;
+		if(pictureModel.getContent() != null) {
+			image.pixels = MT4JUtils.byteArrayToIntArray(pictureModel.getContent());
+			image.updatePixels();
+		}
+		else {
+			saveContent();
+		}
 	}
 }

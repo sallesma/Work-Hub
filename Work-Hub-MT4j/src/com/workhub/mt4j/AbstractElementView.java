@@ -247,9 +247,11 @@ public abstract class AbstractElementView extends MTClipRectangle implements Idr
 	}
 	
 	public void setEnableKeyboard(boolean enableKeyboard) {
-		keyboard.setVisible(enableKeyboard);
-		keyboard.setEnabled(enableKeyboard);
-		keyboardTarget.setEnableCaret(enableKeyboard);
+		if(keyboard != null) {
+			keyboard.setVisible(enableKeyboard);
+			keyboard.setEnabled(enableKeyboard);
+			keyboardTarget.setEnableCaret(enableKeyboard);
+		}
 	}
 	
 	public void updateView() {
