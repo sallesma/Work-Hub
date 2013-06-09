@@ -62,7 +62,7 @@ public class Constants {
 	public static final int EVENT_TYPE_NEIGHBOURS= 16009; // agent -> interface : liste des voisins
 	public static final int EVENT_TYPE_GET_ELEMENTS= 16010; // interface -> agent : quels sont les elements disponibles
 	public static final int EVENT_TYPE_GET_ALL_ELEMENTS = 16017; // interface -> agent : quels sont les elements disponibles
-	public static final int EVENT_TYPE_ELEMENTS_MAP = 16017; //agent -> interface : map des agents element dispo et de leur titre
+	public static final int EVENT_TYPE_ELEMENTS_MAP = 16018; //agent -> interface : map des agents element dispo et de leur titre
 
 	//param : pour chaque element dont l'agent recois un json, l'agent renvois un model à l'interface
 	public static final int EVENT_TYPE_ELEMENTS= 16011; // agent -> interface : liste des elements
