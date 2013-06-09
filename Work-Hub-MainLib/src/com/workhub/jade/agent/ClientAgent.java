@@ -134,7 +134,7 @@ public class ClientAgent extends GuiAgent implements ClientAgentInterface{
 				}
 			}
 			else {
-				this.addBehaviour(new GetAllElementTitlesBehaviour(0));
+				fireChanges(Constants.EVENT_TYPE_ELEMENTS_MAP, null);
 			}
 
 			break;

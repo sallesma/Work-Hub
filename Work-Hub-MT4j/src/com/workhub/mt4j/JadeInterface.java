@@ -183,7 +183,12 @@ public final class JadeInterface implements PropertyChangeListener {
 		{
 			@SuppressWarnings("unchecked")
 			Map<AID, String> map = (Map<AID, String>)event.getNewValue();
-			scene.openContextualMenu(map, MT4JConstants.CONTEXT_IMPORT_MENU);
+			if(map != null) {
+				scene.openContextualMenu(map, MT4JConstants.CONTEXT_IMPORT_MENU);
+			}
+			else {
+				MT4JUtils.removeBeginning(ContextMenu.elementViewLocation);
+			}
 			break;
 		}
 		case Constants.EVENT_TYPE_NEIGHBOURS:

@@ -15,18 +15,21 @@ import com.workhub.utils.Utils;
 import jade.core.AID;
 import jade.core.behaviours.Behaviour;
 import jade.core.behaviours.CyclicBehaviour;
+import jade.core.behaviours.SimpleBehaviour;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 import jade.lang.acl.MessageTemplate.MatchExpression;
 
-public class GetAllElementTitlesBehaviour extends CyclicBehaviour {
+public class GetAllElementTitlesBehaviour extends SimpleBehaviour {
 
 	private int compteur = 0;
 	private int total;
 	Map<AID, String> listToFire = new HashMap<AID, String>();
+	private boolean isCompleted;
 
 	public GetAllElementTitlesBehaviour(int tot){
 		this.total = tot;
+		isCompleted = false;
 	}
 
 	private MessageTemplate template = new MessageTemplate(new MatchExpression() {
@@ -77,6 +80,7 @@ public class GetAllElementTitlesBehaviour extends CyclicBehaviour {
 				
 				if (compteur==total){
 					((ClientAgent)myAgent).fireChanges(Constants.EVENT_TYPE_ELEMENTS_MAP, listToFire);
+					isCompleted = true;
 				}
 				
 				break;
@@ -84,5 +88,10 @@ public class GetAllElementTitlesBehaviour extends CyclicBehaviour {
 		}else{
 			block();
 		}
+	}
+
+	@Override
+	public boolean done() {
+		return isCompleted;
 	}
 }
