@@ -3,8 +3,6 @@ package com.workhub.mt4j;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Map;
-import java.util.Map.Entry;
-
 import com.workhub.jade.agent.ClientAgentInterface;
 import com.workhub.model.ElementModel;
 import com.workhub.utils.Constants;
@@ -64,7 +62,6 @@ public final class JadeInterface implements PropertyChangeListener {
 	}
 
 	public void sendElement(AID dest, AID elementAgent){
-		Object[] param = {dest , elementAgent};
 		GuiEvent event = new GuiEvent(null,Constants.EVENT_TYPE_SEND);
 		event.addParameter(dest);
 		event.addParameter(elementAgent);
@@ -166,17 +163,16 @@ public final class JadeInterface implements PropertyChangeListener {
 		}
 		case Constants.EVENT_TYPE_ELEMENTS:
 		{
+			@SuppressWarnings("unchecked")
 			Map<AID, String> map = (Map<AID, String>)event.getNewValue();
-			scene.openContextualMenu(map);
+			scene.openContextualMenu(map, MT4JConstants.CONTEXT_IMPORT_MENU);
 			break;
 		}
 		case Constants.EVENT_TYPE_NEIGHBOURS:
 		{
+			@SuppressWarnings("unchecked")
 			Map<AID, String> map = (Map<AID, String>)event.getNewValue();
-			for (Entry<AID, String> entry : map.entrySet()) {
-				//scene.addToAdapter(entry); TODO
-			}
-
+			scene.openContextualMenu(map, MT4JConstants.CONTEXT_EXPORT_MENU);
 			break;
 		}
 		case Constants.EVENT_TYPE_CAN_EDIT:

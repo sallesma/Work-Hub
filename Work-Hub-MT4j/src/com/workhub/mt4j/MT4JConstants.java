@@ -39,6 +39,8 @@ public class MT4JConstants {
 	public static final int CONTEXT_ELEMENT_MENU		= 3;
 	public static final int CONTEXT_GROUP_MENU			= 4;
 	public static final int CONTEXT_SHORTCUT_MENU		= 5;
+	public static final int CONTEXT_IMPORT_MENU			= 6;
+	public static final int CONTEXT_EXPORT_MENU			= 7;
 	
 	public static final String CONTEXT_BUTTON_CLOSE					= "Fermer ce menu";
 	public static final String CONTEXT_BUTTON_CREATE_TEXT			= "Créer un élément texte";

@@ -49,11 +49,11 @@ public class MT4JUtils {
 		shape.setPositionGlobal(new Vector3D(fixedX, fixedY));
 	}
 	
-	public static Vector3D removeBeginning(ArrayList<Vector3D> list) {
+	public static <T> T removeBeginning(ArrayList<T> list) {
 		if(list.isEmpty()) {
 			return null;
 		}
-		Vector3D location = list.get(0);
+		T location = list.get(0);
 		for(int i = 1 ; i < list.size() ; i++) {
 			list.set(i - 1, list.get(i));
 		}

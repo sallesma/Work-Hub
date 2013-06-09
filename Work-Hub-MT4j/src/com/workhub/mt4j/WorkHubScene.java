@@ -9,7 +9,6 @@ import org.mt4j.components.MTComponent;
 import org.mt4j.components.visibleComponents.shapes.MTRectangle.PositionAnchor;
 import org.mt4j.components.visibleComponents.widgets.MTImage;
 import org.mt4j.input.gestureAction.TapAndHoldVisualizer;
-import org.mt4j.input.inputData.InputCursor;
 import org.mt4j.input.inputProcessors.IGestureEventListener;
 import org.mt4j.input.inputProcessors.MTGestureEvent;
 import org.mt4j.input.inputProcessors.componentProcessors.lassoProcessor.LassoProcessor;
@@ -29,12 +28,12 @@ public class WorkHubScene extends AbstractScene {
 	private WorkHubButton recevoirButton;
 	private WorkHubButton masquerButton;
 	private MTImage imageFond;
-	
+
 	public WorkHubScene(MTApplication mtApplication, String name) throws WorkHubException{
 		super(mtApplication, name);
 		this.setClearColor(new MTColor(198, 200, 200, 255));
 		this.registerGlobalInputProcessor(new CursorTracer(mtApplication, this));
-		
+
 		PImage image = mtApplication.loadImage("Image/logoWH.png");
 		imageFond = new MTImage(image, mtApplication);
 		imageFond.setNoFill(true);
@@ -44,7 +43,7 @@ public class WorkHubScene extends AbstractScene {
 		imageFond.setPositionGlobal(new Vector3D(mtApplication.getWidth()/2f, mtApplication.getHeight()/2f));
 		imageFond.getImage().setNoStroke(true);
 		getCanvas().addChild(imageFond);
-		
+
 		menuButton = new WorkHubButton(MT4JConstants.BUTTON_ID_MENU, MT4JConstants.CORNER_TOP_LEFT, MT4JConstants.SHORTCUT_BUTTON_RADIUS, 1000, 40, 40, getMTApplication(), this);
 		envoyerButton = new WorkHubButton(MT4JConstants.BUTTON_ID_ENVOYER, MT4JConstants.CORNER_BOTTOM_RIGHT, MT4JConstants.SHORTCUT_BUTTON_RADIUS, 1000, 980, 700, getMTApplication(), this);
 		recevoirButton = new WorkHubButton(MT4JConstants.BUTTON_ID_RECEVOIR, MT4JConstants.CORNER_BOTTOM_LEFT, MT4JConstants.SHORTCUT_BUTTON_RADIUS, 1000, 50, 700, getMTApplication(), this);
@@ -76,29 +75,45 @@ public class WorkHubScene extends AbstractScene {
 				return false;
 			}
 		});
-		
+
 		LassoProcessor lassoProcessor = new LassoProcessor(mtApplication, getCanvas(), getSceneCam());
 		getCanvas().registerInputProcessor(lassoProcessor);
 		getCanvas().addGestureListener(LassoProcessor.class, new LassoAction(mtApplication, this, getCanvas().getClusterManager(), getCanvas()));
 	}
-	
+
 	public void openContextualMenu(Vector3D location, int menuType) {
 		ContextMenu contextMenu = new ContextMenu(getCanvas(), (int)location.x, (int)location.y, getMTApplication(), this, menuType);
 		this.getCanvas().addChild(contextMenu);
 	}
-	
+
+	// Utilise pour les raccourcis
 	public void openContextualMenu(Vector3D location, WorkHubButton source) {
 		ContextMenu contextMenu = new ContextMenu(source, (int)location.x, (int)location.y, getMTApplication(), this, MT4JConstants.CONTEXT_SHORTCUT_MENU);
 		this.getCanvas().addChild(contextMenu);
 	}
 
-	// Utilise pour traiter EVENT_TYPE_ELEMENTS
-	public void openContextualMenu(Map<AID, String> map) {
-		Vector3D location = MT4JUtils.removeBeginning(ContextMenu.elementViewLocation);
-		ContextMenu contextMenu = new ContextMenu(getCanvas(), (int)location.x, (int)location.y, getMTApplication(), this, map);
+	// Utilise pour traiter EVENT_TYPE_ELEMENTS et EVENT_TYPE_NEIGHBOURS
+	public void openContextualMenu(Map<AID, String> map, int menuType) {
+		Vector3D location = null;
+		MTComponent source = null;
+		switch(menuType) {
+		case MT4JConstants.CONTEXT_IMPORT_MENU :
+			location = MT4JUtils.removeBeginning(ContextMenu.elementViewLocation);
+			source = getCanvas();
+			break;
+		case MT4JConstants.CONTEXT_EXPORT_MENU :
+			ExportData data = MT4JUtils.removeBeginning(ContextMenu.exportLocation);
+			location = data.getLocation();
+			source = data.getComponent();
+			break;
+		default :
+			break;
+		}
+		ContextMenu contextMenu = new ContextMenu(source, (int)location.x, (int)location.y,
+				getMTApplication(), this, menuType, map);
 		this.getCanvas().addChild(contextMenu);
 	}
-	
+
 	@Override
 	public void init() {
 	}
@@ -106,7 +121,7 @@ public class WorkHubScene extends AbstractScene {
 	@Override
 	public void shutDown() {
 	}
-	
+
 	public AbstractElementView getElement(AID aid) {
 		for(MTComponent comp : getCanvas().getChildren()) {
 			if(comp instanceof AbstractElementView) {
@@ -118,7 +133,7 @@ public class WorkHubScene extends AbstractScene {
 		}
 		return null;
 	}
-	
+
 	// Ajoute le modele au premier element qui correspond.
 	public void attachModel(ElementModel model) {
 		int type = model.getType();
@@ -134,7 +149,7 @@ public class WorkHubScene extends AbstractScene {
 			}
 		}
 	}
-	
+
 	// Renvoie le bouton intersecte s'il y en a un, null sinon
 	public String testShortCutIntersection(Vector3D position) {
 		if(menuButton != null && Vector3D.distance(position, menuButton.getCenterPointGlobal()) <= MT4JConstants.SHORTCUT_BUTTON_RADIUS) {

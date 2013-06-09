@@ -34,10 +34,10 @@ public class ContextButton extends MTListCell {
 	private MTTextField m_text;
 	private final MTComponent m_source;
 	private ContextMenu m_menu;
-	
+
 	public ContextButton(final PApplet applet, final WorkHubScene scene, MTComponent source, ContextMenu menu, final String text) {
 		super(MT4JConstants.CONTEXT_BUTTON_WIDTH, MT4JConstants.CONTEXT_BUTTON_HEIGHT, applet);
-		
+
 		IFont font = FontManager.getInstance().createFont(applet, "arial.ttf", 18);
 		m_source = source;
 		m_menu = menu;
@@ -123,6 +123,8 @@ public class ContextButton extends MTListCell {
 							((AbstractElementView) m_source).tryEditElementContent();
 							break;
 						case MT4JConstants.CONTEXT_BUTTON_SHARE:
+							ContextMenu.exportLocation.add(new ExportData(m_source, cursorInputEvt.getPosition()));
+							JadeInterface.getInstance().getNeightbourgList();
 							break;
 						case MT4JConstants.CONTEXT_BUTTON_CHANGE_COLOR:
 							PImage colPick = applet.loadImage("Image/colorcircle.png");
@@ -131,8 +133,8 @@ public class ContextButton extends MTListCell {
 							int colPickY = (int)cursorInputEvt.getPosY();
 							colorWidget.setPositionGlobal(new Vector3D(colPickX, colPickY));
 							MT4JUtils.fixPosition(colorWidget, colPickX, colPickY, applet, PositionAnchor.CENTER);
-					        colorWidget.setStrokeColor(MTColor.WHITE);
-					        colorWidget.addGestureListener(DragProcessor.class, new IGestureEventListener() {
+							colorWidget.setStrokeColor(MTColor.WHITE);
+							colorWidget.addGestureListener(DragProcessor.class, new IGestureEventListener() {
 								public boolean processGestureEvent(MTGestureEvent ge) {
 									if (ge.getId()== MTGestureEvent.GESTURE_ENDED){
 										colorWidget.destroy();
@@ -143,8 +145,8 @@ public class ContextButton extends MTListCell {
 									return false;
 								}
 							});
-					        getParent().getParent().getParent().addChild(colorWidget);
-					        colorWidget.setVisible(true);
+							getParent().getParent().getParent().addChild(colorWidget);
+							colorWidget.setVisible(true);
 							break;
 						case MT4JConstants.CONTEXT_BUTTON_EXPORT_PDF:
 							break;
@@ -157,17 +159,17 @@ public class ContextButton extends MTListCell {
 							break;
 						case MT4JConstants.CONTEXT_BUTTON_EXIT:
 							Object[] options = {"Quitter",
-							                    "Annuler",};
+									"Annuler",};
 							ImageIcon icon = new ImageIcon("Image/logo.png");
 							Image img = icon.getImage();
 							Image newimg = img.getScaledInstance( 40, 40,  java.awt.Image.SCALE_SMOOTH );
 							icon.setImage(newimg);
 							int confirmation = JOptionPane.showOptionDialog(applet,
-							    "Etes-vous sûr de vouloir quitter ?",
-							    "Quitter WorkHub",
-							    JOptionPane.YES_NO_OPTION,
-							    JOptionPane.QUESTION_MESSAGE,
-							    icon, options, null);
+									"Etes-vous sûr de vouloir quitter ?",
+									"Quitter WorkHub",
+									JOptionPane.YES_NO_OPTION,
+									JOptionPane.QUESTION_MESSAGE,
+									icon, options, null);
 							if (0 == confirmation)
 								applet.exit();
 							break;
@@ -187,29 +189,63 @@ public class ContextButton extends MTListCell {
 		});
 	}
 
-	public ContextButton(PApplet applet, WorkHubScene scene, ContextMenu menu, final Entry<AID, String> entry) {
+	public ContextButton(PApplet applet, WorkHubScene scene, ContextMenu menu, final MTComponent source, final Entry<AID, String> entry, int menuType) {
 		super(MT4JConstants.CONTEXT_BUTTON_WIDTH, MT4JConstants.CONTEXT_BUTTON_HEIGHT, applet);
 		IFont font = FontManager.getInstance().createFont(applet, "arial.ttf", 18);
-		m_source = null;
+		m_source = source;
 		m_menu = menu;
 		m_text = new MTTextField(0, 0, MT4JConstants.CONTEXT_BUTTON_WIDTH, MT4JConstants.CONTEXT_BUTTON_HEIGHT, font, applet);
 		m_text.setFillColor(MTColor.AQUA);
 		m_text.setText(entry.getValue());
 		addChild(m_text);
+
+		switch(menuType) {
 		
-		addInputListener(new IMTInputEventListener() {
-			@Override
-			public boolean processInputEvent(MTInputEvent inEvt) {
-				if (inEvt instanceof AbstractCursorInputEvt) {
-					AbstractCursorInputEvt cursorInputEvt = (AbstractCursorInputEvt) inEvt;
-					if(cursorInputEvt.getId() == AbstractCursorInputEvt.INPUT_DETECTED) {
-						ContextMenu.importLocation.add(cursorInputEvt.getPosition());
-						JadeInterface.getInstance().getElement(entry.getKey());
+		case MT4JConstants.CONTEXT_IMPORT_MENU :
+			addInputListener(new IMTInputEventListener() {
+				@Override
+				public boolean processInputEvent(MTInputEvent inEvt) {
+					if (inEvt instanceof AbstractCursorInputEvt) {
+						AbstractCursorInputEvt cursorInputEvt = (AbstractCursorInputEvt) inEvt;
+						if(cursorInputEvt.getId() == AbstractCursorInputEvt.INPUT_DETECTED) {
+							ContextMenu.importLocation.add(cursorInputEvt.getPosition());
+							JadeInterface.getInstance().getElement(entry.getKey());
+						}
 					}
+					m_menu.destroy();
+					return false;
 				}
-				m_menu.destroy();
-				return false;
-			}
-		});
+			});
+			break;
+		
+		case MT4JConstants.CONTEXT_EXPORT_MENU :
+			addInputListener(new IMTInputEventListener() {
+				@Override
+				public boolean processInputEvent(MTInputEvent inEvt) {
+					if (inEvt instanceof AbstractCursorInputEvt) {
+						AbstractCursorInputEvt cursorInputEvt = (AbstractCursorInputEvt) inEvt;
+						if(cursorInputEvt.getId() == AbstractCursorInputEvt.INPUT_DETECTED) {
+							if(source instanceof AbstractElementView) {
+								AbstractElementView element = (AbstractElementView)source;
+								JadeInterface.getInstance().sendElement(entry.getKey(), element.getModel().getAgent());
+							}
+							else if(source instanceof ElementGroupView) {
+								ElementGroupView group = (ElementGroupView)source;
+								for(MTComponent comp : group.getChildren()) {
+									AbstractElementView element = (AbstractElementView)comp;
+									JadeInterface.getInstance().sendElement(entry.getKey(), element.getModel().getAgent());
+								}
+							}
+						}
+					}
+					m_menu.destroy();
+					return false;
+				}
+			});
+			break;
+			
+		default:
+			break;
+		}
 	}
 }

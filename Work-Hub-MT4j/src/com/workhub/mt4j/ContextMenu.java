@@ -15,6 +15,7 @@ import processing.core.PApplet;
 public class ContextMenu extends MTList {
 	public static ArrayList<Vector3D> elementViewLocation = new ArrayList<>();	// Liste contenant les positions des menus ayant demande a visualiser tous les elements
 	public static ArrayList<Vector3D> importLocation = new ArrayList<>();	// Liste contenant les positions des elements devant etre importes
+	public static ArrayList<ExportData> exportLocation = new ArrayList<>();	// Liste contenant les elements devant etre exportes vers un autre utilisateur, ainsi que leur position
 	
 	public ContextMenu(MTComponent source, int x, int y, PApplet applet, WorkHubScene scene, Integer menuType) {
 		super(x, y, MT4JConstants.CONTEXT_BUTTON_WIDTH, sizeOf(menuType) * (MT4JConstants.CONTEXT_BUTTON_HEIGHT + 2), applet);
@@ -25,9 +26,9 @@ public class ContextMenu extends MTList {
 		setVisible(true);
 	}
 
-	public ContextMenu(MTComponent source, int x, int y, PApplet applet, WorkHubScene scene, Map<AID, String> map) {
+	public ContextMenu(MTComponent source, int x, int y, PApplet applet, WorkHubScene scene, int menuType, Map<AID, String> map) {
 		super(x, y, MT4JConstants.CONTEXT_BUTTON_WIDTH, (float)((Math.min(6.5, map.size() + 1)) * (MT4JConstants.CONTEXT_BUTTON_HEIGHT + 2)), applet);
-		initializeButtons(map, source, applet, scene);
+		initializeButtons(map, menuType, source, applet, scene);
 		setAnchor(PositionAnchor.UPPER_LEFT);
 		MT4JUtils.fixPosition(this, x, y, applet, PositionAnchor.UPPER_LEFT);
 		
@@ -107,10 +108,10 @@ public class ContextMenu extends MTList {
 		}
 	}
 	
-	private void initializeButtons(Map<AID, String> map, MTComponent source,
+	private void initializeButtons(Map<AID, String> map, int menuType, MTComponent source,
 			PApplet applet, WorkHubScene scene) {
 		for (Entry<AID, String> entry : map.entrySet()) {
-			ContextButton item = new ContextButton(applet, scene, this, entry);
+			ContextButton item = new ContextButton(applet, scene, this, source, entry, menuType);
 			addListElement(item);
 		}
 		ContextButton closeButton = new ContextButton(applet, scene, source, this, MT4JConstants.CONTEXT_BUTTON_CLOSE);

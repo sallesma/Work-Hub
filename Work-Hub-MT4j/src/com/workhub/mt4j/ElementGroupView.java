@@ -24,7 +24,7 @@ public class ElementGroupView extends Cluster {
 				DragEvent de = (DragEvent)ge;
 				if(de.getId() == DragEvent.GESTURE_ENDED) {
 					String intersection = scene.testShortCutIntersection(de.getTo());
-					if(intersection.equals(MT4JConstants.BUTTON_ID_MASQUER)) {
+					if(intersection != null && intersection.equals(MT4JConstants.BUTTON_ID_MASQUER)) {
 							ElementGroupView.this.destroy();
 					}
 				}
