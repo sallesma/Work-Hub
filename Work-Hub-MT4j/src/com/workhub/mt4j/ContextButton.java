@@ -190,7 +190,7 @@ public class ContextButton extends MTListCell {
 		});
 	}
 
-	public ContextButton(PApplet applet, WorkHubScene scene, ContextMenu menu, final MTComponent source, final Entry<AID, String> entry, int menuType) {
+	public ContextButton(PApplet applet, final WorkHubScene scene, ContextMenu menu, final MTComponent source, final Entry<AID, String> entry, int menuType) {
 		super(MT4JConstants.CONTEXT_BUTTON_WIDTH, MT4JConstants.CONTEXT_BUTTON_HEIGHT, applet);
 		IFont font = FontManager.getInstance().createFont(applet, "arial.ttf", 18);
 		m_source = source;
@@ -209,8 +209,13 @@ public class ContextButton extends MTListCell {
 					if (inEvt instanceof AbstractCursorInputEvt) {
 						AbstractCursorInputEvt cursorInputEvt = (AbstractCursorInputEvt) inEvt;
 						if(cursorInputEvt.getId() == AbstractCursorInputEvt.INPUT_DETECTED) {
-							ContextMenu.importLocation.add(cursorInputEvt.getPosition());
-							JadeInterface.getInstance().getElement(entry.getKey());
+							if(scene.getElement(entry.getKey()) == null) {
+								ContextMenu.importLocation.add(cursorInputEvt.getPosition());
+								JadeInterface.getInstance().getElement(entry.getKey());
+							}
+							else {
+								// La vue est deja presente
+							}
 						}
 					}
 					m_menu.destroy();
