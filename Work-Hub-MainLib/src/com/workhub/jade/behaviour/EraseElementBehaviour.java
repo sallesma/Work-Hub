@@ -57,6 +57,9 @@ public class EraseElementBehaviour extends CyclicBehaviour{
 			for(DFAgentDescription df : receivers)
 				myAgent.send(MessageFactory.createMessage((ElementAgent) myAgent, df.getName(), Constants.MESSAGE_ACTION_IS_DYING));
 			
+			
+			((ElementAgent)myAgent).unsubscribeDFAgent();
+			
 			myAgent.doDelete();
 		}
 		else {
