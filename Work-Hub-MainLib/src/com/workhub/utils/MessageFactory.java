@@ -72,6 +72,12 @@ public class MessageFactory {
 			performatif = ACLMessage.INFORM;
 			j.addProperty(Constants.JSON_ACTION, Constants.MESSAGE_RECEIVE_ELEMENT_TITLE);
 			break;
+			
+		case Constants.MESSAGE_RECEIVE_ALL_TITLES:
+			j = getElementTitle(sender.getContentModel(), j);
+			performatif = ACLMessage.INFORM;
+			j.addProperty(Constants.JSON_ACTION, Constants.MESSAGE_RECEIVE_ALL_TITLES);
+			break;
 
 		default:
 			System.err.println("Type de message invalide");
@@ -127,6 +133,11 @@ public class MessageFactory {
 		case Constants.MESSAGE_ACTION_GET_TITLE:
 			performatif = ACLMessage.REQUEST;
 			j.addProperty(Constants.JSON_ACTION, ""+Constants.MESSAGE_ACTION_GET_TITLE);
+			break;
+			
+		case Constants.MESSAGE_ACTION_GET_ALL_TITLES :
+			performatif = ACLMessage.REQUEST;
+			j.addProperty(Constants.JSON_ACTION, ""+Constants.MESSAGE_ACTION_GET_ALL_TITLES);
 			break;
 
 		case Constants.MESSAGE_ACTION_SHARE:

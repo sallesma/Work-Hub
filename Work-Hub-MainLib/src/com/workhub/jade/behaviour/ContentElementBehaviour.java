@@ -47,6 +47,7 @@ public class ContentElementBehaviour extends CyclicBehaviour {
 			case Constants.MESSAGE_ACTION_GET_CONTENT:
 			case Constants.MESSAGE_ACTION_GET_TITLE:
 			case Constants.MESSAGE_ACTION_SAVE_CONTENT:
+			case Constants.MESSAGE_ACTION_GET_ALL_TITLES:
 				return true;
 			default:
 				return false;
@@ -76,6 +77,11 @@ public class ContentElementBehaviour extends CyclicBehaviour {
 					
 				case Constants.MESSAGE_ACTION_GET_TITLE:
 					answer = MessageFactory.createMessage((ElementAgent)myAgent, message.getSender(), Constants.MESSAGE_RECEIVE_ELEMENT_TITLE);
+					myAgent.send(answer);
+					break;
+				
+				case Constants.MESSAGE_ACTION_GET_ALL_TITLES:
+					answer = MessageFactory.createMessage((ElementAgent)myAgent, message.getSender(), Constants.MESSAGE_RECEIVE_ALL_TITLES);
 					myAgent.send(answer);
 					break;
 					
