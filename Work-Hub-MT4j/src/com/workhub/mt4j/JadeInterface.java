@@ -128,7 +128,7 @@ public final class JadeInterface implements PropertyChangeListener {
 	}
 
 	public void getElementList(){
-		GuiEvent event = new GuiEvent(null, Constants.EVENT_TYPE_GET_ELEMENTS);
+		GuiEvent event = new GuiEvent(null, Constants.EVENT_TYPE_GET_ALL_ELEMENTS);
 		fireOnGuiEvent(event);
 	}
 
@@ -179,7 +179,7 @@ public final class JadeInterface implements PropertyChangeListener {
 			}
 			break;
 		}
-		case Constants.EVENT_TYPE_ELEMENTS:
+		case Constants.EVENT_TYPE_ELEMENTS_MAP:
 		{
 			@SuppressWarnings("unchecked")
 			Map<AID, String> map = (Map<AID, String>)event.getNewValue();

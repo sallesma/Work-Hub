@@ -124,13 +124,19 @@ public class ClientAgent extends GuiAgent implements ClientAgentInterface{
 			
 		case Constants.EVENT_TYPE_GET_ALL_ELEMENTS:
 			DFAgentDescription[] listElementAgentToFire = Utils.agentSearch(this, Constants.ELEMENT_AGENT);
-			
-			this.addBehaviour(new GetAllElementTitlesBehaviour(listElementAgentToFire.length));
-			for(DFAgentDescription df : listElementAgentToFire){
-				message = MessageFactory.createMessage(this, df.getName(), Constants.MESSAGE_ACTION_GET_ALL_TITLES, null);
 
+			if(listElementAgentToFire != null) {
+				this.addBehaviour(new GetAllElementTitlesBehaviour(listElementAgentToFire.length));
+				for(DFAgentDescription df : listElementAgentToFire){
+					message = MessageFactory.createMessage(this, df.getName(), Constants.MESSAGE_ACTION_GET_ALL_TITLES, null);
+					send(message);
+					message = null;
+				}
 			}
-			
+			else {
+				this.addBehaviour(new GetAllElementTitlesBehaviour(0));
+			}
+
 			break;
 			
 		case Constants.EVENT_TYPE_CREATE_ELEMENT:
