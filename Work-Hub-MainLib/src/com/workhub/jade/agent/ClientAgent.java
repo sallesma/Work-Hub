@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.workhub.jade.behaviour.ContentClientBehaviour;
+import com.workhub.jade.behaviour.GetAllElementTitlesBehaviour;
 import com.workhub.jade.behaviour.ShareClientBehaviour;
 import com.workhub.model.ElementModel;
 import com.workhub.utils.Constants;
@@ -119,6 +120,17 @@ public class ClientAgent extends GuiAgent implements ClientAgentInterface{
 			for(DFAgentDescription df : listElementAgent){
 				send(MessageFactory.createMessage(this, df.getName(), Constants.MESSAGE_ACTION_GET_TITLE, null));
 			}
+			break;
+			
+		case Constants.EVENT_TYPE_GET_ALL_ELEMENTS:
+			DFAgentDescription[] listElementAgentToFire = Utils.agentSearch(this, Constants.ELEMENT_AGENT);
+			
+			this.addBehaviour(new GetAllElementTitlesBehaviour(listElementAgentToFire.length));
+			for(DFAgentDescription df : listElementAgentToFire){
+				message = MessageFactory.createMessage(this, df.getName(), Constants.MESSAGE_ACTION_GET_ALL_TITLES, null);
+
+			}
+			
 			break;
 			
 		case Constants.EVENT_TYPE_CREATE_ELEMENT:

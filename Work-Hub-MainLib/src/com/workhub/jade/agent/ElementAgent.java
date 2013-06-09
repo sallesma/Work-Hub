@@ -42,6 +42,17 @@ public class ElementAgent extends Agent {
 		}
 	}
 	
+	public void unsubscribeDFAgent(){
+
+		try {
+			DFService.deregister(this);
+		} catch (FIPAException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
 
 	
 	private boolean findClientAgent(AID agent){
