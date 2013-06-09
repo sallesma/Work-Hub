@@ -75,8 +75,14 @@ public class WorkHubButton extends MTRoundRectangle {
 							scene.openContextualMenu(tahe.getLocationOnScreen(), WorkHubButton.this);
 						}
 						else if(tahe.getElapsedTime() < 300 && JadeInterface.getInstance().hasMessages()){
-							ContextMenu.importLocation.add(tahe.getLocationOnScreen());
-							JadeInterface.getInstance().receiveElement();
+							if(scene.getElement(JadeInterface.getInstance().getLastMessageAID()) == null) {
+								ContextMenu.importLocation.add(tahe.getLocationOnScreen());
+								JadeInterface.getInstance().receiveElement();
+							}
+							else {
+								// La vue est deja presente
+								JadeInterface.getInstance().removeLastMessage();
+							}
 						}
 						break;
 					case MT4JConstants.BUTTON_ID_MASQUER:
@@ -110,7 +116,7 @@ public class WorkHubButton extends MTRoundRectangle {
 	public void setMtApplication(MTApplication mtApplication) {
 		this.mtApplication = mtApplication;
 	}
-	
+
 	public String getText() {
 		return buttonText.getText();
 	}

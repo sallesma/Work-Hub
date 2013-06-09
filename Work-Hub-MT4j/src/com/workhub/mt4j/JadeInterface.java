@@ -39,6 +39,17 @@ public final class JadeInterface implements PropertyChangeListener {
 		this.scene = scene;
 	}
 
+	public AID getLastMessageAID() {
+		return inbox.lastElement();
+	}
+	
+	public void removeLastMessage() {
+		inbox.pop();
+		if(inbox.isEmpty()) {
+			scene.getShortcut(MT4JConstants.BUTTON_ID_RECEVOIR).setFillColor(new MTColor(110, 200, 240, 255));
+		}
+	}
+	
 	public void startJade(String hostID, String platformID, boolean isHost, String nickname) {
 		Runtime rt = Runtime.instance();
 		Profile profile = isHost ? new ProfileImpl(null , 1099, null) : new ProfileImpl(hostID, 1099, platformID, false);
