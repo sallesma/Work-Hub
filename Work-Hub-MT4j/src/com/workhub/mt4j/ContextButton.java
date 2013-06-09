@@ -42,7 +42,8 @@ public class ContextButton extends MTListCell {
 		m_source = source;
 		m_menu = menu;
 		m_text = new MTTextField(0, 0, MT4JConstants.CONTEXT_BUTTON_WIDTH, MT4JConstants.CONTEXT_BUTTON_HEIGHT, font, applet);
-		m_text.setFillColor(MTColor.AQUA);
+		m_text.setFillColor(new MTColor(110, 200, 240, 255));
+		m_text.setStrokeColor(new MTColor(110, 170, 200, 255));	
 		m_text.setText(text);
 		addChild(m_text);
 
