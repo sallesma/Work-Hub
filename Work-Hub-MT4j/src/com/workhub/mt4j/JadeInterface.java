@@ -3,6 +3,10 @@ package com.workhub.mt4j;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Map;
+import java.util.Stack;
+
+import org.mt4j.util.MTColor;
+
 import com.workhub.jade.agent.ClientAgentInterface;
 import com.workhub.model.ElementModel;
 import com.workhub.utils.Constants;
@@ -21,18 +25,20 @@ public final class JadeInterface implements PropertyChangeListener {
 
 	private AgentController agentController;
 	private WorkHubScene scene;
-	
+	private Stack<AID> inbox;
+
 	private JadeInterface() {
+		inbox = new Stack<>();
 	}
-	
+
 	public static JadeInterface getInstance() {
 		return instance;
 	}
-	
+
 	public void setScene(WorkHubScene scene) {
 		this.scene = scene;
 	}
-	
+
 	public void startJade(String hostID, String platformID, boolean isHost, String nickname) {
 		Runtime rt = Runtime.instance();
 		Profile profile = isHost ? new ProfileImpl(null , 1099, null) : new ProfileImpl(hostID, 1099, platformID, false);
@@ -52,7 +58,7 @@ public final class JadeInterface implements PropertyChangeListener {
 	private ClientAgentInterface getAgent() throws StaleProxyException {
 		return agentController.getO2AInterface(ClientAgentInterface.class);
 	}
-	
+
 	private void fireOnGuiEvent(GuiEvent event) {
 		try {
 			getAgent().fireOnGuiEvent(event);
@@ -68,6 +74,18 @@ public final class JadeInterface implements PropertyChangeListener {
 		fireOnGuiEvent(event);
 	}
 	
+	public void receiveElement() {
+		AID aidModel = inbox.pop();
+		getElement(aidModel);
+		if(inbox.isEmpty()) {
+			scene.getShortcut(MT4JConstants.BUTTON_ID_RECEVOIR).setFillColor(new MTColor(110, 200, 240, 255));
+		}
+	}
+	
+	public boolean hasMessages() {
+		return !inbox.isEmpty();
+	}
+
 	public void askEdition(AID elementAgent){
 		GuiEvent event = new GuiEvent(null,Constants.EVENT_TYPE_ASK_EDIT);
 		event.addParameter(elementAgent);
@@ -82,7 +100,7 @@ public final class JadeInterface implements PropertyChangeListener {
 
 	public void createElement(int elementType){
 		GuiEvent event = new GuiEvent(null, Constants.EVENT_TYPE_CREATE_ELEMENT);
-		
+
 		event.addParameter(elementType);
 		fireOnGuiEvent(event);
 	}
@@ -98,7 +116,7 @@ public final class JadeInterface implements PropertyChangeListener {
 		event.addParameter(model);
 		fireOnGuiEvent(event);
 	}
-	
+
 	public void saveElement(AbstractElementView element){
 		saveElement(element.getModel());
 	}
@@ -195,6 +213,12 @@ public final class JadeInterface implements PropertyChangeListener {
 				element.getKeyboard().destroy();
 			}
 			break;
+		}
+		case Constants.EVENT_TYPE_RECEIVE_ELEMENT:
+		{
+			AID aidModel = (AID)event.getNewValue();
+			inbox.add(aidModel);
+			scene.getShortcut(MT4JConstants.BUTTON_ID_RECEVOIR).setFillColor(MTColor.RED);
 		}
 		}
 

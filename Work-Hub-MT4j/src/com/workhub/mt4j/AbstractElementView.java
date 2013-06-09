@@ -69,6 +69,8 @@ public abstract class AbstractElementView extends MTClipRectangle implements Idr
 		addChild(ligne);
 
 		setFillColor(new MTColor(250, 230, 100, 255));
+		Vector3D position = getPosition(TransformSpace.GLOBAL);
+		MT4JUtils.fixPosition(this, (int)position.x, (int)position.y, applet, PositionAnchor.UPPER_LEFT);
 
 		registerInputProcessor(new TapAndHoldProcessor(applet, 700));
 		addGestureListener(TapAndHoldProcessor.class, new TapAndHoldVisualizer((MTApplication) applet, scene.getCanvas()));

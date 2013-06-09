@@ -74,6 +74,10 @@ public class WorkHubButton extends MTRoundRectangle {
 						if(tahe.isHoldComplete()) {
 							scene.openContextualMenu(tahe.getLocationOnScreen(), WorkHubButton.this);
 						}
+						else if(tahe.getElapsedTime() < 300 && JadeInterface.getInstance().hasMessages()){
+							ContextMenu.importLocation.add(tahe.getLocationOnScreen());
+							JadeInterface.getInstance().receiveElement();
+						}
 						break;
 					case MT4JConstants.BUTTON_ID_MASQUER:
 						if(tahe.isHoldComplete()) {

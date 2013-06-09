@@ -167,6 +167,22 @@ public class WorkHubScene extends AbstractScene {
 		return null;
 	}
 
+	public WorkHubButton getShortcut(String ID) {
+		switch(ID) {
+		case MT4JConstants.BUTTON_ID_MENU :
+			return menuButton;
+		case MT4JConstants.BUTTON_ID_ENVOYER :
+			return envoyerButton;
+		case MT4JConstants.BUTTON_ID_RECEVOIR :
+			return recevoirButton;
+		case MT4JConstants.BUTTON_ID_MASQUER :
+			return masquerButton;
+		default :
+			// Raccourci inconnu
+			return null;
+		}
+	}
+	
 	public void removeShortcut(String ID) {
 		switch(ID) {
 		case MT4JConstants.BUTTON_ID_MENU :
