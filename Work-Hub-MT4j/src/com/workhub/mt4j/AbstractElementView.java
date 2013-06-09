@@ -105,7 +105,8 @@ public abstract class AbstractElementView extends MTClipRectangle implements Idr
 							// Pas d'action
 							break;
 						case MT4JConstants.BUTTON_ID_ENVOYER :
-							// TODO
+							ContextMenu.exportLocation.add(new ExportData(AbstractElementView.this, de.getTo()));
+							JadeInterface.getInstance().getNeightbourgList();
 							break;
 						case MT4JConstants.BUTTON_ID_RECEVOIR :
 							// Pas d'action
