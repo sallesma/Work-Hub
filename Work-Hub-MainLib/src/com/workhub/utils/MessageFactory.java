@@ -26,6 +26,8 @@ public class MessageFactory {
 		int performatif;
 		String content = "message vide";
 		JsonObject j = new JsonObject();
+		AID receiver_final = new AID(receiver.toString(), AID.ISGUID);//findElementAgent(agent);
+
 
 
 		switch (MessageType) {
@@ -84,7 +86,7 @@ public class MessageFactory {
 		ACLMessage message = new ACLMessage(performatif);
 		message.setContent(content);
 		message.setSender(sender.getAID());
-		message.addReceiver(receiver);
+		message.addReceiver(receiver_final);
 		return message;
 
 	}
@@ -96,6 +98,7 @@ public class MessageFactory {
 		int performatif;
 		String content = "message vide";
 		JsonObject j = new JsonObject();
+		AID receiver_final = new AID(receiver.toString(), AID.ISGUID);//findElementAgent(agent);
 
 
 		switch (MessageType) {
@@ -158,7 +161,7 @@ public class MessageFactory {
 		ACLMessage message = new ACLMessage(performatif);
 		message.setContent(content);
 		message.setSender(sender.getAID());
-		message.addReceiver(receiver);
+		message.addReceiver(receiver_final);
 		return message;
 
 	}
