@@ -1,24 +1,21 @@
 package com.workhub.jade.agent;
-import java.beans.PropertyChangeListener;
-import java.io.File;
-
 import jade.core.AID;
 import jade.core.Agent;
 import jade.domain.DFService;
 import jade.domain.FIPAException;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
-import jade.lang.acl.ACLMessage;
 
 import com.workhub.jade.behaviour.ContentElementBehaviour;
 import com.workhub.jade.behaviour.EditableElementBehaviour;
 import com.workhub.jade.behaviour.EraseElementBehaviour;
 import com.workhub.model.ElementModel;
-import com.workhub.model.FileElementModel;
 import com.workhub.model.LinkElementModel;
 import com.workhub.model.PictureElementModel;
 import com.workhub.model.TextElementModel;
-import com.workhub.utils.*;
+import com.workhub.utils.Constants;
+import com.workhub.utils.MessageFactory;
+import com.workhub.utils.Utils;
 public class ElementAgent extends Agent {
 	
 	

@@ -1,14 +1,10 @@
 package com.workhub.utils;
 
 import jade.core.AID;
-import jade.core.Agent;
 import jade.lang.acl.ACLMessage;
 
-import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
-import java.util.Map.Entry;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -17,10 +13,10 @@ import com.itextpdf.text.pdf.codec.Base64;
 import com.workhub.jade.agent.ClientAgent;
 import com.workhub.jade.agent.ElementAgent;
 import com.workhub.model.ElementModel;
-//import com.workhub.model.FileElementModel;
 import com.workhub.model.LinkElementModel;
 import com.workhub.model.PictureElementModel;
 import com.workhub.model.TextElementModel;
+//import com.workhub.model.FileElementModel;
 
 public class MessageFactory {	
 

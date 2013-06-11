@@ -28,7 +28,6 @@ import com.workhub.utils.Utils;
 
 public class ClientAgent extends GuiAgent implements ClientAgentInterface{
 
-	
 	PropertyChangeSupport changes = new PropertyChangeSupport(this);
     LinkedList<ACLMessage> reception_box = new LinkedList<ACLMessage>();
     String nickname;

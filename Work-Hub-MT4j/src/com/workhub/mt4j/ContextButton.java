@@ -25,10 +25,10 @@ import org.mt4j.input.inputProcessors.componentProcessors.dragProcessor.DragProc
 import org.mt4j.util.MTColor;
 import org.mt4j.util.math.Vector3D;
 
-import com.workhub.utils.Constants;
-
 import processing.core.PApplet;
 import processing.core.PImage;
+
+import com.workhub.utils.Constants;
 
 public class ContextButton extends MTListCell {
 	private MTTextField m_text;

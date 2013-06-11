@@ -6,7 +6,6 @@ import jade.domain.FIPAException;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
 
-import com.workhub.jade.behaviour.ContentElementBehaviour;
 import com.workhub.jade.behaviour.CreateElementBehaviour;
 import com.workhub.utils.Constants;
 
