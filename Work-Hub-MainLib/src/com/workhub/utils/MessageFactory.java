@@ -21,13 +21,11 @@ import com.workhub.model.TextElementModel;
 public class MessageFactory {	
 
 
-
 	public static ACLMessage createMessage(ElementAgent sender, AID receiver, int MessageType){
 		int performatif;
 		String content = "message vide";
 		JsonObject j = new JsonObject();
-		AID receiver_final = new AID(receiver.toString(), AID.ISGUID);//findElementAgent(agent);
-
+		//AID receiver_final = new AID(receiver.toString(), AID.ISGUID);//findElementAgent(agent);
 
 
 		switch (MessageType) {
@@ -86,8 +84,15 @@ public class MessageFactory {
 		ACLMessage message = new ACLMessage(performatif);
 		message.setContent(content);
 		message.setSender(sender.getAID());
-		message.addReceiver(receiver_final);
-		return message;
+		message.addReceiver(receiver);
+		
+		if(receiver == null)
+		{
+			return null;
+		}		
+		else{
+			return message;
+		}
 
 	}
 	public static ACLMessage createMessage(ClientAgent sender, AID receiver, int MessageType){
@@ -98,7 +103,7 @@ public class MessageFactory {
 		int performatif;
 		String content = "message vide";
 		JsonObject j = new JsonObject();
-		AID receiver_final = new AID(receiver.toString(), AID.ISGUID);//findElementAgent(agent);
+		//AID receiver_final = new AID(receiver.toString(), AID.ISGUID);
 
 
 		switch (MessageType) {
@@ -161,8 +166,14 @@ public class MessageFactory {
 		ACLMessage message = new ACLMessage(performatif);
 		message.setContent(content);
 		message.setSender(sender.getAID());
-		message.addReceiver(receiver_final);
-		return message;
+		message.addReceiver(receiver);
+		if(receiver == null)
+		{
+			return null;
+		}		
+		else{
+			return message;
+		}
 
 	}
 

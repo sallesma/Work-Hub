@@ -69,7 +69,9 @@ public class EditableElementBehaviour extends CyclicBehaviour{
 				
 				ACLMessage answer = MessageFactory.createMessage((ElementAgent)myAgent, receiver, action);
 
-				myAgent.send(answer);				
+				if (answer !=null){
+					myAgent.send(answer);
+				}				
 				break;
 			case Constants.MESSAGE_ACTION_STOP_EDIT:
 				((ElementAgent)myAgent).setEditor(null);	

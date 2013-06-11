@@ -72,17 +72,23 @@ public class ContentElementBehaviour extends CyclicBehaviour {
 			switch(action){
 				case Constants.MESSAGE_ACTION_GET_CONTENT :
 					answer = MessageFactory.createMessage((ElementAgent)myAgent, message.getSender(), Constants.MESSAGE_RECEIVE_ELEMENT_CONTENT);
-					myAgent.send(answer);
+					if (answer !=null){
+						myAgent.send(answer);
+					}					
 					break;
 					
 				case Constants.MESSAGE_ACTION_GET_TITLE:
 					answer = MessageFactory.createMessage((ElementAgent)myAgent, message.getSender(), Constants.MESSAGE_RECEIVE_ELEMENT_TITLE);
-					myAgent.send(answer);
+					if (answer !=null){
+						myAgent.send(answer);
+					}
 					break;
 				
 				case Constants.MESSAGE_ACTION_GET_ALL_TITLES:
 					answer = MessageFactory.createMessage((ElementAgent)myAgent, message.getSender(), Constants.MESSAGE_RECEIVE_ALL_TITLES);
-					myAgent.send(answer);
+					if (answer !=null){
+						myAgent.send(answer);
+					}
 					break;
 					
 				case Constants.MESSAGE_ACTION_SAVE_CONTENT:
