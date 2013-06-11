@@ -42,24 +42,26 @@ public final class JadeInterface implements PropertyChangeListener {
 	public AID getLastMessageAID() {
 		return inbox.lastElement();
 	}
-	
+
 	public void removeLastMessage() {
 		inbox.pop();
 		if(inbox.isEmpty()) {
 			scene.getShortcut(MT4JConstants.BUTTON_ID_RECEVOIR).setFillColor(new MTColor(110, 200, 240, 255));
 		}
 	}
-	
+
 	public void startJade(String hostID, String platformID, boolean isHost, String nickname) {
 		Runtime rt = Runtime.instance();
 		Profile profile = isHost ? new ProfileImpl(null , 1099, null) : new ProfileImpl(hostID, 1099, platformID, false);
 		//profile.setParameter(Profile.GUI, "true"); // Pour debugger
-		ContainerController cc = rt.createMainContainer(profile);
+		ContainerController cc = isHost ? rt.createMainContainer(profile) : rt.createAgentContainer(profile);
 		try {
 			agentController = cc.createNewAgent(nickname, "com.workhub.jade.agent.ClientAgent", new Object[] { this });
 			agentController.start();
-			AgentController creatorAgent = cc.createNewAgent("creatorAgent","com.workhub.jade.agent.CreatorAgent",null);
-			creatorAgent.start();
+			if(isHost) {
+				AgentController creatorAgent = cc.createNewAgent("creatorAgent","com.workhub.jade.agent.CreatorAgent",null);
+				creatorAgent.start();
+			}
 		} catch (StaleProxyException e) {
 			System.err.println("Erreur lors de la creation de l'agent");
 			e.printStackTrace();
@@ -84,7 +86,7 @@ public final class JadeInterface implements PropertyChangeListener {
 		event.addParameter(elementAgent);
 		fireOnGuiEvent(event);
 	}
-	
+
 	public void receiveElement() {
 		AID aidModel = inbox.pop();
 		getElement(aidModel);
@@ -92,7 +94,7 @@ public final class JadeInterface implements PropertyChangeListener {
 			scene.getShortcut(MT4JConstants.BUTTON_ID_RECEVOIR).setFillColor(new MTColor(110, 200, 240, 255));
 		}
 	}
-	
+
 	public boolean hasMessages() {
 		return !inbox.isEmpty();
 	}
