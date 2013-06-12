@@ -81,11 +81,11 @@ public class MT4JUtils {
 		int size = array.length / 4;
 		int[] buf = new int[size];
 		for(int i = 0 ; i < size ; i++) {
-			buf[i] = array[4 * i];
-			for(int j = 1 ; j <= 3 ; j++) {
-				buf[i] <<= 8;
-				buf[i] += (array[4 * i + j] & 0x000000FF);
-			}
+			int a = (array[4 * i] & 0x000000FF);
+			int b = (array[4 * i + 1] & 0x000000FF);
+			int g = (array[4 * i + 2] & 0x000000FF);
+			int r = (array[4 * i + 3] & 0x000000FF);
+			buf[i] = (a << 24) | (r << 16) | (g << 8) | b;
 		}
 		return buf;
 	}
