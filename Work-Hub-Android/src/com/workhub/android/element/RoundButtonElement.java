@@ -167,7 +167,9 @@ public class RoundButtonElement extends AbstractElement{
 			}
 			break;
 		case R.id.bt_raccourci_masquer:
-			if(abstractElement instanceof BaseElement){
+			if(abstractElement instanceof GroupElement){
+				((GroupElement)abstractElement).masquer();
+			}else if(abstractElement instanceof BaseElement){
 				((BaseElement)abstractElement).masquer();
 			}
 			break;

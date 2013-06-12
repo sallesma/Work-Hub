@@ -170,6 +170,13 @@ public class GroupElement extends AbstractElement  {
 		super.masquer();
 	}
 
+	public void masquer() { 
+		for (int i = 0; i < getBaseElements().size(); i++) {
+			getBaseElements().get(i).masquer();
+		}
+		clearGroup();
+		super.masquer();
+	}
 
 
 	@Override
@@ -188,7 +195,7 @@ public class GroupElement extends AbstractElement  {
 			export();
 			break;
 		case R.id.bt_masquer:
-			remove();
+			masquer();
 			break;
 		case R.id.bt_degroupe:
 			super.masquer();
@@ -238,7 +245,7 @@ public class GroupElement extends AbstractElement  {
 
 		mHull = new Mesh(-res.getScreenCenter().x,-res.getScreenCenter().y, mHullVertices, mHullVertexCount, DrawMode.TRIANGLE_FAN, res.getContext().getVertexBufferObjectManager(), DrawType.STATIC);
 		//this.mHull.registerEntityModifier(new LoopEntityModifier(new SequenceEntityModifier(new ScaleModifier(1, 0.95f, 1.05f), new ScaleModifier(1, 1.05f, 0.95f))));
-		mHull.setColor(Color.RED);
+		mHull.setColor(Color.WHITE);
 		mHull.setAlpha(0.5f);
 		attachChild(mHull);
 
