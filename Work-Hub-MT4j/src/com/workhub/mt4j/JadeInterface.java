@@ -160,94 +160,100 @@ public final class JadeInterface implements PropertyChangeListener {
 	}
 
 	@Override
-	public void propertyChange(PropertyChangeEvent event) {
-		switch ((Integer.parseInt(event.getPropertyName()))) {
-		case Constants.EVENT_TYPE_CHANGE:
-		{
-			AID aidModel = (AID)event.getNewValue();
-			AbstractElementView element = null;
-			element = scene.getElement(aidModel);
-			if(element!=null){
-				getElement(aidModel);
-			}
-			break;
-		}
-		case Constants.EVENT_TYPE_CONTENU:
-		{
-			ElementModel model = (ElementModel)event.getNewValue();
-			AbstractElementView element = null;
-			element = scene.getElement(model.getAgent());
-			if(element!=null){
-				element.setModel(model);
-			}
-			else{
-				if(!ContextMenu.importLocation.isEmpty()) {
-					AbstractElementView.createEmptyElement(model.getType(), MT4JUtils.removeBeginning(ContextMenu.importLocation), scene.getMTApplication(), scene);
+	public void propertyChange(final PropertyChangeEvent event) {
+		Runnable r = new Runnable() {
+			
+			@Override
+			public void run() {
+				switch ((Integer.parseInt(event.getPropertyName()))) {
+				case Constants.EVENT_TYPE_CHANGE:
+				{
+					AID aidModel = (AID)event.getNewValue();
+					AbstractElementView element = null;
+					element = scene.getElement(aidModel);
+					if(element!=null){
+						getElement(aidModel);
+					}
+					break;
 				}
-				try {
-					scene.attachModel(model);
-				} catch (Exception e) {
-					e.printStackTrace();
+				case Constants.EVENT_TYPE_CONTENU:
+				{
+					ElementModel model = (ElementModel)event.getNewValue();
+					AbstractElementView element = null;
+					element = scene.getElement(model.getAgent());
+					if(element!=null){
+						element.setModel(model);
+					}
+					else{
+						if(!ContextMenu.importLocation.isEmpty()) {
+							AbstractElementView.createEmptyElement(model.getType(), MT4JUtils.removeBeginning(ContextMenu.importLocation), scene.getMTApplication(), scene);
+						}
+						try {
+							scene.attachModel(model);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+					break;
+				}
+				case Constants.EVENT_TYPE_DIED:
+				{
+					AID agent = (AID)event.getNewValue();
+					AbstractElementView element = scene.getElement(agent);
+					if(element!=null){
+						element.destroy();
+					}
+					break;
+				}
+				case Constants.EVENT_TYPE_ELEMENTS_MAP:
+				{
+					@SuppressWarnings("unchecked")
+					Map<AID, String> map = (Map<AID, String>)event.getNewValue();
+					if(map != null) {
+						scene.openContextualMenu(map, MT4JConstants.CONTEXT_IMPORT_MENU);
+					}
+					else {
+						MT4JUtils.removeBeginning(ContextMenu.elementViewLocation);
+					}
+					break;
+				}
+				case Constants.EVENT_TYPE_NEIGHBOURS:
+				{
+					@SuppressWarnings("unchecked")
+					Map<AID, String> map = (Map<AID, String>)event.getNewValue();
+					scene.openContextualMenu(map, MT4JConstants.CONTEXT_EXPORT_MENU);
+					break;
+				}
+				case Constants.EVENT_TYPE_CAN_EDIT:
+				{
+					AID aidModel = (AID)event.getNewValue();
+					AbstractElementView element = null;
+					element = scene.getElement(aidModel);
+					if(element!=null){
+						element.setEnableKeyboard(true);
+					}
+					break;
+				}
+				case Constants.EVENT_TYPE_CANT_EDIT:
+				{
+					// TODO visualisation de l'accès refusé
+					AID aidModel = (AID)event.getNewValue();
+					AbstractElementView element = null;
+					element = scene.getElement(aidModel);
+					if(element!=null && element.getKeyboard() != null){
+						element.getKeyboard().destroy();
+					}
+					break;
+				}
+				case Constants.EVENT_TYPE_RECEIVE_ELEMENT:
+				{
+					AID aidModel = (AID)event.getNewValue();
+					inbox.add(aidModel);
+					scene.getShortcut(MT4JConstants.BUTTON_ID_RECEVOIR).setFillColor(MTColor.RED);
+				}
 				}
 			}
-			break;
-		}
-		case Constants.EVENT_TYPE_DIED:
-		{
-			AID agent = (AID)event.getNewValue();
-			AbstractElementView element = scene.getElement(agent);
-			if(element!=null){
-				element.destroy();
-			}
-			break;
-		}
-		case Constants.EVENT_TYPE_ELEMENTS_MAP:
-		{
-			@SuppressWarnings("unchecked")
-			Map<AID, String> map = (Map<AID, String>)event.getNewValue();
-			if(map != null) {
-				scene.openContextualMenu(map, MT4JConstants.CONTEXT_IMPORT_MENU);
-			}
-			else {
-				MT4JUtils.removeBeginning(ContextMenu.elementViewLocation);
-			}
-			break;
-		}
-		case Constants.EVENT_TYPE_NEIGHBOURS:
-		{
-			@SuppressWarnings("unchecked")
-			Map<AID, String> map = (Map<AID, String>)event.getNewValue();
-			scene.openContextualMenu(map, MT4JConstants.CONTEXT_EXPORT_MENU);
-			break;
-		}
-		case Constants.EVENT_TYPE_CAN_EDIT:
-		{
-			AID aidModel = (AID)event.getNewValue();
-			AbstractElementView element = null;
-			element = scene.getElement(aidModel);
-			if(element!=null){
-				element.setEnableKeyboard(true);
-			}
-			break;
-		}
-		case Constants.EVENT_TYPE_CANT_EDIT:
-		{
-			// TODO visualisation de l'accès refusé
-			AID aidModel = (AID)event.getNewValue();
-			AbstractElementView element = null;
-			element = scene.getElement(aidModel);
-			if(element!=null && element.getKeyboard() != null){
-				element.getKeyboard().destroy();
-			}
-			break;
-		}
-		case Constants.EVENT_TYPE_RECEIVE_ELEMENT:
-		{
-			AID aidModel = (AID)event.getNewValue();
-			inbox.add(aidModel);
-			scene.getShortcut(MT4JConstants.BUTTON_ID_RECEVOIR).setFillColor(MTColor.RED);
-		}
-		}
-
+		};
+		scene.runnableStack.add(r);
 	}
 }

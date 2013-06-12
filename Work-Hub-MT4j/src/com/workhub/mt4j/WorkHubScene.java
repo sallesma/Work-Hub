@@ -1,6 +1,7 @@
 package com.workhub.mt4j;
 
 import java.util.Map;
+import java.util.Stack;
 
 import jade.core.AID;
 
@@ -20,6 +21,8 @@ import org.mt4j.util.MTColor;
 import org.mt4j.util.math.Vector3D;
 
 import com.workhub.model.ElementModel;
+
+import processing.core.PGraphics;
 import processing.core.PImage;
 
 public class WorkHubScene extends AbstractScene {
@@ -28,6 +31,7 @@ public class WorkHubScene extends AbstractScene {
 	private WorkHubButton recevoirButton;
 	private WorkHubButton masquerButton;
 	private MTImage imageFond;
+	public Stack<Runnable> runnableStack = new Stack<Runnable>();
 
 	public WorkHubScene(MTApplication mtApplication, String name) throws WorkHubException{
 		super(mtApplication, name);
@@ -200,6 +204,16 @@ public class WorkHubScene extends AbstractScene {
 		default :
 			// Raccourci inconnu
 			break;
+		}
+	}
+
+	@Override
+	public void drawAndUpdate(PGraphics graphics, long timeDelta) {
+		super.drawAndUpdate(graphics, timeDelta);
+		synchronized (runnableStack) {
+			while(!runnableStack.isEmpty()) {
+				runnableStack.pop().run();
+			}
 		}
 	}
 }
