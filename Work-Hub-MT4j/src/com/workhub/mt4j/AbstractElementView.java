@@ -227,7 +227,12 @@ public abstract class AbstractElementView extends MTClipRectangle implements Idr
 	}
 
 	public void tryEditElementContent() {
-		editElementContent();
+		if(this instanceof TextElementView || this instanceof LinkElementView) {
+			editElementContent();
+		}
+		else {
+			// Attendre la confirmation
+		}
 		JadeInterface.getInstance().askEdition(model.getAgent());
 	}
 

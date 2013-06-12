@@ -230,7 +230,12 @@ public final class JadeInterface implements PropertyChangeListener {
 					AbstractElementView element = null;
 					element = scene.getElement(aidModel);
 					if(element!=null){
-						element.setEnableKeyboard(true);
+						if(element instanceof TextElementView || element instanceof LinkElementView) {
+							element.setEnableKeyboard(true);
+						}
+						else {
+							element.editElementContent();
+						}
 					}
 					break;
 				}
