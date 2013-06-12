@@ -1,7 +1,5 @@
 package com.workhub.mt4j;
 
-import java.nio.ByteBuffer;
-import java.nio.IntBuffer;
 import java.util.ArrayList;
 
 import org.mt4j.components.TransformSpace;
@@ -80,24 +78,29 @@ public class MT4JUtils {
 	}
 
 	public static int[] byteArrayToIntArray(byte[] array) {
-		int size = (array.length / 4) + ((array.length % 4 == 0) ? 0 : 1);      
-
-		ByteBuffer bb = ByteBuffer.allocate(size *4); 
-		bb.put(array);
-
-		//bb.order(ByteOrder.LITTLE_ENDIAN); 
-		bb.rewind(); 
-		IntBuffer ib =  bb.asIntBuffer();         
-		int [] result = new int [size]; 
-		ib.get(result); 
-
-		return result; 
+		int size = array.length / 4;
+		int[] buf = new int[size];
+		for(int i = 0 ; i < size ; i++) {
+			buf[i] = array[4 * i];
+			for(int j = 1 ; j <= 3 ; j++) {
+				buf[i] <<= 8;
+				buf[i] += (array[4 * i + j] & 0x000000FF);
+			}
+		}
+		return buf;
 	}
 
 	public static byte[] intArrayToByteArray(int[] array) {
-		ByteBuffer byteBuffer = ByteBuffer.allocate(array.length * 4);        
-		IntBuffer intBuffer = byteBuffer.asIntBuffer();
-		intBuffer.put(array);
-		return byteBuffer.array();
+		int size = array.length * 4;
+		byte[] buf = new byte[size];
+		for(int i = 0 ; i < array.length ; i++) {
+			int intValue = array[i];
+			buf[4 * i + 3] = (byte)(intValue & 0x000000FF);
+			for(int j = 2 ; j >= 0 ; j--) {
+				intValue >>>= 8;
+				buf[4 * i + j] = (byte)(intValue & 0x000000FF);
+			}
+		}
+		return buf;
 	}
 }
