@@ -3,6 +3,8 @@ package com.workhub.mt4j;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.io.ByteArrayInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -12,6 +14,7 @@ import org.mt4j.components.visibleComponents.widgets.MTImage;
 import org.mt4j.util.math.Vector3D;
 
 import processing.core.PApplet;
+import processing.core.PGraphics;
 import processing.core.PImage;
 
 import com.sun.opengl.impl.mipmap.Image;
@@ -101,7 +104,7 @@ public class ImageElementView extends AbstractElementView {
 			float height = this.getHeightXY(TransformSpace.LOCAL);
 			Vector3D position = new Vector3D(this.getPosition(TransformSpace.LOCAL).getX(), (float) (this.getPosition(TransformSpace.LOCAL).getY()+height*0.2f));
 			
-			
+			/*
 			BufferedImage bufferedImage = null;
 			try {
 				bufferedImage = ImageIO.read(new ByteArrayInputStream(pictureModel.getContent()));
@@ -110,11 +113,24 @@ public class ImageElementView extends AbstractElementView {
 			}
 			
 			byte[] bytePixels = ((DataBufferByte) bufferedImage.getRaster().getDataBuffer()).getData();
+			*/
 			
+			FileOutputStream fos;
+			try {
+				fos = new FileOutputStream("tmp.png");
+				fos.write(pictureModel.getContent());
+				fos.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			image = mtApplication.loadImage("tmp.png");
+			/*
 			image = new PImage(bufferedImage.getWidth(), bufferedImage.getHeight());
 			image.pixels = MT4JUtils.byteArrayToIntArray(bytePixels);
 			image.loadPixels();
 			image.updatePixels();
+			*/
 			content.removeFromParent();
 			content.destroy();
 			content = new MTImage(image, mtApplication);
