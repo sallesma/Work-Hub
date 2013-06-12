@@ -3,6 +3,14 @@ package com.workhub.mt4j;
 import jade.core.AID;
 
 import java.awt.Image;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Map.Entry;
 
 import javax.swing.ImageIcon;
@@ -28,7 +36,9 @@ import org.mt4j.util.math.Vector3D;
 import processing.core.PApplet;
 import processing.core.PImage;
 
+import com.workhub.model.ElementModel;
 import com.workhub.utils.Constants;
+import com.workhub.utils.PDFUtils;
 
 public class ContextButton extends MTListCell {
 	private MTTextField m_text;
@@ -150,6 +160,38 @@ public class ContextButton extends MTListCell {
 							colorWidget.setVisible(true);
 							break;
 						case MT4JConstants.CONTEXT_BUTTON_EXPORT_PDF:
+							ArrayList<ElementModel> elements = new ArrayList<>();
+							if(m_source instanceof ElementGroupView) {
+								for(MTComponent comp : ((ElementGroupView)m_source).getChildren()) {
+									if(comp instanceof AbstractElementView) {
+										elements.add(((AbstractElementView)comp).getModel());
+									}
+								}
+							}
+							else if(m_source instanceof AbstractElementView) {
+								elements.add(((AbstractElementView)m_source).getModel());
+							} else {
+								// Impossible
+							}
+							
+							Locale locale = Locale.getDefault();
+							DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.FULL, locale);
+							
+							File f = new File("");
+							f.mkdirs();
+							f = new File("export "+dateFormat.format(new Date())+".pdf");
+							try {
+								f.createNewFile();
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+							
+							try {
+								PDFUtils.createPDF("WorkHub_" + dateFormat.format(new Date()) + ".pdf",
+										JadeInterface.getInstance().getNickname(), elements, new FileOutputStream(f));
+							} catch (FileNotFoundException e) {
+								e.printStackTrace();
+							}
 							break;
 						case MT4JConstants.CONTEXT_BUTTON_HIDE:
 							m_source.destroy();

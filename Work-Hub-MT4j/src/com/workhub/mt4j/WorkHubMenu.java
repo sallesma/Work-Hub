@@ -161,6 +161,7 @@ public class WorkHubMenu extends AbstractScene {
 		app.changeScene(scene);
 		
 		JadeInterface.getInstance().setScene(scene);
+		JadeInterface.getInstance().setNickname(m_nickname);
 		JadeInterface.getInstance().startJade(m_IP, null, m_isHost, m_nickname);
 	}
 }

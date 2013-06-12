@@ -26,6 +26,7 @@ public final class JadeInterface implements PropertyChangeListener {
 	private AgentController agentController;
 	private WorkHubScene scene;
 	private Stack<AID> inbox;
+	private String nickname;
 
 	private JadeInterface() {
 		inbox = new Stack<>();
@@ -37,6 +38,14 @@ public final class JadeInterface implements PropertyChangeListener {
 
 	public void setScene(WorkHubScene scene) {
 		this.scene = scene;
+	}
+
+	public String getNickname() {
+		return nickname;
+	}
+
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
 	}
 
 	public AID getLastMessageAID() {
