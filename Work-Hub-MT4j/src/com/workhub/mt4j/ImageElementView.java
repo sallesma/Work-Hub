@@ -71,7 +71,7 @@ public class ImageElementView extends AbstractElementView {
 
 	@Override
 	public void saveContent() {
-		((PictureElementModel)getModel()).setContent(MT4JUtils.intArrayToByteArray(image.pixels));
+		((PictureElementModel)getModel()).setContent(PNGEncoder.toPNG(image.width, image.height, image.pixels, true));
 	}
 
 	@Override
