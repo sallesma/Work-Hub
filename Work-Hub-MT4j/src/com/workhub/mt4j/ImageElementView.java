@@ -83,8 +83,24 @@ public class ImageElementView extends AbstractElementView {
 	public void updateContent() {
 		PictureElementModel pictureModel = (PictureElementModel)model;
 		if(pictureModel.getContent() != null) {
+			float width = this.getWidthXY(TransformSpace.LOCAL);
+			float height = this.getHeightXY(TransformSpace.LOCAL);
+			Vector3D position = new Vector3D(this.getPosition(TransformSpace.LOCAL).getX(), (float) (this.getPosition(TransformSpace.LOCAL).getY()+height*0.2f));
+			
 			image.pixels = MT4JUtils.byteArrayToIntArray(pictureModel.getContent());
+			image.loadPixels();
 			image.updatePixels();
+			content.removeFromParent();
+			content.destroy();
+			content = new MTImage(image, mtApplication);
+			content.setNoFill(true);
+			content.setPickable(false);
+			content.setNoStroke(true);
+			content.setAnchor(PositionAnchor.UPPER_LEFT);
+			content.setPositionGlobal(position);
+			float scale = image.height * 0.8 < image.width ? width / image.width : height * 0.8f / image.height;
+			content.scale(scale, scale, 0f, position);
+			addChild(content);
 		}
 	}
 }
