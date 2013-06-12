@@ -15,18 +15,11 @@ public class ImageElementView extends AbstractElementView {
 	private MTImage content;
 	private PImage image;
 	
-	public ImageElementView(String imagePath, float x, float y, float width,
+	public ImageElementView(float x, float y, float width,
 			float height, PApplet applet, WorkHubScene scene) {
 		super(x, y, MT4JConstants.Z_POSITION_DEFAULT_ELEMENT, width, height, applet, scene);
 		Vector3D position = new Vector3D(this.getPosition(TransformSpace.LOCAL).getX(), (float) (this.getPosition(TransformSpace.LOCAL).getY()+height*0.2f));
-		PImage image = null;
-		if(imagePath != null) {
-			updateTitleWithElementPath(imagePath);
-			image = applet.loadImage(imagePath);
-		}
-		else {
-			image = new PImage(MT4JConstants.ELEMENT_DEFAULT_WIDTH, (int)(0.8 * MT4JConstants.ELEMENT_DEFAULT_WIDTH));
-		}
+		PImage image = applet.loadImage("Image/defaultImage.jpg");
 		this.image = image;
 		if(image.width > 500) {
 			image.resize(500, 0);
@@ -40,7 +33,7 @@ public class ImageElementView extends AbstractElementView {
 		content.setNoStroke(true);
 		content.setAnchor(PositionAnchor.UPPER_LEFT);
 		content.setPositionGlobal(position);
-		float scale = image.height < 0.2 * image.width ? width / image.width : height * 0.8f / image.height;
+		float scale = image.height * 0.8 < image.width ? width / image.width : height * 0.8f / image.height;
 		content.scale(scale, scale, 0f, position);
 		addChild(content);
 	}

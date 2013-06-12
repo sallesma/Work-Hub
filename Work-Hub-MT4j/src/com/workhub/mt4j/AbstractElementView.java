@@ -275,7 +275,7 @@ public abstract class AbstractElementView extends MTClipRectangle implements Idr
 			linkElement.addLassoProcessor();
 			return linkElement;
 		case Constants.TYPE_ELEMENT_PICTURE :
-			ImageElementView imageElement = new ImageElementView(null, x, y, MT4JConstants.ELEMENT_DEFAULT_WIDTH, MT4JConstants.ELEMENT_DEFAULT_HEIGHT, applet, scene);
+			ImageElementView imageElement = new ImageElementView(x, y, MT4JConstants.ELEMENT_DEFAULT_WIDTH, MT4JConstants.ELEMENT_DEFAULT_HEIGHT, applet, scene);
 			imageElement.addLassoProcessor();
 			return imageElement;
 		case Constants.TYPE_ELEMENT_FILE :

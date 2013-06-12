@@ -101,8 +101,7 @@ public class ContextButton extends MTListCell {
 							JadeInterface.getInstance().createElement(Constants.TYPE_ELEMENT_TEXT);
 							break;
 						case MT4JConstants.CONTEXT_BUTTON_CREATE_IMAGE:
-							String imagePath = applet.selectInput();
-							ImageElementView imageElement = new ImageElementView(imagePath, ((MTRectangle) getParent().getParent()).getPosition(TransformSpace.GLOBAL).x, 
+							ImageElementView imageElement = new ImageElementView(((MTRectangle) getParent().getParent()).getPosition(TransformSpace.GLOBAL).x, 
 									((MTRectangle) getParent().getParent()).getPosition(TransformSpace.GLOBAL).y, 
 									MT4JConstants.ELEMENT_DEFAULT_WIDTH, MT4JConstants.ELEMENT_DEFAULT_HEIGHT, applet, scene);
 							imageElement.addLassoProcessor();
