@@ -68,7 +68,9 @@ public class ContentClientBehaviour extends CyclicBehaviour{
 				case Constants.MESSAGE_ACTION_CONTENT :
 					// si il recoit un MESSAGE_ACTION_CONTENT : demande contenu pour la mise a jour, envoie un MESSAGE_GET_CONTENT
 					answer = MessageFactory.createMessage((ClientAgent)myAgent, message.getSender(), Constants.MESSAGE_ACTION_GET_CONTENT);
-					myAgent.send(answer);
+					if (answer !=null){
+						myAgent.send(answer);
+					}
 					break;
 					
 				case Constants.MESSAGE_ACTION_EDIT:

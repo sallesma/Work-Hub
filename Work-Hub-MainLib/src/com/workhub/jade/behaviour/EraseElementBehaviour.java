@@ -49,13 +49,17 @@ public class EraseElementBehaviour extends CyclicBehaviour{
 	@Override
 	public void action() {
 		ACLMessage message = myAgent.receive(template);
+		ACLMessage answer = null;
 		if (message!=null){
 			//Il reçoit des messages du type :
 			//{"action" : "15004"}
 			
 			DFAgentDescription[] receivers = Utils.agentSearch(myAgent, Constants.CLIENT_AGENT);
 			for(DFAgentDescription df : receivers)
-				myAgent.send(MessageFactory.createMessage((ElementAgent) myAgent, df.getName(), Constants.MESSAGE_ACTION_IS_DYING));
+				answer = MessageFactory.createMessage((ElementAgent) myAgent, df.getName(), Constants.MESSAGE_ACTION_IS_DYING);	
+				if (answer !=null){
+					myAgent.send(answer);
+				}
 			
 			
 			((ElementAgent)myAgent).unsubscribeDFAgent();
