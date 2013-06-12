@@ -51,6 +51,9 @@ public class FileElementView extends AbstractElementView {
 		float height = this.getHeightXY(TransformSpace.LOCAL);
 		Vector3D position = new Vector3D(this.getPosition(TransformSpace.LOCAL).getX(), (float) (this.getPosition(TransformSpace.LOCAL).getY()+height*0.2f));
 		filePath = mtApplication.selectInput();
+		if(filePath == null) {
+			return;
+		}
 		updateTitleWithElementPath(filePath);
 		PImage image = mtApplication.loadImage(chooseIcon());
 		content.removeFromParent();

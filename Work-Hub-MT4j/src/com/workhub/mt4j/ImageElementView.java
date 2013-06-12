@@ -1,23 +1,15 @@
 package com.workhub.mt4j;
 
-import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
-import java.io.ByteArrayInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-
-import javax.imageio.ImageIO;
 
 import org.mt4j.components.TransformSpace;
 import org.mt4j.components.visibleComponents.widgets.MTImage;
 import org.mt4j.util.math.Vector3D;
 
 import processing.core.PApplet;
-import processing.core.PGraphics;
 import processing.core.PImage;
 
-import com.sun.opengl.impl.mipmap.Image;
 import com.workhub.model.PictureElementModel;
 import com.workhub.utils.Constants;
 
@@ -54,6 +46,9 @@ public class ImageElementView extends AbstractElementView {
 		float height = this.getHeightXY(TransformSpace.LOCAL);
 		Vector3D position = new Vector3D(this.getPosition(TransformSpace.LOCAL).getX(), (float) (this.getPosition(TransformSpace.LOCAL).getY()+height*0.2f));
 		String imagePath = mtApplication.selectInput();
+		if(imagePath == null) {
+			return;
+		}
 		updateTitleWithElementPath(imagePath);
 		PImage image = mtApplication.loadImage(imagePath);
 		this.image = image;
