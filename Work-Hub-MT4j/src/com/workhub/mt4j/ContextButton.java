@@ -194,6 +194,7 @@ public class ContextButton extends MTListCell {
 							}
 							break;
 						case MT4JConstants.CONTEXT_BUTTON_HIDE:
+							m_source.removeFromParent();
 							m_source.destroy();
 							break;
 						case MT4JConstants.CONTEXT_BUTTON_SPLIT_GROUP:
