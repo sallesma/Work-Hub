@@ -110,16 +110,19 @@ public class ImageElementView extends AbstractElementView {
 			byte[] bytePixels = ((DataBufferByte) bufferedImage.getRaster().getDataBuffer()).getData();
 			*/
 			
+			File tmp = new File("tmp.png");
 			FileOutputStream fos;
 			try {
-				fos = new FileOutputStream("tmp.png");
+				fos = new FileOutputStream(tmp);
 				fos.write(pictureModel.getContent());
 				fos.close();
+				image = mtApplication.loadImage("tmp.png");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			
-			image = mtApplication.loadImage("tmp.png");
+			finally {
+				tmp.delete();
+			}
 			/*
 			image = new PImage(bufferedImage.getWidth(), bufferedImage.getHeight());
 			image.pixels = MT4JUtils.byteArrayToIntArray(bytePixels);
