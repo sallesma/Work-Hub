@@ -76,7 +76,6 @@ public class RoundButtonElement extends AbstractElement{
 
 
 		centerText = new Text(0, 0, res.getFont(), getTitle(getType()), new TextOptions(HorizontalAlign.CENTER), res.getContext().getVertexBufferObjectManager());
-		System.out.println(res.toPixel(100));		
 		centerText.setPosition(-centerText.getWidth()/2, RAYON/4);
 		this.attachChild(centerText);
 	}

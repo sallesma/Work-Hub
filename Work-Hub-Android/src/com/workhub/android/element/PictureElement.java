@@ -45,20 +45,7 @@ public class PictureElement extends BaseElement{
 		return TextureRegionFactory.createFromSource(texture, bitmapTextureAtlasSourcePerso , 0, 0, false);
 	}
 
-	private void iniTexture(){
-		if(texture!=null){
-			texture.clearTextureAtlasSources();
-			bitmapTextureAtlasSourcePerso.recycle();
-			bitmapTextureAtlasSourcePerso= null;
-		}else{
-			texture = new BitmapTextureAtlas(res.getContext().getTextureManager(), requiredSize, requiredSize, TextureOptions.BILINEAR);
-			res.getContext().getEngine().getTextureManager().loadTexture(texture);
-		}
-
-
-
-
-	}
+	
 
 	public void changeImage(final Bitmap b){
 
@@ -81,6 +68,7 @@ public class PictureElement extends BaseElement{
 		if(bitmaphaschanged){
 			bitmaphaschanged = false;
 			final Sprite imageSpritetmp = imageSprite;
+			final BitmapTextureAtlasSourcePerso tmpbitmapTextureAtlasSourcePerso = bitmapTextureAtlasSourcePerso;
 			res.getContext().runOnUpdateThread(new Runnable() {
 
 				@Override
@@ -88,6 +76,9 @@ public class PictureElement extends BaseElement{
 					if(imageSpritetmp!=null){
 						imageSpritetmp.dispose();
 						imageSpritetmp.detachSelf();
+						if(tmpbitmapTextureAtlasSourcePerso!=null){
+							tmpbitmapTextureAtlasSourcePerso.recycle();
+						}
 					}
 
 				}
@@ -97,7 +88,13 @@ public class PictureElement extends BaseElement{
 				tr = res.getTR_No_Image();
 
 			}else{
-				iniTexture();
+				if(texture!=null){
+					texture.clearTextureAtlasSources();
+				}else{
+					texture = new BitmapTextureAtlas(res.getContext().getTextureManager(), requiredSize, requiredSize, TextureOptions.BILINEAR);
+					res.getContext().getEngine().getTextureManager().loadTexture(texture);
+				}
+				
 				Bitmap b=null;
 				byte[] bytes = getModel().getContent();
 				BitmapFactory.Options opts = new BitmapFactory.Options();               

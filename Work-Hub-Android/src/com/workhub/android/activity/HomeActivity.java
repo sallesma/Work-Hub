@@ -112,7 +112,7 @@ public class HomeActivity extends SimpleLayoutGameActivity implements PropertyCh
 		}
 		// Emulator: this is not really needed on a real device
 		profile.setProperty(Profile.LOCAL_PORT, "1099");
-
+		
 		if (microRuntimeServiceBinder == null) {
 			serviceConnection = new ServiceConnection() {
 				public void onServiceConnected(ComponentName className,
@@ -270,7 +270,21 @@ public class HomeActivity extends SimpleLayoutGameActivity implements PropertyCh
 		           public void onClick(DialogInterface dialog, int id) {
 		        	   //TODO clean jade
 		        	   HomeActivity.this.finish();
+		        	   if(microRuntimeServiceBinder!=null){
+		        		   microRuntimeServiceBinder.stopAgentContainer(new RuntimeCallback<Void>() {
+								@Override
+								public void onSuccess(Void thisIsNull) {
+									System.out.println("Successfully stop of the container...");
+								}
+
+								@Override
+								public void onFailure(Throwable throwable) {
+									System.err.println( "Failed to stop the container...");
+								}
+							});
+		        	   }
 		                dialog.dismiss();
+		                
 		           }
 		       })
 		       .setNegativeButton("Non", new DialogInterface.OnClickListener() {
